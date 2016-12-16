@@ -1,6 +1,8 @@
 library(cluster)
 library(MASS)
 library(ggplot2)
+
+# LOAD DATA ---- 
 tumor_MUT <- read.table("tumor_MUT.txt",sep="\t",header=T,row.names=1)
 tumor_CNA <- read.table("tumor_CNA.txt",sep="\t",header=T,row.names=1)
 cell_line_MUT <- read.table("cell_line_MUT.txt",sep="\t",header=T,row.names=1)
@@ -28,6 +30,8 @@ keep_only_high_level_cnas <- function(cna_mat)
 cell_line_CNA_high_level_only <- apply(cell_line_CNA,2,keep_only_high_level_cnas)
 tumor_CNA_high_level_only <- apply(tumor_CNA,2,keep_only_high_level_cnas)
 
+# CREATE COMPOSITE MATRIX ----
+## Rows genes (MUT, CNA), columns (Tumors/cell lines)
 #composite_MUT <- cbind(cell_line_MUT[genes_in_all_4_files,cell_lines_with_both_MUT_and_CNA],tumor_MUT[genes_in_all_4_files,tumors_with_both_MUT_and_CNA])
 composite_CNA <- cbind(cell_line_CNA[genes_in_all_4_files,cell_lines_with_both_MUT_and_CNA],tumor_CNA[genes_in_all_4_files,tumors_with_both_MUT_and_CNA])
 composite_CNA_high_level_only <- cbind(cell_line_CNA_high_level_only[genes_in_all_4_files,cell_lines_with_both_MUT_and_CNA],tumor_CNA_high_level_only[genes_in_all_4_files,tumors_with_both_MUT_and_CNA])
@@ -81,6 +85,7 @@ returnfirstpart <- function(x)
 
 cell_line_ids <- sapply(cell_lines_with_both_MUT_and_CNA, returnfirstpart)
 
+# GET WEIGHTS 
 # Read in user-provided weights
 known_cancer_genes_and_weights_all <- read.table("Default_weights_for_known_cancer_genes.txt",sep="\t",header=T,row.names=1) 
 known_cancer_genes_and_weights <- as.matrix(known_cancer_genes_and_weights_all[intersect(rownames(known_cancer_genes_and_weights_all),rownames(alt_mat)),]) # To eliminate entries not present in alteration matrix, if any
@@ -123,6 +128,7 @@ gene_weights <- annotation_weights # if using user-provided weights only
 #gene_weights <- gene_weights/sum(gene_weights) # normalize weights
 gene_weights <- gene_weights/max(gene_weights) # map to 0-1
 
+# DEFAULT WEIGHT
 pseudoweight <- 0.000001
 #standardize_min_max <- function(x){return( (x-min(x))/(max(x)-min(x))  )} # standardize to [0,1] by subtracting minimum and dividing by range
 #standardize_min_max <- function(x) # standardize to [0,1] by subtracting minimum and dividing by range
@@ -133,7 +139,7 @@ pseudoweight <- 0.000001
 #alt_mat_std <- t(apply((as.matrix(alt_mat)),1,standardize_min_max))
 #alt_mat <- alt_mat_std
 
-
+# WEIGHTED-CORRELATION FUNCTION ----
 weighted.corr <- function (a, b, w = rep(1, nrow(a))/nrow(a))
 {
     # normalize weights
@@ -147,10 +153,14 @@ weighted.corr <- function (a, b, w = rep(1, nrow(a))/nrow(a))
     t(w*a) %*% b / sqrt( colSums(w * a**2) %*% t(colSums(w * b**2)) )
 }
 
+# CALCULATE CORRELATIONS ----
+# Including low-level CNAs
 cor_weighted <- weighted.corr(as.matrix(composite_mat),as.matrix(composite_mat),gene_weights)
+# Excluding low-levels CNAs
 cor_weighted_high_level_only <- weighted.corr(as.matrix(composite_mat_high_level_only),as.matrix(composite_mat_high_level_only),gene_weights)
 cor_unweighted <- cor(alt_mat)
 
+# MDS PLOT ----
 num_cell_lines <- length(intersect(colnames(composite_mat),cell_lines_with_both_MUT_and_CNA))
 num_tumors <- length(intersect(colnames(composite_mat),tumors_with_both_MUT_and_CNA))
 cell_lines_and_tumors.col <- c(rep("orange",num_cell_lines),rep("blue",num_tumors))
@@ -183,11 +193,16 @@ plot(isomdsfit2$points,col=cell_lines_and_tumors.col,pch=cell_lines_and_tumors.p
 text(x=isomdsfit2$points[1:num_cell_lines,1], y=isomdsfit2$points[1:num_cell_lines,2]+0.025,labels=cell_line_ids,cex=0.6)
 legend("bottomright",c("Tumors", "Cell Lines"), pch=c(20, 17), cex=.8, col=c("blue", "orange"))
 
+# START IGNORE ----
 return_top_n_shared_features <- function(alt_mat,i,j,n,gene_weights)
 	return(rev(sort(gene_weights[(which((alt_mat[,i] == alt_mat[,j]) &  (alt_mat[,i] != 0) ))]))[1:n])
 
 return_top_n_features_of_sample <- function(alt_mat,i,n,gene_weights)
         return(rev(sort(gene_weights[(which(alt_mat[,i] != 0))]))[1:n])
+# END IGNORE ----
+
+# CATEGORIZE ----
+## Set K-nearest neighbors 
 #k <- num_tumors-1 # Number of nearest neighbors to consider
 #k <- min(10, 0.5*num_tumors) # Number of nearest neighbors to consider
 #k <- max(10, 0.5*num_tumors) # Number of nearest neighbors to consider
@@ -207,6 +222,7 @@ colnames(dist) <- colnames(composite_mat)
 rownames(dist) <- colnames(composite_mat)
 dist_tumors_only <- dist[setdiff(colnames(dist),cell_lines_with_both_MUT_and_CNA),setdiff(colnames(dist),cell_lines_with_both_MUT_and_CNA)]
 
+# Calculate the standard deviations for categorization 
 median_dist_tumor_to_k_nearest_tumors <- rep(NA, num_tumors)
 mad_dist_tumor_to_k_nearest_tumors <- rep(NA, num_tumors)
 mean_dist_tumor_to_k_nearest_tumors <- rep(NA, num_tumors)
@@ -253,6 +269,7 @@ moderately_good_matches <- cell_line_ids[which((mean_similarity_cell_line_to_k_n
 poor_matches <- cell_line_ids[which((mean_similarity_cell_line_to_k_nearest_tumors >= (mean(mean_similarity_tumor_to_k_nearest_tumors) - 3*sd(mean_similarity_tumor_to_k_nearest_tumors)) & (mean_similarity_cell_line_to_k_nearest_tumors < (mean(mean_similarity_tumor_to_k_nearest_tumors) - 2*sd(mean_similarity_tumor_to_k_nearest_tumors))))) ]
 outliers <- cell_line_ids[which(mean_similarity_cell_line_to_k_nearest_tumors < (mean(mean_similarity_tumor_to_k_nearest_tumors) - 3*sd(mean_similarity_tumor_to_k_nearest_tumors)))]
 
+# MAPPING TO COLORS (ON ORANGE-BLUE SCALE)
 #Map_MSK_to_Colors <- function(mean_similarity_cell_line_to_k_nearest_tumors,mean_similarity_tumor_to_k_nearest_tumors)
 Map_MSK_to_Colors <- function(mean_similarity_cell_line_to_k_nearest_tumors,mean_similarity_tumor_to_k_nearest_tumors,col1,col2,numshades)
 {
