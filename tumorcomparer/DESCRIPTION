@@ -1,0 +1,20 @@
+Package: cluster
+Type: Package
+Title: Application to do X
+Version: 0.99.1
+Date: 2016-12-16
+Author: Augustin Luna
+Maintainer: Augustin Luna <lunaa@cbio.mskcc.org>
+Description: TBA
+License: LGPL-3
+LazyData: true
+Depends:
+    R (>= 3.1.1),
+    ggplot2,
+    cluster,
+    MASS
+Suggests:
+    knitr
+URL: https://bitbucket.org/cbio_mskcc/similarity
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
