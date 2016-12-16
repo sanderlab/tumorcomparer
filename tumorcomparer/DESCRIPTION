@@ -1,11 +1,11 @@
-Package: cluster
+Package: tumorcomparer
 Type: Package
-Title: Application to do X
+Title: Application to compare tumors using molecular data and weighted similarity
 Version: 0.99.1
 Date: 2016-12-16
-Author: Augustin Luna
-Maintainer: Augustin Luna <lunaa@cbio.mskcc.org>
-Description: TBA
+Author: Rileen Sinha, Augustin Luna
+Maintainer: Rileen Sinha <rileen@gmail.com>,Augustin Luna <lunaa@cbio.mskcc.org>
+Description: Application to compare tumors using molecular data and weighted similarity
 License: LGPL-3
 LazyData: true
 Depends:
