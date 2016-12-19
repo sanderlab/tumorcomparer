@@ -1,0 +1,49 @@
+# FROM: http://stackoverflow.com/questions/8430178/arguments-and-classes-for-writing-generic-functions-in-r
+
+#Make generic function
+# This is the "constructor" function...
+# ... UseMethod should have the name of the function!
+tumor_comparer <- function(x,...) UseMethod("tumor_comparer")
+
+#Default method
+# ... The class name should be the same as the constructor
+tumor_comparer.default <- function(a,b=5,c=3,...){
+  out <- a+b+c
+  class(out) <- "tumor_comparer"
+  out # must return the object out, not the class name!
+}
+
+# Print method
+# The "tumor_comparer" part of "print.tumor_comparer" must be the same as the class!
+print.tumor_comparer <- function(x,...){
+  cat("Result for tumor_comparer: ")
+  print(unclass(x)) # Must unclass to avoid infinite recursion
+  # NextMethod(x) # Alternative, but prints the class attribute...
+}
+
+# Summary method
+# Should return a summary object (and not print it!)
+# Need a unique class for it ("fsummary")
+summary.tumor_comparer <- function(object,...){
+  res <- object
+  class(res) <- "fsummary"
+  res
+}
+
+# Now need to print the summary too:
+print.fsummary <- function(x, ...) {
+  cat("tumor_comparer summary!\n")
+  # Nice summary print goes here...
+}
+
+# Plot method
+plot.tumor_comparer <-function(x,p=0.3,...){ cat("PLOTTING!\n") }
+
+# Try it out:
+x <- tumor_comparer(3)
+x # print x
+
+y <- summary(x) # 
+y # print summary
+
+plot(x)

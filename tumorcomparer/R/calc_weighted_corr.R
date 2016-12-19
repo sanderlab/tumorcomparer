@@ -1,4 +1,15 @@
+#' Calculate weighted correlation 
 #' 
+#' @param a numeric matrix
+#' @param b numeric matrix 
+#' @param w FIX ME WHY?
+#' 
+#' @return a weighted similarity correlation matrix 
+#' 
+#' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
+#'
+#' @concept tumorcomparer
+#' @export
 calc_weighted_corr <- function (a, b, w = rep(1, nrow(a))/nrow(a)) {
   # normalize weights
   w <- w / sum(w)
@@ -8,5 +19,5 @@ calc_weighted_corr <- function (a, b, w = rep(1, nrow(a))/nrow(a)) {
   b <- sweep(b, 2, colSums(b * w))
   
   # compute weighted correlation
-  t(w*a) %*% b / sqrt( colSums(w * a**2) %*% t(colSums(w * b**2)) )
+  t(w*a) %*% b / sqrt( colSums(w * a**2) %*% t(colSums(w * b**2)))
 }

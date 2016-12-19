@@ -6,6 +6,12 @@ composite_mat # MAT
 cell_lines_with_both_MUT_and_CNA # VECTOR
 tumors_with_both_MUT_and_CNA #VECT
 
+#' Calculate weighted correlation 
+#' 
+#' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
+#'
+#' @concept tumorcomparer
+#' @export
 categorize_cell_lines <- function(x) {
   # CATEGORIZE ----
   num_cell_lines <- length(intersect(colnames(composite_mat),cell_lines_with_both_MUT_and_CNA))

@@ -1,4 +1,12 @@
 #' Run a comparison between 
+#' 
+#' @param cna_default_weight default weight for copy number alterations (CNA)
+#' @param mut_default_weight default weight for mutation alterations (MUT)
+#' 
+#' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
+#'
+#' @concept tumorcomparer
+#' @export
 get_tumor_comparison <- function(x) {
   # LOAD DATA ---- 
   CNA_default_weight <- 0.01
@@ -101,6 +109,7 @@ get_tumor_comparison <- function(x) {
   
   gene_weights <- gene_weights/max(gene_weights) # map to 0-1
   
+  # [FIX this is what needs to switch]
   # CALCULATE CORRELATIONS ----
   # Including low-level CNAs
   cor_weighted <- calc_weighted_corr(as.matrix(composite_mat),as.matrix(composite_mat),gene_weights)

@@ -7,8 +7,8 @@
 #'     runShinyApp()
 #' }
 #' 
-#' @concept PanCanMet
+#' @concept tumorcomparer
 #' @export
-runShinyApp <- function (port=3838) {
-    shiny::runApp(system.file('shinyApp', package='PanCanMet'), port=port)	
+run_shiny_app <- function (port=3838) {
+    shiny::runApp(system.file('shinyApp', package='tumorcomparer'), port=port)	
 }
