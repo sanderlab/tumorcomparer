@@ -1,14 +1,10 @@
-# PARAM
-fraction_of_tumors_for_comparison <- 0.1 #X
-
-simlarity_mat # MAT
-composite_mat # MAT
-cell_lines_with_both_MUT_and_CNA # VECTOR
-tumors_with_both_MUT_and_CNA #VECT
-
 #' Categorize cell lines by the level of similarity [FIX]
 #' 
-#' @param fraction_of_tumors_for_comparison fraction of tumors used in a k-nearest neighbor comparison? 
+#' @param fraction_of_tumors_for_comparison fraction of tumors used in a k-nearest neighbor comparison? [FIX]
+#' @param similality_mat a mat [FIX]
+#' @param composite_mat a mat [FIX]
+#' @param cell_lines_with_both_MUT_and_CNA a vector [FIX]
+#' @param tumors_with_both_MUT_and_CNA a vector [FIX]
 #' 
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'
@@ -47,13 +43,15 @@ categorize_cell_lines <- function(x) {
   dist_cell_line_to_nearest_tumor <- rep(NA, num_cell_lines)
   for(i in 1:num_cell_lines) {
     # FIX WHAT IS THIS
-    tmp <- sort(dist_mat[cell_lines_with_both_MUT_and_CNA[i],setdiff(colnames(dist_mat),cell_lines_with_both_MUT_and_CNA)]
-              
-    mad_dist_cell_line_to_k_nearest_tumors[i] <- mad(tmp)[1:k])
-    median_dist_cell_line_to_k_nearest_tumors[i] <- median(tmp)[1:k])
-    sd_dist_cell_line_to_k_nearest_tumors[i] <- sd(tmp)[1:k])
-    mean_dist_cell_line_to_k_nearest_tumors[i] <- mean(tmp)[1:k])
-    dist_cell_line_to_nearest_tumor[i] <- min(tmp)
+    tmp <- sort(dist[cell_lines_with_both_MUT_and_CNA[i],setdiff(colnames(dist),cell_lines_with_both_MUT_and_CNA)])[1:k]
+
+    mad_dist_cell_line_to_k_nearest_tumors[i] <- mad(tmp)
+    median_dist_cell_line_to_k_nearest_tumors[i] <- median(tmp)
+    sd_dist_cell_line_to_k_nearest_tumors[i] <- sd(tmp)
+    mean_dist_cell_line_to_k_nearest_tumors[i] <- mean(tmp)
+    
+    # This is not over 1:k
+    dist_cell_line_to_nearest_tumor[i] <- min(dist[cell_lines_with_both_MUT_and_CNA[i],setdiff(colnames(dist),cell_lines_with_both_MUT_and_CNA)])
   }
   
   names(median_dist_cell_line_to_k_nearest_tumors) <- cell_lines_with_both_MUT_and_CNA
