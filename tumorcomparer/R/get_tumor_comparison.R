@@ -2,15 +2,31 @@
 #'
 #' @param CNA_default_weight default weight for copy number alterations (CNA) (DEFAULT: 0.01)
 #' @param MUT_default_weight default weight for mutation alterations (MUT) (DEFAULT: 0.01)
-#' @param CNA_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in the TCGA pan-cancer CNA list (GISTIC peaks)
-#' @param MUT_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in the TCGA pan-cancer mutation list (MUTSIG SMGs)
-#' @param tumor_mut_file a file with binary mutation data for tumors, over the 1651 genes profiled by CCLE
-#' @param tumor_cna_file a file with 5-valued GISTIC data for tumors, over 1529 genes (subset of 1651 genes above)
-#' @param cell_line_mut_file a file with binary mutation data for cell lines, over the 1651 genes profiled by CCLE
-#' @param cell_line_cna_file a file with 5-valued GISTIC data for cell lines, over 1529 genes (subset of 1651 genes above)
-#' @param pancancer_gene_weights_file - a file with weights for the TCGA pan-cancer set of recurrent mutations and CNAs (copy number alterations)
-#' @param cancer_specific_gene_weights_file a file with weights for cancer-specific set of recurrent mutations and CNAs (copy number alterations)
-#' @param output_composite_alteration_matrix_file a string with filename for output of the the composite alteration matrix (see Details) (DEFAULT: "composite_alteration_matrix.txt") 
+#' @param CNA_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in 
+#' the TCGA pan-cancer CNA list (GISTIC peaks)
+#' @param MUT_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in
+#'  the TCGA pan-cancer mutation list (MUTSIG SMGs)
+#' @param tumor_mut_file a file with binary mutation data for tumors, over the 
+#' 1651 genes profiled by CCLE
+#' @param tumor_cna_file a file with 5-valued GISTIC data for tumors, over 
+#' 1529 genes (subset of 1651 genes above)
+#' @param cell_line_mut_file a file with binary mutation data for cell lines, 
+#' over the 1651 genes profiled by CCLE
+#' @param cell_line_cna_file a file with 5-valued GISTIC data for cell lines, 
+#' over 1529 genes (subset of 1651 genes above)
+#' @param pancancer_gene_weights_file - a file with weights for the TCGA pan-cancer
+#'  set of recurrent mutations and CNAs (copy number alterations). A two-column
+#'  tab-delimited file - the first column has the list of alterations, with "_MUT"
+#'  and "_CNA" specifying mutations and CNAs(copy number alterations) respectively,
+#'  e.g. "TP53_MUT" and "MYC_CNA", and the second column specifying the weights.
+#' @param cancer_specific_gene_weights_file a file with weights for cancer-specific
+#'  set of recurrent mutations and CNAs (copy number alterations). A two-column
+#'  tab-delimited file - the first column has the list of alterations, with "_MUT"
+#'  and "_CNA" specifying mutations and CNAs(copy number alterations) respectively,
+#'  e.g. "TP53_MUT" and "MYC_CNA", and the second column specifying the weights.
+#' @param output_composite_alteration_matrix_file a string with filename for 
+#' output of the the composite alteration matrix (see Details) 
+#' (DEFAULT: "composite_alteration_matrix.txt") 
 #' @param distance_similarity_measure (See Details) 
 #'   (OPTIONS: "weighted_correlation", "generalized_jaccard") 
 #' 
@@ -19,18 +35,23 @@
 #'   (with 1 or 0 outputs for each sample) and copy number alterations from 
 #'   GISTIC (with values -2, -1, 0, 1, 2). Available similarity/distance measures include: 
 #'   \itemize{
-#'   \item{"weighted_correlation"}{Weighted correlation, based on weighted means and standard deviations}
+#'   \item{"weighted_correlation"}{Weighted correlation, based on weighted means and 
+#'   standard deviations}
 #'   \item{"generalized_jaccard"}{A weighted distance based on the Jaccard coefficient}
 #'    }
 #'    
-#' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on parameter "distance_similarity_measure".
+#' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will
+#'  depend on parameter "distance_similarity_measure".
 #' \itemize{
 #'   \item{"dist"}{a matrix of pairwise distances}
-#'   \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to two dimensions via MDS - multidimensional scaling}
+#'   \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to 
+#'   two dimensions via MDS - multidimensional scaling, using the isoMDS function}
 #'   \item{"cor_unweighted"}{a matrix of unweighted pairwise correlations}
 #'   \item{"composite_mat"}{the composite matrix (see Details)}
-#'   \item{"cell_lines_with_both_MUT_and_CNA"}{a vector of cell lines with both mutation (MUT) and copy number alteration (CNA) information}
-#'   \item{"tumors_with_both_MUT_and_CNA"}{a vector of cell lines with both mutation (MUT) and copy number alteration (CNA) information}
+#'   \item{"cell_lines_with_both_MUT_and_CNA"}{a vector of cell line IDs/names with both mutation
+#'    (MUT) and copy number alteration (CNA) information}
+#'   \item{"tumors_with_both_MUT_and_CNA"}{a vector of tumor IDs with both mutation 
+#'   (MUT) and copy number alteration (CNA) information}
 #' }
 #'
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
@@ -134,17 +155,17 @@ get_tumor_comparison <- function(CNA_default_weight=0.01,
   rownames(genes_and_weights) <- intersect(rownames(genes_and_weights_all), rownames(composite_mat))
   rownames(known_cancer_genes_and_weights) <- intersect(rownames(known_cancer_genes_and_weights_all), rownames(composite_mat))
   
-  # FIX WHAT IS THIS ? 
+  # Populate weights with default weights
   annotation_weights <- rep(NA, nrow(composite_mat))
   annotation_weights[grep("_CNA", rownames(composite_mat))] <- CNA_default_weight
   annotation_weights[grep("_MUT", rownames(composite_mat))] <- MUT_default_weight
   
+  # Overwrite default weight with pancancer (known gene) weight if applicable
   names(annotation_weights) <- rownames(composite_mat)
   for (i in 1:nrow(known_cancer_genes_and_weights))
-    # Overwrite default weights for known cancer genes
     annotation_weights[rownames(known_cancer_genes_and_weights)[i]] = known_cancer_genes_and_weights[i, ]
+  # Overwrite weight with cancer-type-specific weight if applicable
   for (i in 1:nrow(genes_and_weights))
-    # Overwrite default weights for input provided weights
     annotation_weights[rownames(genes_and_weights)[i]] = genes_and_weights[i, ]
   
   gene_weights <- rep(1, nrow(composite_mat))
