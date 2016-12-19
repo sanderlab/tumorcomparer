@@ -9,6 +9,8 @@ plot_freq_alt(cell_line_ids, num_tumors, composite_mut, composite_cna,
   cell_line_shape = 20)
 }
 \arguments{
+\item{cell_line_ids}{a vector of strings for cell lines in the composite matrix}
+
 \item{num_tumors}{number of tumors in the composite matrix}
 
 \item{composite_mut}{a composite (both tumor and cell line information) matrix
@@ -24,8 +26,6 @@ with only copy number information}
 \item{tumor_shape}{an integer for an R plot PCH symbol}
 
 \item{cell_line_shape}{an integer for an R plot PCH symbol}
-
-\item{num_cell_lines}{number of cell lines in the composite matrix}
 }
 \value{
 Nothing is returned

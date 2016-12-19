@@ -1,6 +1,6 @@
 #' Plot mutation and copy number fractions 
 #' 
-#' @param num_cell_lines number of cell lines in the composite matrix
+#' @param cell_line_ids a vector of strings for cell lines in the composite matrix
 #' @param num_tumors number of tumors in the composite matrix
 #' @param composite_mut a composite (both tumor and cell line information) matrix
 #'  with only mutation information

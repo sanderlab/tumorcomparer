@@ -9,10 +9,18 @@ plot_mds(cell_lines_with_both_MUT_and_CNA, tumors_with_both_MUT_and_CNA,
   cell_line_color = "blue", tumor_shape = 17, cell_line_shape = 20)
 }
 \arguments{
+\item{cell_lines_with_both_MUT_and_CNA}{a vector of cell line IDs/names with 
+both mutation (MUT) and copy number alteration (CNA) information (see run_comparison)}
+
+\item{tumors_with_both_MUT_and_CNA}{a vector of tumor IDs with both mutation 
+(MUT) and copy number alteration (CNA) information}
+
 \item{dist_mat}{a matrix of distances}
 
-\item{cell_line_ids}{a vector of strings with cell line names. This will be taken from
-cell_lines_with_both_MUT_and_CNA and assumed to be in the CCLE format (i.e. CELLLINE_TISSUE)}
+\item{cell_line_ids}{a vector of strings with cell line names. This will be 
+taken from cell_lines_with_both_MUT_and_CNA and assumed to be in the CCLE format 
+(i.e. CELLLINE_TISSUE); (DEFAULT: NULL, IDs will be taken from parameter 
+cell_lines_with_both_MUT_and_CNA)}
 
 \item{tumor_color}{a color for tumor points (DEFAULT: orange)}
 
@@ -21,12 +29,6 @@ cell_lines_with_both_MUT_and_CNA and assumed to be in the CCLE format (i.e. CELL
 \item{tumor_shape}{an integer for an R plot PCH symbol (DEFAULT: 17)}
 
 \item{cell_line_shape}{an integer for an R plot PCH symbol (DEFAULT: 20)}
-
-\item{composite_mut}{a composite (both tumor and cell line information) matrix 
-with only mutation information}
-
-\item{composite_cna}{a composite (both tumor and cell line information) matrix 
-with only copy number information}
 }
 \value{
 Nothing is returned

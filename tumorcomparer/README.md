@@ -12,3 +12,8 @@
         
     library(pancanmet)
     runShinyApp()
+    
+#' @param composite_mut a composite (both tumor and cell line information) matrix 
+#' with only mutation information
+#' @param composite_cna a composite (both tumor and cell line information) matrix 
+#' with only copy number information

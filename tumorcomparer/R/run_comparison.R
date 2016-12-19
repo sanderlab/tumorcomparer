@@ -1,32 +1,32 @@
-#' Run a comparison between
+#' Run a comparison between between two cohorts (e.g. cell lines and tumors)
 #'
 #' @param CNA_default_weight default weight for copy number alterations (CNA) (DEFAULT: 0.01)
 #' @param MUT_default_weight default weight for mutation alterations (MUT) (DEFAULT: 0.01)
 #' @param CNA_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in 
-#' the TCGA pan-cancer CNA list (GISTIC peaks)
+#'   the TCGA pan-cancer CNA list (GISTIC peaks)
 #' @param MUT_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in
-#'  the TCGA pan-cancer mutation list (MUTSIG SMGs)
+#'   the TCGA pan-cancer mutation list (MUTSIG SMGs)
 #' @param tumor_mut_file a file with binary mutation data for tumors, over the 
-#' 1651 genes profiled by CCLE
+#'   1651 genes profiled by CCLE
 #' @param tumor_cna_file a file with 5-valued GISTIC data for tumors, over 
-#' 1529 genes (subset of 1651 genes above)
+#'   1529 genes (subset of 1651 genes above)
 #' @param cell_line_mut_file a file with binary mutation data for cell lines, 
-#' over the 1651 genes profiled by CCLE
+#'   over the 1651 genes profiled by CCLE
 #' @param cell_line_cna_file a file with 5-valued GISTIC data for cell lines, 
-#' over 1529 genes (subset of 1651 genes above)
+#'   over 1529 genes (subset of 1651 genes above)
 #' @param pancancer_gene_weights_file - a file with weights for the TCGA pan-cancer
-#'  set of recurrent mutations and CNAs (copy number alterations). A two-column
-#'  tab-delimited file - the first column has the list of alterations, with "_MUT"
-#'  and "_CNA" specifying mutations and CNAs(copy number alterations) respectively,
-#'  e.g. "TP53_MUT" and "MYC_CNA", and the second column specifying the weights.
+#'   set of recurrent mutations and CNAs (copy number alterations). A two-column
+#'   tab-delimited file - the first column has the list of alterations, with "_MUT"
+#'   and "_CNA" specifying mutations and CNAs(copy number alterations) respectively,
+#'   e.g. "TP53_MUT" and "MYC_CNA", and the second column specifying the weights.
 #' @param cancer_specific_gene_weights_file a file with weights for cancer-specific
-#'  set of recurrent mutations and CNAs (copy number alterations). A two-column
-#'  tab-delimited file - the first column has the list of alterations, with "_MUT"
-#'  and "_CNA" specifying mutations and CNAs(copy number alterations) respectively,
-#'  e.g. "TP53_MUT" and "MYC_CNA", and the second column specifying the weights.
+#'   set of recurrent mutations and CNAs (copy number alterations). A two-column
+#'   tab-delimited file - the first column has the list of alterations, with "_MUT"
+#'   and "_CNA" specifying mutations and CNAs(copy number alterations) respectively,
+#'   e.g. "TP53_MUT" and "MYC_CNA", and the second column specifying the weights.
 #' @param output_composite_alteration_matrix_file a string with filename for 
-#' output of the the composite alteration matrix (see Details) 
-#' (DEFAULT: "composite_alteration_matrix.txt") 
+#'   output of the the composite alteration matrix (see Details) 
+#'   (DEFAULT: "composite_alteration_matrix.txt") 
 #' @param distance_similarity_measure (See Details) 
 #'   (OPTIONS: "weighted_correlation", "generalized_jaccard") 
 #' 
@@ -60,10 +60,10 @@
 #' 
 #' @importFrom MASS isoMDS
 #' @importFrom utils read.table write.table
-#' importFrom stats cor
-get_tumor_comparison <- function(CNA_default_weight=0.01, 
+#' @importFrom stats cor
+run_comparison <- function(CNA_default_weight=0.01, 
                                  MUT_default_weight=0.01,
-                                 NA_known_cancer_gene_weight=0.1, 
+                                 CNA_known_cancer_gene_weight=0.1, 
                                  MUT_known_cancer_gene_weight=0.1, 
                                  tumor_mut_file="tumor_MUT.txt", 
                                  tumor_cna_file="tumor_CNA.txt", 
@@ -75,10 +75,10 @@ get_tumor_comparison <- function(CNA_default_weight=0.01,
                                  distance_similarity_measure=c("weighted_correlation", "generalized_jaccard")) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
-  tumor_MUT <- read.table(tumor_mut_file, sep = "\t", header = TRUE, row.names = 1)
-  tumor_CNA <- read.table(tumor_cna_file, sep = "\t", header = TRUE, row.names = 1)
-  cell_line_MUT <- read.table(cell_line_mut_file, sep = "\t", header = TRUE, row.names = 1)
-  cell_line_CNA <- read.table(cell_line_cna_file, sep = "\t", header = TRUE, row.names = 1)
+  tumor_MUT <- read.table(tumor_mut_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+  tumor_CNA <- read.table(tumor_cna_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+  cell_line_MUT <- read.table(cell_line_mut_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+  cell_line_CNA <- read.table(cell_line_cna_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
   
   tumors_with_both_MUT_and_CNA <- intersect(colnames(tumor_MUT), colnames(tumor_CNA))
   cell_lines_with_both_MUT_and_CNA <- intersect(colnames(cell_line_MUT), colnames(cell_line_CNA))

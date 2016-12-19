@@ -1,5 +1,6 @@
-#' Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10% of tumors)
+#' Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)
 #' 
+#' @param cell_line_ids  a vector of strings for cell lines in the composite matrix
 #' @param fraction_of_tumors_for_comparison fraction of tumors used in a k-nearest
 #'  neighbor comparison (DEFAULT: 0.1) 
 #' @param dist_mat a matrix of pairwise weighted distances between all cell lines and tumors
@@ -13,14 +14,16 @@
 #' @concept tumorcomparer
 #' @export
 #' 
-#' @importFrom stats cor dist ma median sd
-categorize_cell_lines <- function(fraction_of_tumors_for_comparison=0.1, 
-                                  dist_mat, composite_mat, 
+#' @importFrom stats cor dist mad median sd
+categorize_cell_lines <- function(cell_line_ids,
+                                  fraction_of_tumors_for_comparison=0.1, 
+                                  dist_mat,
+                                  composite_mat, 
                                   cell_lines_with_both_MUT_and_CNA, 
                                   tumors_with_both_MUT_and_CNA) {
   
-  num_cell_lines <- length(intersect(colnames(composite_mat),cell_lines_with_both_MUT_and_CNA))
-  num_tumors <- length(intersect(colnames(composite_mat),tumors_with_both_MUT_and_CNA))
+  num_cell_lines <- length(intersect(colnames(composite_mat), cell_lines_with_both_MUT_and_CNA))
+  num_tumors <- length(intersect(colnames(composite_mat), tumors_with_both_MUT_and_CNA))
   
   ## Set K-nearest neighbors 
   k <- fraction_of_tumors_for_comparison*num_tumors
@@ -37,6 +40,7 @@ categorize_cell_lines <- function(fraction_of_tumors_for_comparison=0.1,
   for(i in 1:num_tumors){
     # Sort the distances of this tumor to other tumors, and save distances to the k-nearest tumors (in variable tmp)
     tmp <- sort(dist_tumors_only[i,-i])[1:k]
+    
     median_dist_tumor_to_k_nearest_tumors[i] <- median(tmp)
     mad_dist_tumor_to_k_nearest_tumors[i] <- mad(tmp)
     mean_dist_tumor_to_k_nearest_tumors[i] <- mean(tmp)
@@ -51,7 +55,7 @@ categorize_cell_lines <- function(fraction_of_tumors_for_comparison=0.1,
   dist_cell_line_to_nearest_tumor <- rep(NA, num_cell_lines)
   for(i in 1:num_cell_lines) {
     # Sort the distances of this cell line to tumors, and save distances to the k-nearest tumors (in variable tmp)
-    tmp <- sort(dist[cell_lines_with_both_MUT_and_CNA[i],setdiff(colnames(dist),cell_lines_with_both_MUT_and_CNA)])[1:k]
+    tmp <- sort(dist[cell_lines_with_both_MUT_and_CNA[i], setdiff(colnames(dist),cell_lines_with_both_MUT_and_CNA)])[1:k]
 
     mad_dist_cell_line_to_k_nearest_tumors[i] <- mad(tmp)
     median_dist_cell_line_to_k_nearest_tumors[i] <- median(tmp)
@@ -85,12 +89,15 @@ categorize_cell_lines <- function(fraction_of_tumors_for_comparison=0.1,
   moderately_good_matches <- cell_line_ids[which((mean_similarity_cell_line_to_k_nearest_tumors >= (mean(mean_similarity_tumor_to_k_nearest_tumors) - 2*sd(mean_similarity_tumor_to_k_nearest_tumors)) & (mean_similarity_cell_line_to_k_nearest_tumors < (mean(mean_similarity_tumor_to_k_nearest_tumors) - sd(mean_similarity_tumor_to_k_nearest_tumors))))) ]
   poor_matches <- cell_line_ids[which((mean_similarity_cell_line_to_k_nearest_tumors >= (mean(mean_similarity_tumor_to_k_nearest_tumors) - 3*sd(mean_similarity_tumor_to_k_nearest_tumors)) & (mean_similarity_cell_line_to_k_nearest_tumors < (mean(mean_similarity_tumor_to_k_nearest_tumors) - 2*sd(mean_similarity_tumor_to_k_nearest_tumors))))) ]
   outliers <- cell_line_ids[which(mean_similarity_cell_line_to_k_nearest_tumors < (mean(mean_similarity_tumor_to_k_nearest_tumors) - 3*sd(mean_similarity_tumor_to_k_nearest_tumors)))]
+
+  matches_sample <- c(great_matches, good_matches, moderately_good_matches, poor_matches, outliers)
+  matches_categories <- c(rep("Great", length(great_matches)), 
+                      rep("Good", length(good_matches)), 
+                      rep("Moderately Good", length(moderately_good_matches)), 
+                      rep("Poor", poor_matches),
+                      rep("Outliers", outliers))
   
-  results <- list(great_matches=great_matches, 
-                  good_matches=good_matches, 
-                  moderately_good_matches=moderately_good_matches, 
-                  poor_matches=poor_matches, 
-                  outliers=outliers)
+  results <- data.frame(sample=matches_samples, category=matches_categories, stringsAsFactors = FALSE)
   
   return(results)
 }

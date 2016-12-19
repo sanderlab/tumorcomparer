@@ -179,9 +179,10 @@ $(document).ready(function () {
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<div id="purpose" class="section level2">
-<h2>Purpose</h2>
-<p>Show the general usage of Tumor Comparer.</p>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>Comparison of cell lines (the most popular experimental models of cancer) and tumors is challenging because of systematic differences between cell lines and tumors due to several factors, including biases in the selection of tumors for establishing cell lines, the process of immortalization of cell lines, and further changes gradually acquired by cell lines over time (e.g. due to passaging in culture).</p>
+<p>This package includes a general computational method, TumorComparer, to systematically quantify similarities and differences between tumor material when detailed genetic and molecular profiles are available. Importantly, the comparisons can be flexibly tailored to a particular biological question by (interactively) placing a higher weight on functional alterations of interest (weighted similarity). This application allows this comparison to be run on cell lines in the comparison of six different cancer types to identify suitable as well as apparently unsuitable cell lines (including some widely used ones) for each cancer type.</p>
 </div>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
@@ -236,8 +237,8 @@ The following objects are masked from ‘package:paxtoolsr’:
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="plot-sif" class="section level2">
-<h2>Plot SIF</h2>
+<div id="load-data" class="section level2">
+<h2>Load Data</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTkFcbmBgYCJ9 -->
@@ -248,7 +249,7 @@ The following objects are masked from ‘package:paxtoolsr’:
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiVHVtb3IgQ29tcGFyZXIiCm91dHB1dDoKICBodG1sX25vdGVib29rOiBkZWZhdWx0CiAgaHRtbF9kb2N1bWVudDoKICAgIHRvYzogeWVzCiAgcGRmX2RvY3VtZW50OgogICAgdG9jOiB5ZXMKLS0tCgpgYGB7ciBzZXR1cCwgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRSwgbWVzc2FnZT1GQUxTRX0KcmVxdWlyZSgia25pdHIiKQpvcHRzX2tuaXQkc2V0KHJvb3QuZGlyPSIuLiIpCm9wdHNfY2h1bmskc2V0KGZpZy5hbGlnbj0iY2VudGVyIiwgZmlnLndpZHRoPTYsIGZpZy5oZWlnaHQ9NiwgZHBpPTMwMCkKCmBgYAoKIyMgUHVycG9zZQoKU2hvdyB0aGUgZ2VuZXJhbCB1c2FnZSBvZiBUdW1vciBDb21wYXJlci4KCiMjIFNldHVwIApgYGB7ciBsb2FkTGlicmFyaWVzLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQpsaWJyYXJ5KHR1bW9yY29tcGFyZXIpCmBgYAoKIyMgUGxvdCBTSUYKYGBge3J9CmNlbGxfbGluZV9pZHMgPC0gc2FwcGx5KGNlbGxfbGluZXNfd2l0aF9ib3RoX01VVF9hbmRfQ05BLCByZXR1cm5fZmlyc3RfcGFydCkKYGBgCgoKCgoKCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiVHVtb3IgQ29tcGFyZXIiCm91dHB1dDoKICBodG1sX25vdGVib29rOiBkZWZhdWx0CiAgaHRtbF9kb2N1bWVudDoKICAgIHRvYzogeWVzCiAgcGRmX2RvY3VtZW50OgogICAgdG9jOiB5ZXMKLS0tCgpgYGB7ciBzZXR1cCwgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRSwgbWVzc2FnZT1GQUxTRX0KcmVxdWlyZSgia25pdHIiKQpvcHRzX2tuaXQkc2V0KHJvb3QuZGlyPSIuLiIpCm9wdHNfY2h1bmskc2V0KGZpZy5hbGlnbj0iY2VudGVyIiwgZmlnLndpZHRoPTYsIGZpZy5oZWlnaHQ9NiwgZHBpPTMwMCkKCmBgYAoKIyMgT3ZlcnZpZXcKCkNvbXBhcmlzb24gb2YgY2VsbCBsaW5lcyAodGhlIG1vc3QgcG9wdWxhciBleHBlcmltZW50YWwgbW9kZWxzIG9mIGNhbmNlcikgYW5kIHR1bW9ycyBpcyBjaGFsbGVuZ2luZyBiZWNhdXNlIG9mIHN5c3RlbWF0aWMgZGlmZmVyZW5jZXMgYmV0d2VlbiBjZWxsIGxpbmVzIGFuZCB0dW1vcnMgZHVlIHRvIHNldmVyYWwgZmFjdG9ycywgaW5jbHVkaW5nIGJpYXNlcyBpbiB0aGUgc2VsZWN0aW9uIG9mIHR1bW9ycyBmb3IgZXN0YWJsaXNoaW5nIGNlbGwgbGluZXMsIHRoZSBwcm9jZXNzIG9mIGltbW9ydGFsaXphdGlvbiBvZiBjZWxsIGxpbmVzLCBhbmQgZnVydGhlciBjaGFuZ2VzIGdyYWR1YWxseSBhY3F1aXJlZCBieSBjZWxsIGxpbmVzIG92ZXIgdGltZSAoZS5nLiBkdWUgdG8gcGFzc2FnaW5nIGluIGN1bHR1cmUpLgoKVGhpcyBwYWNrYWdlIGluY2x1ZGVzIGEgZ2VuZXJhbCBjb21wdXRhdGlvbmFsIG1ldGhvZCwgVHVtb3JDb21wYXJlciwgdG8gc3lzdGVtYXRpY2FsbHkgcXVhbnRpZnkgc2ltaWxhcml0aWVzIGFuZCBkaWZmZXJlbmNlcyBiZXR3ZWVuIHR1bW9yIG1hdGVyaWFsIHdoZW4gZGV0YWlsZWQgZ2VuZXRpYyBhbmQgbW9sZWN1bGFyIHByb2ZpbGVzIGFyZSBhdmFpbGFibGUuIEltcG9ydGFudGx5LCB0aGUgY29tcGFyaXNvbnMgY2FuIGJlIGZsZXhpYmx5IHRhaWxvcmVkIHRvIGEgcGFydGljdWxhciBiaW9sb2dpY2FsIHF1ZXN0aW9uIGJ5IChpbnRlcmFjdGl2ZWx5KSBwbGFjaW5nIGEgaGlnaGVyIHdlaWdodCBvbiBmdW5jdGlvbmFsIGFsdGVyYXRpb25zIG9mIGludGVyZXN0ICh3ZWlnaHRlZCBzaW1pbGFyaXR5KS4gVGhpcyBhcHBsaWNhdGlvbiBhbGxvd3MgdGhpcyBjb21wYXJpc29uIHRvIGJlIHJ1biBvbiBjZWxsIGxpbmVzIGluIHRoZSBjb21wYXJpc29uIG9mIHNpeCBkaWZmZXJlbnQgY2FuY2VyIHR5cGVzIHRvIGlkZW50aWZ5IHN1aXRhYmxlIGFzIHdlbGwgYXMgYXBwYXJlbnRseSB1bnN1aXRhYmxlIGNlbGwgbGluZXMgKGluY2x1ZGluZyBzb21lIHdpZGVseSB1c2VkIG9uZXMpIGZvciBlYWNoIGNhbmNlciB0eXBlLiAKCiMjIFNldHVwIApgYGB7ciBsb2FkTGlicmFyaWVzLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQpsaWJyYXJ5KHR1bW9yY29tcGFyZXIpCmBgYAoKIyMgTG9hZCBEYXRhCmBgYHtyfQojIExvYWQgcHJlLWNvbXB1dGVkIHdlaWdodHMgCgoKCmNlbGxfbGluZV9pZHMgPC0gc2FwcGx5KGNlbGxfbGluZXNfd2l0aF9ib3RoX01VVF9hbmRfQ05BLCByZXR1cm5fZmlyc3RfcGFydCkKYGBgCgoKCgoKCgoKCg==</div>
 
 
 

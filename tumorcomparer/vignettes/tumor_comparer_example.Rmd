@@ -15,17 +15,23 @@ opts_chunk$set(fig.align="center", fig.width=6, fig.height=6, dpi=300)
 
 ```
 
-## Purpose
+## Overview
 
-Show the general usage of Tumor Comparer.
+Comparison of cell lines (the most popular experimental models of cancer) and tumors is challenging because of systematic differences between cell lines and tumors due to several factors, including biases in the selection of tumors for establishing cell lines, the process of immortalization of cell lines, and further changes gradually acquired by cell lines over time (e.g. due to passaging in culture).
+
+This package includes a general computational method, TumorComparer, to systematically quantify similarities and differences between tumor material when detailed genetic and molecular profiles are available. Importantly, the comparisons can be flexibly tailored to a particular biological question by (interactively) placing a higher weight on functional alterations of interest (weighted similarity). This application allows this comparison to be run on cell lines in the comparison of six different cancer types to identify suitable as well as apparently unsuitable cell lines (including some widely used ones) for each cancer type. 
 
 ## Setup 
 ```{r loadLibraries, message=FALSE, warning=FALSE}
 library(tumorcomparer)
 ```
 
-## Plot SIF
+## Load Data
 ```{r}
+# Load pre-computed weights 
+
+
+
 cell_line_ids <- sapply(cell_lines_with_both_MUT_and_CNA, return_first_part)
 ```
 

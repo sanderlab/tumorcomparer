@@ -2,24 +2,29 @@
 % Please edit documentation in R/categorize_cell_lines.R
 \name{categorize_cell_lines}
 \alias{categorize_cell_lines}
-\title{Categorize cell lines by the level of similarity [FIX]}
+\title{Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)}
 \usage{
-categorize_cell_lines(fraction_of_tumors_for_comparison = 0.1, dist_mat,
-  composite_mat, cell_lines_with_both_MUT_and_CNA, tumors_with_both_MUT_and_CNA)
+categorize_cell_lines(cell_line_ids, fraction_of_tumors_for_comparison = 0.1,
+  dist_mat, composite_mat, cell_lines_with_both_MUT_and_CNA,
+  tumors_with_both_MUT_and_CNA)
 }
 \arguments{
-\item{fraction_of_tumors_for_comparison}{fraction of tumors used in a k-nearest neighbor comparison? (DEFAULT: 0.1) [FIX]}
+\item{cell_line_ids}{a vector of strings for cell lines in the composite matrix}
 
-\item{dist_mat}{a mat [FIX]}
+\item{fraction_of_tumors_for_comparison}{fraction of tumors used in a k-nearest
+neighbor comparison (DEFAULT: 0.1)}
 
-\item{composite_mat}{a mat [FIX]}
+\item{dist_mat}{a matrix of pairwise weighted distances between all cell lines and tumors}
 
-\item{cell_lines_with_both_MUT_and_CNA}{a vector [FIX]}
+\item{composite_mat}{a composite matrix of alterations in tumors and cell lines 
+(see "get_tumor_comparison.R" for detail)}
 
-\item{tumors_with_both_MUT_and_CNA}{a vector [FIX]}
+\item{cell_lines_with_both_MUT_and_CNA}{IDs/names of cell lines with both mutation and CNA data}
+
+\item{tumors_with_both_MUT_and_CNA}{IDs of tumors with both mutation and CNA data}
 }
 \description{
-Categorize cell lines by the level of similarity [FIX]
+Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)
 }
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
