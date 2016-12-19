@@ -20,7 +20,7 @@
 #'   GISTIC (with values -2, -1, 0, 1, 2). Available similarity/distance measures include: 
 #'   \itemize{
 #'   \item{"weighted_correlation"}{Weighted correlation, based on weighted means and standard deviations}
-#'   \item{"generalized_jaccard"}{a }
+#'   \item{"generalized_jaccard"}{A weighted distance based on the Jaccard coefficient}
 #'    }
 #'    
 #' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on parameter "distance_similarity_measure".
