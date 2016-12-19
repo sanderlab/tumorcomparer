@@ -176,7 +176,7 @@ plot(freq_alt_samplewise_mut,freq_alt_samplewise_cna_high_level_only,col=cell_li
 text(freq_alt_samplewise_mut[1:length(cell_lines_with_both_MUT_and_CNA)],freq_alt_samplewise_cna_high_level_only[1:length(cell_lines_with_both_MUT_and_CNA)],labels=cell_line_ids,cex=0.6)
 legend("bottomright",c("Tumors", "Cell Lines"), pch=c(20, 17), cex=.8, col=c("blue", "orange"))
 
-
+# FIX: FOR MDS
 isomdsfit <- isoMDS(1-cor_weighted,k=2)
 plot(isomdsfit$points,col=cell_lines_and_tumors.col,pch=cell_lines_and_tumors.pch,xlab="Coordinate 1", ylab="Coordinate 2",main="Weighted Correlation, including low-level CNAs")
 #text(isomdsfit$points[1:num_cell_lines,],labels=cell_line_ids,cex=0.6)

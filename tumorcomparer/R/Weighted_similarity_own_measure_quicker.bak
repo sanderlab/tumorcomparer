@@ -189,12 +189,11 @@ compute_weighted_distance_including_zero_zero_matches <- function(alt_mat, gene_
 
 
 
-weighted_distance_excluding_zero_zero_matches <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
-weighted_distance_excluding_zero_zero_matches_MUT_only <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
-weighted_distance_excluding_zero_zero_matches_high_level_only <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
-weighted_distance_excluding_zero_zero_matches_CNA_only_high_level_only <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
-weighted_distance_including_zero_zero_matches <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
-
+# weighted_distance_excluding_zero_zero_matches <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
+# weighted_distance_excluding_zero_zero_matches_MUT_only <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
+# weighted_distance_excluding_zero_zero_matches_high_level_only <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
+# weighted_distance_excluding_zero_zero_matches_CNA_only_high_level_only <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
+# weighted_distance_including_zero_zero_matches <- matrix(NA,nrow=ncol(alt_mat),ncol=ncol(alt_mat))
 #weighted_distance_excluding_zero_zero_matches_high_level_only <- compute_weighted_distance_excluding_zero_zero_matches(composite_mat_high_level_only,gene_weights)
 #weighted_distance_excluding_zero_zero_matches <- compute_weighted_distance_excluding_zero_zero_matches(composite_mat,gene_weights)
 #weighted_distance_excluding_zero_zero_matches_MUT_only <- compute_weighted_distance_excluding_zero_zero_matches(composite_MUT,gene_weights[grep("_MUT",rownames(composite_mat))])
@@ -221,6 +220,7 @@ weighted_distance_excluding_zero_zero_matches <- apply(composite_mat, 2, functio
 
 weighted_distance_excluding_zero_zero_matches[which(is.na(weighted_distance_excluding_zero_zero_matches))] <- 0
 weighted_distance_excluding_zero_zero_matches <- weighted_distance_excluding_zero_zero_matches + 1e-6
+
 # FIX: MDS fite
 isomdsfit <- isoMDS(weighted_distance_excluding_zero_zero_matches,k=2)
 plot(isomdsfit$points,col=cell_lines_and_tumors.col,pch=cell_lines_and_tumors.pch,xlab="Coordinate 1", ylab="Coordinate 2",main="Weighted distance, excluding zero-zero matches")
