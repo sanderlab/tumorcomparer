@@ -4,12 +4,13 @@
 \alias{categorize_cell_lines}
 \title{Categorize cell lines by the level of similarity [FIX]}
 \usage{
-categorize_cell_lines(x)
+categorize_cell_lines(fraction_of_tumors_for_comparison = 0.1, dist_mat,
+  composite_mat, cell_lines_with_both_MUT_and_CNA, tumors_with_both_MUT_and_CNA)
 }
 \arguments{
-\item{fraction_of_tumors_for_comparison}{fraction of tumors used in a k-nearest neighbor comparison? [FIX]}
+\item{fraction_of_tumors_for_comparison}{fraction of tumors used in a k-nearest neighbor comparison? (DEFAULT: 0.1) [FIX]}
 
-\item{similality_mat}{a mat [FIX]}
+\item{dist_mat}{a mat [FIX]}
 
 \item{composite_mat}{a mat [FIX]}
 

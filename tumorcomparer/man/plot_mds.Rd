@@ -18,17 +18,15 @@ cell_lines_with_both_MUT_and_CNA and assumed to be in the CCLE format (i.e. CELL
 
 \item{cell_line_color}{a color for tumor points (DEFAULT: blue)}
 
-\item{tumor_shape}{an integer for an R plot PCH symbol}
+\item{tumor_shape}{an integer for an R plot PCH symbol (DEFAULT: 17)}
 
-\item{cell_line_shape}{an integer for an R plot PCH symbol}
+\item{cell_line_shape}{an integer for an R plot PCH symbol (DEFAULT: 20)}
 
-\item{num_cell_lines}{number of cell lines from FIX FUNCTION X}
+\item{composite_mut}{a composite (both tumor and cell line information) matrix 
+with only mutation information}
 
-\item{num_tumors}{number of cell lines from FIX FUNCTOIN Y}
-
-\item{composite_mut}{a composite (both tumor and cell line information) matrix with only mutation information}
-
-\item{composite_cna}{a composite (both tumor and cell line information) matrix with only copy number information}
+\item{composite_cna}{a composite (both tumor and cell line information) matrix 
+with only copy number information}
 }
 \value{
 Nothing is returned

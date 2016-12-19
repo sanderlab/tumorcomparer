@@ -35,10 +35,9 @@
 #'   (with 1 or 0 outputs for each sample) and copy number alterations from 
 #'   GISTIC (with values -2, -1, 0, 1, 2). Available similarity/distance measures include: 
 #'   \itemize{
-#'   \item{"weighted_correlation"}{Weighted correlation, based on weighted means and 
-#'   standard deviations}
-#'   \item{"generalized_jaccard"}{A weighted distance based on the Jaccard coefficient}
-#'    }
+#'     \item{"weighted_correlation"}{Weighted correlation, based on weighted means and standard deviations}
+#'     \item{"generalized_jaccard"}{A weighted distance based on the Jaccard coefficient}
+#'  }
 #'    
 #' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will
 #'  depend on parameter "distance_similarity_measure".
@@ -58,6 +57,10 @@
 #'
 #' @concept tumorcomparer
 #' @export
+#' 
+#' @importFrom MASS isoMDS
+#' @importFrom utils read.table write.table
+#' importFrom stats cor
 get_tumor_comparison <- function(CNA_default_weight=0.01, 
                                  MUT_default_weight=0.01,
                                  NA_known_cancer_gene_weight=0.1, 

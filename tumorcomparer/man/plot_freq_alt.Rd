@@ -4,18 +4,18 @@
 \alias{plot_freq_alt}
 \title{Plot mutation and copy number fractions}
 \usage{
-plot_freq_alt(num_cell_lines, num_tumors, composite_mut, composite_cna,
+plot_freq_alt(cell_line_ids, num_tumors, composite_mut, composite_cna,
   tumor_color = "orange", cell_line_color = "blue", tumor_shape = 17,
   cell_line_shape = 20)
 }
 \arguments{
-\item{num_cell_lines}{number of cell lines from FIX FUNCTION X}
+\item{num_tumors}{number of tumors in the composite matrix}
 
-\item{num_tumors}{number of cell lines from FIX FUNCTION Y}
+\item{composite_mut}{a composite (both tumor and cell line information) matrix
+with only mutation information}
 
-\item{composite_mut}{a composite (both tumor and cell line information) matrix with only mutation information}
-
-\item{composite_cna}{a composite (both tumor and cell line information) matrix with only copy number information}
+\item{composite_cna}{a composite (both tumor and cell line information) matrix
+with only copy number information}
 
 \item{tumor_color}{a color for tumor points (DEFAULT: orange)}
 
@@ -24,6 +24,8 @@ plot_freq_alt(num_cell_lines, num_tumors, composite_mut, composite_cna,
 \item{tumor_shape}{an integer for an R plot PCH symbol}
 
 \item{cell_line_shape}{an integer for an R plot PCH symbol}
+
+\item{num_cell_lines}{number of cell lines in the composite matrix}
 }
 \value{
 Nothing is returned

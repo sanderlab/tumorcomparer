@@ -10,10 +10,7 @@ License: LGPL-3
 LazyData: true
 Depends:
     R (>= 3.1.1),
-    ggplot2,
-    cluster,
-    MASS, 
-    RColorBrewer
+    MASS
 Suggests:
     knitr, 
     shiny

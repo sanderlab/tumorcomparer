@@ -19,6 +19,8 @@
 #'
 #' @concept tumorcomparer
 #' @export
+#' 
+#' @importFrom graphics plot text
 plot_mds <- function(cell_lines_with_both_MUT_and_CNA, tumors_with_both_MUT_and_CNA, dist_mat, cell_line_ids=NULL, tumor_color="orange", cell_line_color="blue", tumor_shape=17, cell_line_shape=20) {
   # NOTE: Dist should be 
   #dist_mat <- 1-cor_weighted

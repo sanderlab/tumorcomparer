@@ -26,6 +26,7 @@ library(tumorcomparer)
 
 ## Plot SIF
 ```{r}
+cell_line_ids <- sapply(cell_lines_with_both_MUT_and_CNA, return_first_part)
 ```
 
 
