@@ -17,7 +17,10 @@
 #'
 #' @concept tumorcomparer
 #' @export
-plot_freq_alt <- function(num_cell_lines, num_tumors, composite_mut, composite_cna, tumor_color="orange", cell_line_color="blue", tumor_shape=17, cell_line_shape=20) {
+#' 
+#' @importFrom graphics plot text
+plot_freq_alt <- function(cell_line_ids, num_tumors, composite_mut, composite_cna, tumor_color="orange", cell_line_color="blue", tumor_shape=17, cell_line_shape=20) {
+  num_cell_lines <- length(cell_line_ids)
   #num_cell_lines <- length(cell_lines_with_both_MUT_and_CNA)
   #num_tumors <- length(tumors_with_both_MUT_and_CNA)
   
