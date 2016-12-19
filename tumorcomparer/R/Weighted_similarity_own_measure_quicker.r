@@ -40,6 +40,8 @@ rownames(composite_CNA) <- paste(rownames(composite_CNA),"CNA",sep="_")
 rownames(composite_CNA_high_level_only) <- paste(rownames(composite_CNA_high_level_only),"CNA",sep="_")
 
 composite_mat <- rbind(composite_MUT,composite_CNA)
+
+# FIX: FREQ ALT; REPLACE ALT_MAT WITH COMP_MAT
 alt_mat <- rbind(composite_MUT,composite_CNA)
 write.table(composite_mat,file="composite_alteration_matrix.txt",sep="\t",quote=F)
 composite_mat_high_level_only <- rbind(composite_MUT,composite_CNA_high_level_only)
@@ -141,6 +143,8 @@ weighted.corr <- function (a, b, w = rep(1, nrow(a))/nrow(a))
 #cor_weighted <- weighted.corr(as.matrix(alt_mat),as.matrix(alt_mat),gene_weights)
 #cor_unweighted <- cor(alt_mat)
 
+
+# FIX: NEED TO GET TO THE PLOT
 num_cell_lines <- length(cell_lines_with_both_MUT_and_CNA)
 num_tumors <- length(tumors_with_both_MUT_and_CNA)
 cell_lines_and_tumors.col <- c(rep("orange",num_cell_lines),rep("blue",num_tumors))
@@ -154,6 +158,7 @@ plot(freq_alt_samplewise_mut,freq_alt_samplewise_cna_high_level_only,col=cell_li
 text(freq_alt_samplewise_mut[1:length(cell_lines_with_both_MUT_and_CNA)],freq_alt_samplewise_cna_high_level_only[1:length(cell_lines_with_both_MUT_and_CNA)],labels=cell_lines_with_both_MUT_and_CNA,cex=0.6)
 #text(freq_alt_samplewise_mut[1:length(cell_lines_with_both_MUT_and_CNA)],freq_alt_samplewise_cna[1:length(cell_lines_with_both_MUT_and_CNA)],labels=cell_line_ids,cex=0.6)
 
+# IS THIS USED??? 
 compute_weighted_distance_excluding_zero_zero_matches <- function(alt_mat, gene_weights)
 {
   for(i in 1:ncol(alt_mat))
@@ -211,11 +216,12 @@ weighted_distance_excluding_zero_zero_matches <- apply(composite_mat, 2, functio
 #weighted_distance_excluding_zero_zero_matches_CNA_only <- weighted_distance_excluding_zero_zero_matches_CNA_only + 1e-6
 #isomdsfit <- isoMDS(weighted_distance_excluding_zero_zero_matches_CNA_only,k=2)
 #plot(isomdsfit$points,col=cell_lines_and_tumors.col,pch=cell_lines_and_tumors.pch,xlab="Coordinate 1", ylab="Coordinate 2",main="Weighted distance using CNAs only, excluding zero-zero matches")
-text(isomdsfit$points[1:num_cell_lines,],labels=cell_line_ids,cex=0.6)
+#text(isomdsfit$points[1:num_cell_lines,],labels=cell_line_ids,cex=0.6)
 
 
 weighted_distance_excluding_zero_zero_matches[which(is.na(weighted_distance_excluding_zero_zero_matches))] <- 0
 weighted_distance_excluding_zero_zero_matches <- weighted_distance_excluding_zero_zero_matches + 1e-6
+# FIX: MDS fite
 isomdsfit <- isoMDS(weighted_distance_excluding_zero_zero_matches,k=2)
 plot(isomdsfit$points,col=cell_lines_and_tumors.col,pch=cell_lines_and_tumors.pch,xlab="Coordinate 1", ylab="Coordinate 2",main="Weighted distance, excluding zero-zero matches")
 text(isomdsfit$points[1:num_cell_lines,],labels=cell_line_ids,cex=0.6)
@@ -226,11 +232,13 @@ text(isomdsfit$points[1:num_cell_lines,],labels=cell_line_ids,cex=0.6)
 #plot(isomdsfit_high_level_only$points,col=cell_lines_and_tumors.col,pch=cell_lines_and_tumors.pch,xlab="Coordinate 1", ylab="Coordinate 2",main="Weighted distance, excluding zero-zero matches, excluding low-level CNAs")
 #text(isomdsfit_high_level_only$points[1:num_cell_lines,],labels=cell_line_ids,cex=0.6)
 
-return_top_n_shared_features <- function(alt_mat,i,j,n,gene_weights)
-	return(rev(sort(gene_weights[(which((alt_mat[,i] == alt_mat[,j]) &  (alt_mat[,i] != 0) ))]))[1:n])
+# DROP FUNCTIONS
+#return_top_n_shared_features <- function(alt_mat,i,j,n,gene_weights)
+#	return(rev(sort(gene_weights[(which((alt_mat[,i] == alt_mat[,j]) &  (alt_mat[,i] != 0) ))]))[1:n])
+#return_top_n_features_of_sample <- function(alt_mat,i,n,gene_weights)
+#        return(rev(sort(gene_weights[(which(alt_mat[,i] != 0))]))[1:n])
 
-return_top_n_features_of_sample <- function(alt_mat,i,n,gene_weights)
-        return(rev(sort(gene_weights[(which(alt_mat[,i] != 0))]))[1:n])
+
 #k <- num_tumors-1 # Number of nearest neighbors to consider
 #k <- min(10, 0.5*num_tumors) # Number of nearest neighbors to consider
 #k <- max(10, 0.5*num_tumors) # Number of nearest neighbors to consider
@@ -244,7 +252,7 @@ k <- 0.1*num_tumors
 #dist <- 1 - as.matrix(cosine_weighted)
 #dist <- 1 - as.matrix(cor_weighted_high_level_only)
 #dist <- as.matrix(unweighted_distance_excluding_zero_zero_matches)
-dist <- as.matrix(weighted_distance_excluding_zero_zero_matches)
+dist <- as.matrix(weighted_distance_excluding_zero_zero_matches) ## SAME AS DIST
 #dist <- as.matrix(weighted_distance_excluding_zero_zero_matches_high_level_only)
 colnames(dist) <- colnames(composite_mat)
 rownames(dist) <- colnames(composite_mat)
