@@ -2,24 +2,31 @@
 #'
 #' @param CNA_default_weight default weight for copy number alterations (CNA) (DEFAULT: 0.01)
 #' @param MUT_default_weight default weight for mutation alterations (MUT) (DEFAULT: 0.01)
-#' @param CNA_known_cancer_gene_weight a default weight (DEFAULT: 0.1) [FIX]
-#' @param MUT_known_cancer_gene_weight a default weight (DEFAULT: 0.1) [FIX]
-#' @param tumor_mut_file a file with [FIX]
-#' @param tumor_cna_file a file with [FIX]
-#' @param cell_line_mut_file [FIX]
-#' @param cell_line_cna_file [FIX]
-#' @param pancancer_gene_weights_file [FIX]
-#' @param cancer_specific_gene_weights_file [FIX]
+#' @param CNA_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in the TCGA pan-cancer CNA list (GISTIC peaks)
+#' @param MUT_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in the TCGA pan-cancer mutation list (MUTSIG SMGs)
+#' @param tumor_mut_file a file with binary mutation data for tumors, over the 1651 genes profiled by CCLE
+#' @param tumor_cna_file a file with 5-valued GISTIC data for tumors, over 1529 genes (subset of 1651 genes above)
+#' @param cell_line_mut_file a file with binary mutation data for cell lines, over the 1651 genes profiled by CCLE
+#' @param cell_line_cna_file a file with 5-valued GISTIC data for cell lines, over 1529 genes (subset of 1651 genes above)
+#' @param pancancer_gene_weights_file - a file with weights for the TCGA pan-cancer set of recurrent mutations and CNAs (copy number alterations)
+#' @param cancer_specific_gene_weights_file a file with weights for cancer-specific set of recurrent mutations and CNAs (copy number alterations)
 #' @param output_composite_alteration_matrix_file a string with filename for output of the the composite alteration matrix (see Details) (DEFAULT: "composite_alteration_matrix.txt") 
-#' @param distance_similarity_measure (See Details) (OPTIONS: "correlated_weights", "generalized_jaccard") [FIX]
+#' @param distance_similarity_measure (See Details) 
+#'   (OPTIONS: "weighted_correlation", "generalized_jaccard") 
 #' 
-#' @details The composite matrix is a single matrix where the columns are samples (i.e. tumors AND cell line IDs) and the rows are an rbind() of mutations (with 1 or 0 outputs from MutSig for each sample) and copy number alterations from GISTIC (with values -2, -1, 0, 1, 2) [FIX]
-#'
-#' [FIX]
+#' @details The composite matrix is a single matrix where the columns are samples 
+#'   (i.e. tumors AND cell line IDs) and the rows are an rbind() of mutations 
+#'   (with 1 or 0 outputs for each sample) and copy number alterations from 
+#'   GISTIC (with values -2, -1, 0, 1, 2). Available similarity/distance measures include: 
+#'   \itemize{
+#'   \item{"weighted_correlation"}{Weighted correlation, based on weighted means and standard deviations}
+#'   \item{"generalized_jaccard"}{a }
+#'    }
+#'    
 #' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on parameter "distance_similarity_measure".
 #' \itemize{
 #'   \item{"dist"}{a matrix of pairwise distances}
-#'   \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to two dimensions}
+#'   \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to two dimensions via MDS - multidimensional scaling}
 #'   \item{"cor_unweighted"}{a matrix of unweighted pairwise correlations}
 #'   \item{"composite_mat"}{the composite matrix (see Details)}
 #'   \item{"cell_lines_with_both_MUT_and_CNA"}{a vector of cell lines with both mutation (MUT) and copy number alteration (CNA) information}
@@ -41,7 +48,7 @@ get_tumor_comparison <- function(CNA_default_weight=0.01,
                                  pancancer_gene_weights_file="Default_weights_for_known_cancer_genes.txt", 
                                  cancer_specific_gene_weights_file="Genes_and_weights.txt", 
                                  output_composite_alteration_matrix_file="composite_alteration_matrix.txt",
-                                 distance_similarity_measure=c("correlated_weights", "generalized_jaccard")) {
+                                 distance_similarity_measure=c("weighted_correlation", "generalized_jaccard")) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
   tumor_MUT <- read.table(tumor_mut_file, sep = "\t", header = TRUE, row.names = 1)
@@ -149,7 +156,7 @@ get_tumor_comparison <- function(CNA_default_weight=0.01,
   cor_unweighted <- cor(composite_mat)
   
   switch(distance_similarity_measure, 
-         correlated_weights={
+         weighted_correlation={
            # CALCULATE CORRELATIONS ----
            # Including low-level CNAs
            cor_weighted <- calc_weighted_corr(as.matrix(composite_mat),
@@ -158,21 +165,21 @@ get_tumor_comparison <- function(CNA_default_weight=0.01,
            # Excluding low-levels CNAs
            #cor_weighted_high_level_only <- calc_weighted_corr(as.matrix(composite_mat_high_level_only),as.matrix(composite_mat_high_level_only),gene_weights)
            
-          # FIX 
+          # Convert to distance, and call multidimensional scaling via isoMDS
           dist <- 1 - as.matrix(cor_weighted)
-          isomdsfit <- isoMDS(cor_weighted, k=2)
+          isomdsfit <- isoMDS(dist, k=2)
          },
          generalized_jaccard={
-           # FIX 
+           # Calculate weighted distance based on Jaccard's coefficient
            weighted_distance_excluding_zero_zero_matches <- apply(composite_mat, 2, function(x_i,weights=gene_weights) 
-             sapply(1:ncol(composite_mat), function(j) pair_dist(x_i, composite_mat[,j], gene_weights)))
+             sapply(1:ncol(composite_mat), function(j) pair_dist(x_i, composite_mat[,j], gene_weights))) # repeatedly apply function for weighted distance between a pair of coulmns/vectors
            
            # Change missing or small values
            weighted_distance_excluding_zero_zero_matches[which(is.na(weighted_distance_excluding_zero_zero_matches))] <- 0
            weighted_distance_excluding_zero_zero_matches <- weighted_distance_excluding_zero_zero_matches + 1e-6
-           
+           # Call multidimensional scaling via isoMDS
            dist <- weighted_distance_excluding_zero_zero_matches
-           isomdsfit <- X
+           isomdsfit <-  isoMDS(dist, k=2)
          }
   )
 

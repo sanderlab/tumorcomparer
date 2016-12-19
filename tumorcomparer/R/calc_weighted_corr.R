@@ -2,9 +2,9 @@
 #' 
 #' @param a numeric matrix
 #' @param b numeric matrix 
-#' @param w FIX ME WHY?
+#' @param w alteration weights
 #' 
-#' @return a weighted similarity correlation matrix 
+#' @return a weighted correlation (similarity) matrix 
 #' 
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'
