@@ -1,13 +1,14 @@
 #' Run a comparison between 
 #' 
-#' @param num_cell_lines number of cell lines from FIX FUNCTION X
-#' @param num_tumors number of cell lines from FIX FUNCTOIN Y
-#' @param composite_mut a composite (both tumor and cell line information) matrix with only mutation information
-#' @param composite_cna a composite (both tumor and cell line information) matrix with only copy number information
+#' 
+#' @param composite_mut a composite (both tumor and cell line information) matrix 
+#' with only mutation information
+#' @param composite_cna a composite (both tumor and cell line information) matrix 
+#' with only copy number information
 #' @param tumor_color a color for tumor points (DEFAULT: orange)
 #' @param cell_line_color a color for tumor points (DEFAULT: blue)
-#' @param tumor_shape an integer for an R plot PCH symbol
-#' @param cell_line_shape an integer for an R plot PCH symbol
+#' @param tumor_shape an integer for an R plot PCH symbol (DEFAULT: 17)
+#' @param cell_line_shape an integer for an R plot PCH symbol (DEFAULT: 20)
 #' @param cell_line_ids a vector of strings with cell line names. This will be taken from
 #'   cell_lines_with_both_MUT_and_CNA and assumed to be in the CCLE format (i.e. CELLLINE_TISSUE)
 #' @param dist_mat a matrix of distances 
@@ -22,8 +23,8 @@ plot_mds <- function(cell_lines_with_both_MUT_and_CNA, tumors_with_both_MUT_and_
   # NOTE: Dist should be 
   #dist_mat <- 1-cor_weighted
   
-  num_cell_lines <- length(cell_lines_with_both_MUT_and_CNA))
-  num_tumors <- length(tumors_with_both_MUT_and_CNA))
+  num_cell_lines <- length(cell_lines_with_both_MUT_and_CNA)
+  num_tumors <- length(tumors_with_both_MUT_and_CNA)
   
   cell_lines_and_tumors.col <- c(rep(tumor_color, num_cell_lines), rep(cell_line_color, num_tumors))
   cell_lines_and_tumors.pch <- c(rep(tumor_shape, num_cell_lines), rep(cell_line_shape, num_tumors))
