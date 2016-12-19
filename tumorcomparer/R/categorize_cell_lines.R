@@ -1,7 +1,7 @@
 #' Categorize cell lines by the level of similarity [FIX]
 #' 
-#' @param fraction_of_tumors_for_comparison fraction of tumors used in a k-nearest neighbor comparison? [FIX]
-#' @param similality_mat a mat [FIX]
+#' @param fraction_of_tumors_for_comparison fraction of tumors used in a k-nearest neighbor comparison? (DEFAULT: 0.1) [FIX]
+#' @param dist_mat a mat [FIX]
 #' @param composite_mat a mat [FIX]
 #' @param cell_lines_with_both_MUT_and_CNA a vector [FIX]
 #' @param tumors_with_both_MUT_and_CNA a vector [FIX]
@@ -10,14 +10,16 @@
 #'
 #' @concept tumorcomparer
 #' @export
-categorize_cell_lines <- function(x) {
-  # CATEGORIZE ----
+categorize_cell_lines <- function(fraction_of_tumors_for_comparison=0.1, 
+                                  dist_mat, composite_mat, 
+                                  cell_lines_with_both_MUT_and_CNA, 
+                                  tumors_with_both_MUT_and_CNA) {
+  
   num_cell_lines <- length(intersect(colnames(composite_mat),cell_lines_with_both_MUT_and_CNA))
   num_tumors <- length(intersect(colnames(composite_mat),tumors_with_both_MUT_and_CNA))
   
   ## Set K-nearest neighbors 
   k <- fraction_of_tumors_for_comparison*num_tumors
-  dist_mat <- 1 - as.matrix(cor_weighted)
   
   colnames(dist_mat) <- colnames(composite_mat)
   rownames(dist_mat) <- colnames(composite_mat)

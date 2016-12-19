@@ -4,7 +4,7 @@ Title: Application to compare tumors using molecular data and weighted similarit
 Version: 0.99.1
 Date: 2016-12-16
 Author: Rileen Sinha, Augustin Luna
-Maintainer: Rileen Sinha <rileen@gmail.com>,Augustin Luna <lunaa@cbio.mskcc.org>
+Maintainer: Rileen Sinha <rileen@gmail.com>,Augustin Luna <aluna@jimmy.harvard.edu>
 Description: Application to compare tumors using molecular data and weighted similarity
 License: LGPL-3
 LazyData: true
@@ -12,9 +12,11 @@ Depends:
     R (>= 3.1.1),
     ggplot2,
     cluster,
-    MASS
+    MASS, 
+    RColorBrewer
 Suggests:
-    knitr
+    knitr, 
+    shiny
 URL: https://bitbucket.org/cbio_mskcc/similarity
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
