@@ -39,7 +39,7 @@ plot_freq_alt <- function(comparison_list, tumor_color="orange", cell_line_color
     cell_line_ids <- cell_lines_with_both_MUT_and_CNA
   }
   
-  plot(freq_alt_samplewise_mut, freq_alt_samplewise_cna, col=cell_lines_and_tumors.col, pch=cell_lines_and_tumors.pch, xlim=c(0,max_xlim), ylim=c(0,1), xlab="Fraction Genes Mutated", ylab="Fraction genes copy number altered",main="Using all CNAs")
+  plot(freq_alt_samplewise_mut, freq_alt_samplewise_cna, col=cell_lines_and_tumors.col, pch=cell_lines_and_tumors.pch, xlim=c(0,max_xlim), ylim=c(0,1), xlab="Fraction Genes Mutated", ylab="Fraction genes copy number altered",main="Frequency of Alterations in Cell Lines and Tumors")
   text(freq_alt_samplewise_mut[1:length(cell_line_ids)], freq_alt_samplewise_cna[1:length(cell_line_ids)], labels=cell_line_ids,cex=0.6)
   
   #freq_alt_samplewise_cna_high_level_only <- apply(composite_CNA_high_level_only,2,compute_freq_alt)

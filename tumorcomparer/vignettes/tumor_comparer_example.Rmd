@@ -64,6 +64,12 @@ comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_
 names(comparison)
 ```
 
+## Plot Alteration Frequency Plot Results
+```{r}
+# Get shortened cell line names
+results <- plot_freq_alt(comparison_list=comparison, trim_cell_line_names=TRUE)
+```
+
 ## Categorize Results
 ```{r}
 categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1, 
@@ -74,6 +80,8 @@ categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1,
                       trim_cell_line_names=TRUE)
 # See returned outputs
 names(categorization)
+
+kable(categorization$categorization)
 ```
 
 ## Plot MDS Results
@@ -81,14 +89,10 @@ names(categorization)
 plot_mds(comparison_list=comparison, categorization_list=categorization, trim_cell_line_names = TRUE)
 ```
 
-## Plot Alteration Frequency Plot Results
+## Session Information
 ```{r}
-# Get shortened cell line names
-results <- plot_freq_alt(comparison_list=comparison, trim_cell_line_names=TRUE)
+sessionInfo()
 ```
-
-
-
 
 
 
