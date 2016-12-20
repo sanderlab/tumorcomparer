@@ -21,9 +21,15 @@ Comparison of cell lines (the most popular experimental models of cancer) and tu
 
 This package includes a general computational method, TumorComparer, to systematically quantify similarities and differences between tumor material when detailed genetic and molecular profiles are available. Importantly, the comparisons can be flexibly tailored to a particular biological question by (interactively) placing a higher weight on functional alterations of interest (weighted similarity). This application allows this comparison to be run on cell lines in the comparison of six different cancer types to identify suitable as well as apparently unsuitable cell lines (including some widely used ones) for each cancer type. 
 
-## Setup 
+## Getting started 
 ```{r loadLibraries, message=FALSE, warning=FALSE}
 library(tumorcomparer)
+```
+
+A list of all accessible vignettes and methods is available with the following command.
+
+```{r}
+help.search("tumorcomparer")
 ```
 
 ## Load Data
@@ -70,9 +76,15 @@ categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1,
 names(categorization)
 ```
 
-## Plot Results
+## Plot MDS Results
 ```{r}
 plot_mds(comparison_list=comparison, categorization_list=categorization, trim_cell_line_names = TRUE)
+```
+
+## Plot Alteration Frequency Plot Results
+```{r}
+# Get shortened cell line names
+results <- plot_freq_alt(comparison_list=comparison, trim_cell_line_names=TRUE)
 ```
 
 

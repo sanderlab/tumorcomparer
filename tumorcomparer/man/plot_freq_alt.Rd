@@ -4,20 +4,12 @@
 \alias{plot_freq_alt}
 \title{Plot mutation and copy number fractions}
 \usage{
-plot_freq_alt(cell_line_ids, num_tumors, composite_mut, composite_cna,
-  tumor_color = "orange", cell_line_color = "blue", tumor_shape = 17,
-  cell_line_shape = 20)
+plot_freq_alt(comparison_list, tumor_color = "orange",
+  cell_line_color = "blue", tumor_shape = 17, cell_line_shape = 20,
+  trim_cell_line_names = TRUE, max_xlim = 1)
 }
 \arguments{
-\item{cell_line_ids}{a vector of strings for cell lines in the composite matrix}
-
-\item{num_tumors}{number of tumors in the composite matrix}
-
-\item{composite_mut}{a composite (both tumor and cell line information) matrix
-with only mutation information}
-
-\item{composite_cna}{a composite (both tumor and cell line information) matrix
-with only copy number information}
+\item{comparison_list}{the results of run_comparison() (See: run_comparison())}
 
 \item{tumor_color}{a color for tumor points (DEFAULT: orange)}
 
@@ -26,6 +18,11 @@ with only copy number information}
 \item{tumor_shape}{an integer for an R plot PCH symbol}
 
 \item{cell_line_shape}{an integer for an R plot PCH symbol}
+
+\item{trim_cell_line_names}{a boolean whether to trim the the cell lines; 
+this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE)}
+
+\item{max_xlim}{a value between 0 and 1 the maximum value to for x-axis}
 }
 \value{
 Nothing is returned

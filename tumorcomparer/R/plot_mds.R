@@ -51,6 +51,8 @@ plot_mds <- function(comparison_list,
   
   if(trim_cell_line_names) {
     cell_line_ids <- sapply(cell_lines_with_both_MUT_and_CNA, return_first_part)
+  } else {
+    cell_line_ids <- cell_lines_with_both_MUT_and_CNA
   }
   
   #plot(isomdsfit$points,col=cell_lines_and_tumors.col, pch=cell_lines_and_tumors.pch, xlab="Coordinate 1", ylab="Coordinate 2" ,main="Weighted Correlation, including low-level CNAs")

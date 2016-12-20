@@ -215,6 +215,8 @@ run_comparison <- function(CNA_default_weight=0.01,
     isomdsfit = isomdsfit, 
     cor_unweighted = cor_unweighted,
     composite_mat = composite_mat,
+    composite_CNA = composite_CNA,
+    composite_MUT = composite_MUT,
     cell_lines_with_both_MUT_and_CNA = cell_lines_with_both_MUT_and_CNA,
     tumors_with_both_MUT_and_CNA = tumors_with_both_MUT_and_CNA
   )
