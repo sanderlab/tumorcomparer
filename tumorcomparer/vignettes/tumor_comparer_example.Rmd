@@ -3,9 +3,11 @@ title: "Tumor Comparer"
 output:
   html_notebook: default
   html_document:
-    toc: yes
+    toc: true
+    depth: 3  # upto three depths of headings (specified by #, ## and ###)
+    number_sections: true  ## if you want number sections at each table header
   pdf_document:
-    toc: yes
+    toc: true
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
@@ -28,7 +30,7 @@ library(tumorcomparer)
 
 A list of all accessible vignettes and methods is available with the following command.
 
-```{r}
+```{r, eval=FALSE}
 help.search("tumorcomparer")
 ```
 
@@ -49,8 +51,10 @@ output_composite_alteration_matrix_file <- NULL
 
 # Use weighted correlation
 distance_similarity_measure <- "weighted_correlation"
+```
 
-# Run comparison 
+## Run Comparison
+```{r}
 comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_file, 
                cancer_specific_gene_weights_file=cancer_specific_gene_weights_file, 
                tumor_mut_file=tumor_mut_file, 
@@ -66,8 +70,7 @@ names(comparison)
 
 ## Plot Alteration Frequency Plot Results
 ```{r}
-# Get shortened cell line names
-results <- plot_freq_alt(comparison_list=comparison, trim_cell_line_names=TRUE)
+plot_freq_alt(comparison_list=comparison, trim_cell_line_names=TRUE)
 ```
 
 ## Categorize Results
@@ -81,11 +84,56 @@ categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1,
 # See returned outputs
 names(categorization)
 
-kable(categorization$categorization)
+kable(head(categorization$categorization))
 ```
 
 ## Plot MDS Results
 ```{r}
+plot_mds(comparison_list=comparison, categorization_list=categorization, trim_cell_line_names = TRUE)
+```
+
+## Single Cell Line Example
+
+DESCRIBE HERE SOMETHING
+
+### SUBSECTION 
+SOMETHING ELSE
+
+```{r}
+cell_line_mut_file <- system.file("extdata", "single_cell_line_example", "cell_line_MUT.txt", package="tumorcomparer")
+cell_line_cna_file <- system.file("extdata", "single_cell_line_example", "cell_line_CNA.txt", package="tumorcomparer")
+
+cell_line_mut <- read.table(cell_line_mut_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+cell_line_cna <- read.table(cell_line_cna_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+
+# Mutation data
+kable(head(cell_line_mut))
+
+# Copy number data
+kable(head(cell_line_cna))
+
+comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_file, 
+               cancer_specific_gene_weights_file=cancer_specific_gene_weights_file, 
+               tumor_mut_file=tumor_mut_file, 
+               tumor_cna_file=tumor_cna_file,
+               cell_line_mut_file=cell_line_mut_file,
+               cell_line_cna_file=cell_line_cna_file, 
+               output_composite_alteration_matrix_file=output_composite_alteration_matrix_file,
+               distance_similarity_measure=distance_similarity_measure)
+
+categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1, 
+                      dist_mat=comparison$dist_mat,
+                      composite_mat=comparison$composite_mat,
+                      cell_lines_with_both_MUT_and_CNA=comparison$cell_lines_with_both_MUT_and_CNA, 
+                      tumors_with_both_MUT_and_CNA=comparison$tumors_with_both_MUT_and_CNA,
+                      trim_cell_line_names=TRUE)
+
+# See returned outputs
+names(categorization)
+
+kable(head(categorization$categorization))
+
+plot_freq_alt(comparison_list=comparison, trim_cell_line_names=TRUE)
 plot_mds(comparison_list=comparison, categorization_list=categorization, trim_cell_line_names = TRUE)
 ```
 
