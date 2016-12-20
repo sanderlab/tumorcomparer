@@ -4,13 +4,11 @@
 \alias{categorize_cell_lines}
 \title{Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)}
 \usage{
-categorize_cell_lines(cell_line_ids, fraction_of_tumors_for_comparison = 0.1,
-  dist_mat, composite_mat, cell_lines_with_both_MUT_and_CNA,
-  tumors_with_both_MUT_and_CNA)
+categorize_cell_lines(fraction_of_tumors_for_comparison = 0.1, dist_mat,
+  composite_mat, cell_lines_with_both_MUT_and_CNA, tumors_with_both_MUT_and_CNA,
+  trim_cell_line_names = TRUE)
 }
 \arguments{
-\item{cell_line_ids}{a vector of strings for cell lines in the composite matrix}
-
 \item{fraction_of_tumors_for_comparison}{fraction of tumors used in a k-nearest
 neighbor comparison (DEFAULT: 0.1)}
 
@@ -22,6 +20,17 @@ neighbor comparison (DEFAULT: 0.1)}
 \item{cell_lines_with_both_MUT_and_CNA}{IDs/names of cell lines with both mutation and CNA data}
 
 \item{tumors_with_both_MUT_and_CNA}{IDs of tumors with both mutation and CNA data}
+
+\item{trim_cell_line_names}{a boolean whether to trim the the cell lines; 
+this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE); (DEFAULT: TRUE)}
+}
+\value{
+a list with the following items: 
+\itemize{
+  \item{"mean_similarity_cell_line_to_k_nearest_tumors"}{the mean similarity of each cell line to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison*number of tumors}
+  \item{"mean_similarity_tumor_to_k_nearest_tumors"}{the mean similarity of each tumor sample to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison*number of tumors}
+  \item{"categorization"}{a 2-column data.frame with the cell line categorizations: Sample_ID and Category; Category values can be: "Great", "Good", "Moderately Good", "Poor", "Outliers"}
+}
 }
 \description{
 Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)

@@ -1,37 +1,47 @@
-#' Run a comparison between 
+#' Plot the results from run_comparison as a two dimension multi-dimensional scaling (MDS) plot
 #' 
-#' @param cell_lines_with_both_MUT_and_CNA a vector of cell line IDs/names with 
-#'   both mutation (MUT) and copy number alteration (CNA) information (see run_comparison)
-#' @param tumors_with_both_MUT_and_CNA a vector of tumor IDs with both mutation 
-#'   (MUT) and copy number alteration (CNA) information
-#' @param tumor_color a color for tumor points (DEFAULT: orange)
-#' @param cell_line_color a color for tumor points (DEFAULT: blue)
+#' @param comparison_list the results of run_comparison() (See: run_comparison())
+#' @param categorization_list the results of categorize_cell_lines() (See: categorize_cell_lines())
+#' @param tumor_color a color for tumor points (DEFAULT: blue)
+#' @param cell_line_color a color for tumor points (DEFAULT: orange)
+#' @param show_color_gradient a boolean, cell lines will appear with a gradient of 
+#'   colors with those with the cell_line_color being least similar to the tumors 
+#'   and those being similar to tumors will have a color closer to the tumor_color.
 #' @param tumor_shape an integer for an R plot PCH symbol (DEFAULT: 17)
 #' @param cell_line_shape an integer for an R plot PCH symbol (DEFAULT: 20)
-#' @param cell_line_ids a vector of strings with cell line names. This will be 
-#'   taken from cell_lines_with_both_MUT_and_CNA and assumed to be in the CCLE format 
-#'   (i.e. CELLLINE_TISSUE); (DEFAULT: NULL, IDs will be taken from parameter 
-#'   cell_lines_with_both_MUT_and_CNA)
+#' @param trim_cell_line_names a boolean whether to trim the the cell lines; 
+#'   this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE)
 #' @param dist_mat a matrix of distances 
 #' 
 #' @return Nothing is returned 
 #' 
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'
+#' @seealso \code{\link{run_comparison}}, \code{\link{categorize_cell_lines}} 
+#'
 #' @concept tumorcomparer
 #' @export
-#' 
-#' @importFrom graphics plot text
-plot_mds <- function(cell_lines_with_both_MUT_and_CNA, 
-                     tumors_with_both_MUT_and_CNA, 
-                     dist_mat, 
-                     cell_line_ids=NULL,
-                     tumor_color="orange", 
-                     cell_line_color="blue", 
-                     tumor_shape=17, 
-                     cell_line_shape=20) {
+#'
+#' @importFrom ggplot2 ggplot aes geom_point geom_text theme_minimal
+plot_mds <- function(comparison_list,
+                     categorization_list,
+                     trim_cell_line_names=FALSE,
+                     tumor_color="blue", 
+                     cell_line_color="orange", 
+                     use_gradient=TRUE,
+                     tumor_shape=20, 
+                     cell_line_shape=17) {
   # NOTE: Dist should be 
   #dist_mat <- 1-cor_weighted
+  
+  # From run_comparison
+  isomdsfit <- comparison_list$isomdsfit
+  cell_lines_with_both_MUT_and_CNA <- comparison_list$cell_lines_with_both_MUT_and_CNA
+  tumors_with_both_MUT_and_CNA <- comparison_list$tumors_with_both_MUT_and_CNA
+  
+  # From categorize_cell_lines
+  mean_similarity_cell_line_to_k_nearest_tumors <- categorization_list$mean_similarity_cell_line_to_k_nearest_tumors
+  mean_similarity_tumor_to_k_nearest_tumors <- categorization_list$mean_similarity_tumor_to_k_nearest_tumors
   
   num_cell_lines <- length(cell_lines_with_both_MUT_and_CNA)
   num_tumors <- length(tumors_with_both_MUT_and_CNA)
@@ -39,20 +49,45 @@ plot_mds <- function(cell_lines_with_both_MUT_and_CNA,
   cell_lines_and_tumors.col <- c(rep(tumor_color, num_cell_lines), rep(cell_line_color, num_tumors))
   cell_lines_and_tumors.pch <- c(rep(tumor_shape, num_cell_lines), rep(cell_line_shape, num_tumors))
   
-  if(!is.null(cell_line_ids)) {
+  if(trim_cell_line_names) {
     cell_line_ids <- sapply(cell_lines_with_both_MUT_and_CNA, return_first_part)
   }
   
-  isomdsfit <- isoMDS(dist_mat, k=2)
-  plot(isomdsfit$points,col=cell_lines_and_tumors.col, pch=cell_lines_and_tumors.pch, xlab="Coordinate 1", ylab="Coordinate 2" ,main="Weighted Correlation, including low-level CNAs")
-  text(x=isomdsfit$points[1:num_cell_lines,1], y=isomdsfit$points[1:num_cell_lines,2]+0.025, labels=cell_line_ids, cex=0.6)
+  #plot(isomdsfit$points,col=cell_lines_and_tumors.col, pch=cell_lines_and_tumors.pch, xlab="Coordinate 1", ylab="Coordinate 2" ,main="Weighted Correlation, including low-level CNAs")
+  #text(x=isomdsfit$points[1:num_cell_lines,1], y=isomdsfit$points[1:num_cell_lines,2]+0.025, labels=cell_line_ids, cex=0.6)
+  
+  dataframe_for_ggplot <- as.data.frame(cbind(isomdsfit$points[,1],isomdsfit$points[,2]))
+  colnames(dataframe_for_ggplot) <- c("Coordinate1", "Coordinate2")
+  dataframe_for_ggplot$Color_for_Sample_Type <- c(rep(cell_line_color,num_cell_lines), rep(tumor_color,num_tumors))
+  dataframe_for_ggplot$Shape_for_Sample_Type  <- c(rep(cell_line_shape,num_cell_lines), rep(tumor_shape,num_tumors))
+  
+  if(use_gradient) {
+    tmp <- map_mean_similarity_to_gradient(
+      mean_similarity_cell_line_to_k_nearest_tumors=mean_similarity_cell_line_to_k_nearest_tumors,
+      mean_similarity_tumor_to_k_nearest_tumors=mean_similarity_tumor_to_k_nearest_tumors,
+      col1=cell_line_color,
+      col2=tumor_color, 
+      numshades=100)
+  } else {
+    tmp <- rep(cell_line_color, num_cell_lines)
+  }
+  
+  # Use gradients for cell lines and tumor_color for all tumors
+  dataframe_for_ggplot$Color_for_Sample_Type_plus_gradient_by_similarity <- c(tmp, rep(tumor_color, num_tumors))
+
+  dataframe_for_ggplot$Labels_for_plot_tumors_blanked  <- c(rep(cell_line_ids),rep("",num_tumors))
+  dataframe_for_ggplot$Size_for_Sample_Type  <- c(rep(3, num_cell_lines), rep(1,num_tumors))
+  
+  ggplot(as.data.frame(dataframe_for_ggplot), aes(x=Coordinate1, y=Coordinate2)) + 
+    geom_point(colour=dataframe_for_ggplot$Color_for_Sample_Type_plus_gradient_by_similarity, size = dataframe_for_ggplot$Size_for_Sample_Type) + 
+    geom_text(label= dataframe_for_ggplot$Labels_for_plot_tumors_blanked) + 
+    theme_minimal()
   
   # IGNORE High level only
   #freq_alt_samplewise_cna_high_level_only <- apply(composite_CNA_high_level_only,2,compute_freq_alt)
   #plot(freq_alt_samplewise_mut,freq_alt_samplewise_cna_high_level_only,col=cell_lines_and_tumors.col,xlab="Fraction Genes Mutated",ylab="Fraction genes copy number altered",pch=cell_lines_and_tumors.pch,ylim=c(0,1),xlim=c(0,1),main="Using high-level CNAs only")
   #text(freq_alt_samplewise_mut[1:length(cell_lines_with_both_MUT_and_CNA)],freq_alt_samplewise_cna_high_level_only[1:length(cell_lines_with_both_MUT_and_CNA)],labels=cell_line_ids,cex=0.6)
   #legend("bottomright",c("Tumors", "Cell Lines"), pch=c(20, 17), cex=.8, col=c("blue", "orange"))
-  
   
   # IGNORE High level only
   # isomdsfit2 <- isoMDS(1- cor_weighted_high_level_only,k=2)

@@ -28,11 +28,51 @@ library(tumorcomparer)
 
 ## Load Data
 ```{r}
-# Load pre-computed weights 
+# Load pre-computed weights from R package
+pancancer_gene_weights_file <- system.file("extdata", "weights", "default_weights_for_known_cancer_genes.txt", package="tumorcomparer")
+cancer_specific_gene_weights_file <- system.file("extdata", "weights", "Genes_and_weights_TCGA_LUSC_based.txt", package="tumorcomparer")
 
+tumor_mut_file <- system.file("extdata", "tumor_alterations", "TCGA_LUSC_MUT.txt", package="tumorcomparer")
+tumor_cna_file <- system.file("extdata", "tumor_alterations", "TCGA_LUSC_CNA.txt", package="tumorcomparer")
 
+cell_line_mut_file <- system.file("extdata", "cell_line_alterations", "CCLE_LUSC_MUT.txt", package="tumorcomparer")
+cell_line_cna_file <- system.file("extdata", "cell_line_alterations", "CCLE_LUSC_CNA.txt", package="tumorcomparer")
 
-cell_line_ids <- sapply(cell_lines_with_both_MUT_and_CNA, return_first_part)
+# Do not save the output
+output_composite_alteration_matrix_file <- NULL
+
+# Use weighted correlation
+distance_similarity_measure <- "weighted_correlation"
+
+# Run comparison 
+comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_file, 
+               cancer_specific_gene_weights_file=cancer_specific_gene_weights_file, 
+               tumor_mut_file=tumor_mut_file, 
+               tumor_cna_file=tumor_cna_file,
+               cell_line_mut_file=cell_line_mut_file,
+               cell_line_cna_file=cell_line_cna_file, 
+               output_composite_alteration_matrix_file=output_composite_alteration_matrix_file,
+               distance_similarity_measure=distance_similarity_measure)
+
+# See returned outputs
+names(comparison)
+```
+
+## Categorize Results
+```{r}
+categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1, 
+                      dist_mat=comparison$dist_mat,
+                      composite_mat=comparison$composite_mat,
+                      cell_lines_with_both_MUT_and_CNA=comparison$cell_lines_with_both_MUT_and_CNA, 
+                      tumors_with_both_MUT_and_CNA=comparison$tumors_with_both_MUT_and_CNA,
+                      trim_cell_line_names=TRUE)
+# See returned outputs
+names(categorization)
+```
+
+## Plot Results
+```{r}
+plot_mds(comparison_list=comparison, categorization_list=categorization, trim_cell_line_names = TRUE)
 ```
 
 

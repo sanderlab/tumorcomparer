@@ -9,7 +9,7 @@ run_comparison(CNA_default_weight = 0.01, MUT_default_weight = 0.01,
   tumor_mut_file = "tumor_MUT.txt", tumor_cna_file = "tumor_CNA.txt",
   cell_line_mut_file = "cell_line_MUT.txt",
   cell_line_cna_file = "cell_line_CNA.txt",
-  pancancer_gene_weights_file = "Default_weights_for_known_cancer_genes.txt",
+  pancancer_gene_weights_file = "default_weights_for_known_cancer_genes.txt",
   cancer_specific_gene_weights_file = "Genes_and_weights.txt",
   output_composite_alteration_matrix_file = "composite_alteration_matrix.txt",
   distance_similarity_measure = c("weighted_correlation",
@@ -21,22 +21,22 @@ run_comparison(CNA_default_weight = 0.01, MUT_default_weight = 0.01,
 \item{MUT_default_weight}{default weight for mutation alterations (MUT) (DEFAULT: 0.01)}
 
 \item{CNA_known_cancer_gene_weight}{a default weight (DEFAULT: 0.1) - genes in 
-the TCGA pan-cancer CNA list (GISTIC peaks)}
+the TCGA pan-cancer CNA list (i.e. GISTIC peaks)}
 
 \item{MUT_known_cancer_gene_weight}{a default weight (DEFAULT: 0.1) - genes in
-the TCGA pan-cancer mutation list (MUTSIG SMGs)}
+the TCGA pan-cancer mutation list (i.e. MUTSIG SMGs)}
 
-\item{tumor_mut_file}{a file with binary mutation data for tumors, over the 
-1651 genes profiled by CCLE}
+\item{tumor_mut_file}{a file with binary mutation data for tumors, (e.g. over the 
+1651 genes profiled by CCLE)}
 
-\item{tumor_cna_file}{a file with 5-valued GISTIC data for tumors, over 
-1529 genes (subset of 1651 genes above)}
+\item{tumor_cna_file}{a file with 5-valued GISTIC data for tumors, (e.g. over 
+1529 genes (subset of 1651 genes above))}
 
 \item{cell_line_mut_file}{a file with binary mutation data for cell lines, 
-over the 1651 genes profiled by CCLE}
+(e.g. over the 1651 genes profiled by CCLE)}
 
 \item{cell_line_cna_file}{a file with 5-valued GISTIC data for cell lines, 
-over 1529 genes (subset of 1651 genes above)}
+(e.g. over 1529 genes (subset of 1651 genes above))}
 
 \item{pancancer_gene_weights_file}{- a file with weights for the TCGA pan-cancer
 set of recurrent mutations and CNAs (copy number alterations). A two-column

@@ -14,7 +14,8 @@
 #' @export
 #' 
 #' @importFrom grDevices colorRampPalette
-map_mean_similarity_to_gradient <- function(mean_similarity_cell_line_to_k_nearest_tumors,
+map_mean_similarity_to_gradient <- function(
+           mean_similarity_cell_line_to_k_nearest_tumors,
            mean_similarity_tumor_to_k_nearest_tumors,
            col1 = "orange",
            col2 = "blue",
