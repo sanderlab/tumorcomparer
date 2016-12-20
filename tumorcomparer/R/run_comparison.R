@@ -102,9 +102,15 @@ run_comparison <- function(CNA_default_weight=0.01,
   composite_CNA_high_level_only <- cbind(cell_line_CNA_high_level_only[genes_in_all_4_files, cell_lines_with_both_MUT_and_CNA], tumor_CNA_high_level_only[genes_in_all_4_files, tumors_with_both_MUT_and_CNA])
   composite_MUT <- cbind(cell_line_MUT[genes_with_MUT_in_both, cell_lines_with_both_MUT_and_CNA], tumor_MUT[genes_with_MUT_in_both, tumors_with_both_MUT_and_CNA])
   
+  colnames(composite_MUT) <- c(cell_lines_with_both_MUT_and_CNA,tumors_with_both_MUT_and_CNA)
+  colnames(composite_CNA) <- c(cell_lines_with_both_MUT_and_CNA,tumors_with_both_MUT_and_CNA)
+  colnames(composite_CNA_high_level_only) <- c(cell_lines_with_both_MUT_and_CNA,tumors_with_both_MUT_and_CNA)
+  
   rownames(composite_MUT) <- paste(rownames(composite_MUT), "MUT", sep = "_")
   rownames(composite_CNA) <- paste(rownames(composite_CNA), "CNA", sep = "_")
   rownames(composite_CNA_high_level_only) <- paste(rownames(composite_CNA_high_level_only), "CNA", sep = "_")
+  
+  
   
   # Generate matrix and convert to matrix 
   composite_mat <- rbind(composite_MUT, composite_CNA)
