@@ -94,10 +94,7 @@ plot_mds(comparison_list=comparison, categorization_list=categorization, trim_ce
 
 ## Single Cell Line Example
 
-DESCRIBE HERE SOMETHING
-
-### SUBSECTION 
-SOMETHING ELSE
+An illustrative example of how investigators can use this in their own research. We use a single cell line - CALU-1, a lung squamous cancer (LUSC) cell line, and genes present in the 341-gene MSK-IMPACT panel, a panel of genes used at Memorial Sloan-Kettering Cancer Center for precision medicine. The comparison is done using the TCGA LUSC tumor cohort and CALU-1, using the subset of MSK-IMPACT genes for which data is available (246). Based on the similarity of CALU-1 to the nearest 10 percent of tumors, as compared to the similarity of the tumors to their nearest 10 percent of tumors in this relatively heterogeneous set, the method assesses CALU-1 as a "moderately good match" to the tumors.
 
 ```{r}
 cell_line_mut_file <- system.file("extdata", "single_cell_line_example", "cell_line_MUT.txt", package="tumorcomparer")
