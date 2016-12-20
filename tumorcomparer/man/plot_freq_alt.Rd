@@ -4,16 +4,16 @@
 \alias{plot_freq_alt}
 \title{Plot mutation and copy number fractions}
 \usage{
-plot_freq_alt(comparison_list, tumor_color = "orange",
-  cell_line_color = "blue", tumor_shape = 17, cell_line_shape = 20,
+plot_freq_alt(comparison_list, tumor_color = "blue",
+  cell_line_color = "orange", tumor_shape = 17, cell_line_shape = 20,
   trim_cell_line_names = TRUE, max_xlim = 1)
 }
 \arguments{
 \item{comparison_list}{the results of run_comparison() (See: run_comparison())}
 
-\item{tumor_color}{a color for tumor points (DEFAULT: orange)}
+\item{tumor_color}{a color for tumor points (DEFAULT: blue)}
 
-\item{cell_line_color}{a color for tumor points (DEFAULT: blue)}
+\item{cell_line_color}{a color for tumor points (DEFAULT: orange)}
 
 \item{tumor_shape}{an integer for an R plot PCH symbol}
 
