@@ -8,9 +8,15 @@ Maintainer: Rileen Sinha <rileen@gmail.com>,Augustin Luna <aluna@jimmy.harvard.e
 Description: Application to compare tumors using molecular data and weighted similarity.
 License: LGPL-3
 LazyData: true
+Imports: 
+    MASS,
+    ggplot2,
+    stats,
+    grDevices,
+    stats,
+    utils
 Depends:
-    R (>= 3.1.1),
-    MASS
+    R (>= 3.2)
 Suggests:
     knitr, 
     shiny
