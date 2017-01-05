@@ -20,15 +20,13 @@ this is optional and used for long cell line names in CCLE format (i.e. CELLLINE
 
 \item{cell_line_color}{a color for tumor points (DEFAULT: orange)}
 
-\item{tumor_shape}{an integer for an R plot PCH symbol (DEFAULT: 17)}
-
-\item{cell_line_shape}{an integer for an R plot PCH symbol (DEFAULT: 20)}
-
-\item{show_color_gradient}{a boolean, cell lines will appear with a gradient of 
+\item{use_gradient}{a boolean, cell lines will appear with a gradient of 
 colors with those with the cell_line_color being least similar to the tumors 
 and those being similar to tumors will have a color closer to the tumor_color.}
 
-\item{dist_mat}{a matrix of distances}
+\item{tumor_shape}{an integer for an R plot PCH symbol (DEFAULT: 17)}
+
+\item{cell_line_shape}{an integer for an R plot PCH symbol (DEFAULT: 20)}
 }
 \value{
 Nothing is returned

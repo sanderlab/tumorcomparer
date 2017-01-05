@@ -13,7 +13,6 @@ Imports:
     ggplot2,
     stats,
     grDevices,
-    stats,
     utils
 Depends:
     R (>= 3.2)
