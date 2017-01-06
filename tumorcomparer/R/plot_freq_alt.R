@@ -41,18 +41,17 @@ plot_freq_alt <- function(comparison_list, tumor_color="blue", cell_line_color="
   }
   
   # Build necessary data.frame
-  dataframe_for_ggplot <- as.data.frame(cbind(isomdsfit$points[,1],isomdsfit$points[,2]))
-  colnames(dataframe_for_ggplot) <- c("Coordinate1", "Coordinate2")
-  dataframe_for_ggplot$Color_for_Sample_Type <- c(rep(cell_line_color,num_cell_lines), rep(tumor_color,num_tumors))
-  dataframe_for_ggplot$Shape_for_Sample_Type  <- c(rep(cell_line_shape,num_cell_lines), rep(tumor_shape,num_tumors))
+  dataframe_for_ggplot <- data.frame(
+    Coordinate1=isomdsfit$points[,1], 
+    Coordinate2=isomdsfit$points[,2], 
+    Color_for_Sample_Type=c(rep(cell_line_color,num_cell_lines), rep(tumor_color,num_tumors)),
+    Shape_for_Sample_Type=c(rep(cell_line_shape,num_cell_lines), rep(tumor_shape,num_tumors)),
+    Fraction_Genes_Mutated=c(freq_alt_samplewise_mut),
+    Fraction_Genes_Copy_Number_Altered=c(freq_alt_samplewise_cna),
+    Labels_for_plot_tumors_blanked=c(rep(cell_line_ids),rep("",num_tumors)),
+    Size_for_Sample_Type=c(rep(3, num_cell_lines), rep(1,num_tumors)))
   
-  dataframe_for_ggplot$Fraction_Genes_Mutated <- c(freq_alt_samplewise_mut)
-  dataframe_for_ggplot$Fraction_Genes_Copy_Number_Altered <- c(freq_alt_samplewise_cna)
-  
-  dataframe_for_ggplot$Labels_for_plot_tumors_blanked  <- c(rep(cell_line_ids),rep("",num_tumors))
-  dataframe_for_ggplot$Size_for_Sample_Type  <- c(rep(3, num_cell_lines), rep(1,num_tumors))
-  
-  ggplot(as.data.frame(dataframe_for_ggplot),aes(x=Fraction_Genes_Mutated,y=Fraction_Genes_Copy_Number_Altered )) +
+  ggplot(dataframe_for_ggplot, aes_string(x="Fraction_Genes_Mutated", y="Fraction_Genes_Copy_Number_Altered")) +
     geom_point(colour= dataframe_for_ggplot$Color_for_Sample_Type, size = dataframe_for_ggplot$Size_for_Sample_Type) + 
     geom_text(label= dataframe_for_ggplot$Labels_for_plot_tumors_blanked) + 
     theme_minimal()

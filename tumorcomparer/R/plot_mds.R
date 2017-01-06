@@ -4,14 +4,13 @@
 #' @param categorization_list the results of categorize_cell_lines() (See: categorize_cell_lines())
 #' @param tumor_color a color for tumor points (DEFAULT: blue)
 #' @param cell_line_color a color for tumor points (DEFAULT: orange)
-#' @param show_color_gradient a boolean, cell lines will appear with a gradient of 
+#' @param use_gradient a boolean, cell lines will appear with a gradient of 
 #'   colors with those with the cell_line_color being least similar to the tumors 
 #'   and those being similar to tumors will have a color closer to the tumor_color.
 #' @param tumor_shape an integer for an R plot PCH symbol (DEFAULT: 17)
 #' @param cell_line_shape an integer for an R plot PCH symbol (DEFAULT: 20)
 #' @param trim_cell_line_names a boolean whether to trim the the cell lines; 
 #'   this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE)
-#' @param dist_mat a matrix of distances 
 #' 
 #' @return Nothing is returned 
 #' 
@@ -22,7 +21,7 @@
 #' @concept tumorcomparer
 #' @export
 #'
-#' @importFrom ggplot2 ggplot aes geom_point geom_text theme_minimal
+#' @importFrom ggplot2 ggplot aes geom_point geom_text theme_minimal aes_string
 plot_mds <- function(comparison_list,
                      categorization_list,
                      trim_cell_line_names=FALSE,
@@ -80,7 +79,7 @@ plot_mds <- function(comparison_list,
   dataframe_for_ggplot$Labels_for_plot_tumors_blanked  <- c(rep(cell_line_ids),rep("",num_tumors))
   dataframe_for_ggplot$Size_for_Sample_Type  <- c(rep(3, num_cell_lines), rep(1,num_tumors))
   
-  ggplot(as.data.frame(dataframe_for_ggplot), aes(x=Coordinate1, y=Coordinate2)) + 
+  ggplot(as.data.frame(dataframe_for_ggplot), aes_string(x="Coordinate1", y="Coordinate2")) + 
     geom_point(colour=dataframe_for_ggplot$Color_for_Sample_Type_plus_gradient_by_similarity, size = dataframe_for_ggplot$Size_for_Sample_Type) + 
     geom_text(label= dataframe_for_ggplot$Labels_for_plot_tumors_blanked) + 
     theme_minimal()
