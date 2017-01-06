@@ -13,11 +13,15 @@ output:
     depth: 3
     number_sections: yes
     toc: yes
-vignette: >
-  %\VignetteIndexEntry{Tumor Comparer} 
-  %\VignetteEngine{knitr::rmarkdown}  
-  %\VignetteEncoding{UTF-8}
 ---
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Tumor Comparer}
+%\VignetteKeywords{tumorcomparer}
+%\VignetteDepends{tumorcomparer}
+%\VignettePackage{tumorcomparer}
+-->
 
 ```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
 require("knitr")
@@ -46,12 +50,18 @@ help.search("tumorcomparer")
 # Load Data
 ```{r}
 # Load pre-computed weights from R package
+# pancancer_gene_weights_file <- "default_weights_for_known_cancer_genes.txt"
+# cancer_specific_gene_weights_file <- "Genes_and_weights_TCGA_LUSC_based.txt"
+# tumor_mut_file <- "TCGA_LUSC_MUT.txt"
+# tumor_cna_file <- "TCGA_LUSC_CNA.txt"
+# cell_line_mut_file <- "CCLE_LUSC_MUT.txt"
+# cell_line_cna_file <- "CCLE_LUSC_CNA.txt"
+
+# NOTE: Example files are embedded in the package and are accessible with system.file()
 pancancer_gene_weights_file <- system.file("extdata", "weights", "default_weights_for_known_cancer_genes.txt", package="tumorcomparer")
 cancer_specific_gene_weights_file <- system.file("extdata", "weights", "Genes_and_weights_TCGA_LUSC_based.txt", package="tumorcomparer")
-
 tumor_mut_file <- system.file("extdata", "tumor_alterations", "TCGA_LUSC_MUT.txt", package="tumorcomparer")
 tumor_cna_file <- system.file("extdata", "tumor_alterations", "TCGA_LUSC_CNA.txt", package="tumorcomparer")
-
 cell_line_mut_file <- system.file("extdata", "cell_line_alterations", "CCLE_LUSC_MUT.txt", package="tumorcomparer")
 cell_line_cna_file <- system.file("extdata", "cell_line_alterations", "CCLE_LUSC_CNA.txt", package="tumorcomparer")
 
@@ -106,6 +116,10 @@ plot_mds(comparison_list=comparison, categorization_list=categorization, trim_ce
 An illustrative example of how investigators can use this in their own research. We use a single cell line - CALU-1, a lung squamous cancer (LUSC) cell line, and genes present in the 341-gene MSK-IMPACT panel, a panel of genes used at Memorial Sloan-Kettering Cancer Center for precision medicine. The comparison is done using the TCGA LUSC tumor cohort and CALU-1, using the subset of MSK-IMPACT genes for which data is available (246). Based on the similarity of CALU-1 to the nearest 10 percent of tumors, as compared to the similarity of the tumors to their nearest 10 percent of tumors in this relatively heterogeneous set, the method assesses CALU-1 as a "moderately good match" to the tumors.
 
 ```{r}
+#cell_line_mut_file <-"cell_line_MUT.txt"
+#cell_line_cna_file <- "cell_line_CNA.txt"
+
+# NOTE: Package embedded file paths
 cell_line_mut_file <- system.file("extdata", "single_cell_line_example", "cell_line_MUT.txt", package="tumorcomparer")
 cell_line_cna_file <- system.file("extdata", "single_cell_line_example", "cell_line_CNA.txt", package="tumorcomparer")
 
