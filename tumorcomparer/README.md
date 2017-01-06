@@ -5,8 +5,6 @@
     library(devtools)
     install_bitbucket(repo="cbio_mskcc/tumorcomparer",
         subdir="tumorcomparer",
-        auth_user="discoverUser",
-        password="discoverUserPassword",
         build_vignette=TRUE,
         dependencies=TRUE,
         args="--no-multiarch")
@@ -24,12 +22,10 @@ if(!require(jsonlite)) install.packages("jsonlite")
 library(jsonlite)
 library(devtools)
 
-cfg <- '{"repo":"cbio_mskcc/tumorcomparer", "build_vignette":true, "dependencies":true, "auth_user":"discoverUser", "password":"discoverUserPassword", "subdir":"tumorcomparer"}'
+cfg <- '{"url":"cbio_mskcc/tumorcomparer", "build_vignette":true, "dependencies":true, "subdir":"tumorcomparer"}'
 
 cfg <- jsonlite::fromJSON(cfg)
-do.call(install_bitbucket, cfg)
+do.call(install_git, cfg)
 
 
 git clone http://discoverUser:discoverUserPassword@bitbucket.org/cbio_mskcc/tumorcomparer.git
-
-

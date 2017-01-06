@@ -19,6 +19,6 @@ Depends:
 Suggests:
     knitr, 
     shiny
-URL: https://bitbucket.org/cbio_mskcc/similarity
+URL: https://bitbucket.org/cbio_mskcc/tumorcomparer
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

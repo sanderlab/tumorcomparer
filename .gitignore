@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 tumorcomparer_0.99.1.tar.gz
+.build.timestamp
+tumor_comparer_example.R

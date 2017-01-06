@@ -1,23 +1,30 @@
 ---
 title: "Tumor Comparer"
+author: "Rileen Sinha and Augustin Luna"
+date: '`r Sys.Date()`'
 output:
+  rmarkdown::html_vignette:
+    self_contained: yes
+    toc: yes
   html_notebook: default
-  html_document:
-    toc: true
-    depth: 3  # upto three depths of headings (specified by #, ## and ###)
-    number_sections: true  ## if you want number sections at each table header
   pdf_document:
-    toc: true
+    toc: yes
+  html_document:
+    depth: 3
+    number_sections: yes
+    toc: yes
+vignette: >
+  %\VignetteIndexEntry{Tumor Comparer} 
+  %\VignetteEngine{knitr::rmarkdown}  
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
 require("knitr")
-opts_knit$set(root.dir="..")
-opts_chunk$set(fig.align="center", fig.width=6, fig.height=6, dpi=300)
-
+opts_chunk$set(fig.align="center", fig.width=6, fig.height=6, dpi=96)
 ```
 
-## Overview
+# Overview
 
 Comparison of cell lines (the most popular experimental models of cancer) and tumors is challenging because of systematic differences between cell lines and tumors due to several factors, including biases in the selection of tumors for establishing cell lines, the process of immortalization of cell lines, and further changes gradually acquired by cell lines over time (e.g. due to passaging in culture).
 
@@ -25,7 +32,7 @@ This package includes a general computational method, TumorComparer, to systemat
 
 This tutorial illustrates the method by comparing 25 lung squamous cancer (LUSC) cell lines from the Cancer Cell Line Encyclopedia (CCLE) to 178 tumors from the cancer genome atlas (TCGA) LUSC cohort, using mutations and copy number alterations, and weights emphasizing recurrent alterations found in the TCGA LUSC cohort. 
 
-## Getting started 
+# Getting started 
 ```{r loadLibraries, message=FALSE, warning=FALSE}
 library(tumorcomparer)
 ```
@@ -36,7 +43,7 @@ A list of all accessible vignettes and methods is available with the following c
 help.search("tumorcomparer")
 ```
 
-## Load Data
+# Load Data
 ```{r}
 # Load pre-computed weights from R package
 pancancer_gene_weights_file <- system.file("extdata", "weights", "default_weights_for_known_cancer_genes.txt", package="tumorcomparer")
@@ -55,7 +62,7 @@ output_composite_alteration_matrix_file <- NULL
 distance_similarity_measure <- "weighted_correlation"
 ```
 
-## Run Comparison
+# Run Comparison
 ```{r}
 comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_file, 
                cancer_specific_gene_weights_file=cancer_specific_gene_weights_file, 
@@ -70,12 +77,12 @@ comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_
 names(comparison)
 ```
 
-## Plot Alteration Frequency Plot Results
+# Plot Alteration Frequency Plot Results
 ```{r}
 plot_freq_alt(comparison_list=comparison, trim_cell_line_names=TRUE)
 ```
 
-## Categorize Results
+# Categorize Results
 ```{r}
 categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1, 
                       dist_mat=comparison$dist_mat,
@@ -89,12 +96,12 @@ names(categorization)
 kable((categorization$categorization))
 ```
 
-## Plot MDS Results
+# Plot MDS Results
 ```{r}
 plot_mds(comparison_list=comparison, categorization_list=categorization, trim_cell_line_names = TRUE)
 ```
 
-## Single Cell Line Example
+# Single Cell Line Example
 
 An illustrative example of how investigators can use this in their own research. We use a single cell line - CALU-1, a lung squamous cancer (LUSC) cell line, and genes present in the 341-gene MSK-IMPACT panel, a panel of genes used at Memorial Sloan-Kettering Cancer Center for precision medicine. The comparison is done using the TCGA LUSC tumor cohort and CALU-1, using the subset of MSK-IMPACT genes for which data is available (246). Based on the similarity of CALU-1 to the nearest 10 percent of tumors, as compared to the similarity of the tumors to their nearest 10 percent of tumors in this relatively heterogeneous set, the method assesses CALU-1 as a "moderately good match" to the tumors.
 
@@ -136,7 +143,7 @@ plot_freq_alt(comparison_list=comparison, trim_cell_line_names=TRUE)
 plot_mds(comparison_list=comparison, categorization_list=categorization, trim_cell_line_names = TRUE)
 ```
 
-## Session Information
+# Session Information
 ```{r}
 sessionInfo()
 ```
