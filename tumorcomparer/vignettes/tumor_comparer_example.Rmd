@@ -23,6 +23,8 @@ Comparison of cell lines (the most popular experimental models of cancer) and tu
 
 This package includes a general computational method, TumorComparer, to systematically quantify similarities and differences between tumor material when detailed genetic and molecular profiles are available. Importantly, the comparisons can be flexibly tailored to a particular biological question by (interactively) placing a higher weight on functional alterations of interest (weighted similarity). This application allows this comparison to be run on cell lines in the comparison of six different cancer types to identify suitable as well as apparently unsuitable cell lines (including some widely used ones) for each cancer type. 
 
+This tutorial illustrates the method by comparing 25 lung squamous cancer (LUSC) cell lines from the Cancer Cell Line Encyclopedia (CCLE) to 178 tumors from the cancer genome atlas (TCGA) LUSC cohort, using mutations and copy number alterations, and weights emphasizing recurrent alterations found in the TCGA LUSC cohort. 
+
 ## Getting started 
 ```{r loadLibraries, message=FALSE, warning=FALSE}
 library(tumorcomparer)
@@ -84,7 +86,7 @@ categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1,
 # See returned outputs
 names(categorization)
 
-kable(head(categorization$categorization))
+kable((categorization$categorization))
 ```
 
 ## Plot MDS Results
@@ -128,7 +130,7 @@ categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1,
 # See returned outputs
 names(categorization)
 
-kable(head(categorization$categorization))
+kable((categorization$categorization))
 
 plot_freq_alt(comparison_list=comparison, trim_cell_line_names=TRUE)
 plot_mds(comparison_list=comparison, categorization_list=categorization, trim_cell_line_names = TRUE)
