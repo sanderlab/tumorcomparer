@@ -7,25 +7,141 @@ library(magrittr)
 library(dplyr)
 library(DT)
 
+library(tumorcomparer)
+
 # Common code goes in global.R
 
 shinyServer(function(input, output, session) {
-    output$preComputedPlot <- renderPlot({
-      p1 <- ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) + geom_point()
-      print(p1)
+  # PRECOMPUTED
+  preComputedDat <- reactive({
+    tcgaType <- input$preComputedType
+    displayCategory <- input$preComputedDisplayCategory
+    #displayCategory <- "Great"
+    #tcgaType <- "OV"
+    
+    # Read pre-computed results
+    mdsfitDf <- read.table(system.file("extdata", "isomdsfit", paste0("isoMDSfit_", tcgaType, "_coordinates.txt"), package = "tumorcomparer"), header = TRUE, sep="\t")
+    categorizationDf <- read.table(system.file("extdata", "cell_line_categorization", paste0("categorization_", tcgaType, ".txt"), package = "tumorcomparer"), header = TRUE, sep="\t")
+    
+    tmpDf <- merge(mdsfitDf, categorizationDf, all.x=TRUE)
+    
+    # Filter
+    if("All" %in% displayCategory) {
+      categoryFilter <- c(NA, categorizations)
+    } else {
+      categoryFilter <- c(NA, categorizations[categorizations %in% displayCategory])
+    }
+    
+    idx <- which(tmpDf$Category %in% categoryFilter)
+    tmpDf <- tmpDf[idx, ]
+    
+    return(tmpDf)
+  })
+  
+    output$preComputedPlot <- renderPlotly({
+      df <- preComputedDat()
+      
+      # Initialize columns
+      df$color <- "blue"
+      df$size <- 1
+      
+      idx <- which(df$Sample_Type == "Cell_Line")
+      df$color[idx] <- "orange"
+      df$size[idx] <- 3
+      
+      toolTip <- paste(df$Sample_ID, '</br>Coordinate 1', df$Coordinate1, '</br>Coordinate 2: ', df$Coordinate2, '</br>Category: ', df$Category)
+      df$toolTip <- toolTip
+
+      p1 <- ggplot() + 
+        geom_point(data=df, 
+                   aes(x=Coordinate1, y=Coordinate2, color=Sample_Type, text=toolTip),
+                   size = 2, 
+                   alpha=0.4) + 
+        theme_minimal() +
+        scale_color_manual(name="", values=c("orange", "blue"))
+
+      #print(p1)
+      #cat("A", colnames(df))
+      ggplotly(p1, tooltip=c("toolTip"), source="preComputedPlot") %>% 
+        config(cloud=FALSE, collaborate=FALSE, displaylogo=FALSE)
     })
     
     output$preComputedTable <- DT::renderDataTable({
-      DT::datatable(iris, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
+      df <- preComputedDat()
+      
+      DT::datatable(df, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
+    })
+    
+    # USER 
+    userDat <- reactive({
+      mutFile <- input$mutFile
+      cnaFile <- input$cnaFile
+      userType <- input$userType
+      
+      cell_line_mut_file <- mutFile$datapath
+      cell_line_cna_file <- cnaFile$datapath
+      
+      if (is.null(cell_line_mut_file) || is.null(cell_line_cna_file))
+        return(NULL)
+      
+      pancancer_gene_weights_file <- system.file("extdata", "weights", "default_weights_for_known_cancer_genes.txt", package="tumorcomparer")
+      cancer_specific_gene_weights_file <- system.file("extdata", "weights", paste0("Genes_and_weights_TCGA_", userType, "_based.txt"), package="tumorcomparer")
+      tumor_mut_file <- system.file("extdata", "tumor_alterations", paste0("TCGA_", userType, "_MUT.txt"), package="tumorcomparer")
+      tumor_cna_file <- system.file("extdata", "tumor_alterations", paste0("TCGA_", userType, "_CNA.txt"), package="tumorcomparer")
+      cell_line_mut_file <- cell_line_mut_file
+      cell_line_cna_file <- cell_line_cna_file
+      # Do not save the output
+      output_composite_alteration_matrix_file <- NULL
+      # Use weighted correlation
+      distance_similarity_measure <- "weighted_correlation"
+      
+      comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_file, 
+                                   cancer_specific_gene_weights_file=cancer_specific_gene_weights_file, 
+                                   tumor_mut_file=tumor_mut_file, 
+                                   tumor_cna_file=tumor_cna_file,
+                                   cell_line_mut_file=cell_line_mut_file,
+                                   cell_line_cna_file=cell_line_cna_file, 
+                                   output_composite_alteration_matrix_file=output_composite_alteration_matrix_file,
+                                   distance_similarity_measure=distance_similarity_measure)
+      
+      categorization <- categorize_cell_lines(fraction_of_tumors_for_comparison=0.1, 
+                                              dist_mat=comparison$dist_mat,
+                                              composite_mat=comparison$composite_mat,
+                                              cell_lines_with_both_MUT_and_CNA=comparison$cell_lines_with_both_MUT_and_CNA, 
+                                              tumors_with_both_MUT_and_CNA=comparison$tumors_with_both_MUT_and_CNA,
+                                              trim_cell_line_names=TRUE)
+    
+      tmpDf <- merge(comparison$isomdsfit, categorization$categorization, all.x=TRUE)
+      tmpDf$Sample_Type <- c(rep("Cell_Line", 1), rep("Tumor", nrow(tmpDf)-1))
+      
+      cat(str(comparison$isomdsfit))
+      cat(str(categorization$categorization))
+      cat(str(tmpDf))
+      
+      tmpDf
     })
     
     output$userPlot <- renderPlot({
-      p1 <- ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) + geom_point()
+      df <- userDat()
+      
+      p1 <- ggplot() + 
+        geom_point(data=df, 
+                   aes(x=points.1, y=points.2, color=Sample_Type),
+                   size = 2, 
+                   alpha=0.4) + 
+        theme_minimal() +
+        scale_color_manual(name="", values=c("orange", "blue"))
+
       print(p1)
     })
     
     output$userTable <- DT::renderDataTable({
-      DT::datatable(iris, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
+      df <- userDat()
+      
+      # Only the first is the user data
+      df <- df[1,]
+      
+      DT::datatable(df, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
     })
     
     # # IGNORE
