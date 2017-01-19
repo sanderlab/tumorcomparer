@@ -10,6 +10,7 @@ library(tumorcomparer)
 
 shinyUI(
   navbarPage("TumorComparer",
+             header = list(tags$head(includeScript("www/js/google-analytics.js"))),
              tabPanel("Pre-Computed",
                       sidebarLayout(
                         sidebarPanel(
@@ -35,12 +36,13 @@ shinyUI(
                                     accept=c('text/plain', '.txt')),
                           fileInput('cnaFile', 'Choose Copy Number File',
                                     accept=c('text/plain', '.txt')),
-                          
-                          helpText("Example: ", a(href="single_cell_line_example/cell_line_MUT.txt", target="_blank", download="cell_line_MUT.txt", "Mutation File")),
-                          helpText("Example: ", a(href="single_cell_line_example/cell_line_CNA.txt", target="_blank", download="cell_line_CNA.txt", "Copy Number File"))
+                          helpText("Example: ", a(href="single_cell_line_example/cell_line_MUT.txt", 
+                                                  target="_blank", download="cell_line_MUT.txt", "Mutation File")),
+                          helpText("Example: ", a(href="single_cell_line_example/cell_line_CNA.txt", 
+                                                  target="_blank", download="cell_line_CNA.txt", "Copy Number File"))
                         ),
                         mainPanel(
-                          div(align="center", plotOutput("userPlot", height=600, width=600)), 
+                          div(align="center", plotlyOutput("userPlot", height=600, width=600)), 
                           DT::dataTableOutput("userTable")
                         )
                       )
