@@ -62,7 +62,8 @@ shinyServer(function(input, output, session) {
                  size = 2, 
                  alpha=0.4) + 
       theme_minimal() +
-      scale_color_manual(name="", values=c("orange", "blue"))
+      scale_color_manual(name="", values=c("orange", "blue")) + 
+      xlab("Coordinate 1") + ylab("Coordinate 2")
 
     #print(p1)
     #cat("A", colnames(df))
@@ -154,7 +155,8 @@ shinyServer(function(input, output, session) {
                  size = 2, 
                  alpha=0.4) + 
       theme_minimal() +
-      scale_color_manual(name="", values=c("orange", "blue"))
+      scale_color_manual(name="", values=c("orange", "blue")) +
+      xlab("Coordinate 1") + ylab("Coordinate 2")
     
     ggplotly(p1, tooltip=c("toolTip"), source="userPlot") %>% 
       config(cloud=FALSE, collaborate=FALSE, displaylogo=FALSE)
