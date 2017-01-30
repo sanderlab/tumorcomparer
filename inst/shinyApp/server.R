@@ -99,6 +99,9 @@ shinyServer(function(input, output, session) {
     output_composite_alteration_matrix_file <- NULL
     # Use weighted correlation
     distance_similarity_measure <- "weighted_correlation"
+
+    # DEBUG TEST     
+    a <- read.table(pancancer_gene_weights_file, sep="\t")
     
     comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_file, 
                                  cancer_specific_gene_weights_file=cancer_specific_gene_weights_file, 
