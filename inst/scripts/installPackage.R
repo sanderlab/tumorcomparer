@@ -8,5 +8,4 @@ library(devtools);
 install_bitbucket("cbio_mskcc/tumorcomparer",
                   build_vignette=FALSE,
                   dependencies=TRUE,
-                  args="--no-multiarch",
-                  subdir="tumorcomparer")
+                  args="--no-multiarch")

@@ -13,7 +13,6 @@ Located in vignettes:
 
     library(devtools)
     install_bitbucket(repo="cbio_mskcc/tumorcomparer",
-        subdir="tumorcomparer",
         build_vignette=TRUE,
         dependencies=TRUE,
         args="--no-multiarch")
