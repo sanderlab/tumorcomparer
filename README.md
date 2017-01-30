@@ -1,6 +1,6 @@
 # About
 
-# General Tutorial
+# Vignette (Tutorial)
 
 Located in vignettes:
 
