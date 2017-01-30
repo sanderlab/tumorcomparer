@@ -102,6 +102,7 @@ shinyServer(function(input, output, session) {
 
     # DEBUG TEST     
     a <- read.table(pancancer_gene_weights_file, sep="\t")
+    cat(str(a))
     
     comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_file, 
                                  cancer_specific_gene_weights_file=cancer_specific_gene_weights_file, 
