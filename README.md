@@ -30,7 +30,7 @@ if(!require(jsonlite)) install.packages("jsonlite")
 library(jsonlite)
 library(devtools)
 
-cfg <- '{"url":"cbio_mskcc/tumorcomparer", "build_vignette":true, "dependencies":true, "subdir":"tumorcomparer"}'
+cfg <- '{"url":"cbio_mskcc/tumorcomparer", "build_vignette":true, "dependencies":true}'
 
 cfg <- jsonlite::fromJSON(cfg)
 do.call(install_git, cfg)

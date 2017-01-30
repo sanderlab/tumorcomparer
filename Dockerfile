@@ -12,6 +12,6 @@ RUN cp -R /usr/local/lib/R/site-library/tumorcomparer/shinyApp/ /srv/shiny-serve
 RUN chown -R shiny:shiny /srv/shiny-server
 
 # Disables certain shiny-server protocols that prevent the app from loading at Dana-Farber and MD Anderson
-COPY tumorcomparer/inst/scripts/shiny-server.conf /etc/shiny-server/shiny-server.conf
+COPY inst/scripts/shiny-server.conf /etc/shiny-server/shiny-server.conf
 
 CMD ["shiny-server"]
