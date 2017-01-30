@@ -1,6 +1,6 @@
 FROM cannin/r-shiny-server:ubuntu-14.04.4_r-3.3.2_java-8_shiny-server-1.5.2.837
 
-COPY tumorcomparer/inst/scripts/installPackage.R installPackage.R
+COPY inst/scripts/installPackage.R installPackage.R
 RUN R -e 'source("installPackage.R")'
 
 RUN cp -R /usr/local/lib/R/site-library/tumorcomparer/shinyApp/ /srv/shiny-server/tumorcomparer/
