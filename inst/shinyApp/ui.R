@@ -42,6 +42,7 @@ shinyUI(
                                                   target="_blank", download="cell_line_CNA.txt", "Copy Number File"))
                         ),
                         mainPanel(
+                          h4("Update (02/02/17): This feature is still under construction."),
                           div(align="center", plotlyOutput("userPlot", height=600, width=600)), 
                           DT::dataTableOutput("userTable")
                         )
