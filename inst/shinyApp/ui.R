@@ -16,13 +16,15 @@ shinyUI(
                         sidebarPanel(
                           width=3,
                           selectInput("preComputedType", "Cancer Type", choices=tcgaTypes),
-                          selectizeInput("preComputedDisplayCategory", "Display Categories", 
+                          selectizeInput("preComputedDisplayCategory", "Display Match Categories", 
                                          choices=c("All", categorizations), 
                                          multiple=TRUE, 
                                          selected = "All")
                         ),
                         mainPanel(
                           div(align="center", plotlyOutput("preComputedPlot", height=600, width=600)), 
+                          h3("Data Table"),
+                          downloadLink("preComputedDownload", "Download Table as Tab-Delimited File"),
                           DT::dataTableOutput("preComputedTable")
                         )
                       )

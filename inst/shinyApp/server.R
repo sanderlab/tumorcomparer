@@ -73,9 +73,22 @@ shinyServer(function(input, output, session) {
     
   output$preComputedTable <- DT::renderDataTable({
     df <- preComputedDat()
+    df <- df[df$Sample_Type == "Cell_Line",]
     
     DT::datatable(df, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
   })
+  
+  output$preComputedDownload <- downloadHandler(
+    filename = function() {
+      paste0("table_", input$preComputedType, ".txt")
+    },
+    content = function(file) {
+      df <- preComputedDat()
+      df <- df[df$Sample_Type == "Cell_Line",]
+      
+      write.table(df, file, sep="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+    }
+  )
     
   # USER 
   userDat <- reactive({
@@ -170,6 +183,7 @@ shinyServer(function(input, output, session) {
     
   output$userTable <- DT::renderDataTable({
     df <- userDat()
+    df <- df[df$Sample_Type == "Cell_Line",]
     
     # Only the first is the user data
     df <- df[1,]
