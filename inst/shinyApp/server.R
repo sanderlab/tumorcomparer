@@ -102,7 +102,7 @@ shinyServer(function(input, output, session) {
     if (is.null(cell_line_mut_file) || is.null(cell_line_cna_file))
       return(NULL)
     
-    pancancer_gene_weights_file <- system.file("extdata", "weights", "default_weights_for_known_cancer_genes.txt", package="tumorcomparer")
+    pancancer_gene_weights_file <- system.file("extdata", "weights", "Default_weights_for_known_cancer_genes.txt", package="tumorcomparer")
     cancer_specific_gene_weights_file <- system.file("extdata", "weights", paste0("Genes_and_weights_TCGA_", userType, "_based.txt"), package="tumorcomparer")
     tumor_mut_file <- system.file("extdata", "tumor_alterations", paste0("TCGA_", userType, "_MUT.txt"), package="tumorcomparer")
     tumor_cna_file <- system.file("extdata", "tumor_alterations", paste0("TCGA_", userType, "_CNA.txt"), package="tumorcomparer")
@@ -114,9 +114,9 @@ shinyServer(function(input, output, session) {
     distance_similarity_measure <- "weighted_correlation"
 
     # DEBUG TEST     
-    a <- read.table(pancancer_gene_weights_file, sep="\t")
-    cat(file=stderr(), str(a))
-    
+    filepaths <- c("MUT:", cell_line_mut_file, " CNA:", cell_line_cna_file, " PGW:", pancancer_gene_weights_file, " CSGW:", cancer_specific_gene_weights_file, " TMF:", tumor_mut_file, " TCF:", tumor_cna_file, "\n")
+    cat(file=stderr(), paste(filepaths, collapse=","))
+        
     comparison <- run_comparison(pancancer_gene_weights_file=pancancer_gene_weights_file, 
                                  cancer_specific_gene_weights_file=cancer_specific_gene_weights_file, 
                                  tumor_mut_file=tumor_mut_file, 
