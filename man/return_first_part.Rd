@@ -24,4 +24,3 @@ Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 \concept{
 tumorcomparer
 }
-

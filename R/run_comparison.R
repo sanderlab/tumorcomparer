@@ -1,48 +1,52 @@
 #' Run a comparison between between two cohorts (e.g. cell lines and tumors)
 #'
-#' @param CNA_default_weight default weight for copy number alterations (CNA) (DEFAULT: 0.01)
-#' @param MUT_default_weight default weight for mutation alterations (MUT) (DEFAULT: 0.01)
-#' @param CNA_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in 
-#'   the TCGA pan-cancer CNA list (i.e. GISTIC peaks)
-#' @param MUT_known_cancer_gene_weight a default weight (DEFAULT: 0.1) - genes in
-#'   the TCGA pan-cancer mutation list (i.e. MUTSIG SMGs)
-#' @param tumor_mut_file a file with binary mutation data for tumors, (e.g. over the 
-#'   1651 genes profiled by CCLE)
-#' @param tumor_cna_file a file with 5-valued GISTIC data for tumors, (e.g. over 
-#'   1529 genes (subset of 1651 genes above))
-#' @param cell_line_mut_file a file with binary mutation data for cell lines, 
-#'   (e.g. over the 1651 genes profiled by CCLE)
-#' @param cell_line_cna_file a file with 5-valued GISTIC data for cell lines, 
-#'   (e.g. over 1529 genes (subset of 1651 genes above))
-#' @param pancancer_gene_weights_file - a file with weights for the TCGA pan-cancer
-#'   set of recurrent mutations and CNAs (copy number alterations). A two-column
-#'   tab-delimited file - the first column has the list of alterations, with "_MUT"
-#'   and "_CNA" specifying mutations and CNAs(copy number alterations) respectively,
-#'   e.g. "TP53_MUT" and "MYC_CNA", and the second column specifying the weights.
-#' @param cancer_specific_gene_weights_file a file with weights for cancer-specific
-#'   set of recurrent mutations and CNAs (copy number alterations). A two-column
-#'   tab-delimited file - the first column has the list of alterations, with "_MUT"
-#'   and "_CNA" specifying mutations and CNAs(copy number alterations) respectively,
-#'   e.g. "TP53_MUT" and "MYC_CNA", and the second column specifying the weights.
-#' @param output_composite_alteration_matrix_file a string with filename for 
-#'   output of the the composite alteration matrix (see Details) 
-#'   (DEFAULT: "composite_alteration_matrix.txt") 
-#' @param distance_similarity_measure (See Details) 
-#'   (OPTIONS: "weighted_correlation", "generalized_jaccard") 
+#' @param available_data_types a vector of data types to be analyzed; the order of these much match distance_similarity_measures
 #' 
-#' @details The composite matrix is a single matrix where the columns are samples 
-#'   (i.e. tumors AND cell line IDs) and the rows are an rbind() of mutations 
-#'   (with 1 or 0 outputs for each sample) and copy number alterations from 
-#'   GISTIC (with values -2, -1, 0, 1, 2). Available similarity/distance measures include: 
-#'   \itemize{
-#'     \item{"weighted_correlation"}{Weighted correlation, based on weighted means and standard deviations}
-#'     \item{"generalized_jaccard"}{A weighted distance based on the Jaccard coefficient}
-#'  }
-#'    
+#' @param cna_data_type_weight TBA
+#' @param mut_data_type_weight TBA
+#' @param exp_data_type_weight TBA
+#' 
+#' @param cna_default_weight default (background) weight for copy number alterations (CNA) (DEFAULT: 0.01). 
+#'   Default weights are assigned to genes not known to be important in the specific cancer type or cancer in general
+#' @param mut_default_weight default (background) weight for mutation alterations (MUT) (DEFAULT: 0.01); CNA_default_weight
+#' @param exp_default_weight default (background) weight for mRNA gene expression values (EXP) (DEFAULT: 0.01)
+#' 
+#' @param cna_known_cancer_gene_weight a default weight for genes important in cancer (DEFAULT: 0.1); 
+#'   an example would genes in the TCGA pan-cancer CNA list (i.e. GISTIC peaks). Known cancer gene weights are 
+#'   default weight for genes important in cancer (an example would genes derived from TCGA pan-cancer analyses or literature)
+#' @param mut_known_cancer_gene_weight a default weight for genes important in cancer (DEFAULT: 0.1);
+#'   an example would genes in the TCGA pan-cancer mutation list (i.e. MUTSIG SMGs)
+#' @param exp_known_cancer_gene_weight a default weight for genes important in cancer(DEFAULT: 0.1); 
+#'   an example would genes in the COSMIC Cancer Gene Census
+#' 
+#' @param tumor_mut_file a file with binary mutation data for tumors 
+#' @param tumor_cna_file a file with 5-valued GISTIC data for tumors
+#' @param tumor_exp_file a file with gene expression data for tumors
+#' 
+#' @param cell_line_mut_file a file with binary mutation data for cell lines
+#' @param cell_line_cna_file a file with 5-valued GISTIC data for cell lines
+#' @param cell_line_exp_file a file with gene expression data for cell lines
+#' 
+#' @param known_cancer_gene_weights_mut_file a file with weights for genes known
+#'   to be recurrently altered/mutated in cancer (e.g. recurrently mutated genes in TCGA pan-cancer analyses). 
+#'   A two-column tab-delimited file - the first column has the gene names and the second column specifies the weights.
+#' @param known_cancer_gene_weights_cna_file see known_cancer_gene_weights_mut_file
+#' @param known_cancer_gene_weights_exp_file see known_cancer_gene_weights_mut_file
+#' 
+#' @param cancer_specific_gene_weights_mut_file a file with weights for cancer-specific
+#'   set of recurrently mutated genes. A tab-delimited file - the first column has the gene names,
+#'   and the second column specifies the weights.
+#' @param cancer_specific_gene_weights_cna_file see cancer_specific_gene_weights_mut_file 
+#' @param cancer_specific_gene_weights_exp_file see cancer_specific_gene_weights_mut_file 
+#'
+#' @param distance_similarity_measures a named vector of distance/similarity measures (See Details) 
+#'   (OPTIONS: "weighted_correlation", "generalized_jaccard" - must be in the order mut, cna, exp) 
+#'   currently, "generalized_jaccard" is used for mut and cna data, and "weighted_correlation" for exp data
+#' 
 #' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will
 #'  depend on parameter "distance_similarity_measure".
 #' \itemize{
-#'   \item{"dist"}{a matrix of pairwise distances}
+#'   \item{"dist_mat"}{a matrix of pairwise distances}
 #'   \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to 
 #'   two dimensions via MDS - multidimensional scaling, using the isoMDS function}
 #'   \item{"cor_unweighted"}{a matrix of unweighted pairwise correlations}
@@ -59,173 +63,204 @@
 #' @export
 #' 
 #' @importFrom MASS isoMDS
+#' @importFrom cluster daisy
 #' @importFrom utils read.table write.table
 #' @importFrom stats cor
-run_comparison <- function(CNA_default_weight=0.01, 
-                           MUT_default_weight=0.01,
-                           CNA_known_cancer_gene_weight=0.1, 
-                           MUT_known_cancer_gene_weight=0.1, 
-                           tumor_mut_file="tumor_MUT.txt", 
-                           tumor_cna_file="tumor_CNA.txt", 
-                           cell_line_mut_file="cell_line_MUT.txt", 
-                           cell_line_cna_file="cell_line_CNA.txt", 
-                           pancancer_gene_weights_file="default_weights_for_known_cancer_genes.txt", 
-                           cancer_specific_gene_weights_file="Genes_and_weights.txt", 
-                           output_composite_alteration_matrix_file="composite_alteration_matrix.txt",
-                           distance_similarity_measure=c("weighted_correlation", "generalized_jaccard")
+run_comparison <- function(available_data_types=c("mut", "cna", "exp"), 
+                           mut_data_type_weight = 1/3,
+                           cna_data_type_weight = 1/3,
+                           exp_data_type_weight = 1/3,
+                           cna_default_weight=0.01, 
+                           mut_default_weight=0.01,
+                           exp_default_weight=0.01,
+                           cna_known_cancer_gene_weight=0.1, 
+                           mut_known_cancer_gene_weight=0.1, 
+                           exp_known_cancer_gene_weight=0.1, 
+                           tumor_mut_file="tumor_mut.txt", 
+                           tumor_cna_file="tumor_cna.txt", 
+                           tumor_exp_file="tumor_exp.txt", 
+                           cell_line_mut_file="cell_line_mut.txt", 
+                           cell_line_cna_file="cell_line_cna.txt", 
+                           cell_line_exp_file="cell_line_exp.txt", 
+                           known_cancer_gene_weights_mut_file="default_weights_for_known_cancer_genes_mut.txt", 
+                           known_cancer_gene_weights_cna_file="default_weights_for_known_cancer_genes_cna.txt", 
+                           known_cancer_gene_weights_exp_file="default_weights_for_known_cancer_genes_exp.txt", 
+                           cancer_specific_gene_weights_mut_file="Genes_and_weights_mut.txt", 
+                           cancer_specific_gene_weights_cna_file="Genes_and_weights_cna.txt", 
+                           cancer_specific_gene_weights_exp_file="Genes_and_weights_exp.txt", 
+                           distance_similarity_measures=c("generalized_jaccard", "generalized_jaccard", "weighted_correlation")
                            ) {
-
-  # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
-  tumor_MUT <- read.table(tumor_mut_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
-  tumor_CNA <- read.table(tumor_cna_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
-  cell_line_MUT <- read.table(cell_line_mut_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
-  cell_line_CNA <- read.table(cell_line_cna_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
   
-  tumors_with_both_MUT_and_CNA <- intersect(colnames(tumor_MUT), colnames(tumor_CNA))
-  cell_lines_with_both_MUT_and_CNA <- intersect(colnames(cell_line_MUT), colnames(cell_line_CNA))
+  # CHECK available_data_types and distance_similarity_measures ----
+  if(length(available_data_types) < 1) {
+    stop("ERROR: At least one data type: mut, cna, exp must be provided for available_data_types")  
+  } 
   
-  cell_line_ids <- sapply(cell_lines_with_both_MUT_and_CNA, return_first_part)
+  if(length(available_data_types) != length(distance_similarity_measures)) {
+    stop("ERROR: length(available_data_types) must equal length(distance_similarity_measures)")  
+  } 
+       
+  # LOAD DATA ----            
+  isomdsfit_by_data_type <- list() 
+  count <- 1
   
-  genes_with_MUT_in_both <- intersect(rownames(tumor_MUT), rownames(cell_line_MUT))
-  genes_with_CNA_in_both <- intersect(rownames(tumor_CNA), rownames(cell_line_CNA))
-  
-  # Need not do this unless really want MUT and CNA data for the same gene sets
-  genes_in_all_4_files <-
-    intersect(genes_with_MUT_in_both, genes_with_CNA_in_both)
-  
-  cell_line_CNA_high_level_only <- apply(cell_line_CNA, 2, keep_only_high_level_cnas)
-  tumor_CNA_high_level_only <- apply(tumor_CNA, 2, keep_only_high_level_cnas)
-  
-  # CREATE COMPOSITE MATRIX ----
-  ## Rows genes (MUT, CNA), columns (Tumors/cell lines)
-  composite_CNA <- cbind(cell_line_CNA[genes_in_all_4_files, cell_lines_with_both_MUT_and_CNA], tumor_CNA[genes_in_all_4_files, tumors_with_both_MUT_and_CNA])
-  composite_CNA_high_level_only <- cbind(cell_line_CNA_high_level_only[genes_in_all_4_files, cell_lines_with_both_MUT_and_CNA], tumor_CNA_high_level_only[genes_in_all_4_files, tumors_with_both_MUT_and_CNA])
-  composite_MUT <- cbind(cell_line_MUT[genes_with_MUT_in_both, cell_lines_with_both_MUT_and_CNA], tumor_MUT[genes_with_MUT_in_both, tumors_with_both_MUT_and_CNA])
-  
-  colnames(composite_MUT) <- c(cell_lines_with_both_MUT_and_CNA,tumors_with_both_MUT_and_CNA)
-  colnames(composite_CNA) <- c(cell_lines_with_both_MUT_and_CNA,tumors_with_both_MUT_and_CNA)
-  colnames(composite_CNA_high_level_only) <- c(cell_lines_with_both_MUT_and_CNA,tumors_with_both_MUT_and_CNA)
-  
-  rownames(composite_MUT) <- paste(rownames(composite_MUT), "MUT", sep = "_")
-  rownames(composite_CNA) <- paste(rownames(composite_CNA), "CNA", sep = "_")
-  rownames(composite_CNA_high_level_only) <- paste(rownames(composite_CNA_high_level_only), "CNA", sep = "_")
-  
-  
-  
-  # Generate matrix and convert to matrix 
-  composite_mat <- rbind(composite_MUT, composite_CNA)
-  composite_mat <- as.matrix(composite_mat)
-  
-  # WRITE COMPOSITE
-  if(!is.null(output_composite_alteration_matrix_file)) {
-    write.table(composite_mat,
-                file = output_composite_alteration_matrix_file,
-                sep = "\t",
-                quote = FALSE)
+  for(data_type in available_data_types) {
+    cat("DEBUG: ", data_type, "\n")
+    
+    if(data_type == "mut") {
+      cat("DEBUG\n") 
+      
+      mut <- generate_composite_mat_and_gene_weights(
+        default_weight=mut_default_weight,
+        known_cancer_gene_weight=mut_known_cancer_gene_weight,
+        tumor_file=tumor_mut_file,
+        cell_line_file=cell_line_mut_file,
+        known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
+        cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file,
+        is_discrete=TRUE,
+        distance_similarity_measure=distance_similarity_measures[count])
+      
+      isomdsfit_by_data_type[["mut"]] <- mut$isomdsfit
+    }
+    
+    if(data_type == "cna") {
+      cna <- generate_composite_mat_and_gene_weights(
+        default_weight=cna_default_weight,
+        known_cancer_gene_weight=cna_known_cancer_gene_weight,
+        tumor_file=tumor_cna_file,
+        cell_line_file=cell_line_cna_file,
+        known_cancer_gene_weights_file=known_cancer_gene_weights_cna_file,
+        cancer_specific_gene_weights_file=cancer_specific_gene_weights_cna_file, 
+        is_discrete=TRUE,
+        distance_similarity_measure=distance_similarity_measures[count])
+      
+      isomdsfit_by_data_type[["cna"]] <- cna$isomdsfit
+    }
+    
+    if(data_type == "exp") {
+      exp <- generate_composite_mat_and_gene_weights(
+        default_weight=exp_default_weight,
+        known_cancer_gene_weight=exp_known_cancer_gene_weight,
+        tumor_file=tumor_exp_file,
+        cell_line_file=cell_line_exp_file,
+        known_cancer_gene_weights_file=known_cancer_gene_weights_exp_file,
+        cancer_specific_gene_weights_file=cancer_specific_gene_weights_exp_file,
+        is_discrete=FALSE,
+        distance_similarity_measure=distance_similarity_measures[count])
+      
+      isomdsfit_by_data_type[["exp"]] <- exp$isomdsfit
+    }
+    
+    count <- count + 1
   }
-  #composite_mat_high_level_only <- rbind(composite_MUT,composite_CNA_high_level_only)
   
-  # Calculation of alteration frequencies
-  # Assign frequency weights as (freq. of alteration of gene)/(mean freq. of alteration across all genes) - "rewarding recurrent changes"
-  overall_alt_freq <- length(which((composite_mat[]) != 0)) / (length(which((composite_mat[]) == 0)) + length(which((composite_mat[]) !=
-                                                                                        0)))
-  freq_alt <- rep(0, nrow(composite_mat))
-  freq_alt <- apply(composite_mat, 1, compute_freq_alt)
-  #freq_alt_high_level  <- apply(composite_mat_high_level_only,1,compute_freq_alt)
-  freq_alt_mut_tumors <- apply(composite_MUT[, tumors_with_both_MUT_and_CNA], 1, compute_freq_alt)
-  freq_alt_cna_tumors <- apply(composite_CNA[, tumors_with_both_MUT_and_CNA], 1, compute_freq_alt)
+  # SUM DATA WEIGHTS ----
+  sum_data_type_weights <- 0 
   
-  freq_alt_samplewise <- apply(composite_mat, 2, compute_freq_alt)
-  #freq_alt_samplewise_CNA_high_level_only <- apply(composite_mat_high_level_only,2,compute_freq_alt)
-  
-  composite_mat <- composite_mat[, which(freq_alt_samplewise > 0)]
-  #composite_mat_high_level_only <- composite_mat_high_level_only[,which(freq_alt_samplewise > 0)]
-  
-  names(freq_alt) <- rownames(composite_mat)
-  freq_weights <- rep(1, nrow(composite_mat))
-  freq_weights <- freq_alt / overall_alt_freq
-  names(freq_weights) <- rownames(composite_mat)
-  
-  # GET WEIGHTS ----
-  # Read in user-provided weights
-  known_cancer_genes_and_weights_all <-
-    read.table(
-      pancancer_gene_weights_file,
-      sep = "\t",
-      header = TRUE,
-      row.names = 1
-    )
-  known_cancer_genes_and_weights <- as.matrix(known_cancer_genes_and_weights_all[intersect(rownames(known_cancer_genes_and_weights_all), rownames(composite_mat)), ]) # To eliminate entries not present in alteration matrix, if any
-  genes_and_weights_all <-
-    read.table(
-      cancer_specific_gene_weights_file,
-      sep = "\t",
-      header = TRUE,
-      row.names = 1
-    )
-  # To eliminate entries not present in alteration matrix, if any
-  genes_and_weights <- as.matrix(genes_and_weights_all[intersect(rownames(genes_and_weights_all), rownames(composite_mat)), ]) 
-  rownames(genes_and_weights) <- intersect(rownames(genes_and_weights_all), rownames(composite_mat))
-  rownames(known_cancer_genes_and_weights) <- intersect(rownames(known_cancer_genes_and_weights_all), rownames(composite_mat))
-  
-  # Populate weights with default weights
-  annotation_weights <- rep(NA, nrow(composite_mat))
-  annotation_weights[grep("_CNA", rownames(composite_mat))] <- CNA_default_weight
-  annotation_weights[grep("_MUT", rownames(composite_mat))] <- MUT_default_weight
-  
-  # Overwrite default weight with pancancer (known gene) weight if applicable
-  names(annotation_weights) <- rownames(composite_mat)
-  for (i in 1:nrow(known_cancer_genes_and_weights))
-    annotation_weights[rownames(known_cancer_genes_and_weights)[i]] = known_cancer_genes_and_weights[i, ]
-  # Overwrite weight with cancer-type-specific weight if applicable
-  for (i in 1:nrow(genes_and_weights))
-    annotation_weights[rownames(genes_and_weights)[i]] = genes_and_weights[i, ]
-  
-  gene_weights <- rep(1, nrow(composite_mat))
-  names(gene_weights) <- rownames(composite_mat)
-  
-  gene_weights <- annotation_weights # if using user-provided weights only
-  gene_weights <- gene_weights / max(gene_weights) # map to 0-1
-  
-  cor_unweighted <- cor(composite_mat)
-  
-  if(distance_similarity_measure == "weighted_correlation") {
-    # CALCULATE CORRELATIONS ----
-    # Including low-level CNAs
-    cor_weighted <- calc_weighted_corr(as.matrix(composite_mat),
-                                       as.matrix(composite_mat),
-                                       gene_weights)
-    # Excluding low-levels CNAs
-    #cor_weighted_high_level_only <- calc_weighted_corr(as.matrix(composite_mat_high_level_only),as.matrix(composite_mat_high_level_only),gene_weights)
+  for(data_type in available_data_types) {
+    if(data_type == "mut") {
+      sum_data_type_weights <- sum_data_type_weights + mut_data_type_weight
+    }
     
-    # Convert to distance, and call multidimensional scaling via isoMDS
-    dist_mat <- 1 - as.matrix(cor_weighted)
-    isomdsfit <- isoMDS(dist_mat, k=2)
-  } else if(distance_similarity_measure == "generalized_jaccard") {
-    # Calculate weighted distance based on Jaccard's coefficient
-    weighted_distance_excluding_zero_zero_matches <- apply(composite_mat, 2, function(x_i,weights=gene_weights) 
-      sapply(1:ncol(composite_mat), function(j) pair_dist(x_i, composite_mat[,j], gene_weights))) # repeatedly apply function for weighted distance between a pair of coulmns/vectors
+    if(data_type == "cna") {
+      sum_data_type_weights <- sum_data_type_weights + cna_data_type_weight
+    }
     
-    # Change missing or small values
-    weighted_distance_excluding_zero_zero_matches[which(is.na(weighted_distance_excluding_zero_zero_matches))] <- 0
-    weighted_distance_excluding_zero_zero_matches <- weighted_distance_excluding_zero_zero_matches + 1e-6
-    # Call multidimensional scaling via isoMDS
-    dist <- weighted_distance_excluding_zero_zero_matches
-    isomdsfit <-  isoMDS(dist_mat, k=2)  
-  } else {
-    stop("ERROR: Unknown distance_similarity_measure: ", distance_similarity_measure)
+    if(data_type == "exp") {
+      sum_data_type_weights <- sum_data_type_weights + exp_data_type_weight
+    }
   }
 
+  # Check for weights sum
+  if(sum_data_type_weights != 1) {
+    stop("ERROR: Sum of *_data_type_weights must sum up to 1")  
+  } 
+  
+  # INITIALIZE ALL NECESSARY LISTS ----
+  combined_samples_list <- list() 
+  combined_tumor_ids_list <- list() 
+  combined_cell_line_ids_list <- list() 
+  
+  for(data_type in available_data_types) {
+    if(data_type == "mut") {
+      mut_samples <- colnames(mut$dist_mat) 
+      mut_tumor_ids <- colnames(mut$tumor_ids) 
+      mut_cell_line_ids <- colnames(mut$cell_line_ids) 
+      
+      combined_samples_list[["mut"]] <- mut_samples
+      combined_tumor_ids_list[["mut"]] <- mut_tumor_ids
+      combined_cell_line_ids_list[["mut"]] <- mut_cell_line_ids
+    }
+    
+    if(data_type == "cna") {
+      cna_samples <- colnames(cna$dist_mat) 
+      cna_tumor_ids <- colnames(cna$tumor_ids) 
+      cna_cell_line_ids <- colnames(cna$cell_line_ids)
+      
+      combined_samples_list[["cna"]] <- cna_samples
+      combined_tumor_ids_list[["cna"]] <- cna_tumor_ids
+      combined_cell_line_ids_list[["cna"]] <- cna_cell_line_ids
+    }
+    
+    if(data_type == "exp") {
+      exp_samples <- colnames(exp$dist_mat) 
+      exp_tumor_ids <- colnames(exp$tumor_ids) 
+      exp_cell_line_ids <- colnames(exp$cell_line_ids) 
+      
+      combined_samples_list[["exp"]] <- exp_samples
+      combined_tumor_ids_list[["exp"]] <- exp_tumor_ids
+      combined_cell_line_ids_list[["exp"]] <- exp_cell_line_ids
+    }
+  }
+  
+  combined_samples <- Reduce(intersect, combined_samples_list)
+  combined_tumor_ids <- Reduce(intersect, combined_tumor_ids_list)
+  combined_cell_lines_ids <- Reduce(intersect, combined_cell_line_ids_list)
+  
+  # CALCULATE COMBINED_DIST AND ISOMDS ----
+  # Idea: If null, set to the matrix check, otherwise add to the existing combined_dist
+  combined_dist <- NULL 
+  
+  for(data_type in available_data_types) {
+    if(data_type == "mut") {
+      if(is.null(combined_dist)) {
+        combined_dist <- mut_data_type_weight*mut$dist_mat[combined_samples, combined_samples]
+      } else {
+        combined_dist <- combined_dist + mut_data_type_weight*mut$dist_mat[combined_samples, combined_samples]
+      }
+    }
+    
+    if(data_type == "cna") {
+      if(is.null(combined_dist)) {
+        combined_dist <- cna_data_type_weight*cna$dist_mat[combined_samples, combined_samples]
+      } else {
+        combined_dist <- combined_dist + cna_data_type_weight*cna$dist_mat[combined_samples, combined_samples]
+      }
+    }
+    
+    if(data_type == "exp") {
+      if(is.null(combined_dist)) {
+        combined_dist <- exp_data_type_weight*exp$dist_mat[combined_samples, combined_samples]
+      } else {
+        combined_dist <- combined_dist + exp_data_type_weight*exp$dist_mat[combined_samples, combined_samples]
+      }
+    }
+  }
+  
+  a <- 1
+  
+  # RUN ISOMDS ----
+  isomdsfit <-  isoMDS(combined_dist, k=2)  
+  
+  # MERGE RESULTS ----
   results <- list(
-    dist_mat = dist_mat,
+    dist_mat = combined_dist,
     isomdsfit = isomdsfit, 
-    cor_unweighted = cor_unweighted,
-    composite_mat = composite_mat,
-    composite_CNA = composite_CNA,
-    composite_MUT = composite_MUT,
-    cell_lines_with_both_MUT_and_CNA = cell_lines_with_both_MUT_and_CNA,
-    tumors_with_both_MUT_and_CNA = tumors_with_both_MUT_and_CNA
+    isomdsfit_by_data_type=isomdsfit_by_data_type, 
+    cell_line_ids = combined_cell_line_ids,
+    tumor_ids = combined_tumor_ids
   )
   
   return(results)
 }
+
