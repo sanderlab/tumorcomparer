@@ -34,13 +34,12 @@ Nothing is returned
 \description{
 Plot the results from run_comparison as a two dimension multi-dimensional scaling (MDS) plot
 }
-\author{
-Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
-}
 \seealso{
 \code{\link{run_comparison}}, \code{\link{categorize_cell_lines}}
+}
+\author{
+Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
 \concept{
 tumorcomparer
 }
-

@@ -61,7 +61,7 @@
 #' @importFrom MASS isoMDS
 #' @importFrom utils read.table write.table
 #' @importFrom stats cor
-run_comparison <- function(CNA_default_weight=0.01, 
+run_comparison_concatenated <- function(CNA_default_weight=0.01, 
                            MUT_default_weight=0.01,
                            CNA_known_cancer_gene_weight=0.1, 
                            MUT_known_cancer_gene_weight=0.1, 
