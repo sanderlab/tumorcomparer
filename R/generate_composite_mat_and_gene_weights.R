@@ -1,4 +1,4 @@
-' Run a comparison between between two cohorts (e.g. cell lines and tumors)
+#' Run a comparison between between two cohorts (e.g. cell lines and tumors)
 #' 
 #' @param default_weight see run_comparison
 #' @param known_cancer_gene_weight see run_comparison
@@ -81,7 +81,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
   # Read in user-provided weights
   known_cancer_genes_and_weights_all <-
     read.table(
-      known_cancergene_weights_file,
+      known_cancer_gene_weights_file,
       sep = "\t",
       header = TRUE,
       row.names = 1
@@ -142,7 +142,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
     weighted_distance_excluding_zero_zero_matches[which(is.na(weighted_distance_excluding_zero_zero_matches))] <- 0
     weighted_distance_excluding_zero_zero_matches <- weighted_distance_excluding_zero_zero_matches + 1e-6
     # Call multidimensional scaling via isoMDS
-    dist <- weighted_distance_excluding_zero_zero_matches
+    dist_mat <- weighted_distance_excluding_zero_zero_matches
     isomdsfit <-  isoMDS(dist_mat, k=2)  
   } else {
     stop("ERROR: Unknown distance_similarity_measure: ", distance_similarity_measure)
