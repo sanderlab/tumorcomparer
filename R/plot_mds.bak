@@ -35,22 +35,24 @@ plot_mds <- function(comparison_list,
   
   # From run_comparison
   isomdsfit <- comparison_list$isomdsfit
-  cell_line_ids <- comparison_list$cell_line_ids
-  tumor_ids <- comparison_list$tumor_ids
+  cell_lines_with_both_MUT_and_CNA <- comparison_list$cell_lines_with_both_MUT_and_CNA
+  tumors_with_both_MUT_and_CNA <- comparison_list$tumors_with_both_MUT_and_CNA
   
   # From categorize_cell_lines
   mean_similarity_cell_line_to_k_nearest_tumors <- categorization_list$mean_similarity_cell_line_to_k_nearest_tumors
   mean_similarity_tumor_to_k_nearest_tumors <- categorization_list$mean_similarity_tumor_to_k_nearest_tumors
   
-  num_cell_lines <- length(cell_line_ids)
-  num_tumors <- length(tumor_ids)
+  num_cell_lines <- length(cell_lines_with_both_MUT_and_CNA)
+  num_tumors <- length(tumors_with_both_MUT_and_CNA)
   
   cell_lines_and_tumors.col <- c(rep(tumor_color, num_cell_lines), rep(cell_line_color, num_tumors))
   cell_lines_and_tumors.pch <- c(rep(tumor_shape, num_cell_lines), rep(cell_line_shape, num_tumors))
   
   if(trim_cell_line_names) {
-    cell_line_ids <- sapply(cell_line_ids, return_first_part)
-  }  
+    cell_line_ids <- sapply(cell_lines_with_both_MUT_and_CNA, return_first_part)
+  } else {
+    cell_line_ids <- cell_lines_with_both_MUT_and_CNA
+  }
   
   #plot(isomdsfit$points,col=cell_lines_and_tumors.col, pch=cell_lines_and_tumors.pch, xlab="Coordinate 1", ylab="Coordinate 2" ,main="Weighted Correlation, including low-level CNAs")
   #text(x=isomdsfit$points[1:num_cell_lines,1], y=isomdsfit$points[1:num_cell_lines,2]+0.025, labels=cell_line_ids, cex=0.6)
@@ -85,7 +87,7 @@ plot_mds <- function(comparison_list,
   # IGNORE High level only
   #freq_alt_samplewise_cna_high_level_only <- apply(composite_CNA_high_level_only,2,compute_freq_alt)
   #plot(freq_alt_samplewise_mut,freq_alt_samplewise_cna_high_level_only,col=cell_lines_and_tumors.col,xlab="Fraction Genes Mutated",ylab="Fraction genes copy number altered",pch=cell_lines_and_tumors.pch,ylim=c(0,1),xlim=c(0,1),main="Using high-level CNAs only")
-  #text(freq_alt_samplewise_mut[1:length(cell_line_ids)],freq_alt_samplewise_cna_high_level_only[1:length(cell_line_ids)],labels=cell_line_ids,cex=0.6)
+  #text(freq_alt_samplewise_mut[1:length(cell_lines_with_both_MUT_and_CNA)],freq_alt_samplewise_cna_high_level_only[1:length(cell_lines_with_both_MUT_and_CNA)],labels=cell_line_ids,cex=0.6)
   #legend("bottomright",c("Tumors", "Cell Lines"), pch=c(20, 17), cex=.8, col=c("blue", "orange"))
   
   # IGNORE High level only

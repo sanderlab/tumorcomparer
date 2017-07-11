@@ -127,6 +127,8 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
     cor_weighted <- calc_weighted_corr(as.matrix(composite_mat),
                                        as.matrix(composite_mat),
                                        gene_weights)
+    cor_weighted[which(is.na(cor_weighted))] <- 0
+    cor_weighted <- cor_weighted + 1e-6
     # Excluding low-levels CNAs
     #cor_weighted_high_level_only <- calc_weighted_corr(as.matrix(composite_mat_high_level_only),as.matrix(composite_mat_high_level_only),gene_weights)
     
@@ -143,6 +145,8 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
     weighted_distance_excluding_zero_zero_matches <- weighted_distance_excluding_zero_zero_matches + 1e-6
     # Call multidimensional scaling via isoMDS
     dist_mat <- weighted_distance_excluding_zero_zero_matches
+    rownames(dist_mat) <- colnames(composite_mat)
+    colnames(dist_mat) <- colnames(composite_mat)
     isomdsfit <-  isoMDS(dist_mat, k=2)  
   } else {
     stop("ERROR: Unknown distance_similarity_measure: ", distance_similarity_measure)

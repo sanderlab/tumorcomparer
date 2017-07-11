@@ -105,10 +105,10 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
   count <- 1
   
   for(data_type in available_data_types) {
-    cat("DEBUG: ", data_type, "\n")
+    #cat("DEBUG: ", data_type, "\n")
     
     if(data_type == "mut") {
-      cat("DEBUG\n") 
+      #cat("DEBUG\n") 
       
       mut <- generate_composite_mat_and_gene_weights(
         default_weight=mut_default_weight,
@@ -184,8 +184,8 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
   for(data_type in available_data_types) {
     if(data_type == "mut") {
       mut_samples <- colnames(mut$dist_mat) 
-      mut_tumor_ids <- colnames(mut$tumor_ids) 
-      mut_cell_line_ids <- colnames(mut$cell_line_ids) 
+      mut_tumor_ids <- mut$tumor_ids 
+      mut_cell_line_ids <- mut$cell_line_ids
       
       combined_samples_list[["mut"]] <- mut_samples
       combined_tumor_ids_list[["mut"]] <- mut_tumor_ids
@@ -194,8 +194,8 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
     
     if(data_type == "cna") {
       cna_samples <- colnames(cna$dist_mat) 
-      cna_tumor_ids <- colnames(cna$tumor_ids) 
-      cna_cell_line_ids <- colnames(cna$cell_line_ids)
+      cna_tumor_ids <- cna$tumor_ids
+      cna_cell_line_ids <- cna$cell_line_ids
       
       combined_samples_list[["cna"]] <- cna_samples
       combined_tumor_ids_list[["cna"]] <- cna_tumor_ids
@@ -204,8 +204,8 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
     
     if(data_type == "exp") {
       exp_samples <- colnames(exp$dist_mat) 
-      exp_tumor_ids <- colnames(exp$tumor_ids) 
-      exp_cell_line_ids <- colnames(exp$cell_line_ids) 
+      exp_tumor_ids <- exp$tumor_ids
+      exp_cell_line_ids <- exp$cell_line_ids
       
       combined_samples_list[["exp"]] <- exp_samples
       combined_tumor_ids_list[["exp"]] <- exp_tumor_ids
@@ -215,7 +215,7 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
   
   combined_samples <- Reduce(intersect, combined_samples_list)
   combined_tumor_ids <- Reduce(intersect, combined_tumor_ids_list)
-  combined_cell_lines_ids <- Reduce(intersect, combined_cell_line_ids_list)
+  combined_cell_line_ids <- Reduce(intersect, combined_cell_line_ids_list)
   
   # CALCULATE COMBINED_DIST AND ISOMDS ----
   # Idea: If null, set to the matrix check, otherwise add to the existing combined_dist
