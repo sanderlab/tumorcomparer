@@ -68,7 +68,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
     
     freq_alt_samplewise <- apply(composite_mat, 2, compute_freq_alt)
   
-    composite_mat <- composite_mat[, which(freq_alt_samplewise > 0)]
+    #composite_mat <- composite_mat[, which(freq_alt_samplewise > 0)]
     
     names(freq_alt) <- rownames(composite_mat)
     
@@ -110,9 +110,11 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
   for (i in 1:nrow(known_cancer_genes_and_weights))
     annotation_weights[rownames(known_cancer_genes_and_weights)[i]] = known_cancer_genes_and_weights[i, ]
   # Overwrite weight with cancer-type-specific weight if applicable
-  for (i in 1:nrow(genes_and_weights))
-    annotation_weights[rownames(genes_and_weights)[i]] = genes_and_weights[i, ]
-  
+  #for (i in 1:nrow(genes_and_weights))
+   # annotation_weights[rownames(genes_and_weights)[i]] = genes_and_weights[i, ]
+  annotation_weights[intersect(rownames(annotation_weights),rownames(genes_and_weights))] <- genes_and_weights[intersect(rownames(annotation_weights),rownames(genes_and_weights)),]  
+
+
   gene_weights <- rep(1, nrow(composite_mat))
   names(gene_weights) <- rownames(composite_mat)
   

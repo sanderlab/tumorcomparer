@@ -51,10 +51,8 @@
 #'   two dimensions via MDS - multidimensional scaling, using the isoMDS function}
 #'   \item{"cor_unweighted"}{a matrix of unweighted pairwise correlations}
 #'   \item{"composite_mat"}{the composite matrix (see Details)}
-#'   \item{"cell_lines_with_both_MUT_and_CNA"}{a vector of cell line IDs/names with both mutation
-#'    (MUT) and copy number alteration (CNA) information}
-#'   \item{"tumors_with_both_MUT_and_CNA"}{a vector of tumor IDs with both mutation 
-#'   (MUT) and copy number alteration (CNA) information}
+#'   \item{"cell_line_ids"}{a vector of cell line IDs/names with all data types
+#'   \item{"tumor_ids"}{a vector of tumor IDs with all data types
 #' }
 #'
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
@@ -102,6 +100,7 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
        
   # LOAD DATA ----            
   isomdsfit_by_data_type <- list() 
+  dist_mat_by_data_type <- list() 
   count <- 1
   
   for(data_type in available_data_types) {
@@ -121,6 +120,7 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         distance_similarity_measure=distance_similarity_measures[count])
       
       isomdsfit_by_data_type[["mut"]] <- mut$isomdsfit
+      dist_mat_by_data_type[["mut"]] <- mut$dist_mat
     }
     
     if(data_type == "cna") {
@@ -135,6 +135,7 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         distance_similarity_measure=distance_similarity_measures[count])
       
       isomdsfit_by_data_type[["cna"]] <- cna$isomdsfit
+      dist_mat_by_data_type[["cna"]] <- cna$dist_mat
     }
     
     if(data_type == "exp") {
@@ -149,6 +150,8 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         distance_similarity_measure=distance_similarity_measures[count])
       
       isomdsfit_by_data_type[["exp"]] <- exp$isomdsfit
+      dist_mat_by_data_type[["exp"]] <- exp$dist_mat
+
     }
     
     count <- count + 1
@@ -255,8 +258,9 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
   # MERGE RESULTS ----
   results <- list(
     dist_mat = combined_dist,
+    dist_mat_by_data_type = dist_mat_by_data_type, 
     isomdsfit = isomdsfit, 
-    isomdsfit_by_data_type=isomdsfit_by_data_type, 
+    isomdsfit_by_data_type = isomdsfit_by_data_type, 
     cell_line_ids = combined_cell_line_ids,
     tumor_ids = combined_tumor_ids
   )
