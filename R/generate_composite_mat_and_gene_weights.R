@@ -107,8 +107,9 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
 
   # Overwrite default weight with known gene weight if applicable
   names(annotation_weights) <- rownames(composite_mat)
-  for (i in 1:nrow(known_cancer_genes_and_weights))
-    annotation_weights[rownames(known_cancer_genes_and_weights)[i]] = known_cancer_genes_and_weights[i, ]
+  #for (i in 1:nrow(known_cancer_genes_and_weights))
+    #annotation_weights[rownames(known_cancer_genes_and_weights)[i]] = known_cancer_genes_and_weights[i, ]
+  annotation_weights[intersect(rownames(annotation_weights),rownames(known_cancer_genes_and_weights))] <- genes_and_weights[intersect(rownames(annotation_weights),rownames(known_cancer_genes_and_weights)),]  
   # Overwrite weight with cancer-type-specific weight if applicable
   #for (i in 1:nrow(genes_and_weights))
    # annotation_weights[rownames(genes_and_weights)[i]] = genes_and_weights[i, ]

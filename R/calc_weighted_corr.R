@@ -10,6 +10,9 @@
 #'
 #' @concept tumorcomparer
 #' @export
+#' @importFrom expss w_cor w_spearman w_pearson
+
+
 calc_weighted_corr <- function (a, b, w = rep(1, nrow(a))/nrow(a)) {
   # normalize weights
   w <- w / sum(w)
@@ -20,4 +23,6 @@ calc_weighted_corr <- function (a, b, w = rep(1, nrow(a))/nrow(a)) {
   
   # compute weighted correlation
   t(w*a) %*% b / sqrt( colSums(w * a**2) %*% t(colSums(w * b**2)))
+  #cov.wt(cbind(a,b), wt = w, cor = TRUE)
+  #w_spearman(cbind(a, b), weight = w, use = "pairwise.complete.obs")
 }

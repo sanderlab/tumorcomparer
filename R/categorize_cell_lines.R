@@ -1,14 +1,14 @@
 #' Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)
 #' 
-#' @param fraction_of_tumors_for_comparison fraction of tumors used in a k-nearest
-#'  neighbor comparison (DEFAULT: 0.1) 
+#' @param num_tumors_for_comparison number of tumors used in a k-nearest
+#'  neighbor comparison (DEFAULT: 10) 
 #' @param dist_mat a matrix of pairwise weighted distances between all cell lines and tumors
 #' @param composite_mat a composite matrix of alterations in tumors and cell lines 
 #' (see "get_tumor_comparison.R" for detail)
 #' @param cell_line_ids IDs/names of cell lines 
 #' @param tumor_ids IDs of tumors 
 #' @param trim_cell_line_names a boolean whether to trim the the cell lines; 
-#'   this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE); (DEFAULT: TRUE)
+#'   this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE); (DEFAULT: FALSE)
 #' 
 #' @return a list with the following items: 
 #' \itemize{
@@ -23,7 +23,7 @@
 #' @export
 #' 
 #' @importFrom stats cor dist mad median sd
-categorize_cell_lines <- function(fraction_of_tumors_for_comparison=0.1, 
+categorize_cell_lines <- function(num_tumors_for_comparison= 10, 
                                   dist_mat,
                                   cell_line_ids, 
                                   tumor_ids,
@@ -40,7 +40,7 @@ categorize_cell_lines <- function(fraction_of_tumors_for_comparison=0.1,
   num_tumors <- length(tumor_ids)
   
   ## Set K-nearest neighbors 
-  k <- fraction_of_tumors_for_comparison*num_tumors
+  k <- num_tumors_for_comparison
   
   #colnames(dist_mat) <- colnames(composite_mat)
   #rownames(dist_mat) <- colnames(composite_mat)
