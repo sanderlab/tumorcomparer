@@ -4,25 +4,24 @@
 \alias{categorize_cell_lines}
 \title{Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)}
 \usage{
-categorize_cell_lines(fraction_of_tumors_for_comparison = 0.1, dist_mat,
-  composite_mat, cell_lines_with_both_MUT_and_CNA, tumors_with_both_MUT_and_CNA,
-  trim_cell_line_names = TRUE)
+categorize_cell_lines(num_tumors_for_comparison = 10, dist_mat, cell_line_ids,
+  tumor_ids, trim_cell_line_names = FALSE)
 }
 \arguments{
-\item{fraction_of_tumors_for_comparison}{fraction of tumors used in a k-nearest
-neighbor comparison (DEFAULT: 0.1)}
+\item{num_tumors_for_comparison}{number of tumors used in a k-nearest
+neighbor comparison (DEFAULT: 10)}
 
 \item{dist_mat}{a matrix of pairwise weighted distances between all cell lines and tumors}
 
-\item{composite_mat}{a composite matrix of alterations in tumors and cell lines 
-(see "get_tumor_comparison.R" for detail)}
+\item{cell_line_ids}{IDs/names of cell lines}
 
-\item{cell_lines_with_both_MUT_and_CNA}{IDs/names of cell lines with both mutation and CNA data}
-
-\item{tumors_with_both_MUT_and_CNA}{IDs of tumors with both mutation and CNA data}
+\item{tumor_ids}{IDs of tumors}
 
 \item{trim_cell_line_names}{a boolean whether to trim the the cell lines; 
-this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE); (DEFAULT: TRUE)}
+this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE); (DEFAULT: FALSE)}
+
+\item{composite_mat}{a composite matrix of alterations in tumors and cell lines 
+(see "get_tumor_comparison.R" for detail)}
 }
 \value{
 a list with the following items: 

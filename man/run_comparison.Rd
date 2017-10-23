@@ -77,24 +77,9 @@ and the second column specifies the weights.}
 
 \item{cancer_specific_gene_weights_exp_file}{see cancer_specific_gene_weights_mut_file}
 
-\item{distance_similarity_measures}{a named vector of distance/similarity measures (See Details) 
-(OPTIONS: "weighted_correlation", "generalized_jaccard" - must be in the order mut, cna, exp) 
-currently, "generalized_jaccard" is used for mut and cna data, and "weighted_correlation" for exp data}
-}
-\value{
-a list with multiple items. NOTE: The values of the dist and isomdsfit will
- depend on parameter "distance_similarity_measure".
-\itemize{
-  \item{"dist_mat"}{a matrix of pairwise distances}
-  \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to 
-  two dimensions via MDS - multidimensional scaling, using the isoMDS function}
-  \item{"cor_unweighted"}{a matrix of unweighted pairwise correlations}
-  \item{"composite_mat"}{the composite matrix (see Details)}
-  \item{"cell_lines_with_both_MUT_and_CNA"}{a vector of cell line IDs/names with both mutation
-   (MUT) and copy number alteration (CNA) information}
-  \item{"tumors_with_both_MUT_and_CNA"}{a vector of tumor IDs with both mutation 
-  (MUT) and copy number alteration (CNA) information}
-}
+\item{distance_similarity_measures}{a named vector of distance/similarity measures: see details. 
+OPTIONS: weighted_correlation and generalized_jaccard - must be in the order mut, cna, exp. Currently, 
+generalized_jaccard is used for mut and cna data, and weighted_correlation for exp data}
 }
 \description{
 Run a comparison between between two cohorts (e.g. cell lines and tumors)
