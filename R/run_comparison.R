@@ -38,13 +38,13 @@
 #'   and the second column specifies the weights.
 #' @param cancer_specific_gene_weights_cna_file see cancer_specific_gene_weights_mut_file 
 #' @param cancer_specific_gene_weights_exp_file see cancer_specific_gene_weights_mut_file 
-#'
-#' @param distance_similarity_measures a named vector of distance/similarity measures (See Details) 
-#'   (OPTIONS: "weighted_correlation", "generalized_jaccard" - must be in the order mut, cna, exp) 
-#'   currently, "generalized_jaccard" is used for mut and cna data, and "weighted_correlation" for exp data
 #' 
-#' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will
-#'  depend on parameter "distance_similarity_measure".
+#' @param distance_similarity_measures a named vector of distance/similarity measures: see details. 
+#'   OPTIONS: weighted_correlation and generalized_jaccard - must be in the order mut, cna, exp. Currently, 
+#'   generalized_jaccard is used for mut and cna data, and weighted_correlation for exp data
+#'
+#' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on parameter, distance_similarity_measure.
+#' 
 #' \itemize{
 #'   \item{"dist_mat"}{a matrix of pairwise distances}
 #'   \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to 
