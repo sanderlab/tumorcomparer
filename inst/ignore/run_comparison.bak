@@ -59,78 +59,63 @@
 #' @export
 #' 
 #' @importFrom MASS isoMDS
+#' @importFrom cluster daisy
 #' @importFrom utils read.table write.table
 #' @importFrom stats cor
-run_comparison_concatenated <- function(CNA_default_weight=0.01, 
-                           MUT_default_weight=0.01,
-                           CNA_known_cancer_gene_weight=0.1, 
-                           MUT_known_cancer_gene_weight=0.1, 
-                           tumor_mut_file="tumor_MUT.txt", 
-                           tumor_cna_file="tumor_CNA.txt", 
-                           cell_line_mut_file="cell_line_MUT.txt", 
-                           cell_line_cna_file="cell_line_CNA.txt", 
-                           pancancer_gene_weights_file="default_weights_for_known_cancer_genes.txt", 
-                           cancer_specific_gene_weights_file="Genes_and_weights.txt", 
-                           output_composite_alteration_matrix_file="composite_alteration_matrix.txt",
+run_comparison <- function(mut_weight = 1/3,
+                           cna_weight = 1/3,
+                           exp_weight = 1/3,
+                           cna_default_weight=0.01, 
+                           mut_default_weight=0.01,
+                           exp_default_weight=0.01,
+                           cna_known_cancer_gene_weight=0.1, 
+                           mut_known_cancer_gene_weight=0.1, 
+                           exp_known_cancer_gene_weight=0.1, 
+                           tumor_mut_file="tumor_mut.txt", 
+                           tumor_cna_file="tumor_cna.txt", 
+                           tumor_exp_file="tumor_exp.txt", 
+                           cell_line_mut_file="cell_line_mut.txt", 
+                           cell_line_cna_file="cell_line_cna.txt", 
+                           cell_line_exp_file="cell_line_exp.txt", 
+                           pancancer_gene_weights_mut_file="default_weights_for_known_cancer_genes_mut.txt", 
+                           pancancer_gene_weights_cna_file="default_weights_for_known_cancer_genes_cna.txt", 
+                           pancancer_gene_weights_exp_file="default_weights_for_known_cancer_genes_exp.xt", 
+                           cancer_specific_gene_mut_weights_file="Genes_and_weights_mut.txt", 
+                           cancer_specific_gene_cna_weights_file="Genes_and_weights_cna.txt", 
+                           cancer_specific_gene_exp_weights_file="Genes_and_weights_exp.txt", 
                            distance_similarity_measure=c("weighted_correlation", "generalized_jaccard")
                            ) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
-  tumor_MUT <- read.table(tumor_mut_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
-  tumor_CNA <- read.table(tumor_cna_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
-  cell_line_MUT <- read.table(cell_line_mut_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
-  cell_line_CNA <- read.table(cell_line_cna_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+  tumor_mut <- read.table(tumor_mut_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+  tumor_cna <- read.table(tumor_cna_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+  cell_line_mut <- read.table(cell_line_mut_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+  cell_line_cna <- read.table(cell_line_cna_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
   
-  tumors_with_both_MUT_and_CNA <- intersect(colnames(tumor_MUT), colnames(tumor_CNA))
-  cell_lines_with_both_MUT_and_CNA <- intersect(colnames(cell_line_MUT), colnames(cell_line_CNA))
+  cell_line_ids <- sapply(cell_lines_with_both_mut_and_cna, return_first_part)
   
-  cell_line_ids <- sapply(cell_lines_with_both_MUT_and_CNA, return_first_part)
+  genes_with_mut_in_both <- intersect(rownames(tumor_mut), rownames(cell_line_mut))
+  genes_with_cna_in_both <- intersect(rownames(tumor_cna), rownames(cell_line_cna))
+ 
+  composite_mat_mut <- cbind(cell_line_mut[genes_with_mut_in_both,], tumor_mut[genes_with_mut_in_both,])
+  composite_mat_cna <- cbind(cell_line_cna[genes_with_cna_in_both,], tumor_cna[genes_with_cna_in_both,])
+
+ 
+  cell_line_cna_high_level_only <- apply(cell_line_cna, 2, keep_only_high_level_cnas)
+  tumor_cna_high_level_only <- apply(tumor_cna, 2, keep_only_high_level_cnas)
+  composite_mat_cna_high_level_only <- apply(composite_mat_cna, 2, keep_only_high_level_cnas)
   
-  genes_with_MUT_in_both <- intersect(rownames(tumor_MUT), rownames(cell_line_MUT))
-  genes_with_CNA_in_both <- intersect(rownames(tumor_CNA), rownames(cell_line_CNA))
-  
-  # Need not do this unless really want MUT and CNA data for the same gene sets
-  genes_in_all_4_files <-
-    intersect(genes_with_MUT_in_both, genes_with_CNA_in_both)
-  
-  cell_line_CNA_high_level_only <- apply(cell_line_CNA, 2, keep_only_high_level_cnas)
-  tumor_CNA_high_level_only <- apply(tumor_CNA, 2, keep_only_high_level_cnas)
-  
-  # CREATE COMPOSITE MATRIX ----
-  ## Rows genes (MUT, CNA), columns (Tumors/cell lines)
-  composite_CNA <- cbind(cell_line_CNA[genes_in_all_4_files, cell_lines_with_both_MUT_and_CNA], tumor_CNA[genes_in_all_4_files, tumors_with_both_MUT_and_CNA])
-  composite_CNA_high_level_only <- cbind(cell_line_CNA_high_level_only[genes_in_all_4_files, cell_lines_with_both_MUT_and_CNA], tumor_CNA_high_level_only[genes_in_all_4_files, tumors_with_both_MUT_and_CNA])
-  composite_MUT <- cbind(cell_line_MUT[genes_with_MUT_in_both, cell_lines_with_both_MUT_and_CNA], tumor_MUT[genes_with_MUT_in_both, tumors_with_both_MUT_and_CNA])
-  
-  colnames(composite_MUT) <- c(cell_lines_with_both_MUT_and_CNA,tumors_with_both_MUT_and_CNA)
-  colnames(composite_CNA) <- c(cell_lines_with_both_MUT_and_CNA,tumors_with_both_MUT_and_CNA)
-  colnames(composite_CNA_high_level_only) <- c(cell_lines_with_both_MUT_and_CNA,tumors_with_both_MUT_and_CNA)
-  
-  rownames(composite_MUT) <- paste(rownames(composite_MUT), "MUT", sep = "_")
-  rownames(composite_CNA) <- paste(rownames(composite_CNA), "CNA", sep = "_")
-  rownames(composite_CNA_high_level_only) <- paste(rownames(composite_CNA_high_level_only), "CNA", sep = "_")
-  
-  
-  
-  # Generate matrix and convert to matrix 
-  composite_mat <- rbind(composite_MUT, composite_CNA)
-  composite_mat <- as.matrix(composite_mat)
-  
-  # WRITE COMPOSITE
-  if(!is.null(output_composite_alteration_matrix_file)) {
-    write.table(composite_mat,
-                file = output_composite_alteration_matrix_file,
-                sep = "\t",
-                quote = FALSE)
-  }
-  #composite_mat_high_level_only <- rbind(composite_MUT,composite_CNA_high_level_only)
   
   # Calculation of alteration frequencies
   # Assign frequency weights as (freq. of alteration of gene)/(mean freq. of alteration across all genes) - "rewarding recurrent changes"
-  overall_alt_freq <- length(which((composite_mat[]) != 0)) / (length(which((composite_mat[]) == 0)) + length(which((composite_mat[]) !=
+  overall_alt_freq_mut <- length(which((composite_mat_mut[]) != 0)) / (length(which((composite_mat_mut[]) == 0)) + length(which((composite_mat_mut[]) !=
+  
+  overall_alt_freq_cna <- length(which((composite_mat_cna[]) != 0)) / (length(which((composite_mat_cna[]) == 0)) + length(which((composite_mat_cna[]) !=
                                                                                         0)))
-  freq_alt <- rep(0, nrow(composite_mat))
-  freq_alt <- apply(composite_mat, 1, compute_freq_alt)
+  freq_alt_mut <- rep(0, nrow(composite_mat_mut))
+  freq_alt_mut <- apply(composite_mat_mut, 1, compute_freq_alt)
+  freq_alt_cna <- rep(0, nrow(composite_mat_cna))
+  freq_alt_cna <- apply(composite_mat_mut, 1, compute_freq_alt)
   #freq_alt_high_level  <- apply(composite_mat_high_level_only,1,compute_freq_alt)
   freq_alt_mut_tumors <- apply(composite_MUT[, tumors_with_both_MUT_and_CNA], 1, compute_freq_alt)
   freq_alt_cna_tumors <- apply(composite_CNA[, tumors_with_both_MUT_and_CNA], 1, compute_freq_alt)

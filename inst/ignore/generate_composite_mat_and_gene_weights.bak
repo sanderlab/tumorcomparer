@@ -76,14 +76,9 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
     freq_weights <- freq_alt / overall_alt_freq
     names(freq_weights) <- rownames(composite_mat)
   }
- 
-  #Intitalize weights with default weights
-  gene_weights <- rep(default_weight,nrow(composite_mat))
-  names(gene_weights) <- rownames(composite_mat)
-
- 
+  
   # GET WEIGHTS ----
-  # Read in user-provided weights for known cancer genes
+  # Read in user-provided weights
   known_cancer_genes_and_weights_all <-
     read.table(
       known_cancer_gene_weights_file,
@@ -93,10 +88,9 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
     )
   rownames(known_cancer_genes_and_weights_all) <- trimws(rownames(known_cancer_genes_and_weights_all)) # trim whitespace, if any
 
-  gene_weights[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all))] <- known_cancer_genes_and_weights_all[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all)),1]
 
-
-  # Read in user-provided weights for cancer-specific genes
+  # To eliminate entries not present in alteration matrix, if any    
+  known_cancer_genes_and_weights <- as.matrix(known_cancer_genes_and_weights_all[intersect(rownames(known_cancer_genes_and_weights_all), rownames(composite_mat)), ]) 
   genes_and_weights_all <-
     read.table(
       cancer_specific_gene_weights_file,
@@ -106,9 +100,32 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
     )
   rownames(genes_and_weights_all) <- trimws(rownames(genes_and_weights_all)) # trim whitespace, if any
     
-  gene_weights[intersect(names(gene_weights),rownames(genes_and_weights_all))] <- genes_and_weights_all[intersect(names(gene_weights),rownames(genes_and_weights_all)),1]
+  # To eliminate entries not present in alteration matrix, if any
+  genes_and_weights <- as.matrix(genes_and_weights_all[intersect(rownames(genes_and_weights_all), rownames(composite_mat)), ]) 
+  rownames(genes_and_weights) <- intersect(rownames(genes_and_weights_all), rownames(composite_mat))
+  rownames(known_cancer_genes_and_weights) <- intersect(rownames(known_cancer_genes_and_weights_all), rownames(composite_mat))
   
-  gene_weights <- gene_weights / max(gene_weights + 1e-6) # map to 0-1
+  # Populate weights with default weights
+  annotation_weights <- rep(default_weight, nrow(composite_mat))
+
+  # Overwrite default weight with known gene weight if applicable
+  names(annotation_weights) <- rownames(composite_mat)
+  #for (i in 1:nrow(known_cancer_genes_and_weights))
+    #annotation_weights[rownames(known_cancer_genes_and_weights)[i]] = known_cancer_genes_and_weights[i, ]
+  annotation_weights[intersect(names(annotation_weights),rownames(known_cancer_genes_and_weights))] <- genes_and_weights[intersect(names(annotation_weights),rownames(known_cancer_genes_and_weights)),1]  
+  # Overwrite weight with cancer-type-specific weight if applicable
+  #for (i in 1:nrow(genes_and_weights))
+   # annotation_weights[names(genes_and_weights)[i]] = genes_and_weights[i, ]
+  annotation_weights[intersect(names(annotation_weights),rownames(genes_and_weights))] <- genes_and_weights[intersect(names(annotation_weights),rownames(genes_and_weights)),1]  
+
+
+  #gene_weights <- rep(1, nrow(composite_mat))
+  #gene_weights <- rep(default_weight, nrow(composite_mat))
+  gene_weights <- runif(nrow(composite_mat))
+  names(gene_weights) <- rownames(composite_mat)
+  
+  #gene_weights <- annotation_weights # if using user-provided weights only
+  #gene_weights <- gene_weights / max(gene_weights) # map to 0-1
   
   #cor_unweighted <- cor(composite_mat)  
   
@@ -119,7 +136,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
                                        as.matrix(composite_mat),
                                        gene_weights)
     cor_weighted[which(is.na(cor_weighted))] <- 0
-    cor_weighted <- cor_weighted - 1e-6
+    cor_weighted <- cor_weighted + 1e-6
     # Excluding low-levels CNAs
     #cor_weighted_high_level_only <- calc_weighted_corr(as.matrix(composite_mat_high_level_only),as.matrix(composite_mat_high_level_only),gene_weights)
     
@@ -142,15 +159,13 @@ generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer
   } else {
     stop("ERROR: Unknown distance_similarity_measure: ", distance_similarity_measure)
   }
-
+ 
  
   results <- list(
     dist_mat = dist_mat,
     isomdsfit = isomdsfit, 
     composite_mat = composite_mat,
     gene_weights = gene_weights,
-    cancer_specific_gene_weights = genes_and_weights_all,
-    known_cancer_gene_weights = known_cancer_genes_and_weights_all,
     cell_line_ids = cell_line_ids,
     tumor_ids = tumor_ids
   )

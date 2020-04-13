@@ -86,7 +86,8 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
                            cancer_specific_gene_weights_mut_file="Genes_and_weights_mut.txt", 
                            cancer_specific_gene_weights_cna_file="Genes_and_weights_cna.txt", 
                            cancer_specific_gene_weights_exp_file="Genes_and_weights_exp.txt", 
-                           distance_similarity_measures=c("generalized_jaccard", "generalized_jaccard", "weighted_correlation")
+                           distance_similarity_measures=c("generalized_jaccard", "weighted_correlation", "weighted_correlation")
+                           #distance_similarity_measures=c("generalized_jaccard", "generalized_jaccard", "weighted_correlation")
                            ) {
   
   # CHECK available_data_types and distance_similarity_measures ----
@@ -101,6 +102,10 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
   # LOAD DATA ----            
   isomdsfit_by_data_type <- list() 
   dist_mat_by_data_type <- list() 
+  composite_mat_by_data_type <- list() 
+  gene_weights_by_data_type <- list() 
+  cancer_specific_gene_weights_by_data_type <- list()
+  known_cancer_gene_weights_by_data_type <- list()
   count <- 1
   
   for(data_type in available_data_types) {
@@ -121,6 +126,10 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
       
       isomdsfit_by_data_type[["mut"]] <- mut$isomdsfit
       dist_mat_by_data_type[["mut"]] <- mut$dist_mat
+      composite_mat_by_data_type[["mut"]] <- mut$composite_mat
+      gene_weights_by_data_type[["mut"]] <- mut$gene_weights
+      known_cancer_gene_weights_by_data_type[["mut"]] <- mut$known_cancer_gene_weights
+      cancer_specific_gene_weights_by_data_type[["mut"]] <- mut$cancer_specific_gene_weights
     }
     
     if(data_type == "cna") {
@@ -131,11 +140,15 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         cell_line_file=cell_line_cna_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_cna_file,
         cancer_specific_gene_weights_file=cancer_specific_gene_weights_cna_file, 
-        is_discrete=TRUE,
+        is_discrete=FALSE,
         distance_similarity_measure=distance_similarity_measures[count])
       
       isomdsfit_by_data_type[["cna"]] <- cna$isomdsfit
       dist_mat_by_data_type[["cna"]] <- cna$dist_mat
+      composite_mat_by_data_type[["cna"]] <- cna$composite_mat
+      gene_weights_by_data_type[["cna"]] <- cna$gene_weights
+      known_cancer_gene_weights_by_data_type[["cna"]] <- cna$known_cancer_gene_weights
+      cancer_specific_gene_weights_by_data_type[["cna"]] <- cna$cancer_specific_gene_weights
     }
     
     if(data_type == "exp") {
@@ -151,7 +164,10 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
       
       isomdsfit_by_data_type[["exp"]] <- exp$isomdsfit
       dist_mat_by_data_type[["exp"]] <- exp$dist_mat
-
+      composite_mat_by_data_type[["exp"]] <- exp$composite_mat
+      gene_weights_by_data_type[["exp"]] <- exp$gene_weights
+      known_cancer_gene_weights_by_data_type[["exp"]] <- exp$known_cancer_gene_weights
+      cancer_specific_gene_weights_by_data_type[["exp"]] <- exp$cancer_specific_gene_weights
     }
     
     count <- count + 1
@@ -258,11 +274,15 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
   # MERGE RESULTS ----
   results <- list(
     dist_mat = combined_dist,
-    dist_mat_by_data_type = dist_mat_by_data_type, 
-    isomdsfit = isomdsfit, 
-    isomdsfit_by_data_type = isomdsfit_by_data_type, 
+    dist_mat_by_data_type = dist_mat_by_data_type,
+    composite_mat_by_data_type = composite_mat_by_data_type,
+    gene_weights_by_data_type = gene_weights_by_data_type,
+    isomdsfit = isomdsfit,
+    isomdsfit_by_data_type = isomdsfit_by_data_type,
     cell_line_ids = combined_cell_line_ids,
-    tumor_ids = combined_tumor_ids
+    tumor_ids = combined_tumor_ids,
+    known_cancer_gene_weights_by_data_type = known_cancer_gene_weights_by_data_type,
+    cancer_specific_gene_weights_by_data_type = cancer_specific_gene_weights_by_data_type
   )
   
   return(results)
