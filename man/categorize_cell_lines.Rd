@@ -4,8 +4,13 @@
 \alias{categorize_cell_lines}
 \title{Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)}
 \usage{
-categorize_cell_lines(num_tumors_for_comparison = 10, dist_mat, cell_line_ids,
-  tumor_ids, trim_cell_line_names = FALSE)
+categorize_cell_lines(
+  num_tumors_for_comparison = 10,
+  dist_mat,
+  cell_line_ids,
+  tumor_ids,
+  trim_cell_line_names = FALSE
+)
 }
 \arguments{
 \item{num_tumors_for_comparison}{number of tumors used in a k-nearest
@@ -37,6 +42,4 @@ Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 1
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

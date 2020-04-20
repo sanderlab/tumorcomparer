@@ -20,6 +20,4 @@ Keep only high-level CNAs (set low-level CNAs to 0)
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

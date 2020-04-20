@@ -4,10 +4,16 @@
 \alias{generate_composite_mat_and_gene_weights}
 \title{Run a comparison between between two cohorts (e.g. cell lines and tumors)}
 \usage{
-generate_composite_mat_and_gene_weights(default_weight,
-  known_cancer_gene_weight, tumor_file, cell_line_file,
-  known_cancer_gene_weights_file, cancer_specific_gene_weights_file,
-  is_discrete, distance_similarity_measure)
+generate_composite_mat_and_gene_weights(
+  default_weight,
+  known_cancer_gene_weight,
+  tumor_file,
+  cell_line_file,
+  known_cancer_gene_weights_file,
+  cancer_specific_gene_weights_file,
+  is_discrete,
+  distance_similarity_measure
+)
 }
 \arguments{
 \item{default_weight}{see run_comparison}
@@ -55,6 +61,4 @@ The composite matrix is a single matrix where the columns are samples
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

@@ -4,13 +4,20 @@
 \alias{run_comparison}
 \title{Run a comparison between between two cohorts (e.g. cell lines and tumors)}
 \usage{
-run_comparison(available_data_types = c("mut", "cna", "exp"),
-  mut_data_type_weight = 1/3, cna_data_type_weight = 1/3,
-  exp_data_type_weight = 1/3, cna_default_weight = 0.01,
-  mut_default_weight = 0.01, exp_default_weight = 0.01,
-  cna_known_cancer_gene_weight = 0.1, mut_known_cancer_gene_weight = 0.1,
-  exp_known_cancer_gene_weight = 0.1, tumor_mut_file = "tumor_mut.txt",
-  tumor_cna_file = "tumor_cna.txt", tumor_exp_file = "tumor_exp.txt",
+run_comparison(
+  available_data_types = c("mut", "cna", "exp"),
+  mut_data_type_weight = 1/3,
+  cna_data_type_weight = 1/3,
+  exp_data_type_weight = 1/3,
+  cna_default_weight = 0.01,
+  mut_default_weight = 0.01,
+  exp_default_weight = 0.01,
+  cna_known_cancer_gene_weight = 0.1,
+  mut_known_cancer_gene_weight = 0.1,
+  exp_known_cancer_gene_weight = 0.1,
+  tumor_mut_file = "tumor_mut.txt",
+  tumor_cna_file = "tumor_cna.txt",
+  tumor_exp_file = "tumor_exp.txt",
   cell_line_mut_file = "cell_line_mut.txt",
   cell_line_cna_file = "cell_line_cna.txt",
   cell_line_exp_file = "cell_line_exp.txt",
@@ -20,8 +27,9 @@ run_comparison(available_data_types = c("mut", "cna", "exp"),
   cancer_specific_gene_weights_mut_file = "Genes_and_weights_mut.txt",
   cancer_specific_gene_weights_cna_file = "Genes_and_weights_cna.txt",
   cancer_specific_gene_weights_exp_file = "Genes_and_weights_exp.txt",
-  distance_similarity_measures = c("generalized_jaccard",
-  "generalized_jaccard", "weighted_correlation"))
+  distance_similarity_measures = c("generalized_jaccard", "weighted_correlation",
+    "weighted_correlation")
+)
 }
 \arguments{
 \item{available_data_types}{a vector of data types to be analyzed; the order of these much match distance_similarity_measures}
@@ -77,9 +85,12 @@ and the second column specifies the weights.}
 
 \item{cancer_specific_gene_weights_exp_file}{see cancer_specific_gene_weights_mut_file}
 
-\item{distance_similarity_measures}{a named vector of distance/similarity measures (See Details) 
-(OPTIONS: "weighted_correlation", "generalized_jaccard" - must be in the order mut, cna, exp) 
-currently, "generalized_jaccard" is used for mut and cna data, and "weighted_correlation" for exp data}
+\item{distance_similarity_measures}{a named vector of distance/similarity measures: see details. 
+OPTIONS: weighted_correlation and generalized_jaccard - must be in the order mut, cna, exp. Currently, 
+generalized_jaccard is used for mut and cna data, and weighted_correlation for exp data}
+}
+\value{
+
 }
 \description{
 Run a comparison between between two cohorts (e.g. cell lines and tumors)
@@ -87,6 +98,4 @@ Run a comparison between between two cohorts (e.g. cell lines and tumors)
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

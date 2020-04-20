@@ -4,9 +4,16 @@
 \alias{plot_mds}
 \title{Plot the results from run_comparison as a two dimension multi-dimensional scaling (MDS) plot}
 \usage{
-plot_mds(comparison_list, categorization_list, trim_cell_line_names = FALSE,
-  tumor_color = "blue", cell_line_color = "orange", use_gradient = TRUE,
-  tumor_shape = 20, cell_line_shape = 17)
+plot_mds(
+  comparison_list,
+  categorization_list,
+  trim_cell_line_names = FALSE,
+  tumor_color = "blue",
+  cell_line_color = "orange",
+  use_gradient = TRUE,
+  tumor_shape = 20,
+  cell_line_shape = 17
+)
 }
 \arguments{
 \item{comparison_list}{the results of run_comparison() (See: run_comparison())}
@@ -40,6 +47,4 @@ Plot the results from run_comparison as a two dimension multi-dimensional scalin
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

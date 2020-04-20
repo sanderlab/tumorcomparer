@@ -21,6 +21,4 @@ This is only for CCLE (or similar) IDs and is used for plotting
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

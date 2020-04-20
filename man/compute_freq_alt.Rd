@@ -18,6 +18,4 @@ Computes frequency of alteration (fraction of non-zeroes)
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

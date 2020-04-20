@@ -4,9 +4,13 @@
 \alias{map_mean_similarity_to_gradient}
 \title{Map mean similarity of cell lines to k nearest tumors to create a gradient from color 1 to color 2}
 \usage{
-map_mean_similarity_to_gradient(mean_similarity_cell_line_to_k_nearest_tumors,
-  mean_similarity_tumor_to_k_nearest_tumors, col1 = "orange", col2 = "blue",
-  numshades = 100)
+map_mean_similarity_to_gradient(
+  mean_similarity_cell_line_to_k_nearest_tumors,
+  mean_similarity_tumor_to_k_nearest_tumors,
+  col1 = "orange",
+  col2 = "blue",
+  numshades = 100
+)
 }
 \arguments{
 \item{mean_similarity_cell_line_to_k_nearest_tumors}{a vector of mean similarities for each cell line to k nearest tumors}
@@ -28,6 +32,4 @@ Map mean similarity of cell lines to k nearest tumors to create a gradient from 
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

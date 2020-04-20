@@ -4,17 +4,20 @@
 \alias{run_comparison_concatenated}
 \title{Run a comparison between between two cohorts (e.g. cell lines and tumors)}
 \usage{
-run_comparison_concatenated(CNA_default_weight = 0.01,
-  MUT_default_weight = 0.01, CNA_known_cancer_gene_weight = 0.1,
-  MUT_known_cancer_gene_weight = 0.1, tumor_mut_file = "tumor_MUT.txt",
+run_comparison_concatenated(
+  CNA_default_weight = 0.01,
+  MUT_default_weight = 0.01,
+  CNA_known_cancer_gene_weight = 0.1,
+  MUT_known_cancer_gene_weight = 0.1,
+  tumor_mut_file = "tumor_MUT.txt",
   tumor_cna_file = "tumor_CNA.txt",
   cell_line_mut_file = "cell_line_MUT.txt",
   cell_line_cna_file = "cell_line_CNA.txt",
   pancancer_gene_weights_file = "default_weights_for_known_cancer_genes.txt",
   cancer_specific_gene_weights_file = "Genes_and_weights.txt",
   output_composite_alteration_matrix_file = "composite_alteration_matrix.txt",
-  distance_similarity_measure = c("weighted_correlation",
-  "generalized_jaccard"))
+  distance_similarity_measure = c("weighted_correlation", "generalized_jaccard")
+)
 }
 \arguments{
 \item{CNA_default_weight}{default weight for copy number alterations (CNA) (DEFAULT: 0.01)}
@@ -60,13 +63,13 @@ output of the the composite alteration matrix (see Details)
 }
 \value{
 a list with multiple items. NOTE: The values of the dist and isomdsfit will
- depend on parameter "distance_similarity_measure".
+ depend on parameter: distance_similarity_measure.
 \itemize{
   \item{"dist"}{a matrix of pairwise distances}
-  \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to 
+  \item{"isomdsfit"}{a two-column, 2-dimension, fitting of the distances reduced to 
   two dimensions via MDS - multidimensional scaling, using the isoMDS function}
   \item{"cor_unweighted"}{a matrix of unweighted pairwise correlations}
-  \item{"composite_mat"}{the composite matrix (see Details)}
+  \item{"composite_mat"}{the composite matrix, see Details}
   \item{"cell_lines_with_both_MUT_and_CNA"}{a vector of cell line IDs/names with both mutation
    (MUT) and copy number alteration (CNA) information}
   \item{"tumors_with_both_MUT_and_CNA"}{a vector of tumor IDs with both mutation 
@@ -89,6 +92,4 @@ The composite matrix is a single matrix where the columns are samples
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

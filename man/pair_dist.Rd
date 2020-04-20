@@ -22,6 +22,4 @@ Calculate a weighted distance (between two vectors) based on Jaccard's coefficie
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

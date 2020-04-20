@@ -4,9 +4,15 @@
 \alias{plot_freq_alt}
 \title{Plot mutation and copy number fractions}
 \usage{
-plot_freq_alt(comparison_list, tumor_color = "blue",
-  cell_line_color = "orange", tumor_shape = 17, cell_line_shape = 20,
-  trim_cell_line_names = TRUE, max_xlim = 1)
+plot_freq_alt(
+  comparison_list,
+  tumor_color = "blue",
+  cell_line_color = "orange",
+  tumor_shape = 17,
+  cell_line_shape = 20,
+  trim_cell_line_names = TRUE,
+  max_xlim = 1
+)
 }
 \arguments{
 \item{comparison_list}{the results of run_comparison() (See: run_comparison())}
@@ -33,6 +39,4 @@ Plot mutation and copy number fractions
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}

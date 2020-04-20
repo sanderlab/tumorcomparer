@@ -18,6 +18,4 @@ Run Shiny App
 }
 
 }
-\concept{
-tumorcomparer
-}
+\concept{tumorcomparer}
