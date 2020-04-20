@@ -2,9 +2,9 @@
 #'
 #' @param available_data_types a vector of data types to be analyzed; the order of these much match distance_similarity_measures
 #' 
-#' @param cna_data_type_weight TBA
-#' @param mut_data_type_weight TBA
-#' @param exp_data_type_weight TBA
+#' @param cna_data_type_weight TODO
+#' @param mut_data_type_weight TODO
+#' @param exp_data_type_weight TODO
 #' 
 #' @param cna_default_weight default (background) weight for copy number alterations (CNA) (DEFAULT: 0.01). 
 #'   Default weights are assigned to genes not known to be important in the specific cancer type or cancer in general
@@ -44,16 +44,13 @@
 #'   generalized_jaccard is used for mut and cna data, and weighted_correlation for exp data
 #'
 #' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on parameter, distance_similarity_measure.
-#' 
-#' \itemize{
-#'   \item{"dist_mat"}{a matrix of pairwise distances}
-#'   \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to 
-#'   two dimensions via MDS - multidimensional scaling, using the isoMDS function}
-#'   \item{"cor_unweighted"}{a matrix of unweighted pairwise correlations}
-#'   \item{"composite_mat"}{the composite matrix (see Details)}
-#'   \item{"cell_line_ids"}{a vector of cell line IDs/names with all data types
-#'   \item{"tumor_ids"}{a vector of tumor IDs with all data types
-#' }
+#' * dist_mat: a matrix of pairwise distances
+#' * isomdsfit: a two-column (2-dimension) fitting of the distances reduced to two dimensions via MDS - multidimensional scaling, using the isoMDS function
+#' * cor_unweighted: a matrix of unweighted pairwise correlations
+#' * composite_mat: the composite matrix (see Details)
+#' * cell_line_ids: a vector of cell line IDs/names with all data types
+#' * tumor_ids: a vector of tumor IDs with all data types
+#' @md
 #'
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'

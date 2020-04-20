@@ -34,27 +34,27 @@ run_comparison(
 \arguments{
 \item{available_data_types}{a vector of data types to be analyzed; the order of these much match distance_similarity_measures}
 
-\item{mut_data_type_weight}{TBA}
+\item{mut_data_type_weight}{TODO}
 
-\item{cna_data_type_weight}{TBA}
+\item{cna_data_type_weight}{TODO}
 
-\item{exp_data_type_weight}{TBA}
+\item{exp_data_type_weight}{TODO}
 
-\item{cna_default_weight}{default (background) weight for copy number alterations (CNA) (DEFAULT: 0.01). 
+\item{cna_default_weight}{default (background) weight for copy number alterations (CNA) (DEFAULT: 0.01).
 Default weights are assigned to genes not known to be important in the specific cancer type or cancer in general}
 
 \item{mut_default_weight}{default (background) weight for mutation alterations (MUT) (DEFAULT: 0.01); CNA_default_weight}
 
 \item{exp_default_weight}{default (background) weight for mRNA gene expression values (EXP) (DEFAULT: 0.01)}
 
-\item{cna_known_cancer_gene_weight}{a default weight for genes important in cancer (DEFAULT: 0.1); 
-an example would genes in the TCGA pan-cancer CNA list (i.e. GISTIC peaks). Known cancer gene weights are 
+\item{cna_known_cancer_gene_weight}{a default weight for genes important in cancer (DEFAULT: 0.1);
+an example would genes in the TCGA pan-cancer CNA list (i.e. GISTIC peaks). Known cancer gene weights are
 default weight for genes important in cancer (an example would genes derived from TCGA pan-cancer analyses or literature)}
 
 \item{mut_known_cancer_gene_weight}{a default weight for genes important in cancer (DEFAULT: 0.1);
 an example would genes in the TCGA pan-cancer mutation list (i.e. MUTSIG SMGs)}
 
-\item{exp_known_cancer_gene_weight}{a default weight for genes important in cancer(DEFAULT: 0.1); 
+\item{exp_known_cancer_gene_weight}{a default weight for genes important in cancer(DEFAULT: 0.1);
 an example would genes in the COSMIC Cancer Gene Census}
 
 \item{tumor_mut_file}{a file with binary mutation data for tumors}
@@ -70,7 +70,7 @@ an example would genes in the COSMIC Cancer Gene Census}
 \item{cell_line_exp_file}{a file with gene expression data for cell lines}
 
 \item{known_cancer_gene_weights_mut_file}{a file with weights for genes known
-to be recurrently altered/mutated in cancer (e.g. recurrently mutated genes in TCGA pan-cancer analyses). 
+to be recurrently altered/mutated in cancer (e.g. recurrently mutated genes in TCGA pan-cancer analyses).
 A two-column tab-delimited file - the first column has the gene names and the second column specifies the weights.}
 
 \item{known_cancer_gene_weights_cna_file}{see known_cancer_gene_weights_mut_file}
@@ -85,12 +85,20 @@ and the second column specifies the weights.}
 
 \item{cancer_specific_gene_weights_exp_file}{see cancer_specific_gene_weights_mut_file}
 
-\item{distance_similarity_measures}{a named vector of distance/similarity measures: see details. 
-OPTIONS: weighted_correlation and generalized_jaccard - must be in the order mut, cna, exp. Currently, 
+\item{distance_similarity_measures}{a named vector of distance/similarity measures: see details.
+OPTIONS: weighted_correlation and generalized_jaccard - must be in the order mut, cna, exp. Currently,
 generalized_jaccard is used for mut and cna data, and weighted_correlation for exp data}
 }
 \value{
-
+a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on parameter, distance_similarity_measure.
+\itemize{
+\item dist_mat: a matrix of pairwise distances
+\item isomdsfit: a two-column (2-dimension) fitting of the distances reduced to two dimensions via MDS - multidimensional scaling, using the isoMDS function
+\item cor_unweighted: a matrix of unweighted pairwise correlations
+\item composite_mat: the composite matrix (see Details)
+\item cell_line_ids: a vector of cell line IDs/names with all data types
+\item tumor_ids: a vector of tumor IDs with all data types
+}
 }
 \description{
 Run a comparison between between two cohorts (e.g. cell lines and tumors)

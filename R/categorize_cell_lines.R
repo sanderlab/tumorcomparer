@@ -3,8 +3,6 @@
 #' @param num_tumors_for_comparison number of tumors used in a k-nearest
 #'  neighbor comparison (DEFAULT: 10) 
 #' @param dist_mat a matrix of pairwise weighted distances between all cell lines and tumors
-#' @param composite_mat a composite matrix of alterations in tumors and cell lines 
-#' (see "get_tumor_comparison.R" for detail)
 #' @param cell_line_ids IDs/names of cell lines 
 #' @param tumor_ids IDs of tumors 
 #' @param trim_cell_line_names a boolean whether to trim the the cell lines; 

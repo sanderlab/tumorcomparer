@@ -24,9 +24,6 @@ neighbor comparison (DEFAULT: 10)}
 
 \item{trim_cell_line_names}{a boolean whether to trim the the cell lines; 
 this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE); (DEFAULT: FALSE)}
-
-\item{composite_mat}{a composite matrix of alterations in tumors and cell lines 
-(see "get_tumor_comparison.R" for detail)}
 }
 \value{
 a list with the following items: 
