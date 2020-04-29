@@ -1,5 +1,7 @@
 #' Keep only high-level CNAs (set low-level CNAs to 0)
 #' 
+#' TODO CNA 
+#' 
 #' @param cna_mat a matrix or vector of 5-valued CNA (copy number alteration) data; 
 #'   possible values: -2: Deep deletion, -1: Shallow deletion, 0: Diploid (or default copy number), 
 #'   1: Low-level gain, 2: High-level amplification

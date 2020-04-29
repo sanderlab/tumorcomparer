@@ -1,0 +1,157 @@
+---
+title: "tumorcomparer Introduction"
+author: "Rileen Sinha and Augustin Luna"
+date: '`r Sys.Date()`'
+output:
+  BiocStyle::html_document:
+    toc: yes
+    toc_float: no
+  rmarkdown::html_vignette:
+    self_contained: yes
+    toc: yes
+  html_notebook: default
+  pdf_document:
+    toc: yes
+  html_document:
+    depth: 3
+    number_sections: yes
+    toc: yes
+vignette: >
+  %\VignetteIndexEntry{tumorcomparer Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+require("knitr")
+opts_chunk$set(fig.align="center", fig.width=6, fig.height=6, dpi=96)
+```
+
+# Overview
+
+TODO replace with manuscript abstract
+
+# Getting started 
+```{r loadLibraries, message=FALSE, warning=FALSE}
+library(tumorcomparer)
+```
+
+A list of all accessible vignettes and methods is available with the following command.
+
+```{r, eval=FALSE}
+help.search("tumorcomparer")
+```
+
+# Load Data
+
+This example makes use of TCGA Pan-
+
+```{r}
+# NOTE: Example files are embedded in the package and are accessible with system.file()
+tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
+tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
+tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", package="tumorcomparer")
+
+cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
+cell_line_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_cna.txt", package="tumorcomparer")
+cell_line_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_exp.txt", package="tumorcomparer")
+
+known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
+known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+
+cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
+cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_cna.txt", package="tumorcomparer")
+cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_exp.txt", package="tumorcomparer")
+```
+
+# Run Comparison
+
+Each data type is processed separately with its own separate weights and inputs. Currently, there is support for mutation, copy number, expression data types. NOTE: Inclusion of all input data types is not required. 
+
+```{r}
+comparison_result <- run_comparison(
+               available_data_types=c("mut", "cna", "exp"), 
+               mut_data_type_weight = 1/3,
+               cna_data_type_weight = 1/3,
+               exp_data_type_weight = 1/3,
+               cna_default_weight=0.01, 
+               mut_default_weight=0.01,
+               exp_default_weight=0.01,
+               cna_known_cancer_gene_weight=0.1, 
+               mut_known_cancer_gene_weight=0.1, 
+               exp_known_cancer_gene_weight=0.1, 
+               tumor_mut_file=tumor_mut_file, 
+               tumor_cna_file=tumor_cna_file, 
+               tumor_exp_file=tumor_exp_file, 
+               cell_line_mut_file=cell_line_ths_file, 
+               cell_line_cna_file=cell_line_cna_file, 
+               cell_line_exp_file=cell_line_exp_file, 
+               known_cancer_gene_weights_mut_file=known_cancer_gene_weights_mut_file, 
+               known_cancer_gene_weights_cna_file=known_cancer_gene_weights_cna_file, 
+               known_cancer_gene_weights_exp_file=known_cancer_gene_weights_exp_file, 
+               cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
+               cancer_specific_gene_weights_cna_file=cancer_specific_gene_weights_cna_file, 
+               cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file,
+               distance_similarity_measures=c("generalized_jaccard", 
+                                              "generalized_jaccard", 
+                                              "weighted_correlation"))
+
+# See returned outputs
+names(comparison_result)
+```
+
+# Categorize Results
+
+TODO revisit this function 
+
+NOTES: 
+* This function works best when used with only copy number and mutations. Gene expression data causes more samples to to be classified as worse matches if the distributions of the gene expression of tumors to cell lines is different 
+* *N_tumors-1* is used in the example since distribution of tumor-tumor comparisons is first made to which cell lines are then compared to.
+
+```{r}
+categorization_list <- categorize_cell_lines(
+  num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
+  dist_mat=comparison_result$dist_mat,
+  cell_line_ids=comparison_result$cell_line_ids,
+  tumor_ids=comparison_result$tumor_ids,
+  trim_cell_line_names=FALSE) 
+
+# See returned outputs
+names(categorization)
+
+kable((categorization$categorization))
+```
+
+# Plot Multidimensional scaling (MDS) Results
+
+The MDS plot shows a two-dimensional representation of distances between cell lines and tumor samples from the input. 
+
+NOTE: As with any dimension reduction technique, there can be a loss of information and results should be considered carefully. 
+
+```{r}
+p <- plot_mds(comparison_result,
+                     categorization_list,
+                     trim_cell_line_names=FALSE,
+                     tumor_color="blue",
+                     cell_line_color="orange",
+                     use_gradient=TRUE,
+                     tumor_shape=20,
+                     cell_line_shape=17)
+p
+```
+
+# Distribution Plots
+#cancer_type <- "OV"
+#source("Make_Joyplots.R")
+
+# Session Information
+```{r}
+sessionInfo()
+```
+
+
+
+
+
+

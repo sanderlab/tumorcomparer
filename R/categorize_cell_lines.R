@@ -1,4 +1,4 @@
-#' Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)
+#' Categorize cell lines by the level of similarity to k-nearest tumors
 #' 
 #' @param num_tumors_for_comparison number of tumors used in a k-nearest
 #'  neighbor comparison (DEFAULT: 10) 
@@ -9,11 +9,10 @@
 #'   this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE); (DEFAULT: FALSE)
 #' 
 #' @return a list with the following items: 
-#' \itemize{
-#'   \item{"mean_similarity_cell_line_to_k_nearest_tumors"}{the mean similarity of each cell line to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison*number of tumors}
-#'   \item{"mean_similarity_tumor_to_k_nearest_tumors"}{the mean similarity of each tumor sample to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison*number of tumors}
-#'   \item{"categorization"}{a 2-column data.frame with the cell line categorizations: Sample_ID and Category; Category values can be: "Great", "Good", "Moderately Good", "Poor", "Outliers"}
-#' }
+#' * mean_similarity_cell_line_to_k_nearest_tumors: the mean similarity of each cell line to the k-nearest tumors
+#' * mean_similarity_tumor_to_k_nearest_tumors: the mean similarity of each tumor sample to the k-nearest tumors
+#' * categorization: a 2-column data.frame with the cell line categorizations: Sample_ID and Category; Category values can be: "Great", "Good", "Moderately Good", "Poor", "Outliers"
+#' @md 
 #' 
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'
@@ -21,7 +20,7 @@
 #' @export
 #' 
 #' @importFrom stats cor dist mad median sd
-categorize_cell_lines <- function(num_tumors_for_comparison= 10, 
+categorize_cell_lines <- function(num_tumors_for_comparison=10, 
                                   dist_mat,
                                   cell_line_ids, 
                                   tumor_ids,

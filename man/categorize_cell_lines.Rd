@@ -2,7 +2,7 @@
 % Please edit documentation in R/categorize_cell_lines.R
 \name{categorize_cell_lines}
 \alias{categorize_cell_lines}
-\title{Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)}
+\title{Categorize cell lines by the level of similarity to k-nearest tumors}
 \usage{
 categorize_cell_lines(
   num_tumors_for_comparison = 10,
@@ -22,19 +22,19 @@ neighbor comparison (DEFAULT: 10)}
 
 \item{tumor_ids}{IDs of tumors}
 
-\item{trim_cell_line_names}{a boolean whether to trim the the cell lines; 
+\item{trim_cell_line_names}{a boolean whether to trim the the cell lines;
 this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE); (DEFAULT: FALSE)}
 }
 \value{
-a list with the following items: 
+a list with the following items:
 \itemize{
-  \item{"mean_similarity_cell_line_to_k_nearest_tumors"}{the mean similarity of each cell line to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison*number of tumors}
-  \item{"mean_similarity_tumor_to_k_nearest_tumors"}{the mean similarity of each tumor sample to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison*number of tumors}
-  \item{"categorization"}{a 2-column data.frame with the cell line categorizations: Sample_ID and Category; Category values can be: "Great", "Good", "Moderately Good", "Poor", "Outliers"}
+\item mean_similarity_cell_line_to_k_nearest_tumors: the mean similarity of each cell line to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison x number of tumors
+\item mean_similarity_tumor_to_k_nearest_tumors: the mean similarity of each tumor sample to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison x number of tumors
+\item categorization: a 2-column data.frame with the cell line categorizations: Sample_ID and Category; Category values can be: "Great", "Good", "Moderately Good", "Poor", "Outliers"
 }
 }
 \description{
-Categorize cell lines by the level of similarity to k-nearest tumors (DEFAULT: 10 percent of tumors)
+Categorize cell lines by the level of similarity to k-nearest tumors
 }
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)

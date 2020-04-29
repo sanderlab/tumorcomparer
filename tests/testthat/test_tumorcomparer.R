@@ -1,8 +1,5 @@
 # All tests are done on files in package using system.file()
 
-context("FIX")
-
-test_that("FIX", {
-    #results <- convertChemIds("6305", "PubChem CID", "ChEBI")
-    expect_identical("A", "A")
+test_that("sanity_check", {
+  expect_equal(2 * 2, 4)
 })

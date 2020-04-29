@@ -39,9 +39,14 @@
 #' @importFrom cluster daisy
 #' @importFrom utils read.table write.table
 #' @importFrom stats cor
-generate_composite_mat_and_gene_weights <- function(default_weight, known_cancer_gene_weight, 
-  tumor_file, cell_line_file, known_cancer_gene_weights_file, 
-  cancer_specific_gene_weights_file, is_discrete, distance_similarity_measure) {
+generate_composite_mat_and_gene_weights <- function(default_weight, 
+                                                    known_cancer_gene_weight, 
+                                                    tumor_file, 
+                                                    cell_line_file, 
+                                                    known_cancer_gene_weights_file, 
+                                                    cancer_specific_gene_weights_file, 
+                                                    is_discrete, 
+                                                    distance_similarity_measure) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
   tumor <- read.table(tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)

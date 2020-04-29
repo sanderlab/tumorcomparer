@@ -1,4 +1,6 @@
 #' Computes frequency of alteration (fraction of non-zeroes)
+#' 
+#' TODO MUT
 #'
 #' @param alt_mat a matrix or vector of discrete values - 0s represent unaltered, non-zeroes altered
 #' 

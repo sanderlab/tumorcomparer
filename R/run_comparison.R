@@ -58,9 +58,6 @@
 #' @export
 #' 
 #' @importFrom MASS isoMDS
-#' @importFrom cluster daisy
-#' @importFrom utils read.table write.table
-#' @importFrom stats cor
 run_comparison <- function(available_data_types=c("mut", "cna", "exp"), 
                            mut_data_type_weight = 1/3,
                            cna_data_type_weight = 1/3,
