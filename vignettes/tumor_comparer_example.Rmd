@@ -84,7 +84,7 @@ comparison_result <- run_comparison(
                tumor_mut_file=tumor_mut_file, 
                tumor_cna_file=tumor_cna_file, 
                tumor_exp_file=tumor_exp_file, 
-               cell_line_mut_file=cell_line_ths_file, 
+               cell_line_mut_file=cell_line_mut_file, 
                cell_line_cna_file=cell_line_cna_file, 
                cell_line_exp_file=cell_line_exp_file, 
                known_cancer_gene_weights_mut_file=known_cancer_gene_weights_mut_file, 
@@ -118,9 +118,9 @@ categorization_list <- categorize_cell_lines(
   trim_cell_line_names=FALSE) 
 
 # See returned outputs
-names(categorization)
+names(categorization_list)
 
-kable((categorization$categorization))
+kable(categorization_list$categorization)
 ```
 
 # Plot Multidimensional scaling (MDS) Results

@@ -49,8 +49,8 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
                                                     distance_similarity_measure) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
-  tumor <- read.table(tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
-  cell_line <- read.table(cell_line_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE)
+  tumor <- read.table(tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
+  cell_line <- read.table(cell_line_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
   
   tumor_ids <- colnames(tumor)
   cell_line_ids <- colnames(cell_line) 
@@ -94,7 +94,8 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
       known_cancer_gene_weights_file,
       sep = "\t",
       header = TRUE,
-      row.names = 1
+      row.names = 1,
+      stringsAsFactors = FALSE
     )
   rownames(known_cancer_genes_and_weights_all) <- trimws(rownames(known_cancer_genes_and_weights_all)) # trim whitespace, if any
 
@@ -107,7 +108,8 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
       cancer_specific_gene_weights_file,
       sep = "\t",
       header = TRUE,
-      row.names = 1
+      row.names = 1,
+      stringsAsFactors = FALSE
     )
   rownames(genes_and_weights_all) <- trimws(rownames(genes_and_weights_all)) # trim whitespace, if any
     

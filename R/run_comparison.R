@@ -53,6 +53,50 @@
 #' @md
 #'
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
+#' 
+#' @examples 
+#' tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
+#' tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
+#' tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", package="tumorcomparer")
+#' 
+#' cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
+#' cell_line_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_cna.txt", package="tumorcomparer")
+#' cell_line_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_exp.txt", package="tumorcomparer")
+#' 
+#' known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+#' known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
+#' known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+#' 
+#' cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
+#' cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_cna.txt", package="tumorcomparer")
+#' cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_exp.txt", package="tumorcomparer")
+#' 
+#' comparison_result <- run_comparison(
+#' available_data_types=c("mut", "cna", "exp"), 
+#' mut_data_type_weight = 1/3,
+#' cna_data_type_weight = 1/3,
+#' exp_data_type_weight = 1/3,
+#' cna_default_weight=0.01, 
+#' mut_default_weight=0.01,
+#' exp_default_weight=0.01,
+#' cna_known_cancer_gene_weight=0.1, 
+#' mut_known_cancer_gene_weight=0.1, 
+#' exp_known_cancer_gene_weight=0.1, 
+#' tumor_mut_file=tumor_mut_file, 
+#' tumor_cna_file=tumor_cna_file, 
+#' tumor_exp_file=tumor_exp_file, 
+#' cell_line_mut_file=tumor_mut_file, 
+#' cell_line_cna_file=cell_line_cna_file, 
+#' cell_line_exp_file=cell_line_exp_file, 
+#' known_cancer_gene_weights_mut_file=known_cancer_gene_weights_mut_file, 
+#' known_cancer_gene_weights_cna_file=known_cancer_gene_weights_cna_file, 
+#' known_cancer_gene_weights_exp_file=known_cancer_gene_weights_exp_file, 
+#' cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
+#' cancer_specific_gene_weights_cna_file=cancer_specific_gene_weights_cna_file, 
+#' cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file,
+#' distance_similarity_measures=c("generalized_jaccard", 
+#'                                "generalized_jaccard", 
+#'                                "weighted_correlation"))
 #'
 #' @concept tumorcomparer
 #' @export
@@ -259,12 +303,19 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
       }
     }
   }
-  
-  a <- 1
-  
+
   # RUN ISOMDS ----
   isomdsfit <-  isoMDS(combined_dist, k=2)  
   
+  # CHECK ----
+  if(length(combined_cell_line_ids) == 0) {
+    stop("ERROR: Result validation error. Please check that tumor and cell line input files are set correctly.")  
+  }
+  
+  if(length(combined_tumor_ids) == 0) {
+    stop("ERROR: Result validation error. Please check that tumor and cell line input files are set correctly.")  
+  }
+
   # MERGE RESULTS ----
   results <- list(
     dist_mat = combined_dist,
