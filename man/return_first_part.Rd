@@ -18,6 +18,10 @@ Return first part of ID for CCLE cell line names
 \details{
 This is only for CCLE (or similar) IDs and is used for plotting
 }
+\examples{
+return_first_part("22RV1_PROSTRATE")
+
+}
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }

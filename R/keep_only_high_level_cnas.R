@@ -1,12 +1,16 @@
 #' Keep only high-level CNAs (set low-level CNAs to 0)
 #' 
-#' TODO CNA 
-#' 
 #' @param cna_mat a matrix or vector of 5-valued CNA (copy number alteration) data; 
 #'   possible values: -2: Deep deletion, -1: Shallow deletion, 0: Diploid (or default copy number), 
 #'   1: Low-level gain, 2: High-level amplification
 #'   
 #' @return a matrix where low-level gains have been set to 0
+#' 
+#' @examples 
+#' set.seed(1)
+#' tmp <- sample(c(-2, -1, 0, 1, 2), 100, replace=TRUE)
+#' mat <- matrix(tmp, 10, 10)
+#' keep_only_high_level_cnas(mat)
 #'
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'

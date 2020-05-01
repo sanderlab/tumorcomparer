@@ -19,6 +19,13 @@ a weighted correlation (similarity) matrix
 \description{
 Calculate weighted correlation
 }
+\examples{
+t1 <- c(1,1,1,1,1,1,2,2,2,3,3,3,4,4)
+t2 <- rev(t1)
+weight <- c(.5,.5,.5,.5,.5,1,1,1,1,2,2,2,2,2)
+calc_weighted_corr(t1, t2, weight)
+
+}
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }

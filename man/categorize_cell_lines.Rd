@@ -28,8 +28,8 @@ this is optional and used for long cell line names in CCLE format (i.e. CELLLINE
 \value{
 a list with the following items:
 \itemize{
-\item mean_similarity_cell_line_to_k_nearest_tumors: the mean similarity of each cell line to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison x number of tumors
-\item mean_similarity_tumor_to_k_nearest_tumors: the mean similarity of each tumor sample to the k-nearest tumors calculated using k=fraction_of_tumors_for_comparison x number of tumors
+\item mean_similarity_cell_line_to_k_nearest_tumors: the mean similarity of each cell line to the k-nearest tumors
+\item mean_similarity_tumor_to_k_nearest_tumors: the mean similarity of each tumor sample to the k-nearest tumors
 \item categorization: a 2-column data.frame with the cell line categorizations: Sample_ID and Category; Category values can be: "Great", "Good", "Moderately Good", "Poor", "Outliers"
 }
 }

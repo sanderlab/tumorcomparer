@@ -17,6 +17,13 @@ a matrix where low-level gains have been set to 0
 \description{
 Keep only high-level CNAs (set low-level CNAs to 0)
 }
+\examples{
+set.seed(1)
+tmp <- sample(c(-2, -1, 0, 1, 2), 100, replace=TRUE)
+mat <- matrix(tmp, 10, 10)
+keep_only_high_level_cnas(mat)
+
+}
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }

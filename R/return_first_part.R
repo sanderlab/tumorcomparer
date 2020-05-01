@@ -8,6 +8,9 @@
 #'
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'
+#' @examples 
+#' return_first_part("22RV1_PROSTRATE")
+#'
 #' @concept tumorcomparer
 #' @export 
 return_first_part <- function(x) {
