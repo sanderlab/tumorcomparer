@@ -15,9 +15,7 @@ Imports:
     grDevices,
     utils,
     cluster,
-    weights,
-    preprocessCore,
-    stringr
+    weights
 Depends:
     R (>= 3.2)
 Suggests:

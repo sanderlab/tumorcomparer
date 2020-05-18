@@ -9,6 +9,9 @@ run_shiny_app(port = 3838)
 \arguments{
 \item{port}{the port number to use (Default: 3838)}
 }
+\value{
+Nothing is returned
+}
 \description{
 Run Shiny App
 }

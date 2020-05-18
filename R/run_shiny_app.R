@@ -2,6 +2,8 @@
 #' 
 #' @param port the port number to use (Default: 3838)
 #' 
+#' @return Nothing is returned
+#' 
 #' @examples
 #' \dontrun{
 #'     runShinyApp()

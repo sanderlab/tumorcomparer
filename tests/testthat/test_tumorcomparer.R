@@ -36,19 +36,73 @@ test_that("compute_freq_alt", {
 })
 
 test_that("categorize_cell_lines", {
-  expect_equal(TRUE, FALSE)
+  comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+  
+  categorization_list <- categorize_cell_lines(
+    num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
+    dist_mat=comparison_result$dist_mat,
+    cell_line_ids=comparison_result$cell_line_ids,
+    tumor_ids=comparison_result$tumor_ids,
+    trim_cell_line_names=FALSE) 
+  
+  expect_equal(categorization_list$categorization$Sample_ID[c(1,6,13)], c("OAW-28", "OV-17R", "OVK-18"))
+  expect_equal(categorization_list$categorization$Category[c(1,6,13)], c("Moderately Good", "Poor", "Outlier"))
 })
 
 test_that("generate_composite_mat_and_gene_weights", {
-  expect_equal(TRUE, FALSE)
+  mut_default_weight <- 0.01
+  mut_known_cancer_gene_weight <- 0.1
+  tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
+  cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
+  known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
+  distance_similarity_measure <- "generalized_jaccard"
+  
+  composite_mat <- generate_composite_mat_and_gene_weights(
+    default_weight=mut_default_weight,
+    known_cancer_gene_weight=mut_known_cancer_gene_weight,
+    tumor_file=tumor_mut_file,
+    cell_line_file=cell_line_mut_file,
+    known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
+    cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file,
+    is_discrete=TRUE,
+    distance_similarity_measure=distance_similarity_measure)
+  
+  saved_output <- readRDS(system.file("test_output", "ov_composite_mat.rds", package="tumorcomparer"))
+  
+  expect_identical(composite_mat, saved_output)
 })
 
 test_that("map_mean_similarity_to_gradient", {
-  expect_equal(TRUE, FALSE)
+  comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+  
+  categorization_list <- categorize_cell_lines(
+    num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
+    dist_mat=comparison_result$dist_mat,
+    cell_line_ids=comparison_result$cell_line_ids,
+    tumor_ids=comparison_result$tumor_ids,
+    trim_cell_line_names=FALSE) 
+  
+  result <- map_mean_similarity_to_gradient(
+    mean_similarity_cell_line_to_k_nearest_tumors=categorization_list$mean_similarity_cell_line_to_k_nearest_tumors,
+    mean_similarity_tumor_to_k_nearest_tumors=categorization_list$mean_similarity_tumor_to_k_nearest_tumors,
+    col1="orange",
+    col2="blue", 
+    numshades=100)
+  
+  expect_equal(result, c("#DD8F21", "#F9A105", "#C37E3B"))
 })
 
 test_that("pair_dist", {
-  expect_equal(TRUE, FALSE)
+  set.seed(1)
+  
+  n <- 100
+  x <- sample(c(0, 1), n, replace=TRUE)
+  y <- sample(c(0, 1), n, replace=TRUE)
+  weights <- rnorm(n)
+  result <- pair_dist(x, y, weights)
+  
+  expect_equal(result, 2.398, tolerance = 0.01)
 })
 
 test_that("plot_mds", {

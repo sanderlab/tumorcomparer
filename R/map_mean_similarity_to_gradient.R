@@ -7,6 +7,24 @@
 #' @param numshades the number of shades on the color scale (DEFAULT: 100)
 #' 
 #' @return a vector of colors of length equal to mean_similarity_cell_line_to_k_nearest_tumors
+#' 
+#' @examples 
+#' # Generated using: tumorcomparer::run_comparison() 
+#' comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+#' 
+#' categorization_list <- categorize_cell_lines(
+#'   num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
+#'   dist_mat=comparison_result$dist_mat,
+#'   cell_line_ids=comparison_result$cell_line_ids,
+#'   tumor_ids=comparison_result$tumor_ids,
+#'   trim_cell_line_names=FALSE) 
+#'   
+#' result <- map_mean_similarity_to_gradient(
+#'   mean_similarity_cell_line_to_k_nearest_tumors=categorization_list$mean_similarity_cell_line_to_k_nearest_tumors,
+#'   mean_similarity_tumor_to_k_nearest_tumors=categorization_list$mean_similarity_tumor_to_k_nearest_tumors,
+#'   col1="orange",
+#'   col2="blue", 
+#'   numshades=100)
 #'
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'

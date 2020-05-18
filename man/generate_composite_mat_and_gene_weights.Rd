@@ -58,6 +58,26 @@ The composite matrix is a single matrix where the columns are samples
     \item{"generalized_jaccard"}{A weighted distance based on the Jaccard coefficient}
  }
 }
+\examples{
+mut_default_weight <- 0.01
+mut_known_cancer_gene_weight <- 0.1
+tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
+cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
+known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
+distance_similarity_measure <- "generalized_jaccard"
+
+mut <- generate_composite_mat_and_gene_weights(
+  default_weight=mut_default_weight,
+  known_cancer_gene_weight=mut_known_cancer_gene_weight,
+  tumor_file=tumor_mut_file,
+  cell_line_file=cell_line_mut_file,
+  known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
+  cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file,
+  is_discrete=TRUE,
+  distance_similarity_measure=distance_similarity_measure)
+
+}
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }

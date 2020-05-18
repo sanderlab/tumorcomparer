@@ -1,10 +1,19 @@
 #' Calculate a weighted distance (between two vectors) based on Jaccard's coefficient
 #' 
-#' @param x a vector
-#' @param y a vector
-#' @param weights alteration weights
+#' @param x a vector of discrete values
+#' @param y a vector of discrete values
+#' @param weights a vector of non-negative alteration values
 #' 
-#' @return a weighted distance based on Jaccard's coefficient (ratio of the size of intersection to the size of union of two sets)
+#' @return a weighted distance based on Jaccard's coefficient. Ratio of the size 
+#'   of intersection to the size of the union of two sets after discarding 0-0 
+#'   matches from the two vectors
+#'   
+#' @examples 
+#' n <- 100
+#' x <- sample(c(0, 1), n, replace=TRUE)
+#' y <- sample(c(0, 1), n, replace=TRUE)
+#' weights <- rnorm(n)
+#' pair_dist(x, y, weights)
 #'
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'

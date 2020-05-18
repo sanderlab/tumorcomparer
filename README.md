@@ -19,18 +19,3 @@ Located in vignettes:
 
     library(tumorcomparer)
     runShinyApp()
-
-# IGNORE
-setRepositories(ind=1:6)
-options(repos="http://cran.rstudio.com/")
-
-if(!require(devtools)) install.packages("devtools")
-if(!require(jsonlite)) install.packages("jsonlite")
-
-library(jsonlite)
-library(devtools)
-
-cfg <- '{"url":"cbio_mskcc/tumorcomparer", "build_vignette":true, "dependencies":true}'
-
-cfg <- jsonlite::fromJSON(cfg)
-do.call(install_git, cfg)

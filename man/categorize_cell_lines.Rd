@@ -36,6 +36,18 @@ a list with the following items:
 \description{
 Categorize cell lines by the level of similarity to k-nearest tumors
 }
+\examples{
+# Generated using: tumorcomparer::run_comparison() 
+comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+
+categorization_list <- categorize_cell_lines(
+  num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
+  dist_mat=comparison_result$dist_mat,
+  cell_line_ids=comparison_result$cell_line_ids,
+  tumor_ids=comparison_result$tumor_ids,
+  trim_cell_line_names=FALSE) 
+
+}
 \author{
 Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 }
