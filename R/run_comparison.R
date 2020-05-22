@@ -97,7 +97,7 @@
 #' tumor_mut_file=tumor_mut_file, 
 #' tumor_cna_file=tumor_cna_file, 
 #' tumor_exp_file=tumor_exp_file, 
-#' cell_line_mut_file=tumor_mut_file, 
+#' cell_line_mut_file=cell_line_mut_file, 
 #' cell_line_cna_file=cell_line_cna_file, 
 #' cell_line_exp_file=cell_line_exp_file, 
 #' known_cancer_gene_weights_mut_file=known_cancer_gene_weights_mut_file, 

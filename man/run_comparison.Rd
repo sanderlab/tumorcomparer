@@ -104,21 +104,33 @@ a list with multiple items. NOTE: The values of the dist and isomdsfit will depe
 Run a comparison between between two cohorts (e.g. cell lines and tumors)
 }
 \examples{
-tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
-tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
-tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", package="tumorcomparer")
+tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", 
+  package="tumorcomparer")
+tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", 
+  package="tumorcomparer")
+tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", 
+  package="tumorcomparer")
 
-cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
-cell_line_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_cna.txt", package="tumorcomparer")
-cell_line_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_exp.txt", package="tumorcomparer")
+cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", 
+  package="tumorcomparer")
+cell_line_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_cna.txt", 
+  package="tumorcomparer")
+cell_line_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_exp.txt", 
+  package="tumorcomparer")
 
-known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
-known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
-known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
+  "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", 
+  "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
+known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", 
+  "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
 
-cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
-cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_cna.txt", package="tumorcomparer")
-cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_exp.txt", package="tumorcomparer")
+cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
+  "Genes_and_weights_mut.txt", package="tumorcomparer")
+cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", 
+  "Genes_and_weights_cna.txt", package="tumorcomparer")
+cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", 
+  "Genes_and_weights_exp.txt", package="tumorcomparer")
 
 comparison_result <- run_comparison(
 available_data_types=c("mut", "cna", "exp"), 
@@ -134,7 +146,7 @@ exp_known_cancer_gene_weight=0.1,
 tumor_mut_file=tumor_mut_file, 
 tumor_cna_file=tumor_cna_file, 
 tumor_exp_file=tumor_exp_file, 
-cell_line_mut_file=tumor_mut_file, 
+cell_line_mut_file=cell_line_mut_file, 
 cell_line_cna_file=cell_line_cna_file, 
 cell_line_exp_file=cell_line_exp_file, 
 known_cancer_gene_weights_mut_file=known_cancer_gene_weights_mut_file, 

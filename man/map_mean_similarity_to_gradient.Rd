@@ -31,7 +31,8 @@ Map mean similarity of cell lines to k nearest tumors to create a gradient from 
 }
 \examples{
 # Generated using: tumorcomparer::run_comparison() 
-comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", 
+  package="tumorcomparer"))
 
 categorization_list <- categorize_cell_lines(
   num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
@@ -41,8 +42,10 @@ categorization_list <- categorize_cell_lines(
   trim_cell_line_names=FALSE) 
   
 result <- map_mean_similarity_to_gradient(
-  mean_similarity_cell_line_to_k_nearest_tumors=categorization_list$mean_similarity_cell_line_to_k_nearest_tumors,
-  mean_similarity_tumor_to_k_nearest_tumors=categorization_list$mean_similarity_tumor_to_k_nearest_tumors,
+  mean_similarity_cell_line_to_k_nearest_tumors=
+    categorization_list$mean_similarity_cell_line_to_k_nearest_tumors,
+  mean_similarity_tumor_to_k_nearest_tumors=
+    categorization_list$mean_similarity_tumor_to_k_nearest_tumors,
   col1="orange",
   col2="blue", 
   numshades=100)

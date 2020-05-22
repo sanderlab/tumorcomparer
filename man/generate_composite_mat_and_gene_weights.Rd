@@ -61,10 +61,14 @@ The composite matrix is a single matrix where the columns are samples
 \examples{
 mut_default_weight <- 0.01
 mut_known_cancer_gene_weight <- 0.1
-tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
-cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
-known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
-cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
+tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", 
+  package="tumorcomparer")
+cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", 
+  package="tumorcomparer")
+known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
+  "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
+  "Genes_and_weights_mut.txt", package="tumorcomparer")
 distance_similarity_measure <- "generalized_jaccard"
 
 mut <- generate_composite_mat_and_gene_weights(

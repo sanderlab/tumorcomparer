@@ -4,15 +4,6 @@ test_that("sanity_check", {
   expect_equal(2 * 2, 4)
 })
 
-# TODO Add tests
-# test_that("plot_mds", {
-#   expect_equal(TRUE, FALSE)
-# })
-
-# test_that("run_shiny_app", {
-#   expect_equal(TRUE, TRUE)
-# })
-
 test_that("return_first_part", {
   tmp <- return_first_part("22RV1_PROSTRATE")
   expect_identical(tmp, "22RV1")
@@ -59,27 +50,7 @@ test_that("categorize_cell_lines", {
 })
 
 test_that("generate_composite_mat_and_gene_weights", {
-  mut_default_weight <- 0.01
-  mut_known_cancer_gene_weight <- 0.1
-  tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
-  cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
-  known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
-  cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
-  distance_similarity_measure <- "generalized_jaccard"
-  
-  composite_mat <- generate_composite_mat_and_gene_weights(
-    default_weight=mut_default_weight,
-    known_cancer_gene_weight=mut_known_cancer_gene_weight,
-    tumor_file=tumor_mut_file,
-    cell_line_file=cell_line_mut_file,
-    known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
-    cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file,
-    is_discrete=TRUE,
-    distance_similarity_measure=distance_similarity_measure)
-  
-  saved_output <- readRDS(system.file("test_output", "ov_composite_mat.rds", package="tumorcomparer"))
-  
-  expect_identical(composite_mat, saved_output)
+  expect_equal(TRUE, FALSE)
 })
 
 test_that("map_mean_similarity_to_gradient", {
@@ -99,7 +70,7 @@ test_that("map_mean_similarity_to_gradient", {
     col2="blue", 
     numshades=100)
   
-  expect_equal(result[1:3], c("#DD8F21", "#F9A105", "#C37E3B"))
+  expect_equal(result, c("#DD8F21", "#F9A105", "#C37E3B"))
 })
 
 test_that("pair_dist", {
@@ -114,9 +85,11 @@ test_that("pair_dist", {
   expect_equal(result, 2.398, tolerance = 0.01)
 })
 
+test_that("plot_mds", {
+  expect_equal(TRUE, FALSE)
+})
+
 test_that("run_comparison", {
-  set.seed(1)
-  
   tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
   tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
   tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", package="tumorcomparer")
@@ -147,7 +120,7 @@ test_that("run_comparison", {
     tumor_mut_file=tumor_mut_file, 
     tumor_cna_file=tumor_cna_file, 
     tumor_exp_file=tumor_exp_file, 
-    cell_line_mut_file=cell_line_mut_file, 
+    cell_line_mut_file=tumor_mut_file, 
     cell_line_cna_file=cell_line_cna_file, 
     cell_line_exp_file=cell_line_exp_file, 
     known_cancer_gene_weights_mut_file=known_cancer_gene_weights_mut_file, 
@@ -160,12 +133,14 @@ test_that("run_comparison", {
                                    "generalized_jaccard", 
                                    "weighted_correlation"))
   
-  #saveRDS(comparison_result, "ov_comparison_result.rds")
-  
   saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
   
   expect_identical(comparison_result, saved_output)
 })
 
+test_that("run_shiny_app", {
+  # TODO Add test
+  expect_equal(TRUE, TRUE)
+})
 
 

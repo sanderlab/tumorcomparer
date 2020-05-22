@@ -43,7 +43,8 @@ Plot the results from run_comparison as a two dimension multi-dimensional scalin
 }
 \examples{
 # Generated using: tumorcomparer::run_comparison() 
-comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", 
+  package="tumorcomparer"))
 
 categorization_list <- categorize_cell_lines(
   num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
