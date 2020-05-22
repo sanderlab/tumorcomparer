@@ -1,6 +1,6 @@
-library(stringr)
+#library(stringr)
 library(matrixStats)
-library(preprocessCore)
+#library(preprocessCore)
 
 # SET WORKING DIRECTORY ----
 setwd("~/Google\ Drive/tumorcomparer/pancan_data/")

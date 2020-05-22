@@ -17,7 +17,7 @@ Imports:
     cluster,
     weights
 Depends:
-    R (>= 3.2)
+    R (>= 3.5)
 Suggests:
     knitr, 
     shiny
