@@ -15,7 +15,10 @@ Imports:
     grDevices,
     utils,
     cluster,
-    weights
+    weights,
+    magrittr,
+    dplyr,
+    reshape2
 Depends:
     R (>= 3.5)
 Suggests:

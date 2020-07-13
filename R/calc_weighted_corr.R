@@ -18,7 +18,7 @@
 #' @export
 #'
 #' @importFrom weights wtd.cors 
-calc_weighted_corr <- function (a, b, w = rep(1, nrow(a))/nrow(a)) {
+calc_weighted_corr <- function(a, b, w = rep(1, nrow(a))/nrow(a)) {
   # normalize weights
   #w <- w / sum(w)
   

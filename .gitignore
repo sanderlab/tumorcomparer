@@ -7,3 +7,4 @@ tumorcomparer_0.99.1.tar.gz
 tumor_comparer_example.R
 vignettes/*.txt
 __MACOSX
+inst/shinyAppOld
