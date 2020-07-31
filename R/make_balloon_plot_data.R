@@ -50,11 +50,13 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result) {
     #data_type <- "mut"
     cur_data <- comparison_result$dist_mat_by_data_type[[data_type]]
       
-    # This is a vector 
+    # mean_similarity_to_tumors_scaling_mat is a vector 
     #mean_similarity_to_tumors_scaling_mat[,i] <- round(1 - rowMeans(apply(cur_data[cell_line_ids,tumor_ids],2,convert_to_0_to_1_using_xminusmin_by_maxminusmin), na.rm=T), digits=2)
+    
+    ## Min-Max scaling on the cell line - tumor distance matrix, so all values are in 0-1
     cur_max <- max(as.vector(cur_data[cell_line_ids,tumor_ids]))
     cur_min <- min(as.vector(cur_data[cell_line_ids,tumor_ids]))
-    mean_similarity_to_tumors_scaling_mat[,i] <- round(1 - rowMeans((cur_max - cur_data[cell_line_ids,tumor_ids])/(cur_max - cur_min)),digits=2) # Min-Max scaling on the cell line - tumor distance matrix, so all values are in 0-1
+    mean_similarity_to_tumors_scaling_mat[,i] <- round(1 - rowMeans((cur_max - cur_data[cell_line_ids,tumor_ids])/(cur_max - cur_min)),digits=2) 
   }
   
   #mean_similarity_to_tumors_after_0to1_scaling_MUT <- round(1 - rowMeans(apply(comparison_result$dist_mat_by_data_type$mut[comparison_result$cell_line_ids,comparison_result$tumor_ids],2,convert_to_0_to_1_using_xminusmin_by_maxminusmin),na.rm=T),digits=2)
@@ -65,7 +67,7 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result) {
   #average_mean_similarity_after_0to1_scaling <- round((mean_similarity_to_tumors_after_0to1_scaling_MUT + mean_similarity_to_tumors_after_0to1_scaling_CNA + mean_similarity_to_tumors_after_0to1_scaling_EXP)/3, digits=2)
   
   heatmap_mat <- as.data.frame(mean_similarity_to_tumors_scaling_mat)
-  heatmap_mat$cell_line_name <- cell_line_ids
+  heatmap_mat$Cell_Line_Name <- cell_line_ids
   heatmap_mat$avg_mean_similarity <- average_mean_similarity_scaling
   
   # heatmap_mat <- as.data.frame(
@@ -74,14 +76,14 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result) {
   #heatmap_mat[,-1] <- round(heatmap_mat[,-1],digits=2)
   #colnames(heatmap_mat) <- c("Cell_Line_Name","MUT_score","CNA_score","EXP_score","Combined_score")
 
-  df <- melt(heatmap_mat, id.vars = "cell_line_name")
+  df <- melt(heatmap_mat, id.vars = "Cell_Line_Name")
   
   return(df)
 }
 
 #' Make Balloon Plot from MTC Data structure 
 #' 
-#' @param mtc TODO FIXME DESCRIBE ME EACH COLUMN AND DATA TYPE
+#' @param mtc 
 #' @param cancer_type a cancer type abbreviation found in the MTC column Cell_Line_Cancer_Type
 #' 
 #' @description Code to convert the processed output of TC over a pan-cancer dataset balloon plots
@@ -104,11 +106,12 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result) {
 #' 
 #' @export 
 make_balloon_plot_data_from_mtc <- function(mtc, cancer_type) {
+  # NOTE: It is assumed that the mtc data.frame will contain all these columns since they are the results for the publication
   selected_columns <- c("Cell_Line_Name", "MUTSIM_Percentile_Ranks", "CNASIM_Percentile_Ranks", "EXPSIM_Percentile_Ranks", "Rank_of_Average_Of_Percentile_Ranks")
   
   mat_for_heatmap <- mtc[which(mtc$Cell_Line_Cancer_Type == cancer_type), selected_columns]
-  mat_for_heatmap[,-1] <- apply(mat_for_heatmap[,-1],2,as.numeric)
-  mat_for_heatmap[,-1] <- round(mat_for_heatmap[,-1],digits=2)
+  mat_for_heatmap[,-1] <- apply(mat_for_heatmap[,-1], 2, as.numeric)
+  mat_for_heatmap[,-1] <- round(mat_for_heatmap[,-1], digits=2)
   colnames(mat_for_heatmap)[2:4] <- c("MUTSIM_Ranks", "CNASIM_Ranks", "EXPSIM_Ranks")
   colnames(mat_for_heatmap)[5] <- "Combined_Score_Ranks"
 
