@@ -46,7 +46,7 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result) {
   for(i in 1:length(available_data_types)) {
     #i <- 1 
     
-    data_type <- available_data_types[1]
+    data_type <- available_data_types[i]
     #data_type <- "mut"
     cur_data <- comparison_result$dist_mat_by_data_type[[data_type]]
       
