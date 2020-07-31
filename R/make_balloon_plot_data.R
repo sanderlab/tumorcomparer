@@ -51,7 +51,10 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result) {
     cur_data <- comparison_result$dist_mat_by_data_type[[data_type]]
       
     # This is a vector 
-    mean_similarity_to_tumors_scaling_mat[,i] <- round(1 - rowMeans(apply(cur_data[cell_line_ids,tumor_ids],2,convert_to_0_to_1_using_xminusmin_by_maxminusmin), na.rm=T), digits=2)
+    #mean_similarity_to_tumors_scaling_mat[,i] <- round(1 - rowMeans(apply(cur_data[cell_line_ids,tumor_ids],2,convert_to_0_to_1_using_xminusmin_by_maxminusmin), na.rm=T), digits=2)
+    cur_max <- max(as.vector(cur_data[cell_line_ids,tumor_ids]))
+    cur_min <- min(as.vector(cur_data[cell_line_ids,tumor_ids]))
+    mean_similarity_to_tumors_scaling_mat[,i] <- round(1 - rowMeans((cur_max - cur_data[cell_line_ids,tumor_ids])/(cur_max - cur_min)),digits=2) # Min-Max scaling on the cell line - tumor distance matrix, so all values are in 0-1
   }
   
   #mean_similarity_to_tumors_after_0to1_scaling_MUT <- round(1 - rowMeans(apply(comparison_result$dist_mat_by_data_type$mut[comparison_result$cell_line_ids,comparison_result$tumor_ids],2,convert_to_0_to_1_using_xminusmin_by_maxminusmin),na.rm=T),digits=2)
