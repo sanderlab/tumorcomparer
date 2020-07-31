@@ -63,7 +63,7 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result) {
   #mean_similarity_to_tumors_after_0to1_scaling_CNA <- round(1 - rowMeans(apply(comparison_result$dist_mat_by_data_type$cna[comparison_result$cell_line_ids,comparison_result$tumor_ids],2,convert_to_0_to_1_using_xminusmin_by_maxminusmin),na.rm=T),digits=2)
   #mean_similarity_to_tumors_after_0to1_scaling_EXP <- round(1 - rowMeans(apply(comparison_result$dist_mat_by_data_type$exp[comparison_result$cell_line_ids,comparison_result$tumor_ids],2,convert_to_0_to_1_using_xminusmin_by_maxminusmin),na.rm=T),digits=2)
 
-  average_mean_similarity_scaling <- rowMeans(mean_similarity_to_tumors_scaling_mat)
+  average_mean_similarity_scaling <- round(rowMeans(mean_similarity_to_tumors_scaling_mat),digits=2)
   #average_mean_similarity_after_0to1_scaling <- round((mean_similarity_to_tumors_after_0to1_scaling_MUT + mean_similarity_to_tumors_after_0to1_scaling_CNA + mean_similarity_to_tumors_after_0to1_scaling_EXP)/3, digits=2)
   
   heatmap_mat <- as.data.frame(mean_similarity_to_tumors_scaling_mat)
