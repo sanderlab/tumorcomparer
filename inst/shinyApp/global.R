@@ -1,3 +1,12 @@
+# GENERAL 
+
+plot_title_prefix <-  "Mean Similarity to Tumors" 
+
+plotlyModeBarButtonsToRemove <- c(
+  "select2d", "sendDataToCloud", "pan2d", "resetScale2d", "hoverClosestCartesian", 
+  "hoverCompareCartesian", "lasso2d", "zoomIn2d", "zoomOut2d", "toggleSpikelines"
+)
+
 # LOAD DATA ----
 mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331.rds', package="tumorcomparer")
 mtc_dataset <- readRDS(mtc_file)
@@ -37,5 +46,5 @@ tcgaTypes <- c(
   "Thyroid Cancer"="THCA",
   "Endometrial Carcinoma"="UCEC"
 )
-tcgaTypes <- tcgaTypes[tcgaTypes %in% as.character(unique(mtc$Tumor_Cancer_Type))]
+tcgaTypes <- tcgaTypes[tcgaTypes %in% as.character(unique(mtc_dataset$Tumor_Cancer_Type))]
 

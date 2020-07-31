@@ -4,20 +4,12 @@
 \alias{plot_balloon_plot}
 \title{Make Balloon Plot for Results}
 \usage{
-plot_balloon_plot(mtc, cancer_type)
-}
-\arguments{
-\item{mtc}{a data.frame with results; check inst/extdata/mtc_results_20200331.rds for format}
-
-\item{cancer_type}{a TCGA acronym for a cancer type (e.g., BLCA for bladder cancer)}
+plot_balloon_plot(dat, title)
 }
 \value{
 a ggplot2 object
 }
 \description{
 Make Balloon Plot for Results
-}
-\note{
-FIXME EXAMPLE #load("data/Results_Matching_Cancer_Types_Results.rda"); #current_cancer_type <- "BLCA"
 }
 \concept{tumorcomparer}

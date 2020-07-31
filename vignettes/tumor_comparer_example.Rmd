@@ -60,9 +60,9 @@ known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp"
 known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
 known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
 
-cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
-cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_cna.txt", package="tumorcomparer")
-cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_exp.txt", package="tumorcomparer")
+cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "genes_and_weights_mut.txt", package="tumorcomparer")
+cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "genes_and_weights_cna.txt", package="tumorcomparer")
+cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "genes_and_weights_exp.txt", package="tumorcomparer")
 ```
 
 # Run Comparison
@@ -144,6 +144,13 @@ p
 # Distribution Plots
 #cancer_type <- "OV"
 #source("Make_Joyplots.R")
+
+# Make Balloon Plot 
+```{r}
+plot_data <- make_balloon_plot_data_from_comparison_result(comparison_result)
+p <- plot_balloon_plot(plot_data, "Mean Similarity to Tumors")
+p
+```
 
 # Session Information
 ```{r}

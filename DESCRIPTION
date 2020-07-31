@@ -23,7 +23,8 @@ Depends:
     R (>= 3.5)
 Suggests:
     knitr, 
-    shiny
+    shiny,
+    shinycustomloader
 URL: https://bitbucket.org/cbio_mskcc/tumorcomparer
 VignetteBuilder: knitr
 RoxygenNote: 7.0.2

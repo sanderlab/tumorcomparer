@@ -1,8 +1,10 @@
 library(shiny)
 library(ggplot2)
-library(markdown)
-library(htmlwidgets)
+#library(htmlwidgets)
 library(plotly)
+library(shinycustomloader)
+library(markdown)
+
 library(DT)
 library(tumorcomparer)
 
@@ -18,8 +20,9 @@ shinyUI(
                           selectInput("preComputedType", "Cancer Type", choices=tcgaTypes)
                         ),
                         mainPanel(
-                          div(align="center", plotlyOutput("preComputedPlot", height=600, width=600)), 
-                          h3("Data Table"),
+                          h3("Results Plot"),
+                          div(align="left", plotlyOutput("preComputedPlot", height=600, width=600)), 
+                          h3("Results Table"),
                           downloadLink("preComputedDownload", "Download Table as Tab-Delimited File"),
                           DT::dataTableOutput("preComputedTable")
                         )
@@ -32,11 +35,15 @@ shinyUI(
                           fileInput('datasetFile', 'Choose Dataset File',
                                     accept=c('application/zip', '.zip')),
                           helpText("Download: ", a(href="ovarian_tcga_cclp.zip", 
-                                     target="_blank", download="ovarian_tcga_cclp.zip", "Sample Ovarian Dataset")),
+                                     target="_blank", download="ovarian_tcga_cclp.zip", "Sample Ovarian Dataset (.zip)")),
                         ),
                         mainPanel(
-                          div(align="center", plotlyOutput("userPlot", height=600, width=600)), 
-                          DT::dataTableOutput("userTable")
+                          h3("Results Plot"),
+                          div(align="left", 
+                              withLoader(plotlyOutput("userPlot", height=600, width=600), type="html", loader="loader3")
+                          ), 
+                          h3("Results Table"),
+                          withLoader(DT::dataTableOutput("userTable"), type="html", loader="loader3")
                         )
                       )
              ),
