@@ -148,6 +148,7 @@ p
 # Make Balloon Plot 
 ```{r}
 plot_data <- make_balloon_plot_data_from_comparison_result(comparison_result)
+
 p <- plot_balloon_plot(plot_data, "Mean Similarity to Tumors")
 p
 ```

@@ -77,6 +77,7 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result) {
   #colnames(heatmap_mat) <- c("Cell_Line_Name","MUT_score","CNA_score","EXP_score","Combined_score")
 
   df <- melt(heatmap_mat, id.vars = "Cell_Line_Name")
+  df <- transform(df, Cell_Line_Name=reorder(Cell_Line_Name, value)) 
   
   return(df)
 }
@@ -109,13 +110,14 @@ make_balloon_plot_data_from_mtc <- function(mtc, cancer_type) {
   # NOTE: It is assumed that the mtc data.frame will contain all these columns since they are the results for the publication
   selected_columns <- c("Cell_Line_Name", "MUTSIM_Percentile_Ranks", "CNASIM_Percentile_Ranks", "EXPSIM_Percentile_Ranks", "Rank_of_Average_Of_Percentile_Ranks")
   
-  mat_for_heatmap <- mtc[which(mtc$Cell_Line_Cancer_Type == cancer_type), selected_columns]
-  mat_for_heatmap[,-1] <- apply(mat_for_heatmap[,-1], 2, as.numeric)
-  mat_for_heatmap[,-1] <- round(mat_for_heatmap[,-1], digits=2)
-  colnames(mat_for_heatmap)[2:4] <- c("MUTSIM_Ranks", "CNASIM_Ranks", "EXPSIM_Ranks")
-  colnames(mat_for_heatmap)[5] <- "Combined_Score_Ranks"
+  heatmap_mat <- mtc[which(mtc$Cell_Line_Cancer_Type == cancer_type), selected_columns]
+  heatmap_mat[,-1] <- apply(heatmap_mat[,-1], 2, as.numeric)
+  heatmap_mat[,-1] <- round(heatmap_mat[,-1], digits=2)
+  colnames(heatmap_mat)[2:4] <- c("MUTSIM_Ranks", "CNASIM_Ranks", "EXPSIM_Ranks")
+  colnames(heatmap_mat)[5] <- "Combined_Score_Ranks"
 
-  df <- melt(mat_for_heatmap, id.vars = "Cell_Line_Name")
+  df <- melt(heatmap_mat, id.vars = "Cell_Line_Name")
+  df <- transform(df, Cell_Line_Name=reorder(Cell_Line_Name, value)) 
   
   return(df)
 }
