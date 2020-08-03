@@ -7,7 +7,7 @@
 make_balloon_plot_data_from_mtc(mtc, cancer_type)
 }
 \arguments{
-\item{mtc}{TODO FIXME DESCRIBE ME EACH COLUMN AND DATA TYPE}
+\item{mtc}{}
 
 \item{cancer_type}{a cancer type abbreviation found in the MTC column Cell_Line_Cancer_Type}
 }

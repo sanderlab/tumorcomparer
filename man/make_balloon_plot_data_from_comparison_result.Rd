@@ -2,7 +2,7 @@
 % Please edit documentation in R/make_balloon_plot_data.R
 \name{make_balloon_plot_data_from_comparison_result}
 \alias{make_balloon_plot_data_from_comparison_result}
-\title{Make Balloon Plot from MTC Data structure}
+\title{Make Balloon Plot Data from Run Comparison Function}
 \usage{
 make_balloon_plot_data_from_comparison_result(comparison_result)
 }
