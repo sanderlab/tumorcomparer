@@ -34,11 +34,11 @@ run_comparison(
 \arguments{
 \item{available_data_types}{a vector of data types to be analyzed; the order of these much match distance_similarity_measures}
 
-\item{mut_data_type_weight}{TODO}
+\item{mut_data_type_weight}{a numeric weight for the data type (NOTE: data type weights must sum to 1)}
 
-\item{cna_data_type_weight}{TODO}
+\item{cna_data_type_weight}{a numeric weight for the data type (NOTE: data type weights must sum to 1)}
 
-\item{exp_data_type_weight}{TODO}
+\item{exp_data_type_weight}{a numeric weight for the data type (NOTE: data type weights must sum to 1)}
 
 \item{cna_default_weight}{default (background) weight for copy number alterations (CNA) (DEFAULT: 0.01).
 Default weights are assigned to genes not known to be important in the specific cancer type or cancer in general}

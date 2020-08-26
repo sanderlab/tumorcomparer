@@ -10,6 +10,8 @@ plotlyModeBarButtonsToRemove <- c(
 # LOAD DATA ----
 mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331.rds', package="tumorcomparer")
 mtc_dataset <- readRDS(mtc_file)
+
+# Column name mapping
 mtc_selected_columns <- c(
   "Cell Line"="Cell_Line_Name", 
   #"Cell Line Type"="Cell_Line_Cancer_Type", 
@@ -18,6 +20,15 @@ mtc_selected_columns <- c(
   "% Rank by Copy Number"="CNASIM_Percentile_Ranks", 
   "% Rank by Expression"="EXPSIM_Percentile_Ranks",
   "% Rank by Avg % Ranks"="Rank_of_Average_Of_Percentile_Ranks")
+
+comparison_result_columns <- c(
+  "Cell Line"="Cell_Line_Name", 
+  #"Cell Line Type"="Cell_Line_Cancer_Type", 
+  #"Tumor Type"="Tumor_Cancer_Type",
+  "Mutation Score"="mut_score", 
+  "Copy Number Score"="cna_score", 
+  "Expression Score"="exp_score",
+  "Average Score"="avg_mean_similarity") 
 
 tcgaTypes <- c(
   "Adrenocortical Carcinoma"="ACC",

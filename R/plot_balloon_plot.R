@@ -1,7 +1,7 @@
 #' Make Balloon Plot for Results 
 #' 
-#' @param 
-#' @param 
+#' @param dat TODO
+#' @param title a string to be the title for the plot
 #' 
 #' @return a ggplot2 object 
 #' 

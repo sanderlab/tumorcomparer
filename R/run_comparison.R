@@ -2,9 +2,9 @@
 #'
 #' @param available_data_types a vector of data types to be analyzed; the order of these much match distance_similarity_measures
 #' 
-#' @param cna_data_type_weight TODO
-#' @param mut_data_type_weight TODO
-#' @param exp_data_type_weight TODO
+#' @param cna_data_type_weight a numeric weight for the data type (NOTE: data type weights must sum to 1)
+#' @param mut_data_type_weight a numeric weight for the data type (NOTE: data type weights must sum to 1)
+#' @param exp_data_type_weight a numeric weight for the data type (NOTE: data type weights must sum to 1)
 #' 
 #' @param cna_default_weight default (background) weight for copy number alterations (CNA) (DEFAULT: 0.01). 
 #'   Default weights are assigned to genes not known to be important in the specific cancer type or cancer in general
