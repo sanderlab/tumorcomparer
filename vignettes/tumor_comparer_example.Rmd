@@ -127,17 +127,33 @@ kable(categorization_list$categorization)
 
 The MDS plot shows a two-dimensional representation of distances between cell lines and tumor samples from the input. 
 
-NOTE: As with any dimension reduction technique, there can be a loss of information and results should be considered carefully. 
+NOTE: As with any dimension reduction technique, there can be a loss of information and results should be considered carefully. To aid users, a stress value is calculated to determine the goodness of fit of the two-dimensional representation to from the original data (https://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/mds/stress)
+
+* 20% or above: Very Poor
+* 10%-19.9%: Fair
+* 5%-9.9%: Good
+* 2.5%-4.9%: Excellent
+* 0%-2.4%: Near Perfect Fit
+
+## Example Stress Values 
+
+Stress values are pre-calculated within tumorcomparer
+
+```{r}
+comparison_result$isomdsfit$stress
+```
+
+## MDS Plot
 
 ```{r}
 p <- plot_mds(comparison_result,
-                     categorization_list,
-                     trim_cell_line_names=FALSE,
-                     tumor_color="blue",
-                     cell_line_color="orange",
-                     use_gradient=TRUE,
-                     tumor_shape=20,
-                     cell_line_shape=17)
+             categorization_list,
+             trim_cell_line_names=FALSE,
+             tumor_color="blue",
+             cell_line_color="orange",
+             use_gradient=TRUE,
+             tumor_shape=20,
+             cell_line_shape=17)
 p
 ```
 

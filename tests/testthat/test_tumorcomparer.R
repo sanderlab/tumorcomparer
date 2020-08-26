@@ -166,3 +166,43 @@ test_that("run_comparison", {
   
   expect_identical(comparison_result, saved_output)
 })
+
+test_that("run_comparison_two_datasets", {
+  set.seed(1)
+  
+  tumor_mut_file <- system.file("extdata", "read_data_for_running_tc_two_datatypes", "tumor_mut.txt", package="tumorcomparer")
+  tumor_exp_file <- system.file("extdata", "read_data_for_running_tc_two_datatypes", "tumor_exp.txt", package="tumorcomparer")
+  
+  cell_line_mut_file <- system.file("extdata", "read_data_for_running_tc_two_datatypes", "cell_line_mut.txt", package="tumorcomparer")
+  cell_line_exp_file <- system.file("extdata", "read_data_for_running_tc_two_datatypes", "cell_line_exp.txt", package="tumorcomparer")
+  
+  known_cancer_gene_weights_mut_file <- system.file("extdata", "read_data_for_running_tc_two_datatypes", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+  known_cancer_gene_weights_exp_file <- system.file("extdata", "read_data_for_running_tc_two_datatypes", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+  
+  cancer_specific_gene_weights_mut_file <- system.file("extdata", "read_data_for_running_tc_two_datatypes", "genes_and_weights_mut.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_exp_file <- system.file("extdata", "read_data_for_running_tc_two_datatypes", "genes_and_weights_exp.txt", package="tumorcomparer")
+  
+  comparison_result <- run_comparison(
+    available_data_types=c("mut", "exp"), 
+    mut_data_type_weight = 1/3,
+    exp_data_type_weight = 1/3,
+    cna_default_weight=0.01, 
+    exp_default_weight=0.01,
+    cna_known_cancer_gene_weight=0.1, 
+    exp_known_cancer_gene_weight=0.1, 
+    tumor_mut_file=tumor_mut_file, 
+    tumor_exp_file=tumor_exp_file, 
+    cell_line_mut_file=cell_line_mut_file, 
+    cell_line_exp_file=cell_line_exp_file, 
+    known_cancer_gene_weights_mut_file=known_cancer_gene_weights_mut_file, 
+    known_cancer_gene_weights_exp_file=known_cancer_gene_weights_exp_file, 
+    cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
+    cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file,
+    distance_similarity_measures=c("generalized_jaccard", "weighted_correlation"))
+  
+  #saveRDS(comparison_result, "ov_comparison_result.rds")
+  
+  #saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+  
+  expect_identical(TRUE, TRUE)
+})

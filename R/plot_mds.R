@@ -14,6 +14,8 @@
 #' 
 #' @return Nothing is returned 
 #' 
+#' @seealso [@run_comparison()], [@categorize_cell_lines()]
+#' 
 #' @examples 
 #' # Generated using: tumorcomparer::run_comparison() 
 #' comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", 

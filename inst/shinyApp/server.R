@@ -10,6 +10,10 @@ library(tumorcomparer)
 
 # Common code goes in global.R
 
+# GLOBAL VARIABLES 
+available_data_types <- NULL 
+
+# SHINY SERVER ----
 shinyServer(function(input, output, session) {
   # PRECOMPUTED ----
   preComputedDat <- reactive({
@@ -48,6 +52,8 @@ shinyServer(function(input, output, session) {
     
     # Filter dataset
     df <- df[, mtc_selected_columns]
+    str(df)
+    df <- df[order(-df$Rank_of_Average_Of_Percentile_Ranks), ]
     colnames(df) <- names(mtc_selected_columns)
     
     DT::datatable(df, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
@@ -71,16 +77,16 @@ shinyServer(function(input, output, session) {
     dataset_path <- dataset_file$datapath
     
     validate(
-      need(nchar(dataset_path) > 1,"ERROR: Please upload dataset as ZIP file.")
+      need(nchar(dataset_path) > 1,"Please upload dataset as ZIP file.")
     )
     
-    cat("DP: ", dataset_path, "\n")
+    cat("Dataset Path: ", dataset_path, "\n")
     
     #dataset_path <- system.file("shinyApp", "www", "ovarian_tcga_cclp.zip", package="tumorcomparer")
     tmp_file_names <- unzip(dataset_path, list=TRUE)
     cat("FILES: ", paste(tmp_file_names, collapse = "; "), "\n")
     
-    tmp_dir <- tempdir()
+    tmp_dir <- dirname(dataset_path)
     
     # files <- c("cell_line_cna.txt", "cell_line_exp.txt", "cell_line_mut.txt", 
     #            "default_weights_for_known_cancer_genes_cna.txt", "default_weights_for_known_cancer_genes_exp.txt", "default_weights_for_known_cancer_genes_mut.txt",
@@ -95,6 +101,7 @@ shinyServer(function(input, output, session) {
     # )
 
     unzip(dataset_path, junkpaths = TRUE, exdir = tmp_dir)
+    cat("TMP_DIR: ", tmp_dir, "\n")
     cat("DIR: ", paste(dir(tmp_dir), collapse = "; "))
     
     # tmp_dir <- dir("inst/extdata/ovarian_tcga_cclp/")
@@ -102,15 +109,25 @@ shinyServer(function(input, output, session) {
     has_cna <- any(grepl("cna", dir(tmp_dir)))
     has_exp <- any(grepl("exp", dir(tmp_dir)))
     
+    cat("M")
+    str(has_mut)
+    cat("C")
+    str(has_cna)
+    cat("E")
+    str(has_exp)
+    
     validate(
       need(any(c(has_mut, has_cna, has_exp)), 
-           paste0("ERROR: Missing files. File names are all lowercase. Please consult documentation."))
+           paste0("ERROR: Missing files. File names should be lowercase. Please consult documentation."))
     )
-    
-    available_data_types <- NULL 
+
     distance_similarity_measures <- NULL 
     
+    cat("MSG: available_data_types: ", available_data_types, "\n")
+    
     if(has_mut) {
+      cat("SET MUT VAR\n")
+      
       tumor_mut_file <- file.path(tmp_dir, "tumor_mut.txt")
       cell_line_mut_file <- file.path(tmp_dir, "cell_line_mut.txt")
       known_cancer_gene_weights_mut_file <- file.path(tmp_dir, "default_weights_for_known_cancer_genes_mut.txt")
@@ -120,6 +137,8 @@ shinyServer(function(input, output, session) {
     }
 
     if(has_cna) {
+      cat("SET CNA VAR\n")
+      
       tumor_cna_file <- file.path(tmp_dir, "tumor_cna.txt")
       cell_line_cna_file <- file.path(tmp_dir, "cell_line_cna.txt")
       known_cancer_gene_weights_cna_file <- file.path(tmp_dir, "default_weights_for_known_cancer_genes_cna.txt")
@@ -129,6 +148,8 @@ shinyServer(function(input, output, session) {
     }
     
     if(has_exp) {
+      cat("SET EXP VAR\n")
+      
       tumor_exp_file <- file.path(tmp_dir, "tumor_exp.txt")
       cell_line_exp_file <- file.path(tmp_dir, "cell_line_exp.txt")
       known_cancer_gene_weights_exp_file <- file.path(tmp_dir, "default_weights_for_known_cancer_genes_exp.txt")
@@ -137,12 +158,22 @@ shinyServer(function(input, output, session) {
       distance_similarity_measures <- c(distance_similarity_measures, "weighted_correlation")
     }
     
-    mut_data_type_weight <- ifelse(has_mut, 1/length(available_data_types), NULL)
-    cna_data_type_weight <- ifelse(has_cna, 1/length(available_data_types), NULL)
-    exp_data_type_weight <- ifelse(has_exp, 1/length(available_data_types), NULL)
+    # NOTE: NULLs cannot be set with an ifelse() 
+    mut_data_type_weight <- NULL 
+    cna_data_type_weight <- NULL 
+    exp_data_type_weight <- NULL 
     
-    default_weight <- 0.01
-    known_cancer_gene_weight <- 0.1
+    if(has_mut) { mut_data_type_weight <- 1/length(available_data_types) }
+    if(has_cna) { cna_data_type_weight <- 1/length(available_data_types) }
+    if(has_exp) { exp_data_type_weight <- 1/length(available_data_types) }
+    
+    default_weight <- input$default_weight
+    known_cancer_gene_weight <- input$known_cancer_gene_weight
+    
+    # DEBUG 
+    cat("MSG: available_data_types", available_data_types, "\n")
+    cat("MSG: default_weight", default_weight, "\n")
+    cat("MSG: known_cancer_gene_weight", known_cancer_gene_weight, "\n")
     
     # Start timer
     tic() 
@@ -219,19 +250,57 @@ shinyServer(function(input, output, session) {
     
     #print(p)
     #cat("A", colnames(df))
-    ggplotly(p, tooltip=c("toolTip"), source="preComputedPlot") %>% 
-      # Remove buttons from: https://community.plotly.com/t/how-to-remove-mode-bar-buttons/34002
-      config(cloud=FALSE, displaylogo=FALSE, modeBarButtonsToRemove = plotlyModeBarButtonsToRemove)
+    # ggplotly(p, tooltip=c("toolTip"), source="preComputedPlot") %>% 
+    #   # Remove buttons from: https://community.plotly.com/t/how-to-remove-mode-bar-buttons/34002
+    #   config(cloud=FALSE, displaylogo=FALSE, modeBarButtonsToRemove = plotlyModeBarButtonsToRemove)
     
     ggplotly(p, source="userPlot") %>% 
-      config(cloud=FALSE, displaylogo=FALSE)
+      config(cloud=FALSE, displaylogo=FALSE, modeBarButtonsToRemove = plotlyModeBarButtonsToRemove)
+    
+    #print(p1)
+  })
+  
+  output$userMdsPlot <- renderPlotly({
+    comparison_result <- userDat()
+    
+    # DEBUG
+    cat("START userMdsPlot")
+    
+    categorization_list <- categorize_cell_lines(
+      num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
+      dist_mat=comparison_result$dist_mat,
+      cell_line_ids=comparison_result$cell_line_ids,
+      tumor_ids=comparison_result$tumor_ids,
+      trim_cell_line_names=FALSE) 
+    
+    # See returned outputs
+    names(categorization_list)
+    
+    p <- plot_mds(comparison_result,
+                  categorization_list,
+                  trim_cell_line_names=FALSE,
+                  tumor_color="blue",
+                  cell_line_color="orange",
+                  use_gradient=TRUE,
+                  tumor_shape=20,
+                  cell_line_shape=17)
+
+    ggplotly(p, source="userMdsPlot") %>% 
+      config(cloud=FALSE, displaylogo=FALSE, modeBarButtonsToRemove = plotlyModeBarButtonsToRemove)
     
     #print(p1)
   })
     
   output$userTable <- DT::renderDataTable({
     comparison_result <- userDat()
-    df <- make_balloon_plot_data_from_comparison_result(comparison_result)
+    df <- make_balloon_plot_data_from_comparison_result(comparison_result, melt_data=FALSE)
+
+    selected_columns <- comparison_result_columns[comparison_result_columns %in% colnames(df)]
+    
+    # Filter dataset
+    df <- df[, selected_columns]
+    df <- df[order(-df$avg_mean_similarity), ]
+    colnames(df) <- names(selected_columns)
     
     DT::datatable(df, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
   })
@@ -247,4 +316,11 @@ shinyServer(function(input, output, session) {
       write.table(df, file, sep="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
     }
   )
+  
+  output$userStress <- renderText({
+    comparison_result <- userDat()
+    
+    stress <- comparison_result$isomdsfit$stress
+    paste0("MDS Stress (Goodness of Fit, Less than 9.9 is good): ", round(stress, 2))
+  })
 })

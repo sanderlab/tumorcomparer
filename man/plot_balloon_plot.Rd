@@ -6,6 +6,11 @@
 \usage{
 plot_balloon_plot(dat, title)
 }
+\arguments{
+\item{dat}{TODO}
+
+\item{title}{a string to be the title for the plot}
+}
 \value{
 a ggplot2 object
 }

@@ -57,6 +57,8 @@ plot_mds(comparison_list = comparison_result, categorization_list = categorizati
 
 }
 \seealso{
+[@run_comparison()], [@categorize_cell_lines()]
+
 \code{\link{run_comparison}}, \code{\link{categorize_cell_lines}}
 }
 \author{
