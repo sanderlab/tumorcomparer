@@ -8,3 +8,5 @@ tumor_comparer_example.R
 vignettes/*.txt
 __MACOSX
 inst/shinyAppOld
+vignettes/tumor_comparer_example_two.Rmd
+vignettes/tumor_comparer_example_two.nb.html

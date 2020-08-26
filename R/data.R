@@ -4,6 +4,4 @@
 #'
 #' @format A list of vectors
 #' @source \url{https://doi.org/10.1016/j.cell.2018.03.035}
-#' 
-#' @export
 "tcga_pancan_pathway_genes"
