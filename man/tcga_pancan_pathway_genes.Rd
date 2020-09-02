@@ -4,7 +4,9 @@
 \name{tcga_pancan_pathway_genes}
 \alias{tcga_pancan_pathway_genes}
 \title{Genes for TCGA Pan-Cancer Pathways}
-\format{A list of vectors}
+\format{
+A list of vectors
+}
 \source{
 \url{https://doi.org/10.1016/j.cell.2018.03.035}
 }

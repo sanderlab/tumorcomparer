@@ -27,7 +27,7 @@ Suggests:
     shinycustomloader
 URL: https://bitbucket.org/cbio_mskcc/tumorcomparer
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 biocViews: Software, SystemsBiology, Genetics, CellBiology, Transcriptomics, 
     Preprocessing, QualityControl
