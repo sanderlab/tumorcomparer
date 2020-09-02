@@ -14,9 +14,9 @@ pair_dist(x, y, weights)
 \item{weights}{a vector of non-negative alteration values}
 }
 \value{
-a weighted distance based on Jaccard's coefficient. Ratio of the size 
-  of intersection to the size of the union of two sets after discarding 0-0 
-  matches from the two vectors
+a weighted distance based on Jaccard's coefficient. Ratio of the size
+of intersection to the size of the union of two sets after discarding 0-0
+matches from the two vectors
 }
 \description{
 Calculate a weighted distance (between two vectors) based on Jaccard's coefficient

@@ -7,7 +7,7 @@
 plot_balloon_plot(dat, title)
 }
 \arguments{
-\item{dat}{TODO}
+\item{dat}{data generated from either make_}
 
 \item{title}{a string to be the title for the plot}
 }
@@ -16,5 +16,9 @@ a ggplot2 object
 }
 \description{
 Make Balloon Plot for Results
+}
+\seealso{
+\code{\link[=make_balloon_plot_data_from_comparison_result]{make_balloon_plot_data_from_comparison_result()}},
+\code{\link[=make_balloon_plot_data_from_mtc]{make_balloon_plot_data_from_mtc()}}
 }
 \concept{tumorcomparer}

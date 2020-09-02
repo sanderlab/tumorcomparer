@@ -1,6 +1,33 @@
 #' Make Balloon Plot from MTC Data structure 
 #' 
-#' @param mtc TODO
+#' @param mtc (NOTE: users should not make dataset; the dataset with results from manuscript 
+#'  is included in the package). a data.frame with the columns: 
+#'  
+#'  * Cell_Line_Name: Name of the cell line 
+#'  * Cell_Line_Cancer_Type: Name of the cancer type of the cell line
+#'  * Tumor_Cancer_Type: TCGA abbreviation of cancer type for tumor samples
+#'  * Mean_Similarity_To_Tumors_AVG: TODO 
+#'  * Mean_Similarity_To_Tumors_MUT: TODO
+#'  * Mean_Similarity_To_Tumors_CNA: TODO
+#'  * Mean_Similarity_To_Tumors_EXP: TODO
+#'  * AVGSIM_Zscores; MUTSIM_Zscores: TODO
+#'  * CNASIM_Zscores; EXPSIM_Zscores: TODO
+#'  * AVGSIM_Percentile_Ranks: TODO
+#'  * MUTSIM_Percentile_Ranks: 
+#'  * CNASIM_Percentile_Ranks:  
+#'  * EXPSIM_Percentile_Ranks: 
+#'  * Categorization: TODO  
+#'  * AVGSIM_Zscores_wrt_Tumors: 
+#'  * MUTSIM_Zscores_wrt_Tumors: 
+#'  * CNASIM_Zscores_wrt_Tumors: 
+#'  * EXPSIM_Zscores_wrt_Tumors: 
+#'  * Mean_Similarity_To_All_Tumors_AVG: 
+#'  * Mean_Similarity_To_All_Tumors_MUT: 
+#'  * Mean_Similarity_To_All_Tumors_CNA: 
+#'  * Mean_Similarity_To_All_Tumors_EXP: 
+#'  * Average_Of_Percentile_Ranks:  
+#'  * Rank_of_Average_Of_Percentile_Ranks: 
+#'  
 #' @param cancer_type a cancer type abbreviation found in the MTC column Cell_Line_Cancer_Type
 #' @param melt_data boolean, whether to apply reshape2::melt() to data.frame
 #' 

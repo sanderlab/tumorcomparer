@@ -7,7 +7,34 @@
 make_balloon_plot_data_from_mtc(mtc, cancer_type, melt_data = TRUE)
 }
 \arguments{
-\item{mtc}{TODO}
+\item{mtc}{(NOTE: users should not make dataset; the dataset with results from manuscript
+is included in the package). a data.frame with the columns:
+\itemize{
+\item Cell_Line_Name: Name of the cell line
+\item Cell_Line_Cancer_Type: Name of the cancer type of the cell line
+\item Tumor_Cancer_Type: TCGA abbreviation of cancer type for tumor samples
+\item Mean_Similarity_To_Tumors_AVG: TODO
+\item Mean_Similarity_To_Tumors_MUT: TODO
+\item Mean_Similarity_To_Tumors_CNA: TODO
+\item Mean_Similarity_To_Tumors_EXP: TODO
+\item AVGSIM_Zscores; MUTSIM_Zscores: TODO
+\item CNASIM_Zscores; EXPSIM_Zscores: TODO
+\item AVGSIM_Percentile_Ranks: TODO
+\item MUTSIM_Percentile_Ranks:
+\item CNASIM_Percentile_Ranks:
+\item EXPSIM_Percentile_Ranks:
+\item Categorization: TODO
+\item AVGSIM_Zscores_wrt_Tumors:
+\item MUTSIM_Zscores_wrt_Tumors:
+\item CNASIM_Zscores_wrt_Tumors:
+\item EXPSIM_Zscores_wrt_Tumors:
+\item Mean_Similarity_To_All_Tumors_AVG:
+\item Mean_Similarity_To_All_Tumors_MUT:
+\item Mean_Similarity_To_All_Tumors_CNA:
+\item Mean_Similarity_To_All_Tumors_EXP:
+\item Average_Of_Percentile_Ranks:
+\item Rank_of_Average_Of_Percentile_Ranks:
+}}
 
 \item{cancer_type}{a cancer type abbreviation found in the MTC column Cell_Line_Cancer_Type}
 
@@ -18,12 +45,12 @@ a ggplot object
 }
 \description{
 Code to convert the processed output of TC over a pan-cancer dataset balloon plots
-  for a single cancer type ("current_cancer_type") MTC - The subset of TC's output on a
-  pan-cancer dataest which contains results for matched cancer type, i.e. for each cell line, it
-  rreports the results when compared to tumors of the same cancer type So, for example, if we run
-  TC on 10 cancer types on a pan-cancer type, we get 10 sets of results, with each set containing
-  the results of comparing one of the 10 cancer types to all cell lines From this, MTC extracts
-  only the results where the cell line and tumors are of the same cancer type, using the other
-  cell lines to derive ranks We use ranks to compare across cancer types, since the weights and
-  score distributions are very different across data types and  cancer types
+for a single cancer type ("current_cancer_type") MTC - The subset of TC's output on a
+pan-cancer dataest which contains results for matched cancer type, i.e. for each cell line, it
+rreports the results when compared to tumors of the same cancer type So, for example, if we run
+TC on 10 cancer types on a pan-cancer type, we get 10 sets of results, with each set containing
+the results of comparing one of the 10 cancer types to all cell lines From this, MTC extracts
+only the results where the cell line and tumors are of the same cancer type, using the other
+cell lines to derive ranks We use ranks to compare across cancer types, since the weights and
+score distributions are very different across data types and  cancer types
 }

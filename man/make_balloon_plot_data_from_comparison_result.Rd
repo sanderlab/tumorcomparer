@@ -19,9 +19,9 @@ a ggplot object
 }
 \description{
 Code to convert the output of TC for a single cancer type to balloon plots. We
-  don't use ranks here, since some cell lines will get low ranks even if none have particularly
-  low scores (similarly some will get high ranks even if all scores are relatively low). Instead,
-  we convert the distance matrices for all tumor-cell line comparisons to 0-1 using min-max
-  scaling, and then compute the mean similarity to tumor for each cell line. The overall score is
-  just a simiple mean of the data type specific scores right now - could use different weights
+don't use ranks here, since some cell lines will get low ranks even if none have particularly
+low scores (similarly some will get high ranks even if all scores are relatively low). Instead,
+we convert the distance matrices for all tumor-cell line comparisons to 0-1 using min-max
+scaling, and then compute the mean similarity to tumor for each cell line. The overall score is
+just a simiple mean of the data type specific scores right now - could use different weights
 }

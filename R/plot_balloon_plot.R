@@ -1,12 +1,15 @@
 #' Make Balloon Plot for Results 
 #' 
-#' @param dat TODO
+#' @param dat data generated from either make_
 #' @param title a string to be the title for the plot
 #' 
 #' @return a ggplot2 object 
 #' 
 #' @concept tumorcomparer 
 #' @export
+#' 
+#' @seealso [make_balloon_plot_data_from_comparison_result()], 
+#' [make_balloon_plot_data_from_mtc()]
 #' 
 #' @importFrom reshape2 melt 
 #' @importFrom dplyr mutate

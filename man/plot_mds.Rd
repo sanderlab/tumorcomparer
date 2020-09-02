@@ -20,15 +20,15 @@ plot_mds(
 
 \item{categorization_list}{the results of categorize_cell_lines() (See: categorize_cell_lines())}
 
-\item{trim_cell_line_names}{a boolean whether to trim the the cell lines; 
+\item{trim_cell_line_names}{a boolean whether to trim the the cell lines;
 this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE)}
 
 \item{tumor_color}{a color for tumor points (DEFAULT: blue)}
 
 \item{cell_line_color}{a color for tumor points (DEFAULT: orange)}
 
-\item{use_gradient}{a boolean, cell lines will appear with a gradient of 
-colors with those with the cell_line_color being least similar to the tumors 
+\item{use_gradient}{a boolean, cell lines will appear with a gradient of
+colors with those with the cell_line_color being least similar to the tumors
 and those being similar to tumors will have a color closer to the tumor_color.}
 
 \item{tumor_shape}{an integer for an R plot PCH symbol (DEFAULT: 17)}
@@ -57,7 +57,7 @@ plot_mds(comparison_list = comparison_result, categorization_list = categorizati
 
 }
 \seealso{
-[@run_comparison()], [@categorize_cell_lines()]
+\code{\link[=run_comparison]{run_comparison()}}, \code{\link[=categorize_cell_lines]{categorize_cell_lines()}}
 
 \code{\link{run_comparison}}, \code{\link{categorize_cell_lines}}
 }

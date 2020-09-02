@@ -34,29 +34,29 @@ generate_composite_mat_and_gene_weights(
 }
 \value{
 a list with multiple items. NOTE: The values of the dist and isomdsfit will
- depend on parameter "distance_similarity_measure".
+depend on parameter "distance_similarity_measure".
 \itemize{
-  \item{"dist_mat"}{a matrix of pairwise distances}
-  \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to 
-  two dimensions via MDS - multidimensional scaling, using the isoMDS function}
-  \item{"cor_unweighted"}{a matrix of unweighted pairwise correlations}
-  \item{"composite_mat"}{the composite matrix (see Details)}
-  \item{"cell_lines_ids"}{a vector of cell line IDs/names}
-  \item{"tumors_ids"}{a vector of tumor IDs}
+\item{"dist_mat"}{a matrix of pairwise distances}
+\item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to
+two dimensions via MDS - multidimensional scaling, using the isoMDS function}
+\item{"cor_unweighted"}{a matrix of unweighted pairwise correlations}
+\item{"composite_mat"}{the composite matrix (see Details)}
+\item{"cell_lines_ids"}{a vector of cell line IDs/names}
+\item{"tumors_ids"}{a vector of tumor IDs}
 }
 }
 \description{
 Run a comparison between between two cohorts (e.g. cell lines and tumors)
 }
 \details{
-The composite matrix is a single matrix where the columns are samples 
-  (i.e. tumors AND cell line IDs) and the rows are an rbind() of mutations 
-  (with 1 or 0 outputs for each sample), copy number alterations from 
-  GISTIC (with values -2, -1, 0, 1, 2), or gene expression values. Available similarity/distance measures include: 
-  \itemize{
-    \item{"weighted_correlation"}{Weighted correlation, based on weighted means and standard deviations}
-    \item{"generalized_jaccard"}{A weighted distance based on the Jaccard coefficient}
- }
+The composite matrix is a single matrix where the columns are samples
+(i.e. tumors AND cell line IDs) and the rows are an rbind() of mutations
+(with 1 or 0 outputs for each sample), copy number alterations from
+GISTIC (with values -2, -1, 0, 1, 2), or gene expression values. Available similarity/distance measures include:
+\itemize{
+\item{"weighted_correlation"}{Weighted correlation, based on weighted means and standard deviations}
+\item{"generalized_jaccard"}{A weighted distance based on the Jaccard coefficient}
+}
 }
 \examples{
 mut_default_weight <- 0.01
