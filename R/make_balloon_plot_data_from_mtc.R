@@ -13,20 +13,20 @@
 #'  * AVGSIM_Zscores; MUTSIM_Zscores: TODO
 #'  * CNASIM_Zscores; EXPSIM_Zscores: TODO
 #'  * AVGSIM_Percentile_Ranks: TODO
-#'  * MUTSIM_Percentile_Ranks: 
-#'  * CNASIM_Percentile_Ranks:  
-#'  * EXPSIM_Percentile_Ranks: 
+#'  * MUTSIM_Percentile_Ranks: % Rank by Mutation
+#'  * CNASIM_Percentile_Ranks: % Rank by Copy Number
+#'  * EXPSIM_Percentile_Ranks: % Rank by Expression
 #'  * Categorization: TODO  
-#'  * AVGSIM_Zscores_wrt_Tumors: 
-#'  * MUTSIM_Zscores_wrt_Tumors: 
-#'  * CNASIM_Zscores_wrt_Tumors: 
-#'  * EXPSIM_Zscores_wrt_Tumors: 
-#'  * Mean_Similarity_To_All_Tumors_AVG: 
-#'  * Mean_Similarity_To_All_Tumors_MUT: 
-#'  * Mean_Similarity_To_All_Tumors_CNA: 
-#'  * Mean_Similarity_To_All_Tumors_EXP: 
-#'  * Average_Of_Percentile_Ranks:  
-#'  * Rank_of_Average_Of_Percentile_Ranks: 
+#'  * AVGSIM_Zscores_wrt_Tumors: TODO
+#'  * MUTSIM_Zscores_wrt_Tumors: TODO
+#'  * CNASIM_Zscores_wrt_Tumors: TODO 
+#'  * EXPSIM_Zscores_wrt_Tumors: TODO 
+#'  * Mean_Similarity_To_All_Tumors_AVG: TODO 
+#'  * Mean_Similarity_To_All_Tumors_MUT: TODO
+#'  * Mean_Similarity_To_All_Tumors_CNA: TODO 
+#'  * Mean_Similarity_To_All_Tumors_EXP: TODO
+#'  * Average_Of_Percentile_Ranks: TODO
+#'  * Rank_of_Average_Of_Percentile_Ranks: % Rank by Avg % Ranks 
 #'  
 #' @param cancer_type a cancer type abbreviation found in the MTC column Cell_Line_Cancer_Type
 #' @param melt_data boolean, whether to apply reshape2::melt() to data.frame

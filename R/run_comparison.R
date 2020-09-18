@@ -11,33 +11,25 @@
 #' @param mut_default_weight default (background) weight for mutation alterations (MUT) (DEFAULT: 0.01); CNA_default_weight
 #' @param exp_default_weight default (background) weight for mRNA gene expression values (EXP) (DEFAULT: 0.01)
 #' 
-#' @param cna_known_cancer_gene_weight a default weight for genes important in cancer (DEFAULT: 0.1); 
-#'   an example would genes in the TCGA pan-cancer CNA list (i.e. GISTIC peaks). Known cancer gene weights are 
-#'   default weight for genes important in cancer (an example would genes derived from TCGA pan-cancer analyses or literature)
-#' @param mut_known_cancer_gene_weight a default weight for genes important in cancer (DEFAULT: 0.1);
-#'   an example would genes in the TCGA pan-cancer mutation list (i.e. MUTSIG SMGs)
-#' @param exp_known_cancer_gene_weight a default weight for genes important in cancer(DEFAULT: 0.1); 
-#'   an example would genes in the COSMIC Cancer Gene Census
-#' 
 #' @param tumor_mut_file a file with binary mutation data for tumors 
-#' @param tumor_cna_file a file with 5-valued GISTIC data for tumors
+#' @param tumor_cna_file a file with GISTIC data for tumors; this can be 5-values (-2, -1, 0, 1, 2)
 #' @param tumor_exp_file a file with gene expression data for tumors
 #' 
 #' @param cell_line_mut_file a file with binary mutation data for cell lines
-#' @param cell_line_cna_file a file with 5-valued GISTIC data for cell lines
+#' @param cell_line_cna_file a file with GISTIC data for cell lines; this can be 5-values (-2, -1, 0, 1, 2)
 #' @param cell_line_exp_file a file with gene expression data for cell lines
 #' 
 #' @param known_cancer_gene_weights_mut_file a file with weights for genes known
 #'   to be recurrently altered/mutated in cancer (e.g. recurrently mutated genes in TCGA pan-cancer analyses). 
 #'   A two-column tab-delimited file - the first column has the gene names and the second column specifies the weights.
-#' @param known_cancer_gene_weights_cna_file see known_cancer_gene_weights_mut_file
-#' @param known_cancer_gene_weights_exp_file see known_cancer_gene_weights_mut_file
+#' @param known_cancer_gene_weights_cna_file for copy number; see known_cancer_gene_weights_mut_file
+#' @param known_cancer_gene_weights_exp_file for expression; see known_cancer_gene_weights_mut_file
 #' 
 #' @param cancer_specific_gene_weights_mut_file a file with weights for cancer-specific
 #'   set of recurrently mutated genes. A tab-delimited file - the first column has the gene names,
 #'   and the second column specifies the weights.
-#' @param cancer_specific_gene_weights_cna_file see cancer_specific_gene_weights_mut_file 
-#' @param cancer_specific_gene_weights_exp_file see cancer_specific_gene_weights_mut_file 
+#' @param cancer_specific_gene_weights_cna_file for copy number; see cancer_specific_gene_weights_mut_file 
+#' @param cancer_specific_gene_weights_exp_file for expression; see cancer_specific_gene_weights_mut_file 
 #' 
 #' @param distance_similarity_measures a named vector of distance/similarity measures: see details. 
 #'   OPTIONS: weighted_correlation and generalized_jaccard - must be in the order mut, cna, exp. Currently, 
@@ -91,9 +83,6 @@
 #' cna_default_weight=0.01, 
 #' mut_default_weight=0.01,
 #' exp_default_weight=0.01,
-#' cna_known_cancer_gene_weight=0.1, 
-#' mut_known_cancer_gene_weight=0.1, 
-#' exp_known_cancer_gene_weight=0.1, 
 #' tumor_mut_file=tumor_mut_file, 
 #' tumor_cna_file=tumor_cna_file, 
 #' tumor_exp_file=tumor_exp_file, 
@@ -121,9 +110,6 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
                            cna_default_weight=0.01, 
                            mut_default_weight=0.01,
                            exp_default_weight=0.01,
-                           cna_known_cancer_gene_weight=0.1, 
-                           mut_known_cancer_gene_weight=0.1, 
-                           exp_known_cancer_gene_weight=0.1, 
                            tumor_mut_file="tumor_mut.txt", 
                            tumor_cna_file="tumor_cna.txt", 
                            tumor_exp_file="tumor_exp.txt", 
@@ -166,7 +152,6 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
       
       mut <- generate_composite_mat_and_gene_weights(
         default_weight=mut_default_weight,
-        known_cancer_gene_weight=mut_known_cancer_gene_weight,
         tumor_file=tumor_mut_file,
         cell_line_file=cell_line_mut_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
@@ -185,7 +170,6 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
     if(data_type == "cna") {
       cna <- generate_composite_mat_and_gene_weights(
         default_weight=cna_default_weight,
-        known_cancer_gene_weight=cna_known_cancer_gene_weight,
         tumor_file=tumor_cna_file,
         cell_line_file=cell_line_cna_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_cna_file,
@@ -204,7 +188,6 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
     if(data_type == "exp") {
       exp <- generate_composite_mat_and_gene_weights(
         default_weight=exp_default_weight,
-        known_cancer_gene_weight=exp_known_cancer_gene_weight,
         tumor_file=tumor_exp_file,
         cell_line_file=cell_line_exp_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_exp_file,

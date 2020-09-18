@@ -35,7 +35,6 @@ shinyUI(
                           fileInput('datasetFile', 'Choose Dataset File',
                                     accept=c('application/zip', '.zip')),
                           numericInput("default_weight", "Default (Background) Weight:", 0.01, min = 0, max = 100, step = 0.01),
-                          numericInput("known_cancer_gene_weight", "Known Cancer Gene Weight:", 0.1, min = 0, max = 100, step = 0.1),
                           helpText("Download: ", br(), a(href="ovca_tcga_cclp.zip", 
                                      target="_blank", download="ovca_tcga_cclp.zip", "Sample Ovarian Dataset (.zip)")),
                           helpText(br(), a(href="read_tcga_cclp.zip", 

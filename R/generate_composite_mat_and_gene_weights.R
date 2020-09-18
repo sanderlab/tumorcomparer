@@ -1,7 +1,6 @@
 #' Run a comparison between between two cohorts (e.g. cell lines and tumors)
 #' 
 #' @param default_weight see run_comparison
-#' @param known_cancer_gene_weight see run_comparison
 #' @param tumor_file see run_comparison
 #' @param cell_line_file see run_comparison
 #' @param known_cancer_gene_weights_file see run_comparison
@@ -106,7 +105,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
   }
  
   #Intitalize weights with default weights
-  gene_weights <- rep(default_weight,nrow(composite_mat))
+  gene_weights <- rep(default_weight, nrow(composite_mat))
   names(gene_weights) <- rownames(composite_mat)
 
  
@@ -122,7 +121,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     )
   rownames(known_cancer_genes_and_weights_all) <- trimws(rownames(known_cancer_genes_and_weights_all)) # trim whitespace, if any
 
-  gene_weights[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all))] <- known_cancer_genes_and_weights_all[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all)),1]
+  gene_weights[intersect(names(gene_weights), rownames(known_cancer_genes_and_weights_all))] <- known_cancer_genes_and_weights_all[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all)),1]
 
 
   # Read in user-provided weights for cancer-specific genes
@@ -136,7 +135,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     )
   rownames(genes_and_weights_all) <- trimws(rownames(genes_and_weights_all)) # trim whitespace, if any
     
-  gene_weights[intersect(names(gene_weights),rownames(genes_and_weights_all))] <- genes_and_weights_all[intersect(names(gene_weights),rownames(genes_and_weights_all)),1]
+  gene_weights[intersect(names(gene_weights), rownames(genes_and_weights_all))] <- genes_and_weights_all[intersect(names(gene_weights),rownames(genes_and_weights_all)),1]
   
   gene_weights <- gene_weights / max(gene_weights + 1e-6) # map to 0-1
   

@@ -133,7 +133,11 @@ shinyServer(function(input, output, session) {
       known_cancer_gene_weights_mut_file <- file.path(tmp_dir, "default_weights_for_known_cancer_genes_mut.txt")
       cancer_specific_gene_weights_mut_file <- file.path(tmp_dir, "genes_and_weights_mut.txt")
       available_data_types <- c(available_data_types, "mut")
-      distance_similarity_measures <- c(distance_similarity_measures, "generalized_jaccard")
+      
+      # FIXME
+      if(all((mut[1,] %% 1) == 0)) {
+        distance_similarity_measures <- c(distance_similarity_measures, "generalized_jaccard")        
+      }
     }
 
     if(has_cna) {
@@ -186,9 +190,6 @@ shinyServer(function(input, output, session) {
       cna_default_weight = default_weight, 
       mut_default_weight = default_weight,
       exp_default_weight = default_weight,
-      cna_known_cancer_gene_weight = known_cancer_gene_weight, 
-      mut_known_cancer_gene_weight = known_cancer_gene_weight, 
-      exp_known_cancer_gene_weight = known_cancer_gene_weight, 
       tumor_mut_file = tumor_mut_file, 
       tumor_cna_file = tumor_cna_file, 
       tumor_exp_file = tumor_exp_file, 
@@ -299,7 +300,7 @@ shinyServer(function(input, output, session) {
     
     # Filter dataset
     df <- df[, selected_columns]
-    df <- df[order(-df$avg_mean_similarity), ]
+    df <- df[order(-df$combined_score), ]
     colnames(df) <- names(selected_columns)
     
     DT::datatable(df, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)

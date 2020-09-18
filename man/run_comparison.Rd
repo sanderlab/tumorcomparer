@@ -12,9 +12,6 @@ run_comparison(
   cna_default_weight = 0.01,
   mut_default_weight = 0.01,
   exp_default_weight = 0.01,
-  cna_known_cancer_gene_weight = 0.1,
-  mut_known_cancer_gene_weight = 0.1,
-  exp_known_cancer_gene_weight = 0.1,
   tumor_mut_file = "tumor_mut.txt",
   tumor_cna_file = "tumor_cna.txt",
   tumor_exp_file = "tumor_exp.txt",
@@ -47,25 +44,15 @@ Default weights are assigned to genes not known to be important in the specific 
 
 \item{exp_default_weight}{default (background) weight for mRNA gene expression values (EXP) (DEFAULT: 0.01)}
 
-\item{cna_known_cancer_gene_weight}{a default weight for genes important in cancer (DEFAULT: 0.1);
-an example would genes in the TCGA pan-cancer CNA list (i.e. GISTIC peaks). Known cancer gene weights are
-default weight for genes important in cancer (an example would genes derived from TCGA pan-cancer analyses or literature)}
-
-\item{mut_known_cancer_gene_weight}{a default weight for genes important in cancer (DEFAULT: 0.1);
-an example would genes in the TCGA pan-cancer mutation list (i.e. MUTSIG SMGs)}
-
-\item{exp_known_cancer_gene_weight}{a default weight for genes important in cancer(DEFAULT: 0.1);
-an example would genes in the COSMIC Cancer Gene Census}
-
 \item{tumor_mut_file}{a file with binary mutation data for tumors}
 
-\item{tumor_cna_file}{a file with 5-valued GISTIC data for tumors}
+\item{tumor_cna_file}{a file with GISTIC data for tumors; this can be 5-values (-2, -1, 0, 1, 2)}
 
 \item{tumor_exp_file}{a file with gene expression data for tumors}
 
 \item{cell_line_mut_file}{a file with binary mutation data for cell lines}
 
-\item{cell_line_cna_file}{a file with 5-valued GISTIC data for cell lines}
+\item{cell_line_cna_file}{a file with GISTIC data for cell lines; this can be 5-values (-2, -1, 0, 1, 2)}
 
 \item{cell_line_exp_file}{a file with gene expression data for cell lines}
 
@@ -73,17 +60,17 @@ an example would genes in the COSMIC Cancer Gene Census}
 to be recurrently altered/mutated in cancer (e.g. recurrently mutated genes in TCGA pan-cancer analyses).
 A two-column tab-delimited file - the first column has the gene names and the second column specifies the weights.}
 
-\item{known_cancer_gene_weights_cna_file}{see known_cancer_gene_weights_mut_file}
+\item{known_cancer_gene_weights_cna_file}{for copy number; see known_cancer_gene_weights_mut_file}
 
-\item{known_cancer_gene_weights_exp_file}{see known_cancer_gene_weights_mut_file}
+\item{known_cancer_gene_weights_exp_file}{for expression; see known_cancer_gene_weights_mut_file}
 
 \item{cancer_specific_gene_weights_mut_file}{a file with weights for cancer-specific
 set of recurrently mutated genes. A tab-delimited file - the first column has the gene names,
 and the second column specifies the weights.}
 
-\item{cancer_specific_gene_weights_cna_file}{see cancer_specific_gene_weights_mut_file}
+\item{cancer_specific_gene_weights_cna_file}{for copy number; see cancer_specific_gene_weights_mut_file}
 
-\item{cancer_specific_gene_weights_exp_file}{see cancer_specific_gene_weights_mut_file}
+\item{cancer_specific_gene_weights_exp_file}{for expression; see cancer_specific_gene_weights_mut_file}
 
 \item{distance_similarity_measures}{a named vector of distance/similarity measures: see details.
 OPTIONS: weighted_correlation and generalized_jaccard - must be in the order mut, cna, exp. Currently,
@@ -140,9 +127,6 @@ exp_data_type_weight = 1/3,
 cna_default_weight=0.01, 
 mut_default_weight=0.01,
 exp_default_weight=0.01,
-cna_known_cancer_gene_weight=0.1, 
-mut_known_cancer_gene_weight=0.1, 
-exp_known_cancer_gene_weight=0.1, 
 tumor_mut_file=tumor_mut_file, 
 tumor_cna_file=tumor_cna_file, 
 tumor_exp_file=tumor_exp_file, 

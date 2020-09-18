@@ -59,7 +59,7 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result, mel
   
   heatmap_mat <- as.data.frame(mean_similarity_to_tumors_scaling_mat)
   heatmap_mat$Cell_Line_Name <- cell_line_ids
-  heatmap_mat$avg_mean_similarity <- average_mean_similarity_scaling
+  heatmap_mat$combined_score <- average_mean_similarity_scaling
   
   # heatmap_mat <- as.data.frame(
   #   cbind(names(average_mean_similarity_after_0to1_scaling), mean_similarity_to_tumors_after_0to1_scaling_MUT, mean_similarity_to_tumors_after_0to1_scaling_CNA, mean_similarity_to_tumors_after_0to1_scaling_EXP, average_mean_similarity_after_0to1_scaling))
@@ -72,7 +72,7 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result, mel
     df <- transform(df, Cell_Line_Name=reorder(Cell_Line_Name, value))     
   } else {
     df <- heatmap_mat
-    df <- df[order(-df$avg_mean_similarity), ] # FIXME combined_score 
+    df <- df[order(-df$combined_score), ] # FIXME combined_score 
   }
   
   return(df)

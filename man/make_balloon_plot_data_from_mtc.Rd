@@ -20,20 +20,20 @@ is included in the package). a data.frame with the columns:
 \item AVGSIM_Zscores; MUTSIM_Zscores: TODO
 \item CNASIM_Zscores; EXPSIM_Zscores: TODO
 \item AVGSIM_Percentile_Ranks: TODO
-\item MUTSIM_Percentile_Ranks:
-\item CNASIM_Percentile_Ranks:
-\item EXPSIM_Percentile_Ranks:
+\item MUTSIM_Percentile_Ranks: \% Rank by Mutation
+\item CNASIM_Percentile_Ranks: \% Rank by Copy Number
+\item EXPSIM_Percentile_Ranks: \% Rank by Expression
 \item Categorization: TODO
-\item AVGSIM_Zscores_wrt_Tumors:
-\item MUTSIM_Zscores_wrt_Tumors:
-\item CNASIM_Zscores_wrt_Tumors:
-\item EXPSIM_Zscores_wrt_Tumors:
-\item Mean_Similarity_To_All_Tumors_AVG:
-\item Mean_Similarity_To_All_Tumors_MUT:
-\item Mean_Similarity_To_All_Tumors_CNA:
-\item Mean_Similarity_To_All_Tumors_EXP:
-\item Average_Of_Percentile_Ranks:
-\item Rank_of_Average_Of_Percentile_Ranks:
+\item AVGSIM_Zscores_wrt_Tumors: TODO
+\item MUTSIM_Zscores_wrt_Tumors: TODO
+\item CNASIM_Zscores_wrt_Tumors: TODO
+\item EXPSIM_Zscores_wrt_Tumors: TODO
+\item Mean_Similarity_To_All_Tumors_AVG: TODO
+\item Mean_Similarity_To_All_Tumors_MUT: TODO
+\item Mean_Similarity_To_All_Tumors_CNA: TODO
+\item Mean_Similarity_To_All_Tumors_EXP: TODO
+\item Average_Of_Percentile_Ranks: TODO
+\item Rank_of_Average_Of_Percentile_Ranks: \% Rank by Avg \% Ranks
 }}
 
 \item{cancer_type}{a cancer type abbreviation found in the MTC column Cell_Line_Cancer_Type}

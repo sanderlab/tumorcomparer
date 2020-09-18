@@ -18,8 +18,6 @@ generate_composite_mat_and_gene_weights(
 \arguments{
 \item{default_weight}{see run_comparison}
 
-\item{known_cancer_gene_weight}{see run_comparison}
-
 \item{tumor_file}{see run_comparison}
 
 \item{cell_line_file}{see run_comparison}

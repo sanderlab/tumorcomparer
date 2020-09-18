@@ -44,7 +44,7 @@ help.search("tumorcomparer")
 
 # Load Data
 
-This example makes use of TCGA Pan-
+This example makes use of TCGA Pan-Cancer dataset [TODO].
 
 ```{r}
 # NOTE: Example files are embedded in the package and are accessible with system.file()
@@ -78,9 +78,6 @@ comparison_result <- run_comparison(
                cna_default_weight=0.01, 
                mut_default_weight=0.01,
                exp_default_weight=0.01,
-               cna_known_cancer_gene_weight=0.1, 
-               mut_known_cancer_gene_weight=0.1, 
-               exp_known_cancer_gene_weight=0.1, 
                tumor_mut_file=tumor_mut_file, 
                tumor_cna_file=tumor_cna_file, 
                tumor_exp_file=tumor_exp_file, 

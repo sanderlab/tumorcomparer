@@ -28,7 +28,7 @@ comparison_result_columns <- c(
   "Mutation Score"="mut_score", 
   "Copy Number Score"="cna_score", 
   "Expression Score"="exp_score",
-  "Average Score"="avg_mean_similarity") 
+  "Combined Score"="combined_score") 
 
 tcgaTypes <- c(
   "Adrenocortical Carcinoma"="ACC",
