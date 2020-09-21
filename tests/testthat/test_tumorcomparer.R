@@ -60,22 +60,17 @@ test_that("categorize_cell_lines", {
 
 test_that("generate_composite_mat_and_gene_weights", {
   mut_default_weight <- 0.01
-  mut_known_cancer_gene_weight <- 0.1
   tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
   cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
   known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
   cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "genes_and_weights_mut.txt", package="tumorcomparer")
-  distance_similarity_measure <- "generalized_jaccard"
   
   composite_mat <- generate_composite_mat_and_gene_weights(
     default_weight=mut_default_weight,
-    known_cancer_gene_weight=mut_known_cancer_gene_weight,
     tumor_file=tumor_mut_file,
     cell_line_file=cell_line_mut_file,
     known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
-    cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file,
-    is_discrete=TRUE,
-    distance_similarity_measure=distance_similarity_measure)
+    cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file)
   
   saved_output <- readRDS(system.file("test_output", "ov_composite_mat.rds", package="tumorcomparer"))
   
@@ -152,10 +147,7 @@ test_that("run_comparison", {
     known_cancer_gene_weights_exp_file=known_cancer_gene_weights_exp_file, 
     cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
     cancer_specific_gene_weights_cna_file=cancer_specific_gene_weights_cna_file, 
-    cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file,
-    distance_similarity_measures=c("generalized_jaccard", 
-                                   "generalized_jaccard", 
-                                   "weighted_correlation"))
+    cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file)
   
   #saveRDS(comparison_result, "ov_comparison_result.rds")
   
@@ -192,8 +184,7 @@ test_that("run_comparison_two_datasets", {
     known_cancer_gene_weights_mut_file=known_cancer_gene_weights_mut_file, 
     known_cancer_gene_weights_exp_file=known_cancer_gene_weights_exp_file, 
     cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
-    cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file,
-    distance_similarity_measures=c("generalized_jaccard", "weighted_correlation"))
+    cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file)
   
   #saveRDS(comparison_result, "ov_comparison_result.rds")
   

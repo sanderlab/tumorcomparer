@@ -5,8 +5,6 @@
 #' @param cell_line_file see run_comparison
 #' @param known_cancer_gene_weights_file see run_comparison
 #' @param cancer_specific_gene_weights_file see run_comparison
-#' @param is_discrete whether the data is discrete; set automatically by run_comparison for mut, cna, exp
-#' @param distance_similarity_measure see run_comparison 
 #' 
 #' @details The composite matrix is a single matrix where the columns are samples 
 #'   (i.e. tumors AND cell line IDs) and the rows are an rbind() of mutations 
@@ -33,7 +31,6 @@
 #' 
 #' @examples 
 #' mut_default_weight <- 0.01
-#' mut_known_cancer_gene_weight <- 0.1
 #' tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", 
 #'   package="tumorcomparer")
 #' cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", 
@@ -42,17 +39,13 @@
 #'   "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
 #' cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
 #'   "Genes_and_weights_mut.txt", package="tumorcomparer")
-#' distance_similarity_measure <- "generalized_jaccard"
 #' 
 #' mut <- generate_composite_mat_and_gene_weights(
 #'   default_weight=mut_default_weight,
-#'   known_cancer_gene_weight=mut_known_cancer_gene_weight,
 #'   tumor_file=tumor_mut_file,
 #'   cell_line_file=cell_line_mut_file,
 #'   known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
-#'   cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file,
-#'   is_discrete=TRUE,
-#'   distance_similarity_measure=distance_similarity_measure)
+#'   cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file)
 #'
 #' @concept tumorcomparer
 #' @export
@@ -62,12 +55,10 @@
 #' @importFrom utils read.table write.table
 #' @importFrom stats cor
 generate_composite_mat_and_gene_weights <- function(default_weight, 
-                                                    known_cancer_gene_weight, 
                                                     tumor_file, 
                                                     cell_line_file, 
                                                     known_cancer_gene_weights_file, 
                                                     cancer_specific_gene_weights_file, 
-                                                    is_discrete, 
                                                     distance_similarity_measure) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
@@ -81,7 +72,17 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
   genes_in_both <- intersect(rownames(tumor), rownames(cell_line))
 
   composite_mat <- cbind(cell_line[genes_in_both,], tumor[genes_in_both,])
-  
+
+  # Check that tumor and cell_line data are either both discrete or continuous 
+  # and set the distance_similarity_measure to run
+  if(all((composite_mat %% 1) == 0)) {
+    is_discrete <- TRUE
+    distance_similarity_measure <- "generalized_jaccard"      
+  } else {
+    is_discrete <- FALSE 
+    distance_similarity_measure <- "weighted_correlation"      
+  }
+
   # For discrete data (mut, cna) - compute alteration frequencies, remove samples which have no alterations
   if(is_discrete) { 
     # Calculation of alteration frequencies
@@ -171,7 +172,6 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
   } else {
     stop("ERROR: Unknown distance_similarity_measure: ", distance_similarity_measure)
   }
-
  
   results <- list(
     dist_mat = dist_mat,

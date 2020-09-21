@@ -1,6 +1,6 @@
 #' Run a comparison between between two cohorts (e.g. cell lines and tumors)
 #'
-#' @param available_data_types a vector of data types to be analyzed; the order of these much match distance_similarity_measures
+#' @param available_data_types a vector of data types to be analyzed
 #' 
 #' @param cna_data_type_weight a numeric weight for the data type (NOTE: data type weights must sum to 1)
 #' @param mut_data_type_weight a numeric weight for the data type (NOTE: data type weights must sum to 1)
@@ -31,11 +31,8 @@
 #' @param cancer_specific_gene_weights_cna_file for copy number; see cancer_specific_gene_weights_mut_file 
 #' @param cancer_specific_gene_weights_exp_file for expression; see cancer_specific_gene_weights_mut_file 
 #' 
-#' @param distance_similarity_measures a named vector of distance/similarity measures: see details. 
-#'   OPTIONS: weighted_correlation and generalized_jaccard - must be in the order mut, cna, exp. Currently, 
-#'   generalized_jaccard is used for mut and cna data, and weighted_correlation for exp data
-#'
-#' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on parameter, distance_similarity_measure.
+#' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on 
+#' parameter whether the values for a data type are discrete or continuous
 #' * dist_mat: a matrix of pairwise distances
 #' * isomdsfit: a two-column (2-dimension) fitting of the distances reduced to two dimensions via MDS - multidimensional scaling, using the isoMDS function
 #' * cor_unweighted: a matrix of unweighted pairwise correlations
@@ -94,10 +91,7 @@
 #' known_cancer_gene_weights_exp_file=known_cancer_gene_weights_exp_file, 
 #' cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
 #' cancer_specific_gene_weights_cna_file=cancer_specific_gene_weights_cna_file, 
-#' cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file,
-#' distance_similarity_measures=c("generalized_jaccard", 
-#'                                "generalized_jaccard", 
-#'                                "weighted_correlation"))
+#' cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file)
 #'
 #' @concept tumorcomparer
 #' @export
@@ -110,29 +104,23 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
                            cna_default_weight=0.01, 
                            mut_default_weight=0.01,
                            exp_default_weight=0.01,
-                           tumor_mut_file="tumor_mut.txt", 
-                           tumor_cna_file="tumor_cna.txt", 
-                           tumor_exp_file="tumor_exp.txt", 
-                           cell_line_mut_file="cell_line_mut.txt", 
-                           cell_line_cna_file="cell_line_cna.txt", 
-                           cell_line_exp_file="cell_line_exp.txt", 
-                           known_cancer_gene_weights_mut_file="default_weights_for_known_cancer_genes_mut.txt", 
-                           known_cancer_gene_weights_cna_file="default_weights_for_known_cancer_genes_cna.txt", 
-                           known_cancer_gene_weights_exp_file="default_weights_for_known_cancer_genes_exp.txt", 
-                           cancer_specific_gene_weights_mut_file="Genes_and_weights_mut.txt", 
-                           cancer_specific_gene_weights_cna_file="Genes_and_weights_cna.txt", 
-                           cancer_specific_gene_weights_exp_file="Genes_and_weights_exp.txt", 
-                           distance_similarity_measures=c("generalized_jaccard", "weighted_correlation", "weighted_correlation")
-                           #distance_similarity_measures=c("generalized_jaccard", "generalized_jaccard", "weighted_correlation")
+                           tumor_mut_file, 
+                           tumor_cna_file, 
+                           tumor_exp_file, 
+                           cell_line_mut_file, 
+                           cell_line_cna_file, 
+                           cell_line_exp_file, 
+                           known_cancer_gene_weights_mut_file, 
+                           known_cancer_gene_weights_cna_file, 
+                           known_cancer_gene_weights_exp_file, 
+                           cancer_specific_gene_weights_mut_file, 
+                           cancer_specific_gene_weights_cna_file, 
+                           cancer_specific_gene_weights_exp_file
                            ) {
   
   # CHECK available_data_types and distance_similarity_measures ----
   if(length(available_data_types) < 1) {
     stop("ERROR: At least one data type: mut, cna, exp must be provided for available_data_types")  
-  } 
-  
-  if(length(available_data_types) != length(distance_similarity_measures)) {
-    stop("ERROR: length(available_data_types) must equal length(distance_similarity_measures)")  
   } 
        
   # LOAD DATA ----            
@@ -155,9 +143,7 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         tumor_file=tumor_mut_file,
         cell_line_file=cell_line_mut_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
-        cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file,
-        is_discrete=TRUE,
-        distance_similarity_measure=distance_similarity_measures[count])
+        cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file)
       
       isomdsfit_by_data_type[["mut"]] <- mut$isomdsfit
       dist_mat_by_data_type[["mut"]] <- mut$dist_mat
@@ -173,9 +159,7 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         tumor_file=tumor_cna_file,
         cell_line_file=cell_line_cna_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_cna_file,
-        cancer_specific_gene_weights_file=cancer_specific_gene_weights_cna_file, 
-        is_discrete=FALSE,
-        distance_similarity_measure=distance_similarity_measures[count])
+        cancer_specific_gene_weights_file=cancer_specific_gene_weights_cna_file)
       
       isomdsfit_by_data_type[["cna"]] <- cna$isomdsfit
       dist_mat_by_data_type[["cna"]] <- cna$dist_mat
@@ -191,9 +175,7 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         tumor_file=tumor_exp_file,
         cell_line_file=cell_line_exp_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_exp_file,
-        cancer_specific_gene_weights_file=cancer_specific_gene_weights_exp_file,
-        is_discrete=FALSE,
-        distance_similarity_measure=distance_similarity_measures[count])
+        cancer_specific_gene_weights_file=cancer_specific_gene_weights_exp_file)
       
       isomdsfit_by_data_type[["exp"]] <- exp$isomdsfit
       dist_mat_by_data_type[["exp"]] <- exp$dist_mat

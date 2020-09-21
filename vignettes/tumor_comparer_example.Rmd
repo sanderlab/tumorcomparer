@@ -89,10 +89,7 @@ comparison_result <- run_comparison(
                known_cancer_gene_weights_exp_file=known_cancer_gene_weights_exp_file, 
                cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
                cancer_specific_gene_weights_cna_file=cancer_specific_gene_weights_cna_file, 
-               cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file,
-               distance_similarity_measures=c("generalized_jaccard", 
-                                              "generalized_jaccard", 
-                                              "weighted_correlation"))
+               cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file)
 
 # See returned outputs
 names(comparison_result)

@@ -133,11 +133,6 @@ shinyServer(function(input, output, session) {
       known_cancer_gene_weights_mut_file <- file.path(tmp_dir, "default_weights_for_known_cancer_genes_mut.txt")
       cancer_specific_gene_weights_mut_file <- file.path(tmp_dir, "genes_and_weights_mut.txt")
       available_data_types <- c(available_data_types, "mut")
-      
-      # FIXME
-      if(all((mut[1,] %% 1) == 0)) {
-        distance_similarity_measures <- c(distance_similarity_measures, "generalized_jaccard")        
-      }
     }
 
     if(has_cna) {

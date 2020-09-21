@@ -6,12 +6,10 @@
 \usage{
 generate_composite_mat_and_gene_weights(
   default_weight,
-  known_cancer_gene_weight,
   tumor_file,
   cell_line_file,
   known_cancer_gene_weights_file,
   cancer_specific_gene_weights_file,
-  is_discrete,
   distance_similarity_measure
 )
 }
@@ -25,10 +23,6 @@ generate_composite_mat_and_gene_weights(
 \item{known_cancer_gene_weights_file}{see run_comparison}
 
 \item{cancer_specific_gene_weights_file}{see run_comparison}
-
-\item{is_discrete}{whether the data is discrete; set automatically by run_comparison for mut, cna, exp}
-
-\item{distance_similarity_measure}{see run_comparison}
 }
 \value{
 a list with multiple items. NOTE: The values of the dist and isomdsfit will
@@ -58,7 +52,6 @@ GISTIC (with values -2, -1, 0, 1, 2), or gene expression values. Available simil
 }
 \examples{
 mut_default_weight <- 0.01
-mut_known_cancer_gene_weight <- 0.1
 tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", 
   package="tumorcomparer")
 cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", 
@@ -67,17 +60,13 @@ known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp"
   "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
 cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
   "Genes_and_weights_mut.txt", package="tumorcomparer")
-distance_similarity_measure <- "generalized_jaccard"
 
 mut <- generate_composite_mat_and_gene_weights(
   default_weight=mut_default_weight,
-  known_cancer_gene_weight=mut_known_cancer_gene_weight,
   tumor_file=tumor_mut_file,
   cell_line_file=cell_line_mut_file,
   known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
-  cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file,
-  is_discrete=TRUE,
-  distance_similarity_measure=distance_similarity_measure)
+  cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file)
 
 }
 \author{

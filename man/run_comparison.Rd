@@ -12,24 +12,22 @@ run_comparison(
   cna_default_weight = 0.01,
   mut_default_weight = 0.01,
   exp_default_weight = 0.01,
-  tumor_mut_file = "tumor_mut.txt",
-  tumor_cna_file = "tumor_cna.txt",
-  tumor_exp_file = "tumor_exp.txt",
-  cell_line_mut_file = "cell_line_mut.txt",
-  cell_line_cna_file = "cell_line_cna.txt",
-  cell_line_exp_file = "cell_line_exp.txt",
-  known_cancer_gene_weights_mut_file = "default_weights_for_known_cancer_genes_mut.txt",
-  known_cancer_gene_weights_cna_file = "default_weights_for_known_cancer_genes_cna.txt",
-  known_cancer_gene_weights_exp_file = "default_weights_for_known_cancer_genes_exp.txt",
-  cancer_specific_gene_weights_mut_file = "Genes_and_weights_mut.txt",
-  cancer_specific_gene_weights_cna_file = "Genes_and_weights_cna.txt",
-  cancer_specific_gene_weights_exp_file = "Genes_and_weights_exp.txt",
-  distance_similarity_measures = c("generalized_jaccard", "weighted_correlation",
-    "weighted_correlation")
+  tumor_mut_file,
+  tumor_cna_file,
+  tumor_exp_file,
+  cell_line_mut_file,
+  cell_line_cna_file,
+  cell_line_exp_file,
+  known_cancer_gene_weights_mut_file,
+  known_cancer_gene_weights_cna_file,
+  known_cancer_gene_weights_exp_file,
+  cancer_specific_gene_weights_mut_file,
+  cancer_specific_gene_weights_cna_file,
+  cancer_specific_gene_weights_exp_file
 )
 }
 \arguments{
-\item{available_data_types}{a vector of data types to be analyzed; the order of these much match distance_similarity_measures}
+\item{available_data_types}{a vector of data types to be analyzed}
 
 \item{mut_data_type_weight}{a numeric weight for the data type (NOTE: data type weights must sum to 1)}
 
@@ -71,13 +69,10 @@ and the second column specifies the weights.}
 \item{cancer_specific_gene_weights_cna_file}{for copy number; see cancer_specific_gene_weights_mut_file}
 
 \item{cancer_specific_gene_weights_exp_file}{for expression; see cancer_specific_gene_weights_mut_file}
-
-\item{distance_similarity_measures}{a named vector of distance/similarity measures: see details.
-OPTIONS: weighted_correlation and generalized_jaccard - must be in the order mut, cna, exp. Currently,
-generalized_jaccard is used for mut and cna data, and weighted_correlation for exp data}
 }
 \value{
-a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on parameter, distance_similarity_measure.
+a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on
+parameter whether the values for a data type are discrete or continuous
 \itemize{
 \item dist_mat: a matrix of pairwise distances
 \item isomdsfit: a two-column (2-dimension) fitting of the distances reduced to two dimensions via MDS - multidimensional scaling, using the isoMDS function
@@ -138,10 +133,7 @@ known_cancer_gene_weights_cna_file=known_cancer_gene_weights_cna_file,
 known_cancer_gene_weights_exp_file=known_cancer_gene_weights_exp_file, 
 cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
 cancer_specific_gene_weights_cna_file=cancer_specific_gene_weights_cna_file, 
-cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file,
-distance_similarity_measures=c("generalized_jaccard", 
-                               "generalized_jaccard", 
-                               "weighted_correlation"))
+cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file)
 
 }
 \author{
