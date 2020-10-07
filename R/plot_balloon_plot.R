@@ -11,13 +11,24 @@
 #' @seealso [make_balloon_plot_data_from_comparison_result()], 
 #' [make_balloon_plot_data_from_mtc()]
 #' 
+#' @examples 
+#' mtc_file <- system.file("extdata", "mtc_results_20200331", "mtc_results_20200331.rds", 
+#'   package="tumorcomparer")
+#' mtc <- readRDS(mtc_file)
+#' dat <- make_balloon_plot_data_from_mtc(mtc, "BLCA")
+#' plot_balloon_plot(dat, "Title")
+#' 
 #' @importFrom reshape2 melt 
 #' @importFrom dplyr mutate
 #' @importFrom ggplot2 ggplot geom_point geom_text ggtitle xlab ylab labs scale_x_discrete theme_bw theme 
 plot_balloon_plot <- function(dat, title) {
-  p <- ggplot(dat, aes(x=factor(variable), y=factor(Cell_Line_Name), color=factor(variable), size=value)) + 
+  dat$Cell_Line_Name <- factor(dat$Cell_Line_Name)
+  dat$variable <- factor(dat$variable)
+  dat$numeric_variable <- as.numeric(dat$variable) + 0.25
+  
+  p <- ggplot(dat, aes_string(x='variable', y='Cell_Line_Name', color='variable', size='value')) + 
     geom_point() + 
-    geom_text(aes(label=value, x= as.numeric(factor(variable)) + 0.25), alpha=1.0, size=3) + 
+    geom_text(aes_string(label='value', x='numeric_variable'), alpha=1.0, size=3) + 
     ggtitle(title) +
     xlab("Weighted Similarity Ranks By Data Type") + 
     ylab ("Cell Lines") + 

@@ -17,6 +17,14 @@ a ggplot2 object
 \description{
 Make Balloon Plot for Results
 }
+\examples{
+mtc_file <- system.file("extdata", "mtc_results_20200331", "mtc_results_20200331.rds", 
+  package="tumorcomparer")
+mtc <- readRDS(mtc_file)
+dat <- make_balloon_plot_data_from_mtc(mtc, "BLCA")
+plot_balloon_plot(dat, "Title")
+
+}
 \seealso{
 \code{\link[=make_balloon_plot_data_from_comparison_result]{make_balloon_plot_data_from_comparison_result()}},
 \code{\link[=make_balloon_plot_data_from_mtc]{make_balloon_plot_data_from_mtc()}}

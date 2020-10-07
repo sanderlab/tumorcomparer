@@ -9,8 +9,7 @@ generate_composite_mat_and_gene_weights(
   tumor_file,
   cell_line_file,
   known_cancer_gene_weights_file,
-  cancer_specific_gene_weights_file,
-  distance_similarity_measure
+  cancer_specific_gene_weights_file
 )
 }
 \arguments{
@@ -26,7 +25,7 @@ generate_composite_mat_and_gene_weights(
 }
 \value{
 a list with multiple items. NOTE: The values of the dist and isomdsfit will
-depend on parameter "distance_similarity_measure".
+depend on whether the input data is continuous or discrete.
 \itemize{
 \item{"dist_mat"}{a matrix of pairwise distances}
 \item{"isomdsfit"}{a two-column (2-dimension) fitting of the distances reduced to

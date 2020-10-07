@@ -54,3 +54,10 @@ only the results where the cell line and tumors are of the same cancer type, usi
 cell lines to derive ranks We use ranks to compare across cancer types, since the weights and
 score distributions are very different across data types and  cancer types
 }
+\examples{
+mtc_file <- system.file("extdata", "mtc_results_20200331", "mtc_results_20200331.rds", 
+  package="tumorcomparer")
+mtc <- readRDS(mtc_file)
+dat <- make_balloon_plot_data_from_mtc(mtc, "BRCA")
+
+}

@@ -14,7 +14,7 @@
 #' 
 #' @importFrom ggplot2 ggplot geom_point geom_text ggtitle xlab ylab element_blank element_line
 #' @importFrom dplyr mutate 
-#' @importFrom reshape2 melt 
+#' @importFrom reshape2 melt
 #' @importFrom stats reorder
 #' @importFrom magrittr %>%
 #' 
@@ -69,7 +69,7 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result, mel
 
   if(melt_data) {
     df <- melt(heatmap_mat, id.vars = "Cell_Line_Name")
-    df <- transform(df, Cell_Line_Name=reorder(Cell_Line_Name, value))     
+    df <- transform(df, Cell_Line_Name=reorder(df$Cell_Line_Name, df$value))     
   } else {
     df <- heatmap_mat
     df <- df[order(-df$combined_score), ] # FIXME combined_score 

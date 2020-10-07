@@ -43,6 +43,12 @@
 #'   
 #' @return a ggplot object
 #' 
+#' @examples 
+#' mtc_file <- system.file("extdata", "mtc_results_20200331", "mtc_results_20200331.rds", 
+#'   package="tumorcomparer")
+#' mtc <- readRDS(mtc_file)
+#' dat <- make_balloon_plot_data_from_mtc(mtc, "BRCA")
+#' 
 #' @importFrom ggplot2 ggplot geom_point geom_text ggtitle xlab ylab element_blank element_line
 #' @importFrom dplyr mutate 
 #' @importFrom reshape2 melt 
@@ -62,7 +68,7 @@ make_balloon_plot_data_from_mtc <- function(mtc, cancer_type, melt_data=TRUE) {
   
   if(melt_data) {
     df <- melt(heatmap_mat, id.vars = "Cell_Line_Name")
-    df <- transform(df, Cell_Line_Name=reorder(Cell_Line_Name, value))     
+    df <- transform(df, Cell_Line_Name=reorder(df$Cell_Line_Name, df$value))     
   } else {
     df <- heatmap_mat
     df <- df[order(-df$Combined_Score_Ranks), ]
