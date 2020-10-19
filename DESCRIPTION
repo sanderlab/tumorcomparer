@@ -21,13 +21,13 @@ Imports:
     reshape2,
     cowplot,
     ggridges,
-    gridExtra
+    gridExtra,
+    shinycustomloader
 Depends:
     R (>= 3.5)
 Suggests:
     knitr, 
     shiny,
-    shinycustomloader,
     testthat
 URL: https://bitbucket.org/cbio_mskcc/tumorcomparer
 VignetteBuilder: knitr

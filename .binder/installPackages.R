@@ -91,11 +91,35 @@ installPackages <- function(file=NULL, packages=NULL,
           if(package %in% rownames(available.packages())) {
             install_cran(package, type=type, upgrade=updatePackages)
           } else if(grepl("^github::", package)) {
-            tmpPkg <- strsplit(package, "::")[[1]][2]
-            install_github(tmpPkg, upgrade=updatePackages, build_vignettes=buildGitVignettes)
+            tmp <- strsplit(package, "::")[[1]][2]
+            tmpPkg <- strsplit(tmp, "@")[[1]][1]
+            tmpRef <- strsplit(tmp, "@")[[1]][2]
+
+            if(is.na(tmpRef)) {
+              install_github(tmpPkg, upgrade=updatePackages, build_vignettes=buildGitVignettes)              
+            } else {
+              install_github(tmpPkg, ref=tmpRef, upgrade=updatePackages, build_vignettes=buildGitVignettes)
+            }
           } else if(grepl("^bitbucket::", package)) {
-            tmpPkg <- strsplit(package, "::")[[1]][2]
-            install_bitbucket(tmpPkg, upgrade=updatePackages, build_vignettes=buildGitVignettes)
+            tmp <- strsplit(package, "::")[[1]][2]
+            tmpPkg <- strsplit(tmp, "@")[[1]][1]
+            tmpRef <- strsplit(tmp, "@")[[1]][2]
+
+            if(is.na(tmpRef)) {
+              install_bitbucket(tmpPkg, upgrade=updatePackages, build_vignettes=buildGitVignettes)              
+            } else {
+              install_bitbucket(tmpPkg, ref=tmpRef, upgrade=updatePackages, build_vignettes=buildGitVignettes)
+            }
+          } else if(grepl("^git::", package)) {
+            tmp <- strsplit(package, "::")[[1]][2]
+            tmpPkg <- strsplit(tmp, "@")[[1]][1]
+            tmpRef <- strsplit(tmp, "@")[[1]][2]
+
+            if(is.na(tmpRef)) {
+              install_git(tmpPkg, upgrade=updatePackages, build_vignettes=buildGitVignettes)              
+            } else {
+              install_git(tmpPkg, ref=tmpRef, upgrade=updatePackages, build_vignettes=buildGitVignettes)
+            }
           } else if(grepl("^local::", package)) {
             tmpPkg <- strsplit(package, "::")[[1]][2]
             install_local(tmpPkg, repos = NULL, type="source")
