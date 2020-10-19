@@ -3,16 +3,18 @@ r-version: 3.6
 mran-date: 2019-06-15
 update-packages: FALSE
 depends:
-    glasso
+    MASS
     ggplot2
-    ggrepel
-    knitr
-    testthat
-    morpheus
-    plotly
-    gplots
-    RColorBrewer
-    pheatmap
-    plyr
-    data.table
-    matrixStats
+    stats
+    grDevices
+    utils
+    cluster
+    weights
+    magrittr
+    dplyr
+    reshape2
+    cowplot
+    ggridges
+    gridExtra
+    shinycustomloader
+    bitbucket::cbio_mskcc/tumorcomparer@cclp
