@@ -16,5 +16,8 @@ depends:
     cowplot
     ggridges
     gridExtra
+    plotly
+    markdown
+    DT
     shinycustomloader
     bitbucket::cbio_mskcc/tumorcomparer@cclp
