@@ -86,32 +86,32 @@ parameter whether the values for a data type are discrete or continuous
 Run a comparison between between two cohorts (e.g. cell lines and tumors)
 }
 \examples{
-tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", 
+tumor_mut_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_mut.txt", 
   package="tumorcomparer")
-tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", 
+tumor_cna_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_cna.txt", 
   package="tumorcomparer")
-tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", 
-  package="tumorcomparer")
-
-cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", 
-  package="tumorcomparer")
-cell_line_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_cna.txt", 
-  package="tumorcomparer")
-cell_line_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_exp.txt", 
+tumor_exp_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_exp.txt", 
   package="tumorcomparer")
 
-known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
+cell_line_mut_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_mut.txt", 
+  package="tumorcomparer")
+cell_line_cna_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_cna.txt", 
+  package="tumorcomparer")
+cell_line_exp_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_exp.txt", 
+  package="tumorcomparer")
+
+known_cancer_gene_weights_mut_file <- system.file("extdata", "READ_data_for_running_TC", 
   "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
-known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", 
+known_cancer_gene_weights_cna_file <- system.file("extdata", "READ_data_for_running_TC", 
   "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
-known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", 
+known_cancer_gene_weights_exp_file <- system.file("extdata", "READ_data_for_running_TC", 
   "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
 
-cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
+cancer_specific_gene_weights_mut_file <- system.file("extdata", "READ_data_for_running_TC", 
   "Genes_and_weights_mut.txt", package="tumorcomparer")
-cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", 
+cancer_specific_gene_weights_cna_file <- system.file("extdata", "READ_data_for_running_TC", 
   "Genes_and_weights_cna.txt", package="tumorcomparer")
-cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", 
+cancer_specific_gene_weights_exp_file <- system.file("extdata", "READ_data_for_running_TC", 
   "Genes_and_weights_exp.txt", package="tumorcomparer")
 
 comparison_result <- run_comparison(

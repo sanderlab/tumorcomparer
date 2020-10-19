@@ -120,8 +120,6 @@ shinyServer(function(input, output, session) {
       need(any(c(has_mut, has_cna, has_exp)), 
            paste0("ERROR: Missing files. File names should be lowercase. Please consult documentation."))
     )
-
-    distance_similarity_measures <- NULL 
     
     cat("MSG: available_data_types: ", available_data_types, "\n")
     
@@ -143,7 +141,6 @@ shinyServer(function(input, output, session) {
       known_cancer_gene_weights_cna_file <- file.path(tmp_dir, "default_weights_for_known_cancer_genes_cna.txt")
       cancer_specific_gene_weights_cna_file <- file.path(tmp_dir, "genes_and_weights_cna.txt")
       available_data_types <- c(available_data_types, "cna")
-      distance_similarity_measures <- c(distance_similarity_measures, "generalized_jaccard")
     }
     
     if(has_exp) {
@@ -154,7 +151,6 @@ shinyServer(function(input, output, session) {
       known_cancer_gene_weights_exp_file <- file.path(tmp_dir, "default_weights_for_known_cancer_genes_exp.txt")
       cancer_specific_gene_weights_exp_file <- file.path(tmp_dir, "genes_and_weights_exp.txt")
       available_data_types <- c(available_data_types, "exp")
-      distance_similarity_measures <- c(distance_similarity_measures, "weighted_correlation")
     }
     
     # NOTE: NULLs cannot be set with an ifelse() 
@@ -196,8 +192,7 @@ shinyServer(function(input, output, session) {
       known_cancer_gene_weights_exp_file = known_cancer_gene_weights_exp_file, 
       cancer_specific_gene_weights_mut_file = cancer_specific_gene_weights_mut_file, 
       cancer_specific_gene_weights_cna_file = cancer_specific_gene_weights_cna_file, 
-      cancer_specific_gene_weights_exp_file = cancer_specific_gene_weights_exp_file,
-      distance_similarity_measures = distance_similarity_measures)
+      cancer_specific_gene_weights_exp_file = cancer_specific_gene_weights_exp_file)
     
     # See returned outputs
     names(comparison_result)
@@ -262,22 +257,12 @@ shinyServer(function(input, output, session) {
     # DEBUG
     cat("START userMdsPlot")
     
-    categorization_list <- categorize_cell_lines(
-      num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
-      dist_mat=comparison_result$dist_mat,
-      cell_line_ids=comparison_result$cell_line_ids,
-      tumor_ids=comparison_result$tumor_ids,
-      trim_cell_line_names=FALSE) 
-    
-    # See returned outputs
-    names(categorization_list)
-    
     p <- plot_mds(comparison_result,
-                  categorization_list,
+                  categorization_list=NULL,
                   trim_cell_line_names=FALSE,
                   tumor_color="blue",
                   cell_line_color="orange",
-                  use_gradient=TRUE,
+                  use_gradient=FALSE,
                   tumor_shape=20,
                   cell_line_shape=17)
 

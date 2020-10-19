@@ -1,7 +1,8 @@
 #' Plot the results from run_comparison as a two dimension multi-dimensional scaling (MDS) plot
 #' 
-#' @param comparison_list the results of run_comparison() (See: run_comparison())
-#' @param categorization_list the results of categorize_cell_lines() (See: categorize_cell_lines())
+#' @param comparison_result the results of run_comparison() (See: run_comparison())
+#' @param categorization_list the results of categorize_cell_lines() (See: categorize_cell_lines()).
+#'   Default: NULL. Only necessary if to show a gradient on the MDS plot; disabled by default.
 #' @param tumor_color a color for tumor points (DEFAULT: blue)
 #' @param cell_line_color a color for tumor points (DEFAULT: orange)
 #' @param use_gradient a boolean, cell lines will appear with a gradient of 
@@ -20,15 +21,8 @@
 #' # Generated using: tumorcomparer::run_comparison() 
 #' comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", 
 #'   package="tumorcomparer"))
-#' 
-#' categorization_list <- categorize_cell_lines(
-#'   num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
-#'   dist_mat=comparison_result$dist_mat,
-#'   cell_line_ids=comparison_result$cell_line_ids,
-#'   tumor_ids=comparison_result$tumor_ids,
-#'   trim_cell_line_names=FALSE) 
 #'   
-#' plot_mds(comparison_list = comparison_result, categorization_list = categorization_list)
+#' plot_mds(comparison_result = comparison_result)
 #' 
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'
@@ -38,25 +32,21 @@
 #' @export
 #'
 #' @importFrom ggplot2 ggplot aes geom_point geom_text theme_minimal aes_string
-plot_mds <- function(comparison_list,
-                     categorization_list,
+plot_mds <- function(comparison_result,
+                     categorization_list=NULL,
                      trim_cell_line_names=FALSE,
                      tumor_color="blue", 
                      cell_line_color="orange", 
-                     use_gradient=TRUE,
+                     use_gradient=FALSE,
                      tumor_shape=20, 
                      cell_line_shape=17) {
   # NOTE: Dist should be 
   #dist_mat <- 1-cor_weighted
   
   # From run_comparison
-  isomdsfit <- comparison_list$isomdsfit
-  cell_line_ids <- comparison_list$cell_line_ids
-  tumor_ids <- comparison_list$tumor_ids
-  
-  # From categorize_cell_lines
-  mean_similarity_cell_line_to_k_nearest_tumors <- categorization_list$mean_similarity_cell_line_to_k_nearest_tumors
-  mean_similarity_tumor_to_k_nearest_tumors <- categorization_list$mean_similarity_tumor_to_k_nearest_tumors
+  isomdsfit <- comparison_result$isomdsfit
+  cell_line_ids <- comparison_result$cell_line_ids
+  tumor_ids <- comparison_result$tumor_ids
   
   num_cell_lines <- length(cell_line_ids)
   num_tumors <- length(tumor_ids)
@@ -76,7 +66,11 @@ plot_mds <- function(comparison_list,
   dataframe_for_ggplot$Color_for_Sample_Type <- c(rep(cell_line_color,num_cell_lines), rep(tumor_color,num_tumors))
   dataframe_for_ggplot$Shape_for_Sample_Type  <- c(rep(cell_line_shape,num_cell_lines), rep(tumor_shape,num_tumors))
   
-  if(use_gradient) {
+  if(use_gradient && !is.null(categorization_list)) {
+    # From categorize_cell_lines
+    mean_similarity_cell_line_to_k_nearest_tumors <- categorization_list$mean_similarity_cell_line_to_k_nearest_tumors
+    mean_similarity_tumor_to_k_nearest_tumors <- categorization_list$mean_similarity_tumor_to_k_nearest_tumors
+
     tmp <- map_mean_similarity_to_gradient(
       mean_similarity_cell_line_to_k_nearest_tumors=mean_similarity_cell_line_to_k_nearest_tumors,
       mean_similarity_tumor_to_k_nearest_tumors=mean_similarity_tumor_to_k_nearest_tumors,

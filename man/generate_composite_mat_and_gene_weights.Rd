@@ -51,13 +51,13 @@ GISTIC (with values -2, -1, 0, 1, 2), or gene expression values. Available simil
 }
 \examples{
 mut_default_weight <- 0.01
-tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", 
+tumor_mut_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_mut.txt", 
   package="tumorcomparer")
-cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", 
+cell_line_mut_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_mut.txt", 
   package="tumorcomparer")
-known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
+known_cancer_gene_weights_mut_file <- system.file("extdata", "READ_data_for_running_TC", 
   "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
-cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", 
+cancer_specific_gene_weights_mut_file <- system.file("extdata", "READ_data_for_running_TC", 
   "Genes_and_weights_mut.txt", package="tumorcomparer")
 
 mut <- generate_composite_mat_and_gene_weights(

@@ -3,23 +3,23 @@ title: "tumorcomparer Introduction"
 author: "Rileen Sinha and Augustin Luna"
 date: '`r Sys.Date()`'
 output:
-  BiocStyle::html_document:
-    toc: yes
-    toc_float: no
-  rmarkdown::html_vignette:
-    self_contained: yes
-    toc: yes
-  html_notebook: default
-  pdf_document:
-    toc: yes
   html_document:
     depth: 3
     number_sections: yes
     toc: yes
+  rmarkdown::html_vignette:
+    self_contained: yes
+    toc: yes
+  BiocStyle::html_document:
+    toc: yes
+    toc_float: no
+  pdf_document:
+    toc: yes
+  html_notebook: default
 vignette: >
   %\VignetteIndexEntry{tumorcomparer Introduction}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
@@ -44,25 +44,25 @@ help.search("tumorcomparer")
 
 # Load Data
 
-This example makes use of TCGA Pan-Cancer dataset [TODO].
+This example makes use of TCGA Pan-Cancer dataset for rectal adenocarcinoma (READ). 
 
 ```{r}
 # NOTE: Example files are embedded in the package and are accessible with system.file()
-tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
-tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
-tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", package="tumorcomparer")
+tumor_mut_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_mut.txt", package="tumorcomparer")
+tumor_cna_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_cna.txt", package="tumorcomparer")
+tumor_exp_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_exp.txt", package="tumorcomparer")
 
-cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
-cell_line_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_cna.txt", package="tumorcomparer")
-cell_line_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_exp.txt", package="tumorcomparer")
+cell_line_mut_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_mut.txt", package="tumorcomparer")
+cell_line_cna_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_cna.txt", package="tumorcomparer")
+cell_line_exp_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_exp.txt", package="tumorcomparer")
 
-known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
-known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
-known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+known_cancer_gene_weights_mut_file <- system.file("extdata", "READ_data_for_running_TC", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+known_cancer_gene_weights_cna_file <- system.file("extdata", "READ_data_for_running_TC", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
+known_cancer_gene_weights_exp_file <- system.file("extdata", "READ_data_for_running_TC", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
 
-cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "genes_and_weights_mut.txt", package="tumorcomparer")
-cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "genes_and_weights_cna.txt", package="tumorcomparer")
-cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "genes_and_weights_exp.txt", package="tumorcomparer")
+cancer_specific_gene_weights_mut_file <- system.file("extdata", "READ_data_for_running_TC", "genes_and_weights_mut.txt", package="tumorcomparer")
+cancer_specific_gene_weights_cna_file <- system.file("extdata", "READ_data_for_running_TC", "genes_and_weights_cna.txt", package="tumorcomparer")
+cancer_specific_gene_weights_exp_file <- system.file("extdata", "READ_data_for_running_TC", "genes_and_weights_exp.txt", package="tumorcomparer")
 ```
 
 # Run Comparison
@@ -95,28 +95,6 @@ comparison_result <- run_comparison(
 names(comparison_result)
 ```
 
-# Categorize Results
-
-TODO revisit this function 
-
-NOTES: 
-* This function works best when used with only copy number and mutations. Gene expression data causes more samples to to be classified as worse matches if the distributions of the gene expression of tumors to cell lines is different 
-* *N_tumors-1* is used in the example since distribution of tumor-tumor comparisons is first made to which cell lines are then compared to.
-
-```{r}
-categorization_list <- categorize_cell_lines(
-  num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
-  dist_mat=comparison_result$dist_mat,
-  cell_line_ids=comparison_result$cell_line_ids,
-  tumor_ids=comparison_result$tumor_ids,
-  trim_cell_line_names=FALSE) 
-
-# See returned outputs
-names(categorization_list)
-
-kable(categorization_list$categorization)
-```
-
 # Plot Multidimensional scaling (MDS) Results
 
 The MDS plot shows a two-dimensional representation of distances between cell lines and tumor samples from the input. 
@@ -141,19 +119,13 @@ comparison_result$isomdsfit$stress
 
 ```{r}
 p <- plot_mds(comparison_result,
-             categorization_list,
              trim_cell_line_names=FALSE,
              tumor_color="blue",
              cell_line_color="orange",
-             use_gradient=TRUE,
              tumor_shape=20,
              cell_line_shape=17)
 p
 ```
-
-# Distribution Plots
-#cancer_type <- "OV"
-#source("Make_Joyplots.R")
 
 # Make Balloon Plot 
 ```{r}
@@ -161,6 +133,11 @@ plot_data <- make_balloon_plot_data_from_comparison_result(comparison_result)
 
 p <- plot_balloon_plot(plot_data, "Mean Similarity to Tumors")
 p
+```
+
+# Distribution Plots
+```{r}
+plot_joyplot(comparison_result)
 ```
 
 # Session Information

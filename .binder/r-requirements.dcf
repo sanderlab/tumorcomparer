@@ -1,0 +1,18 @@
+notes: NA
+r-version: 3.6
+mran-date: 2019-06-15
+update-packages: FALSE
+depends:
+    glasso
+    ggplot2
+    ggrepel
+    knitr
+    testthat
+    morpheus
+    plotly
+    gplots
+    RColorBrewer
+    pheatmap
+    plyr
+    data.table
+    matrixStats

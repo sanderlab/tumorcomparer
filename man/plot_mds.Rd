@@ -5,20 +5,21 @@
 \title{Plot the results from run_comparison as a two dimension multi-dimensional scaling (MDS) plot}
 \usage{
 plot_mds(
-  comparison_list,
-  categorization_list,
+  comparison_result,
+  categorization_list = NULL,
   trim_cell_line_names = FALSE,
   tumor_color = "blue",
   cell_line_color = "orange",
-  use_gradient = TRUE,
+  use_gradient = FALSE,
   tumor_shape = 20,
   cell_line_shape = 17
 )
 }
 \arguments{
-\item{comparison_list}{the results of run_comparison() (See: run_comparison())}
+\item{comparison_result}{the results of run_comparison() (See: run_comparison())}
 
-\item{categorization_list}{the results of categorize_cell_lines() (See: categorize_cell_lines())}
+\item{categorization_list}{the results of categorize_cell_lines() (See: categorize_cell_lines()).
+Default: NULL. Only necessary if to show a gradient on the MDS plot; disabled by default.}
 
 \item{trim_cell_line_names}{a boolean whether to trim the the cell lines;
 this is optional and used for long cell line names in CCLE format (i.e. CELLLINE_TISSUE)}
@@ -45,15 +46,8 @@ Plot the results from run_comparison as a two dimension multi-dimensional scalin
 # Generated using: tumorcomparer::run_comparison() 
 comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", 
   package="tumorcomparer"))
-
-categorization_list <- categorize_cell_lines(
-  num_tumors_for_comparison=length(comparison_result$tumor_ids)-1, 
-  dist_mat=comparison_result$dist_mat,
-  cell_line_ids=comparison_result$cell_line_ids,
-  tumor_ids=comparison_result$tumor_ids,
-  trim_cell_line_names=FALSE) 
   
-plot_mds(comparison_list = comparison_result, categorization_list = categorization_list)
+plot_mds(comparison_result = comparison_result)
 
 }
 \seealso{
