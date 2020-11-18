@@ -40,7 +40,11 @@ Users should rely on their understanding of the problem they are trying to addre
 
 ### Data Formats 
 
-Below is sample data for 
+Below is example data for the various supported data types. Data 
+
+sample names data matching, agnostic platform 
+
+[FIXME ]
 
 #### Expression Data
 
@@ -84,7 +88,6 @@ Below is an example of GISTIC discretized
 A number of example datasets are available:
 
 * Rectal Adenocarcinoma (READ) TCGA/CCLP: Small dataset, [LINK]()
-* Ovarian (OVCA) TCGA/CCLP: Larger dataset, [LINK]()
 * Melanoma TCGA/CCLP, Custom Gene Lists: Provides users an example for creating customized lists based on pathway genes taken from the [TCGA PanCan Pathways Marker Paper](https://pubmed.ncbi.nlm.nih.gov/29625050/).
  * RTK-RAS Pathway: [LINK]()
  * WNT Pathway: [LINK]()

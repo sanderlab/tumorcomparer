@@ -10,3 +10,6 @@ __MACOSX
 inst/shinyAppOld
 vignettes/tumor_comparer_example_two.Rmd
 vignettes/tumor_comparer_example_two.nb.html
+ignore_rsconnect.R
+inst/shinyApp/rsconnect
+inst/extdata/read_data_for_running_tc_two_datatypes

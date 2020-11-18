@@ -136,6 +136,9 @@ p
 ```
 
 # Distribution Plots
+
+The `plot_joyplot` function shows the distribution of feature-weighted similarities of cancer cell lines to tumor samples. 
+
 ```{r}
 plot_joyplot(comparison_result)
 ```
