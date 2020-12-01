@@ -6,6 +6,9 @@
   * [User Data Analysis](#user-data-analysis)
     + [Parameters](#parameters)
     + [Data Formats](#data-formats)
+      - [Input files](#input-files)
+      - [Example Data](#example-data)
+        * [Notes](#notes)
       - [Expression Data](#expression-data)
       - [Mutation Data](#mutation-data)
       - [Copy Number Data](#copy-number-data)
@@ -28,7 +31,9 @@ All cancer types from the publication are available. Balloon plots show the most
 
 ## User Data Analysis
 
-**FIXME**
+This tab allows users to run TumorComparer on their own data. Users will upload a zip file containing the input files with a pre-specified naming convention. 
+
+NOTE: For large computational pipelines or large amounts of data, it is suggested that users run TumorComparer locally. 
 
 ### Parameters 
 
@@ -38,13 +43,33 @@ Users are should review the publication for more information about these paramet
 
 Users should rely on their understanding of the problem they are trying to address to select weights. Users can use 1 and 0 as a starting point for known cancer gene and default weights if the relative difference in the magnitude in importance between the sets of genes is unknown.
 
-### Data Formats 
+### Data Formats
 
-Below is example data for the various supported data types. Data 
+#### Input files 
 
-sample names data matching, agnostic platform 
+NOTE: You do NOT have to provide input files for all data types (expression: exp, mutation: mut, copy number: cna). Make sure either ALL files for a data type are included OR NONE of them are included, based on your available data. 
 
-[FIXME ]
+* tumor_mut.txt: a file with binary mutation data for tumors 
+* tumor_cna.txt: a file with GISTIC data for tumors; this can be 5-values (-2, -1, 0, 1, 2)
+* tumor_exp.txt: a file with gene expression data for tumors
+* cell_line_mut.txt: See corresponding tumor file 
+* cell_line_exp.txt: See corresponding tumor file 
+* cell_line_cna.txt: See corresponding tumor file
+* genes_and_weights_mut.txt: a file with weights for cancer-specific set of recurrently mutated genes. A tab-delimited file - the first column has the gene names, and the second column specifies the weights.
+* genes_and_weights_cna.txt: See genes_and_weights_mut.txt
+* genes_and_weights_exp.txt: See genes_and_weights_mut.txt
+* default_weights_for_known_cancer_genes_mut.txt: a file with weights for genes known to be recurrently altered/mutated in cancer (e.g. recurrently mutated genes in TCGA pan-cancer analyses). A two-column tab-delimited file - the first column has the gene names and the second column specifies the weights.
+* default_weights_for_known_cancer_genes_exp.txt: See default_weights_for_known_cancer_genes_mut.txt
+* default_weights_for_known_cancer_genes_cna.txt: See default_weights_for_known_cancer_genes_mut.txt
+
+#### Example Data
+
+Below is example data for the various supported data types. 
+
+##### Notes
+
+* Sample names should match within the tumor data and separately, within the cell line data
+* Analysis is platform agnostic (see publication; i.e., microarray or RNA-seq can be used)
 
 #### Expression Data
 
@@ -85,6 +110,8 @@ Below is an example of GISTIC discretized
 
 ## Example Datasets 
 
+FIXME
+
 A number of example datasets are available:
 
 * Rectal Adenocarcinoma (READ) TCGA/CCLP: Small dataset, [LINK]()
@@ -97,4 +124,5 @@ A number of example datasets are available:
 The TumorComparer software package contains a number of additional parameters that might be of interest to users. 
 
 # Feedback
+
 We appreciate any feedback/suggestions you may have; please feedback to publication corresponding authors.

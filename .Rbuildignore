@@ -5,3 +5,5 @@ inst/ignore_old_extdata
 inst/ignore
 inst/shinyAppOld
 ^\.binder$
+^doc$
+^Meta$
