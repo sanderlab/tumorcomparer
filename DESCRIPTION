@@ -1,8 +1,8 @@
 Package: tumorcomparer
 Type: Package
 Title: Application to compare tumors using molecular data and weighted similarity
-Version: 0.99.6
-Date: 2020-10-08
+Version: 0.99.7
+Date: 2020-12-02
 Author: Rileen Sinha, Augustin Luna
 Maintainer: Rileen Sinha <rileen@gmail.com>, Augustin Luna <aluna@jimmy.harvard.edu>
 Description: Application to compare tumors using molecular data and weighted similarity.
