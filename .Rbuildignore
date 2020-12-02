@@ -8,3 +8,4 @@ inst/shinyAppOld
 ^doc$
 ^Meta$
 r-requirements.dcf
+ignore_rsconnect.R

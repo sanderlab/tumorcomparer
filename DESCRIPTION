@@ -6,7 +6,7 @@ Date: 2020-12-02
 Author: Rileen Sinha, Augustin Luna
 Maintainer: Rileen Sinha <rileen@gmail.com>, Augustin Luna <aluna@jimmy.harvard.edu>
 Description: Application to compare tumors using molecular data and weighted similarity.
-License: LGPL-3
+License: Apache-2.0 + file LICENSE
 LazyData: true
 Imports: 
     MASS,
