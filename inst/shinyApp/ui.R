@@ -62,7 +62,9 @@ shinyUI(
                       )
              ),
              tabPanel("About",
-                      includeMarkdown("www/files/about.md")
+                      includeMarkdown("www/files/about.md"),
+                      h1("Version"),
+                      p(paste0("TumorComparer: ", packageVersion("tumorcomparer")))
              )
   )
 )
