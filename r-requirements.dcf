@@ -1,0 +1,23 @@
+notes: Build docker build -t cannin/tumorcomparer .
+r-version: 3.6
+mran-date: 2020-04-01
+update-packages: FALSE
+depends:
+    github::cannin/tumorcomparer
+    MASS
+    ggplot2
+    stats
+    grDevices
+    utils
+    cluster
+    weights
+    magrittr
+    dplyr
+    reshape2
+    cowplot
+    ggridges
+    gridExtra
+    plotly
+    markdown
+    DT
+    shinycustomloader

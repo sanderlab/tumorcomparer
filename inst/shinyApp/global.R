@@ -1,5 +1,9 @@
-# GENERAL 
+options(shiny.maxRequestSize = 24*1024^2) # Line exists in server, ui, global
 
+# DEBUG ----
+cat("MAX UPLOAD SIZE: ", getOption("shiny.maxRequestSize"), "\n")
+
+# GENERAL ---- 
 plot_title_prefix <-  "Mean Similarity to Tumors" 
 
 plotlyModeBarButtonsToRemove <- c(

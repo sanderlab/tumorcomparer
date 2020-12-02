@@ -1,17 +1,16 @@
-FROM cannin/r-shiny-server:ubuntu-14.04.4_r-3.3.2_java-8_shiny-server-1.5.2.837
+FROM rocker/shiny-verse:3.6.3
 
-COPY inst/scripts/installPackage.R installPackage.R
-RUN R -e 'source("installPackage.R")'
+RUN apt-get update && apt-get install -y libjpeg-dev
+
+COPY r-requirements.dcf /r-requirements.dcf
+RUN R -e 'source("https://gist.githubusercontent.com/cannin/6b8c68e7db19c4902459/raw/installPackages.R"); installPackages("/r-requirements.dcf")'
 
 RUN cp -R /usr/local/lib/R/site-library/tumorcomparer/shinyApp/ /srv/shiny-server/tumorcomparer/
-
-# Copy data from data folder
-#COPY data/* /usr/local/lib/R/site-library/tumorcomparer/shinyApp/www/db/
 
 # Allows plotly to render
 RUN chown -R shiny:shiny /srv/shiny-server
 
 # Disables certain shiny-server protocols that prevent the app from loading at Dana-Farber and MD Anderson
-COPY inst/scripts/shiny-server.conf /etc/shiny-server/shiny-server.conf
+# COPY inst/scripts/shiny-server.conf /etc/shiny-server/shiny-server.conf
 
 CMD ["shiny-server"]
