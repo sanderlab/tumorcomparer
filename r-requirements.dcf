@@ -1,4 +1,4 @@
-notes: Build docker build -t cannin/tumorcomparer .
+notes: BUILD docker build -t cannin/tumorcomparer .; RUN: docker rm tc; docker run --name tc -p 3838:3838 cannin/tumorcomparer; DEBUG docker exec -i -t tc bash; cat /var/log/shiny-server/LOG; 
 r-version: 3.6
 mran-date: 2020-04-01
 update-packages: FALSE

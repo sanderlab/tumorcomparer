@@ -35,7 +35,7 @@ shinyUI(
                           fileInput('datasetFile', 'Choose Dataset File',
                                     accept=c('application/zip', '.zip')),
                           numericInput("default_weight", "Default (Background) Weight:", 0.01, min = 0, max = 100, step = 0.01),
-                          helpText(br(), a(href="www/files/read_tcga_cclp.zip", 
+                          helpText(br(), a(href="read_tcga_cclp.zip", 
                                            target="_blank", download="read_tcga_cclp.zip", "Sample Rectum Adenocarcinoma (READ) Dataset (.zip)"))
                         ),
                         mainPanel(
