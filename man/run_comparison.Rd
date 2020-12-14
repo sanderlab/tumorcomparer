@@ -44,13 +44,13 @@ Default weights are assigned to genes not known to be important in the specific 
 
 \item{tumor_mut_file}{a file with binary mutation data for tumors}
 
-\item{tumor_cna_file}{a file with GISTIC data for tumors; this can be 5-values (-2, -1, 0, 1, 2)}
+\item{tumor_cna_file}{a file with GISTIC data for tumors; this can be 5-values (-2, -1, 0, 1, 2) or continuous}
 
 \item{tumor_exp_file}{a file with gene expression data for tumors}
 
 \item{cell_line_mut_file}{a file with binary mutation data for cell lines}
 
-\item{cell_line_cna_file}{a file with GISTIC data for cell lines; this can be 5-values (-2, -1, 0, 1, 2)}
+\item{cell_line_cna_file}{a file with GISTIC data for cell lines; this can be 5-values (-2, -1, 0, 1, 2) or continuous}
 
 \item{cell_line_exp_file}{a file with gene expression data for cell lines}
 

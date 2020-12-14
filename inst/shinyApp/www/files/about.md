@@ -47,10 +47,10 @@ Users should rely on their understanding of the problem they are trying to addre
 
 #### Input files 
 
-NOTE: You do NOT have to provide input files for all data types (expression: exp, mutation: mut, copy number: cna). Make sure either ALL files for a data type are included OR NONE of them are included, based on your available data. 
+NOTE: You do NOT have to provide input files for all data types (expression: exp, mutation: mut, copy number: cna). Make sure either ALL files for a data type are included OR NONE of them are included, based on your available data.
 
 * tumor_mut.txt: a file with binary mutation data for tumors 
-* tumor_cna.txt: a file with GISTIC data for tumors; this can be 5-values (-2, -1, 0, 1, 2)
+* tumor_cna.txt: a file with GISTIC data for tumors; this can be 5-values (-2, -1, 0, 1, 2) or continuous
 * tumor_exp.txt: a file with gene expression data for tumors
 * cell_line_mut.txt: See corresponding tumor file 
 * cell_line_exp.txt: See corresponding tumor file 
@@ -110,19 +110,12 @@ Below is an example of GISTIC discretized
 
 ## Example Datasets 
 
-FIXME
+* Rectal Adenocarcinoma (READ) TCGA/CCLP: Small dataset, [Link](./read_data_for_running_tc.zip)
 
-A number of example datasets are available:
-
-* Rectal Adenocarcinoma (READ) TCGA/CCLP: Small dataset, [LINK]()
-* Melanoma TCGA/CCLP, Custom Gene Lists: Provides users an example for creating customized lists based on pathway genes taken from the [TCGA PanCan Pathways Marker Paper](https://pubmed.ncbi.nlm.nih.gov/29625050/).
- * RTK-RAS Pathway: [LINK]()
- * WNT Pathway: [LINK]()
- 
 # Additional Features 
 
 The TumorComparer software package contains a number of additional parameters that might be of interest to users. 
 
 # Feedback
 
-We appreciate any feedback/suggestions you may have; please feedback to publication corresponding authors.
+We appreciate any feedback/suggestions you may have; please send feedback to publication corresponding authors.

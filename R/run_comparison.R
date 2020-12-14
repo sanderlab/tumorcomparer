@@ -12,11 +12,11 @@
 #' @param exp_default_weight default (background) weight for mRNA gene expression values (EXP) (DEFAULT: 0.01)
 #' 
 #' @param tumor_mut_file a file with binary mutation data for tumors 
-#' @param tumor_cna_file a file with GISTIC data for tumors; this can be 5-values (-2, -1, 0, 1, 2)
+#' @param tumor_cna_file a file with GISTIC data for tumors; this can be 5-values (-2, -1, 0, 1, 2) or continuous
 #' @param tumor_exp_file a file with gene expression data for tumors
 #' 
 #' @param cell_line_mut_file a file with binary mutation data for cell lines
-#' @param cell_line_cna_file a file with GISTIC data for cell lines; this can be 5-values (-2, -1, 0, 1, 2)
+#' @param cell_line_cna_file a file with GISTIC data for cell lines; this can be 5-values (-2, -1, 0, 1, 2) or continuous
 #' @param cell_line_exp_file a file with gene expression data for cell lines
 #' 
 #' @param known_cancer_gene_weights_mut_file a file with weights for genes known

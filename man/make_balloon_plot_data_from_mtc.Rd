@@ -55,7 +55,7 @@ cell lines to derive ranks We use ranks to compare across cancer types, since th
 score distributions are very different across data types and  cancer types
 }
 \examples{
-mtc_file <- system.file("extdata", "mtc_results_20200331", "mtc_results_20200331.rds", 
+mtc_file <- system.file("extdata", "mtc_results_20200331", "mtc_results_20200331_no_factors.rds", 
   package="tumorcomparer")
 mtc <- readRDS(mtc_file)
 dat <- make_balloon_plot_data_from_mtc(mtc, "BRCA")

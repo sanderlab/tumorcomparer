@@ -12,37 +12,36 @@ plotlyModeBarButtonsToRemove <- c(
 )
 
 # LOAD DATA ----
-# FIXME: Use the no_factors file
-#mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331.rds', package="tumorcomparer")
-mtc_file <- "www/files/mtc_results_20200331_no_factors.rds"
+mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331.rds', package="tumorcomparer")
+#mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds', package="tumorcomparer")
 mtc_dataset <- readRDS(mtc_file)
 
 mtc_dataset$Cell_Line_Name <- as.character(mtc_dataset$Cell_Line_Name)
 #mtc_dataset$Cell_Line_Cancer_Type <- as.character(mtc_dataset$Cell_Line_Cancer_Type)
 #mtc_dataset$Tumor_Cancer_Type <- as.character(mtc_dataset$Tumor_Cancer_Type)
-mtc_dataset$Mean_Similarity_To_Tumors_AVG <- as.numeric(mtc_dataset$Mean_Similarity_To_Tumors_AVG)
-mtc_dataset$Mean_Similarity_To_Tumors_MUT <- as.numeric(mtc_dataset$Mean_Similarity_To_Tumors_MUT)
-mtc_dataset$Mean_Similarity_To_Tumors_CNA <- as.numeric(mtc_dataset$Mean_Similarity_To_Tumors_CNA)
-mtc_dataset$Mean_Similarity_To_Tumors_EXP <- as.numeric(mtc_dataset$Mean_Similarity_To_Tumors_EXP)
-mtc_dataset$AVGSIM_Zscores <- as.numeric(mtc_dataset$AVGSIM_Zscores)
-mtc_dataset$MUTSIM_Zscores <- as.numeric(mtc_dataset$MUTSIM_Zscores)
-mtc_dataset$CNASIM_Zscores <- as.numeric(mtc_dataset$CNASIM_Zscores)
-mtc_dataset$EXPSIM_Zscores <- as.numeric(mtc_dataset$EXPSIM_Zscores)
-mtc_dataset$AVGSIM_Percentile_Ranks <- as.numeric(mtc_dataset$AVGSIM_Percentile_Ranks)
-mtc_dataset$MUTSIM_Percentile_Ranks <- as.numeric(mtc_dataset$MUTSIM_Percentile_Ranks)
-mtc_dataset$CNASIM_Percentile_Ranks <- as.numeric(mtc_dataset$CNASIM_Percentile_Ranks)
-mtc_dataset$EXPSIM_Percentile_Ranks <- as.numeric(mtc_dataset$EXPSIM_Percentile_Ranks)
-#mtc_dataset$Categorization <- as.character(mtc_dataset$Categorization)
-mtc_dataset$AVGSIM_Zscores_wrt_Tumors <- as.numeric(mtc_dataset$AVGSIM_Zscores_wrt_Tumors)
-mtc_dataset$MUTSIM_Zscores_wrt_Tumors <- as.numeric(mtc_dataset$MUTSIM_Zscores_wrt_Tumors)
-mtc_dataset$CNASIM_Zscores_wrt_Tumors <- as.numeric(mtc_dataset$CNASIM_Zscores_wrt_Tumors)
-mtc_dataset$EXPSIM_Zscores_wrt_Tumors <- as.numeric(mtc_dataset$EXPSIM_Zscores_wrt_Tumors)
-mtc_dataset$Mean_Similarity_To_All_Tumors_AVG <- as.numeric(mtc_dataset$Mean_Similarity_To_All_Tumors_AVG)
-mtc_dataset$Mean_Similarity_To_All_Tumors_MUT <- as.numeric(mtc_dataset$Mean_Similarity_To_All_Tumors_MUT)
-mtc_dataset$Mean_Similarity_To_All_Tumors_CNA <- as.numeric(mtc_dataset$Mean_Similarity_To_All_Tumors_CNA)
-mtc_dataset$Mean_Similarity_To_All_Tumors_EXP <- as.numeric(mtc_dataset$Mean_Similarity_To_All_Tumors_EXP)
-mtc_dataset$Average_Of_Percentile_Ranks <- as.numeric(mtc_dataset$Average_Of_Percentile_Ranks)
-mtc_dataset$Rank_of_Average_Of_Percentile_Ranks <- as.numeric(mtc_dataset$Rank_of_Average_Of_Percentile_Ranks)
+mtc_dataset$Mean_Similarity_To_Tumors_AVG <- as.numeric(levels(mtc_dataset$Mean_Similarity_To_Tumors_AVG))[mtc_dataset$Mean_Similarity_To_Tumors_AVG]
+mtc_dataset$Mean_Similarity_To_Tumors_MUT <- as.numeric(levels(mtc_dataset$Mean_Similarity_To_Tumors_MUT))[mtc_dataset$Mean_Similarity_To_Tumors_MUT]
+mtc_dataset$Mean_Similarity_To_Tumors_CNA <- as.numeric(levels(mtc_dataset$Mean_Similarity_To_Tumors_CNA))[mtc_dataset$Mean_Similarity_To_Tumors_CNA] 
+mtc_dataset$Mean_Similarity_To_Tumors_EXP <- as.numeric(levels(mtc_dataset$Mean_Similarity_To_Tumors_EXP))[mtc_dataset$Mean_Similarity_To_Tumors_EXP]
+mtc_dataset$AVGSIM_Zscores <- as.numeric(levels(mtc_dataset$AVGSIM_Zscores))[mtc_dataset$AVGSIM_Zscores]
+mtc_dataset$MUTSIM_Zscores <- as.numeric(levels(mtc_dataset$MUTSIM_Zscores))[mtc_dataset$MUTSIM_Zscores]
+mtc_dataset$CNASIM_Zscores <- as.numeric(levels(mtc_dataset$CNASIM_Zscores))[mtc_dataset$CNASIM_Zscores]
+mtc_dataset$EXPSIM_Zscores <- as.numeric(levels(mtc_dataset$EXPSIM_Zscores))[mtc_dataset$EXPSIM_Zscores]
+mtc_dataset$AVGSIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$AVGSIM_Percentile_Ranks))[mtc_dataset$AVGSIM_Percentile_Ranks]
+mtc_dataset$MUTSIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$MUTSIM_Percentile_Ranks))[mtc_dataset$MUTSIM_Percentile_Ranks]
+mtc_dataset$CNASIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$CNASIM_Percentile_Ranks))[mtc_dataset$CNASIM_Percentile_Ranks]
+mtc_dataset$EXPSIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$EXPSIM_Percentile_Ranks))[mtc_dataset$EXPSIM_Percentile_Ranks]
+#FIXME: mtc_dataset$Categorization <- as.character(mtc_dataset$Categorization)
+mtc_dataset$AVGSIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$AVGSIM_Zscores_wrt_Tumors))[mtc_dataset$AVGSIM_Zscores_wrt_Tumors]
+mtc_dataset$MUTSIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$MUTSIM_Zscores_wrt_Tumors))[mtc_dataset$MUTSIM_Zscores_wrt_Tumors]
+mtc_dataset$CNASIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$CNASIM_Zscores_wrt_Tumors))[mtc_dataset$CNASIM_Zscores_wrt_Tumors]
+mtc_dataset$EXPSIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$EXPSIM_Zscores_wrt_Tumors))[mtc_dataset$EXPSIM_Zscores_wrt_Tumors]
+mtc_dataset$Mean_Similarity_To_All_Tumors_AVG <- as.numeric(levels(mtc_dataset$Mean_Similarity_To_All_Tumors_AVG))[mtc_dataset$Mean_Similarity_To_All_Tumors_AVG]
+mtc_dataset$Mean_Similarity_To_All_Tumors_MUT <- as.numeric(levels(mtc_dataset$Mean_Similarity_To_All_Tumors_MUT))[mtc_dataset$Mean_Similarity_To_All_Tumors_MUT]
+mtc_dataset$Mean_Similarity_To_All_Tumors_CNA <- as.numeric(levels(mtc_dataset$Mean_Similarity_To_All_Tumors_CNA))[mtc_dataset$Mean_Similarity_To_All_Tumors_CNA]
+mtc_dataset$Mean_Similarity_To_All_Tumors_EXP <- as.numeric(levels(mtc_dataset$Mean_Similarity_To_All_Tumors_EXP))[mtc_dataset$Mean_Similarity_To_All_Tumors_EXP]
+mtc_dataset$Average_Of_Percentile_Ranks <- as.numeric(levels(mtc_dataset$Average_Of_Percentile_Ranks))[mtc_dataset$Average_Of_Percentile_Ranks]
+mtc_dataset$Rank_of_Average_Of_Percentile_Ranks <- as.numeric(levels(mtc_dataset$Rank_of_Average_Of_Percentile_Ranks))[mtc_dataset$Rank_of_Average_Of_Percentile_Ranks]
 
 #saveRDS(mtc_dataset, 'inst/extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds')
 
