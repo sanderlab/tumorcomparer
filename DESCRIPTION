@@ -1,11 +1,11 @@
 Package: tumorcomparer
 Type: Package
-Title: Application to compare tumors using molecular data and weighted similarity
-Version: 0.99.12
-Date: 2020-12-09
+Title: tumorcomparer: Compare patient samples to cell line models using molecular data and weighted similarity
+Version: 0.99.13
+Date: 2020-12-14
 Author: Rileen Sinha, Augustin Luna
 Maintainer: Rileen Sinha <rileen@gmail.com>, Augustin Luna <aluna@jimmy.harvard.edu>
-Description: Application to compare tumors using molecular data and weighted similarity.
+Description: Compare patient samples to cell line models using molecular data and weighted similarity
 License: Apache-2.0 + file LICENSE
 LazyData: true
 Imports: 
@@ -32,7 +32,7 @@ Suggests:
     knitr, 
     shiny,
     testthat
-URL: https://bitbucket.org/cbio_mskcc/tumorcomparer
+URL: https://github.com/sanderlab/tumorcomparer
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
