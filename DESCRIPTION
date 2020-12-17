@@ -6,7 +6,7 @@ Date: 2020-12-16
 Author: Rileen Sinha, Augustin Luna
 Maintainer: Rileen Sinha <rileen@gmail.com>, Augustin Luna <aluna@jimmy.harvard.edu>
 Description: Compare patient samples to cell line models using molecular data and weighted similarity
-License: Apache License (= 2.0) + file LICENSE
+License: Apache License (>= 2)
 LazyData: true
 Imports: 
     MASS,
