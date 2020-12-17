@@ -1,12 +1,12 @@
 Package: tumorcomparer
 Type: Package
 Title: tumorcomparer: Compare patient samples to cell line models using molecular data and weighted similarity
-Version: 0.99.14
-Date: 2020-12-14
+Version: 0.99.15
+Date: 2020-12-16
 Author: Rileen Sinha, Augustin Luna
 Maintainer: Rileen Sinha <rileen@gmail.com>, Augustin Luna <aluna@jimmy.harvard.edu>
 Description: Compare patient samples to cell line models using molecular data and weighted similarity
-License: Apache License 2.0 + file LICENSE
+License: Apache License (= 2.0) + file LICENSE
 LazyData: true
 Imports: 
     MASS,
