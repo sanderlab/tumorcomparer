@@ -237,7 +237,7 @@ shinyServer(function(input, output, session) {
     #   ylab('Miles per Gallon')
     
     plot_dat <- make_balloon_plot_data_from_comparison_result(comparison_result)
-    p <- plot_balloon_plot(plot_dat, plot_title_prefix)
+    p <- plot_balloon_plot(plot_dat, plot_title_prefix, xlab="Weighted Similarity Scores By Data Type")
     
     #print(p)
     #cat("A", colnames(df))

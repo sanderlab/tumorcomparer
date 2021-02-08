@@ -21,7 +21,7 @@
 #' @importFrom reshape2 melt 
 #' @importFrom dplyr mutate
 #' @importFrom ggplot2 ggplot geom_point geom_text ggtitle xlab ylab labs scale_x_discrete theme_bw theme 
-plot_balloon_plot <- function(dat, title) {
+plot_balloon_plot <- function(dat, title, xlab="Weighted Similarity Ranks By Data Type") {
   dat$Cell_Line_Name <- factor(dat$Cell_Line_Name)
   dat$variable <- factor(dat$variable)
   dat$numeric_variable <- as.numeric(dat$variable) + 0.25
@@ -30,7 +30,7 @@ plot_balloon_plot <- function(dat, title) {
     geom_point() + 
     geom_text(aes_string(label='value', x='numeric_variable'), alpha=1.0, size=3) + 
     ggtitle(title) +
-    xlab("Weighted Similarity Ranks By Data Type") + 
+    xlab(xlab) + 
     ylab ("Cell Lines") + 
     labs(colour="Color", size="Size") +
     #scale_x_discrete(labels = c('Mutation', 'CNA', 'Expression', 'Average')) +
