@@ -17,7 +17,7 @@ available_data_types <- NULL
 shinyServer(function(input, output, session) {
   
   #### reactive values ####
-  v <- reactiveValues(precomputed_df = NULL)
+  preComputed_reactiveVal <- reactiveValues(data = NULL)
   
   # PRECOMPUTED ----
   preComputedDat <- reactive({
@@ -61,7 +61,7 @@ shinyServer(function(input, output, session) {
     colnames(df) <- names(mtc_selected_columns)
     
     # assigning output table to reactive variable
-    v$precomputed_df <- df
+    preComputed_reactiveVal$data <- df
     
     DT::datatable(df, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
   })
@@ -75,7 +75,7 @@ shinyServer(function(input, output, session) {
       # df <- preComputedDat()
       # df <- df[df$Sample_Type == "Cell_Line",]
       
-      write.table(v$precomputed_df, file, sep="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+      write.table(preComputed_reactiveVal$data, file, sep="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
     }
   )
     
