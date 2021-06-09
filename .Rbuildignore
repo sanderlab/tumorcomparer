@@ -9,3 +9,4 @@ inst/shinyAppOld
 ^Meta$
 r-requirements.dcf
 ignore_rsconnect.R
+^\.github$

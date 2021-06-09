@@ -4,7 +4,7 @@
 \alias{plot_balloon_plot}
 \title{Make Balloon Plot for Results}
 \usage{
-plot_balloon_plot(dat, title)
+plot_balloon_plot(dat, title, xlab = "Weighted Similarity Ranks By Data Type")
 }
 \arguments{
 \item{dat}{data generated from either make_}
