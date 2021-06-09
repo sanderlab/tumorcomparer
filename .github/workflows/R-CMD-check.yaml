@@ -3,11 +3,11 @@
 on:
   push:
     branches:
-      - main
+      - fixed_download_button
       - master
   pull_request:
     branches:
-      - main
+      - fixed_download_button
       - master
 
 name: R-CMD-check
