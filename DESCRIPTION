@@ -23,7 +23,6 @@ Imports:
     ggridges,
     gridExtra,
     plotly,
-    markdown,
     DT,
     shinycustomloader
 Depends:
