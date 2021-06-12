@@ -31,7 +31,8 @@ Depends:
 Suggests:
     knitr, 
     shiny,
-    testthat
+    testthat,
+    rmarkdown
 URL: https://github.com/sanderlab/tumorcomparer
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
