@@ -10,6 +10,8 @@ plot_balloon_plot(dat, title, xlab = "Weighted Similarity Ranks By Data Type")
 \item{dat}{data generated from either make_}
 
 \item{title}{a string to be the title for the plot}
+
+\item{xlab}{a string to be the x axis label for the plot}
 }
 \value{
 a ggplot2 object
