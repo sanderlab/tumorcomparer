@@ -2,6 +2,7 @@
 #' 
 #' @param dat data generated from either make_
 #' @param title a string to be the title for the plot
+#' @param xlab a string to be the x axis label for the plot
 #' 
 #' @return a ggplot2 object 
 #' 
