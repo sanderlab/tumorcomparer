@@ -15,6 +15,10 @@ available_data_types <- NULL
 
 # SHINY SERVER ----
 shinyServer(function(input, output, session) {
+  
+  #### reactive values ####
+  preComputed_reactiveVal <- reactiveValues(data = NULL)
+  
   # PRECOMPUTED ----
   preComputedDat <- reactive({
     tcgaType <- input$preComputedType
@@ -56,6 +60,9 @@ shinyServer(function(input, output, session) {
     df <- df[order(-df$Rank_of_Average_Of_Percentile_Ranks), ]
     colnames(df) <- names(mtc_selected_columns)
     
+    # assigning output table to reactive variable
+    preComputed_reactiveVal$data <- df
+    
     DT::datatable(df, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
   })
   
@@ -64,10 +71,11 @@ shinyServer(function(input, output, session) {
       paste0("table_", input$preComputedType, ".txt")
     },
     content = function(file) {
-      df <- preComputedDat()
-      df <- df[df$Sample_Type == "Cell_Line",]
+      ## commented faulty filter
+      # df <- preComputedDat()
+      # df <- df[df$Sample_Type == "Cell_Line",]
       
-      write.table(df, file, sep="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+      write.table(preComputed_reactiveVal$data, file, sep="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
     }
   )
     

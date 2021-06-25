@@ -3,8 +3,9 @@ Type: Package
 Title: tumorcomparer: Compare patient samples to cell line models using molecular data and weighted similarity
 Version: 0.99.15
 Date: 2020-12-16
-Author: Rileen Sinha, Augustin Luna
-Maintainer: Rileen Sinha <rileen@gmail.com>, Augustin Luna <aluna@jimmy.harvard.edu>
+Authors@R: c(person("Rileen", "Sinha", email = "rileen@gmail.com", role = "cre"), 
+             person("Augustin", "Luna", email = "aluna@jimmy.harvard.edu", role = "aut"))
+Maintainer: Augustin Luna <aluna@jimmy.harvard.edu>
 Description: Compare patient samples to cell line models using molecular data and weighted similarity
 License: Apache License (>= 2)
 LazyData: true
@@ -23,7 +24,6 @@ Imports:
     ggridges,
     gridExtra,
     plotly,
-    markdown,
     DT,
     shinycustomloader
 Depends:
@@ -31,7 +31,8 @@ Depends:
 Suggests:
     knitr, 
     shiny,
-    testthat
+    testthat,
+    rmarkdown
 URL: https://github.com/sanderlab/tumorcomparer
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1

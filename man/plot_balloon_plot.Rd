@@ -4,12 +4,14 @@
 \alias{plot_balloon_plot}
 \title{Make Balloon Plot for Results}
 \usage{
-plot_balloon_plot(dat, title)
+plot_balloon_plot(dat, title, xlab = "Weighted Similarity Ranks By Data Type")
 }
 \arguments{
 \item{dat}{data generated from either make_}
 
 \item{title}{a string to be the title for the plot}
+
+\item{xlab}{a string to be the x axis label for the plot}
 }
 \value{
 a ggplot2 object
