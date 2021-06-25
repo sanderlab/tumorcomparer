@@ -11,7 +11,7 @@ run_comparison_config_list <- function(config_list) {
     stop("ERROR: Sum of *_data_type_weights must sum up to 1")  
   }
   
-  #### runing comparison ####
+  #### running comparison ####
   
   calculated_datsets_comparison <- lapply(config_list, function(x) {
     
