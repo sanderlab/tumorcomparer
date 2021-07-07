@@ -241,3 +241,66 @@ test_that("run_comparison_two_datasets", {
   
   expect_identical(TRUE, TRUE)
 })
+
+
+test_that("run_comparison_5_datasets", {
+  
+  set.seed(1)
+  
+  tumor_exp_file <- system.file("extdata", "mock_5_data_types", "tumor_exp.txt", package="tumorcomparer")
+  tumor_cna_file <- system.file("extdata", "mock_5_data_types", "tumor_cna.txt", package="tumorcomparer")
+  tumor_meth_file <- system.file("extdata", "mock_5_data_types", "tumor_meth.txt", package="tumorcomparer")
+  tumor_mut_file <- system.file("extdata", "mock_5_data_types", "tumor_mut.txt", package="tumorcomparer")
+  tumor_prot_file <- system.file("extdata", "mock_5_data_types", "tumor_prot.txt", package="tumorcomparer")
+  
+  
+  cell_line_exp_file <- system.file("extdata", "mock_5_data_types", "cell_line_exp.txt", package="tumorcomparer")
+  cell_line_cna_file <- system.file("extdata", "mock_5_data_types", "cell_line_cna.txt", package="tumorcomparer")
+  cell_line_meth_file <- system.file("extdata", "mock_5_data_types", "cell_line_meth.txt", package="tumorcomparer")
+  cell_line_mut_file <- system.file("extdata", "mock_5_data_types", "cell_line_mut.txt", package="tumorcomparer")
+  cell_line_prot_file <- system.file("extdata", "mock_5_data_types", "cell_line_prot.txt", package="tumorcomparer")
+  
+  
+  known_cancer_gene_weights_exp_file <- system.file("extdata", "mock_5_data_types", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+  known_cancer_gene_weights_cna_file <- system.file("extdata", "mock_5_data_types", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
+  known_cancer_gene_weights_meth_file <- system.file("extdata", "mock_5_data_types", "default_weights_for_known_cancer_genes_meth.txt", package="tumorcomparer")
+  known_cancer_gene_weights_mut_file <- system.file("extdata", "mock_5_data_types", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+  known_cancer_gene_weights_prot_file <- system.file("extdata", "mock_5_data_types", "default_weights_for_known_cancer_genes_prot.txt", package="tumorcomparer")
+  
+  
+  cancer_specific_gene_weights_exp_file <- system.file("extdata", "mock_5_data_types", "Genes_and_weights_exp.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_cna_file <- system.file("extdata", "mock_5_data_types", "Genes_and_weights_cna.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_meth_file <- system.file("extdata", "mock_5_data_types", "Genes_and_weights_meth.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_mut_file <- system.file("extdata", "mock_5_data_types", "Genes_and_weights_mut.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_prot_file <- system.file("extdata", "mock_5_data_types", "Genes_and_weights_prot.txt", package="tumorcomparer")
+  
+  
+  ### creating config list for comparison function 
+  
+  config_list <- list(exp=list(dataset_name = "exp", data_type_weight=1/5, default_weight = 0.01, 
+                               tumor_file = tumor_exp_file, cell_line_file = cell_line_exp_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_exp_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_exp_file),
+                      cna=list(dataset_name = "cna", data_type_weight=1/5, default_weight = 0.01, 
+                               tumor_file = tumor_cna_file, cell_line_file = cell_line_cna_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_cna_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_cna_file),
+                      meth=list(dataset_name = "meth", data_type_weight=1/5, default_weight = 0.01, 
+                               tumor_file = tumor_meth_file, cell_line_file = cell_line_meth_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_meth_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_meth_file),
+                      mut=list(dataset_name = "mut", data_type_weight=1/5, default_weight = 0.01, 
+                                tumor_file = tumor_mut_file, cell_line_file = cell_line_mut_file,
+                                known_cancer_gene_weights_file = known_cancer_gene_weights_mut_file, 
+                                cancer_specific_gene_weights_file = cancer_specific_gene_weights_mut_file),
+                      prot=list(dataset_name = "prot", data_type_weight=1/5, default_weight = 0.01, 
+                                tumor_file = tumor_prot_file, cell_line_file = cell_line_prot_file,
+                                known_cancer_gene_weights_file = known_cancer_gene_weights_prot_file, 
+                                cancer_specific_gene_weights_file = cancer_specific_gene_weights_prot_file)
+  )
+  
+  test_results <- run_comparison_config_list(config_list = config_list)
+  
+  expect_identical(TRUE, TRUE)
+  
+})
