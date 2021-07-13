@@ -28,7 +28,7 @@ TCGA_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/TCG
 colnames(TCGA_Expression_Quantile_Normalized)[1] <- "Gene"
 CCLP_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/CCLP_Expression_Quantile_Normalized.txt",check.names=F, nThread = 4)
 
-## unification is not needed as the dat is alredy unified
+## unification is not needed as the data is alredy unified
 
 geneset_comparison <- function(cancer_type, gene_list) {
   
