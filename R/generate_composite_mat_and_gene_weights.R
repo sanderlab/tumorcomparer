@@ -57,8 +57,8 @@
 generate_composite_mat_and_gene_weights <- function(default_weight, 
                                                     tumor_file, 
                                                     cell_line_file, 
-                                                    known_cancer_gene_weights_file, 
-                                                    cancer_specific_gene_weights_file) {
+                                                    known_cancer_gene_weights_file = NULL, 
+                                                    cancer_specific_gene_weights_file = NULL) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
   tumor <- read.table(tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
@@ -111,31 +111,39 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
  
   # GET WEIGHTS ----
   # Read in user-provided weights for known cancer genes
-  known_cancer_genes_and_weights_all <-
-    read.table(
-      known_cancer_gene_weights_file,
-      sep = "\t",
-      header = TRUE,
-      row.names = 1,
-      stringsAsFactors = FALSE
-    )
-  rownames(known_cancer_genes_and_weights_all) <- trimws(rownames(known_cancer_genes_and_weights_all)) # trim whitespace, if any
-
-  gene_weights[intersect(names(gene_weights), rownames(known_cancer_genes_and_weights_all))] <- known_cancer_genes_and_weights_all[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all)),1]
-
+  if(!is.null(known_cancer_gene_weights_file)) {
+    known_cancer_genes_and_weights_all <-
+      read.table(
+        known_cancer_gene_weights_file,
+        sep = "\t",
+        header = TRUE,
+        row.names = 1,
+        stringsAsFactors = FALSE
+      )
+    rownames(known_cancer_genes_and_weights_all) <- trimws(rownames(known_cancer_genes_and_weights_all)) # trim whitespace, if any
+    
+    gene_weights[intersect(names(gene_weights), rownames(known_cancer_genes_and_weights_all))] <- known_cancer_genes_and_weights_all[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all)),1]
+  } else {
+    known_cancer_genes_and_weights_all <- list()
+  }
 
   # Read in user-provided weights for cancer-specific genes
-  genes_and_weights_all <-
-    read.table(
-      cancer_specific_gene_weights_file,
-      sep = "\t",
-      header = TRUE,
-      row.names = 1,
-      stringsAsFactors = FALSE
-    )
-  rownames(genes_and_weights_all) <- trimws(rownames(genes_and_weights_all)) # trim whitespace, if any
+  if(!is.null(cancer_specific_gene_weights_file)) {
+    genes_and_weights_all <-
+      read.table(
+        cancer_specific_gene_weights_file,
+        sep = "\t",
+        header = TRUE,
+        row.names = 1,
+        stringsAsFactors = FALSE
+      )
+    rownames(genes_and_weights_all) <- trimws(rownames(genes_and_weights_all)) # trim whitespace, if any
     
-  gene_weights[intersect(names(gene_weights), rownames(genes_and_weights_all))] <- genes_and_weights_all[intersect(names(gene_weights),rownames(genes_and_weights_all)),1]
+    gene_weights[intersect(names(gene_weights), rownames(genes_and_weights_all))] <- genes_and_weights_all[intersect(names(gene_weights),rownames(genes_and_weights_all)),1]
+  } else {
+    genes_and_weights_all <- list()
+  }
+  
   
   gene_weights <- gene_weights / max(gene_weights + 1e-6) # map to 0-1
   

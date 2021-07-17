@@ -8,8 +8,8 @@ generate_composite_mat_and_gene_weights(
   default_weight,
   tumor_file,
   cell_line_file,
-  known_cancer_gene_weights_file,
-  cancer_specific_gene_weights_file
+  known_cancer_gene_weights_file = NULL,
+  cancer_specific_gene_weights_file = NULL
 )
 }
 \arguments{

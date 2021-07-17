@@ -1,34 +1,56 @@
 library(data.table)
 
-# TCGA ID and tumor types from TCGA PanCancer annotations
-TCGA_id_and_tumor_type <- fread("../TC_Data_PanCancer_March2021/TCGA_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
-# CCLP ID and TCGA tumor type from Cell Model Passport annotations
-CCLP_TCGA_Types_Combined  <- fread("../TC_Data_PanCancer_March2021/CCLP_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
-
-## reading mutation data
-mut_mat_TCGA_after_Annovar <- fread("../TC_Data_PanCancer_March2021/TCGA_mutation_matrix.txt",check.names=F, nThread = 4)
-mut_mat_CCLP_after_Annovar <- fread("../TC_Data_PanCancer_March2021/CCLP_mutation_matrix.txt",check.names=F, nThread = 4)
-
-## unifiing cell line and TCGA genes
-mut_mat_TCGA_after_Annovar <- mut_mat_TCGA_after_Annovar[Gene %in% intersect(mut_mat_TCGA_after_Annovar$Gene, mut_mat_CCLP_after_Annovar$Gene)]
-mut_mat_CCLP_after_Annovar <- mut_mat_CCLP_after_Annovar[Gene %in% intersect(mut_mat_TCGA_after_Annovar$Gene, mut_mat_CCLP_after_Annovar$Gene)]
-
-## reading CNV data
-TCGA_GISTIC_all_data_by_genes <- fread("../TC_Data_PanCancer_March2021/TCGA_GISTIC_all_data_by_genes.txt",check.names=F, nThread = 4)
-colnames(TCGA_GISTIC_all_data_by_genes)[1] <- "Gene"
-CCLP_GISTIC_all_data_by_genes <- fread("../TC_Data_PanCancer_March2021/CCLP_GISTIC_all_data_by_genes.txt",check.names=F, nThread = 4)
-colnames(CCLP_GISTIC_all_data_by_genes)[1] <- "Gene"
-
-## unifiing cell line and TCGA genes
-TCGA_GISTIC_all_data_by_genes <- TCGA_GISTIC_all_data_by_genes[Gene %in% intersect(TCGA_GISTIC_all_data_by_genes$Gene, CCLP_GISTIC_all_data_by_genes$Gene)]
-CCLP_GISTIC_all_data_by_genes <- CCLP_GISTIC_all_data_by_genes[Gene %in% intersect(TCGA_GISTIC_all_data_by_genes$Gene, CCLP_GISTIC_all_data_by_genes$Gene)]
-
-## reading expression data
-TCGA_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/TCGA_Expression_Quantile_Normalized.txt",check.names=F, nThread = 4)
-colnames(TCGA_Expression_Quantile_Normalized)[1] <- "Gene"
-CCLP_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/CCLP_Expression_Quantile_Normalized.txt",check.names=F, nThread = 4)
-
-## unification is not needed as the dat is alredy unified
+# # TCGA ID and tumor types from TCGA PanCancer annotations
+# TCGA_id_and_tumor_type <- fread("../TC_Data_PanCancer_March2021/TCGA_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
+# # CCLP ID and TCGA tumor type from Cell Model Passport annotations
+# CCLP_TCGA_Types_Combined  <- fread("../TC_Data_PanCancer_March2021/CCLP_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
+# 
+# ## reading mutation data
+# mut_mat_TCGA_after_Annovar <- fread("../TC_Data_PanCancer_March2021/TCGA_mutation_matrix.txt",check.names=F, nThread = 4)
+# mut_mat_CCLP_after_Annovar <- fread("../TC_Data_PanCancer_March2021/CCLP_mutation_matrix.txt",check.names=F, nThread = 4)
+# 
+# ## unifiing cell line and TCGA genes
+# mut_mat_TCGA_after_Annovar <- mut_mat_TCGA_after_Annovar[Gene %in% intersect(mut_mat_TCGA_after_Annovar$Gene, mut_mat_CCLP_after_Annovar$Gene)]
+# mut_mat_CCLP_after_Annovar <- mut_mat_CCLP_after_Annovar[Gene %in% intersect(mut_mat_TCGA_after_Annovar$Gene, mut_mat_CCLP_after_Annovar$Gene)]
+# 
+# ## reading CNV data
+# TCGA_GISTIC_all_data_by_genes <- fread("../TC_Data_PanCancer_March2021/TCGA_GISTIC_all_data_by_genes.txt",check.names=F, nThread = 4)
+# colnames(TCGA_GISTIC_all_data_by_genes)[1] <- "Gene"
+# CCLP_GISTIC_all_data_by_genes <- fread("../TC_Data_PanCancer_March2021/CCLP_GISTIC_all_data_by_genes.txt",check.names=F, nThread = 4)
+# colnames(CCLP_GISTIC_all_data_by_genes)[1] <- "Gene"
+# 
+# ## unifiing cell line and TCGA genes
+# TCGA_GISTIC_all_data_by_genes <- TCGA_GISTIC_all_data_by_genes[Gene %in% intersect(TCGA_GISTIC_all_data_by_genes$Gene, CCLP_GISTIC_all_data_by_genes$Gene)]
+# CCLP_GISTIC_all_data_by_genes <- CCLP_GISTIC_all_data_by_genes[Gene %in% intersect(TCGA_GISTIC_all_data_by_genes$Gene, CCLP_GISTIC_all_data_by_genes$Gene)]
+# 
+# ## reading expression data
+# TCGA_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/TCGA_Expression_Quantile_Normalized.txt",check.names=F, nThread = 4)
+# colnames(TCGA_Expression_Quantile_Normalized)[1] <- "Gene"
+# CCLP_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/CCLP_Expression_Quantile_Normalized.txt",check.names=F, nThread = 4)
+# 
+# ## unification is not needed as the data is alredy unified
+# 
+# 
+# ## filtering TCGA samples for all availability of three dat types
+# 
+# tcga_mutual_samples <- c("Gene", Reduce(intersect, list(colnames(mut_mat_TCGA_after_Annovar)[-1], colnames(TCGA_GISTIC_all_data_by_genes)[-1], colnames(TCGA_Expression_Quantile_Normalized)[-1])))
+# 
+# mut_mat_TCGA_after_Annovar <- mut_mat_TCGA_after_Annovar[, ..tcga_mutual_samples]
+# 
+# TCGA_GISTIC_all_data_by_genes <- TCGA_GISTIC_all_data_by_genes[, ..tcga_mutual_samples]
+# 
+# TCGA_Expression_Quantile_Normalized <- TCGA_Expression_Quantile_Normalized[, ..tcga_mutual_samples]
+# 
+# 
+# ## filtering CCLP samples for all availability of three dat types
+# 
+# cclp_mutual_cell_lines <- c("Gene", Reduce(intersect, list(colnames(mut_mat_CCLP_after_Annovar)[-1], colnames(CCLP_GISTIC_all_data_by_genes)[-1], colnames(CCLP_Expression_Quantile_Normalized)[-1])))
+# 
+# mut_mat_CCLP_after_Annovar <- mut_mat_CCLP_after_Annovar[, ..cclp_mutual_cell_lines]
+# 
+# CCLP_GISTIC_all_data_by_genes <- CCLP_GISTIC_all_data_by_genes[, ..cclp_mutual_cell_lines]
+# 
+# CCLP_Expression_Quantile_Normalized <- CCLP_Expression_Quantile_Normalized[, ..cclp_mutual_cell_lines]
 
 geneset_comparison <- function(cancer_type, gene_list) {
   
@@ -40,7 +62,7 @@ geneset_comparison <- function(cancer_type, gene_list) {
   
   if(!(cancer_type %in% unique(TCGA_id_and_tumor_type$Cancer_Type))) {
     
-    stop("ERROR: TCGA projec with specified name is not fount")  
+    stop("ERROR: TCGA projec with specified name is not found")
     
   }
   
@@ -72,21 +94,25 @@ geneset_comparison <- function(cancer_type, gene_list) {
   fwrite(CCLP_GISTIC_all_data_by_genes[Gene %in% gene_list, ..cna_cclp_ids], file = "cell_line_cna_filtered.txt", sep = "\t", quote = F)
   fwrite(CCLP_Expression_Quantile_Normalized[Gene %in% gene_list, ..exp_cclp_ids], file = "cell_line_exp_filtered.txt", sep = "\t", quote = F)
   
+  
   config_list <- list(mut=list(dataset_name = "mut", data_type_weight=1/3, default_weight = 0.01, 
                                tumor_file = "tumor_mut_filtered.txt", 
-                               cell_line_file = "cell_line_mut_filtered.txt",
-                               known_cancer_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/default_weights_for_known_cancer_genes_mut.txt"), 
-                               cancer_specific_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/genes_and_weights_mut.txt")),
+                               cell_line_file = "cell_line_mut_filtered.txt"
+                               # known_cancer_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/default_weights_for_known_cancer_genes_mut.txt"), 
+                               # cancer_specific_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/genes_and_weights_mut.txt")
+                               ),
                       cna=list(dataset_name = "cna", data_type_weight=1/3, default_weight = 0.01, 
                                tumor_file = "tumor_cna_filtered.txt", 
-                               cell_line_file = "cell_line_cna_filtered.txt",
-                               known_cancer_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/default_weights_for_known_cancer_genes_cna.txt"), 
-                               cancer_specific_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/genes_and_weights_cna.txt")),
+                               cell_line_file = "cell_line_cna_filtered.txt"
+                               # known_cancer_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/default_weights_for_known_cancer_genes_cna.txt"), 
+                               # cancer_specific_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/genes_and_weights_cna.txt")
+                               ),
                       exp=list(dataset_name = "exp", data_type_weight=1/3, default_weight = 0.01, 
                                tumor_file = "tumor_exp_filtered.txt", 
-                               cell_line_file = "cell_line_exp_filtered.txt",
-                               known_cancer_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/default_weights_for_known_cancer_genes_exp.txt"), 
-                               cancer_specific_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/genes_and_weights_exp.txt"))
+                               cell_line_file = "cell_line_exp_filtered.txt"
+                               # known_cancer_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/default_weights_for_known_cancer_genes_exp.txt"), 
+                               # cancer_specific_gene_weights_file = paste0("../TC_Data_For_Each_Cancer_Type_March2021/", cancer_type, "/genes_and_weights_exp.txt")
+                               )
   )
   
   comparison_list <- run_comparison_config_list(config_list = config_list) 
@@ -97,7 +123,3 @@ geneset_comparison <- function(cancer_type, gene_list) {
   return(comparison_list)
   
 }
-
-
-test_comparison <- geneset_comparison(cancer_type = "LGG", gene_list = tcga_pancan_pathway_genes$HIPPO)
-
