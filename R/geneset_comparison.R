@@ -1,7 +1,5 @@
 library(data.table)
 
-
-
 geneset_comparison <- function(cancer_type, gene_list) {
   
   if(length(cancer_type) > 1) {
@@ -69,7 +67,3 @@ geneset_comparison <- function(cancer_type, gene_list) {
   return(comparison_list)
   
 }
-
-
-test_comparison <- geneset_comparison(cancer_type = "LGG", gene_list = tcga_pancan_pathway_genes$HIPPO)
-
