@@ -1,7 +1,5 @@
 library(data.table)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # # TCGA ID and tumor types from TCGA PanCancer annotations
 # TCGA_id_and_tumor_type <- fread("../TC_Data_PanCancer_March2021/TCGA_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
 # # CCLP ID and TCGA tumor type from Cell Model Passport annotations
@@ -53,40 +51,7 @@ library(data.table)
 # CCLP_GISTIC_all_data_by_genes <- CCLP_GISTIC_all_data_by_genes[, ..cclp_mutual_cell_lines]
 # 
 # CCLP_Expression_Quantile_Normalized <- CCLP_Expression_Quantile_Normalized[, ..cclp_mutual_cell_lines]
-=======
-# TCGA ID and tumor types from TCGA PanCancer annotations
-TCGA_id_and_tumor_type <- fread("../TC_Data_PanCancer_March2021/TCGA_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
-# CCLP ID and TCGA tumor type from Cell Model Passport annotations
-CCLP_TCGA_Types_Combined  <- fread("../TC_Data_PanCancer_March2021/CCLP_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
 
-## reading mutation data
-mut_mat_TCGA_after_Annovar <- fread("../TC_Data_PanCancer_March2021/TCGA_mutation_matrix.txt",check.names=F, nThread = 4)
-mut_mat_CCLP_after_Annovar <- fread("../TC_Data_PanCancer_March2021/CCLP_mutation_matrix.txt",check.names=F, nThread = 4)
-
-## unifiing cell line and TCGA genes
-mut_mat_TCGA_after_Annovar <- mut_mat_TCGA_after_Annovar[Gene %in% intersect(mut_mat_TCGA_after_Annovar$Gene, mut_mat_CCLP_after_Annovar$Gene)]
-mut_mat_CCLP_after_Annovar <- mut_mat_CCLP_after_Annovar[Gene %in% intersect(mut_mat_TCGA_after_Annovar$Gene, mut_mat_CCLP_after_Annovar$Gene)]
-
-## reading CNV data
-TCGA_GISTIC_all_data_by_genes <- fread("../TC_Data_PanCancer_March2021/TCGA_GISTIC_all_data_by_genes.txt",check.names=F, nThread = 4)
-colnames(TCGA_GISTIC_all_data_by_genes)[1] <- "Gene"
-CCLP_GISTIC_all_data_by_genes <- fread("../TC_Data_PanCancer_March2021/CCLP_GISTIC_all_data_by_genes.txt",check.names=F, nThread = 4)
-colnames(CCLP_GISTIC_all_data_by_genes)[1] <- "Gene"
-
-## unifiing cell line and TCGA genes
-TCGA_GISTIC_all_data_by_genes <- TCGA_GISTIC_all_data_by_genes[Gene %in% intersect(TCGA_GISTIC_all_data_by_genes$Gene, CCLP_GISTIC_all_data_by_genes$Gene)]
-CCLP_GISTIC_all_data_by_genes <- CCLP_GISTIC_all_data_by_genes[Gene %in% intersect(TCGA_GISTIC_all_data_by_genes$Gene, CCLP_GISTIC_all_data_by_genes$Gene)]
-
-## reading expression data
-TCGA_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/TCGA_Expression_Quantile_Normalized.txt",check.names=F, nThread = 4)
-colnames(TCGA_Expression_Quantile_Normalized)[1] <- "Gene"
-CCLP_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/CCLP_Expression_Quantile_Normalized.txt",check.names=F, nThread = 4)
-
-## unification is not needed as the data is alredy unified
->>>>>>> 32613785dbbc46b208ed94bb8f1bd79694dc6b0d
-
-=======
->>>>>>> f92a3bef10aae7b9fe30b54a1277a95cfbf97062
 geneset_comparison <- function(cancer_type, gene_list) {
   
   if(length(cancer_type) > 1) {
