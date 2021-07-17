@@ -1,6 +1,7 @@
 library(data.table)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # # TCGA ID and tumor types from TCGA PanCancer annotations
 # TCGA_id_and_tumor_type <- fread("../TC_Data_PanCancer_March2021/TCGA_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
 # # CCLP ID and TCGA tumor type from Cell Model Passport annotations
@@ -84,6 +85,8 @@ CCLP_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/CCL
 ## unification is not needed as the data is alredy unified
 >>>>>>> 32613785dbbc46b208ed94bb8f1bd79694dc6b0d
 
+=======
+>>>>>>> f92a3bef10aae7b9fe30b54a1277a95cfbf97062
 geneset_comparison <- function(cancer_type, gene_list) {
   
   if(length(cancer_type) > 1) {
