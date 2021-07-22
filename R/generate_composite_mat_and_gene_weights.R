@@ -70,6 +70,10 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
   # Genes in both tumors and cell
   genes_in_both <- intersect(rownames(tumor), rownames(cell_line))
 
+  if (length(genes_in_both) < 5) {
+    stop("ERROR: At least 5 genes are required for the comparison")  
+  }
+  
   composite_mat <- cbind(cell_line[genes_in_both,], tumor[genes_in_both,])
 
   # Check that tumor and cell_line data are either both discrete or continuous 
