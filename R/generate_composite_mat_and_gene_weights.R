@@ -197,4 +197,3 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
   
   return(results)
 }
-

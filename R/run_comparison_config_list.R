@@ -1,4 +1,4 @@
-run_comparison_config_list <- function(config_list) {
+run_comparison_config_list <- function(config_list, remove_errored_dataset_comparisons = FALSE) {
   
   #### checking input data ####
   
@@ -13,29 +13,51 @@ run_comparison_config_list <- function(config_list) {
   
   #### running comparison ####
   
-  calculated_datsets_comparison <- lapply(config_list, function(x) {
+  calculated_datasets_comparison <- lapply(config_list, function(x) {
     
-    generate_composite_mat_and_gene_weights(
-      default_weight = x$default_weight,
-      tumor_file = x$tumor_file,
-      cell_line_file = x$cell_line_file,
-      known_cancer_gene_weights_file = x$known_cancer_gene_weights_file,
-      cancer_specific_gene_weights_file = x$cancer_specific_gene_weights_file)
+    tumor <- read.table(x$tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
+    
+    if(sum(colSums(tumor)) == 0) {
+      
+      if(remove_errored_dataset_comparisons) {
+        cat(paste0("Warning: skipping ", x$dataset_name, " data, zero values only", "\n"))
+        
+        NULL
+        
+      } else {
+        stop(paste0("ERROR: ", x$dataset_name, " data does not have any values higher than zero"))  
+      }
+      
+    } else {
+      
+      generate_composite_mat_and_gene_weights(
+        default_weight = x$default_weight,
+        tumor_file = x$tumor_file,
+        cell_line_file = x$cell_line_file,
+        known_cancer_gene_weights_file = x$known_cancer_gene_weights_file,
+        cancer_specific_gene_weights_file = x$cancer_specific_gene_weights_file)
+      
+    }
     
   })
   
+  ## filtering skipped datasets
+  calculated_datasets_comparison <- calculated_datasets_comparison[which(!sapply(calculated_datasets_comparison, is.null))]
+  
+  config_list <- config_list[names(calculated_datasets_comparison)]
+  
   #### harmonization of the datasets ####
   
-  combined_samples <- Reduce(intersect, lapply(calculated_datsets_comparison, function(x) {colnames(x$dist_mat)}))
-  combined_tumor_ids <- Reduce(intersect, lapply(calculated_datsets_comparison, function(x) {x$tumor_ids}))
-  combined_cell_line_ids <- Reduce(intersect, lapply(calculated_datsets_comparison, function(x) {x$cell_line_ids}))
+  combined_samples <- Reduce(intersect, lapply(calculated_datasets_comparison, function(x) {colnames(x$dist_mat)}))
+  combined_tumor_ids <- Reduce(intersect, lapply(calculated_datasets_comparison, function(x) {x$tumor_ids}))
+  combined_cell_line_ids <- Reduce(intersect, lapply(calculated_datasets_comparison, function(x) {x$cell_line_ids}))
   
   
   # CALCULATE COMBINED_DIST AND ISOMDS ----
   
   combined_dist <- Reduce('+',
          lapply(config_list, function(x) {
-           x$data_type_weight * calculated_datsets_comparison[[x$dataset_name]]$dist_mat[combined_samples, combined_samples]
+           x$data_type_weight * calculated_datasets_comparison[[x$dataset_name]]$dist_mat[combined_samples, combined_samples]
          })
          )
   
@@ -54,15 +76,16 @@ run_comparison_config_list <- function(config_list) {
   # MERGE RESULTS ----
   results <- list(
     dist_mat = combined_dist,
-    dist_mat_by_data_type = lapply(calculated_datsets_comparison, function(x) {x$dist_mat}),
-    composite_mat_by_data_type = lapply(calculated_datsets_comparison, function(x) {x$composite_mat}),
-    gene_weights_by_data_type = lapply(calculated_datsets_comparison, function(x) {x$gene_weights}),
+    dist_mat_by_data_type = lapply(calculated_datasets_comparison, function(x) {x$dist_mat}),
+    composite_mat_by_data_type = lapply(calculated_datasets_comparison, function(x) {x$composite_mat}),
+    gene_weights_by_data_type = lapply(calculated_datasets_comparison, function(x) {x$gene_weights}),
     isomdsfit = isomdsfit,
-    isomdsfit_by_data_type = lapply(calculated_datsets_comparison, function(x) {x$isomdsfit}),
+    isomdsfit_by_data_type = lapply(calculated_datasets_comparison, function(x) {x$isomdsfit}),
     cell_line_ids = combined_cell_line_ids,
     tumor_ids = combined_tumor_ids,
-    known_cancer_gene_weights_by_data_type = lapply(calculated_datsets_comparison, function(x) {x$known_cancer_gene_weights}),
-    cancer_specific_gene_weights_by_data_type = lapply(calculated_datsets_comparison, function(x) {x$cancer_specific_gene_weights})
+    known_cancer_gene_weights_by_data_type = lapply(calculated_datasets_comparison, function(x) {x$known_cancer_gene_weights}),
+    cancer_specific_gene_weights_by_data_type = lapply(calculated_datasets_comparison, function(x) {x$cancer_specific_gene_weights}),
+    calculated_data_types = names(calculated_datasets_comparison)
   )
   
   return(results)

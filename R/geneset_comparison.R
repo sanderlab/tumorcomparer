@@ -52,7 +52,7 @@ library(data.table)
 # 
 # CCLP_Expression_Quantile_Normalized <- CCLP_Expression_Quantile_Normalized[, ..cclp_mutual_cell_lines]
 
-geneset_comparison <- function(cancer_type, gene_list) {
+geneset_comparison <- function(cancer_type, gene_list, remove_errored_dataset_comparisons = FALSE) {
   
   if(length(cancer_type) > 1) {
     
@@ -115,7 +115,7 @@ geneset_comparison <- function(cancer_type, gene_list) {
                                )
   )
   
-  comparison_list <- run_comparison_config_list(config_list = config_list) 
+  comparison_list <- run_comparison_config_list(config_list = config_list, remove_errored_dataset_comparisons = remove_errored_dataset_comparisons) 
   
   file.remove(c("tumor_mut_filtered.txt", "tumor_cna_filtered.txt", "tumor_exp_filtered.txt", 
                 "cell_line_mut_filtered.txt", "cell_line_cna_filtered.txt", "cell_line_exp_filtered.txt"))
