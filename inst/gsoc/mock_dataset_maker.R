@@ -31,17 +31,17 @@ mock_dataset <- lapply(dataset_list, function(x) {
   colnames(cell_line_file) <- selected_cell_line_samples
     
     
-  write.table(tumor_file, file = paste0("inst/extdata/mock_5_data_types/tumor_", x, ".txt"), sep = "\t", row.names = T, col.names = NA)
+  write.table(tumor_file, file = paste0("../extdata/mock_5_data_types/tumor_", x, ".txt"), sep = "\t", row.names = T, col.names = NA)
     
-  write.table(cell_line_file, file = paste0("inst/extdata/mock_5_data_types/cell_line_", x, ".txt"), sep = "\t", row.names = T, col.names = NA)
+  write.table(cell_line_file, file = paste0("../extdata/mock_5_data_types/cell_line_", x, ".txt"), sep = "\t", row.names = T, col.names = NA)
     
   
   known_cancer_gene_weights_file <- read.table(system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer"), sep = "\t", header = TRUE, row.names = 1, stringsAsFactors = FALSE)
     
   cancer_specific_gene_weights_file <- read.table(system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer"), sep = "\t", header = TRUE, row.names = 1, stringsAsFactors = FALSE)
     
-  write.table(known_cancer_gene_weights_file, file = paste0("inst/extdata/mock_5_data_types/default_weights_for_known_cancer_genes_", x, ".txt"), sep = "\t", row.names = T, col.names = NA, quote = F)
+  write.table(known_cancer_gene_weights_file, file = paste0("../extdata/mock_5_data_types/default_weights_for_known_cancer_genes_", x, ".txt"), sep = "\t", row.names = T, col.names = NA, quote = F)
     
-  write.table(cancer_specific_gene_weights_file, file = paste0("inst/extdata/mock_5_data_types/Genes_and_weights_", x, ".txt"), sep = "\t", row.names = T, col.names = NA, quote = F)
+  write.table(cancer_specific_gene_weights_file, file = paste0("../extdata/mock_5_data_types/Genes_and_weights_", x, ".txt"), sep = "\t", row.names = T, col.names = NA, quote = F)
   
 })

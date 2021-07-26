@@ -48,7 +48,7 @@ precomputed_comparisons <- lapply(unique(CCLP_TCGA_Types_Combined$TCGA_Type), fu
 
 names(precomputed_comparisons) <- unique(TCGA_id_and_tumor_type$Cancer_Type)
 
-saveRDS(precomputed_comparisons, file = "data/precomputed_comparisons.rds")
+saveRDS(precomputed_comparisons, file = "../../data/precomputed_comparisons.rds")
 
 
 
