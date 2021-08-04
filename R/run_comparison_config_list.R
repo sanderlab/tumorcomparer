@@ -1,4 +1,13 @@
-run_comparison_config_list <- function(config_list, remove_errored_dataset_comparisons = FALSE) {
+#' FIXME
+#' 
+#' @param config_list FIXME
+#' @param remove_errored_dataset_comparisons FIXME (Default: FALSE)
+#' @param gene_list a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)
+#' 
+#' @return FIXME
+#' 
+#' @export 
+run_comparison_config_list <- function(config_list, gene_list = NULL, remove_errored_dataset_comparisons=FALSE) {
   
   #### checking input data ####
   
@@ -35,7 +44,9 @@ run_comparison_config_list <- function(config_list, remove_errored_dataset_compa
         tumor_file = x$tumor_file,
         cell_line_file = x$cell_line_file,
         known_cancer_gene_weights_file = x$known_cancer_gene_weights_file,
-        cancer_specific_gene_weights_file = x$cancer_specific_gene_weights_file)
+        cancer_specific_gene_weights_file = x$cancer_specific_gene_weights_file,
+        gene_list
+        )
       
     }
     

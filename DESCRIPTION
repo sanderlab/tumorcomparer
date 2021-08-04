@@ -25,7 +25,8 @@ Imports:
     gridExtra,
     plotly,
     DT,
-    shinycustomloader
+    shinycustomloader,
+    data.table
 Depends:
     R (>= 3.5)
 Suggests:
