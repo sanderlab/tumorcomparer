@@ -19,30 +19,50 @@ shinyServer(function(input, output, session) {
   #### reactive values ####
   preComputed_reactiveVal <- reactiveValues(data = NULL)
   
+  ### genset slector updater
+  observeEvent(input$preComputedType, {
+    if(!is.null(input$preComputedType)) {
+      updateSelectInput(session, "gene_set", choices = selected_geneset_comparions[[input$preComputedType]])
+    }
+  })
+  
   # PRECOMPUTED ----
   preComputedDat <- reactive({
-    tcgaType <- input$preComputedType
-    df <- mtc_dataset
+    if(input$gene_set == "Most Variable Genes") {
+      tcgaType <- input$preComputedType
+      df <- mtc_dataset
+      
+      # Filter
+      idx <- which(df$Tumor_Cancer_Type == tcgaType)
+      df <- df[idx, ]
+      
+      # Round numeric columns 
+      is.num <- sapply(df, is.numeric)
+      df[is.num] <- lapply(df[is.num], round, 3)
+      
+      return(df)
+    } else {
+      return(precomputed_comparisons[[input$preComputedType]][[input$gene_set]])
+    }
     
-    # Filter
-    idx <- which(df$Tumor_Cancer_Type == tcgaType)
-    df <- df[idx, ]
-    
-    # Round numeric columns 
-    is.num <- sapply(df, is.numeric)
-    df[is.num] <- lapply(df[is.num], round, 3)
-    
-    return(df)
   })
   
   output$preComputedPlot <- renderPlotly({
     df <- preComputedDat()
     tcgaType <- input$preComputedType
     
-    validate(need(nrow(df) > 0, "ERROR: Cancer type does not have pre-computed results"))
+    if(input$gene_set == "Most Variable Genes") {
+      validate(need(nrow(df) > 0, "ERROR: Cancer type does not have pre-computed results"))
+      
+      plot_dat <- make_balloon_plot_data_from_mtc(df, tcgaType)
+      analysed_data_types <- "mut, cna, exp"
+    } else {
+      plot_dat <- df$plot_data
+      
+      analysed_data_types <- paste(df$compared_data_types, collapse = ", ")
+    }
     
-    plot_dat <- make_balloon_plot_data_from_mtc(df, tcgaType)
-    p <- plot_balloon_plot(plot_dat, paste0(plot_title_prefix, ": ", tcgaType))
+    p <- plot_balloon_plot(plot_dat, paste0(plot_title_prefix, ": ", tcgaType, ", Pathway: ", input$gene_set, ", Data: ", analysed_data_types))
 
     #print(p)
     #cat("A", colnames(df))
@@ -54,11 +74,19 @@ shinyServer(function(input, output, session) {
   output$preComputedTable <- DT::renderDataTable({
     df <- preComputedDat()
     
-    # Filter dataset
-    df <- df[, mtc_selected_columns]
-    str(df)
-    df <- df[order(-df$Rank_of_Average_Of_Percentile_Ranks), ]
-    colnames(df) <- names(mtc_selected_columns)
+    if(input$gene_set == "Most Variable Genes") {
+      # Filter dataset
+      df <- df[, mtc_selected_columns]
+      str(df)
+      df <- df[order(-df$Rank_of_Average_Of_Percentile_Ranks), ]
+      colnames(df) <- names(mtc_selected_columns)
+    } else {
+      
+      banan <<- df
+      
+      df <- ballon_plot_data_to_result_table(df)
+
+    }
     
     # assigning output table to reactive variable
     preComputed_reactiveVal$data <- df

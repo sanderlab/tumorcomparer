@@ -17,11 +17,12 @@ shinyUI(
                       sidebarLayout(
                         sidebarPanel(
                           width=3,
-                          selectInput("preComputedType", "Cancer Type", choices=tcgaTypes)
+                          selectInput("preComputedType", "Cancer Type", choices=tcgaTypes),
+                          selectInput("gene_set", "Select geneset", choices=genesets, selected = "Most Variable Genes")
                         ),
                         mainPanel(
                           h3("Results Plot"),
-                          div(align="left", plotlyOutput("preComputedPlot", height=600, width=600)), 
+                          div(align="left", plotlyOutput("preComputedPlot", height=600, width=800)), 
                           h3("Results Table"),
                           downloadLink("preComputedDownload", "Download Table as Tab-Delimited File"),
                           DT::dataTableOutput("preComputedTable")

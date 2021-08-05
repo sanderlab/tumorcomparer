@@ -15,6 +15,8 @@ plotlyModeBarButtonsToRemove <- c(
 mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331.rds', package="tumorcomparer")
 #mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds', package="tumorcomparer")
 mtc_dataset <- readRDS(mtc_file)
+precomputed_comparisons <- readRDS(system.file('extdata/precomputed_comparisons.rds', package="tumorcomparer"))
+selected_geneset_comparions <- readRDS(system.file('extdata/selected_geneset_comparions.rds', package="tumorcomparer"))
 
 mtc_dataset$Cell_Line_Name <- as.character(mtc_dataset$Cell_Line_Name)
 #mtc_dataset$Cell_Line_Cancer_Type <- as.character(mtc_dataset$Cell_Line_Cancer_Type)
@@ -92,4 +94,31 @@ tcgaTypes <- c(
   "Endometrial Carcinoma"="UCEC"
 )
 tcgaTypes <- tcgaTypes[tcgaTypes %in% as.character(unique(mtc_dataset$Tumor_Cancer_Type))]
+
+
+genesets <- c("Most Variable Genes", "Cell Cycle", "HIPPO", "MYC", "NOTCH", "PI3K", "RTK RAS", "TGF-Beta", "WNT")
+
+
+ballon_plot_data_to_result_table <- function(plot_data) {
+  
+  comp_table_colnames <- setNames(nm = c("mut_score", "cna_score", "exp_score", "combined_score"), 
+                                  object = c("% Rank by Mutation", "% Rank by Copy Number", "% Rank by Expression", "% Rank by Avg % Ranks"))
+  
+  plot_data <- plot_data$plot_data
+  
+  plot_data$Cell_Line_Name <- as.character(plot_data$Cell_Line_Name)
+  plot_data$variable <- as.character(plot_data$variable)
+  
+  splitted_plot_data <- split(x = plot_data[,-c(1, 2)], f = plot_data$variable)
+  
+  merged_df <- as.data.frame(Reduce(cbind, splitted_plot_data))
+  
+  merged_df <- cbind(split(x = plot_data[,-c(2,3)], f = plot_data$variable)[[1]], merged_df)
+  
+  colnames(merged_df) <- c("Cell Line", comp_table_colnames[names(splitted_plot_data)] )
+  
+  merged_df <- merged_df[,c("Cell Line", comp_table_colnames[which(comp_table_colnames %in% colnames(merged_df)[-1])])]
+  
+  return(merged_df)
+}
 
