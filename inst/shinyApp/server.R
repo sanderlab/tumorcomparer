@@ -19,7 +19,7 @@ shinyServer(function(input, output, session) {
   #### reactive values ####
   preComputed_reactiveVal <- reactiveValues(data = NULL)
   
-  ### genset slector updater
+  ### genset selector updater
   observeEvent(input$preComputedType, {
     if(!is.null(input$preComputedType)) {
       updateSelectInput(session, "gene_set", choices = selected_geneset_comparions[[input$preComputedType]])
