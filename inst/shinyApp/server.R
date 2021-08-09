@@ -1,7 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(plotly)
-
+library(cyjShiny)
 library(magrittr)
 library(dplyr)
 library(DT)
@@ -17,7 +17,7 @@ available_data_types <- NULL
 shinyServer(function(input, output, session) {
   
   #### reactive values ####
-  preComputed_reactiveVal <- reactiveValues(data = NULL)
+  preComputed_reactiveVal <- reactiveValues(data = NULL, corr_network = NULL)
   
   ### genset selector updater
   observeEvent(input$preComputedType, {
@@ -52,17 +52,24 @@ shinyServer(function(input, output, session) {
     tcgaType <- input$preComputedType
     
     if(input$gene_set == "Most Variable Genes") {
-      validate(need(nrow(df) > 0, "ERROR: Cancer type does not have pre-computed results"))
+      shiny::validate(need(nrow(df) > 0, "ERROR: Cancer type does not have pre-computed results"))
       
       plot_dat <- make_balloon_plot_data_from_mtc(df, tcgaType)
       analysed_data_types <- "mut, cna, exp"
+      
+      ballon_plot_x_lab <- "Weighted Similarity Ranks By Data Type"
     } else {
       plot_dat <- df$plot_data
       
       analysed_data_types <- paste(df$compared_data_types, collapse = ", ")
+      
+      ballon_plot_x_lab <- "Weighted Similarity scores By Data Type"
     }
     
-    p <- plot_balloon_plot(plot_dat, paste0(plot_title_prefix, ": ", tcgaType, ", Pathway: ", input$gene_set, ", Data: ", analysed_data_types))
+    p <- plot_balloon_plot(plot_dat, 
+                           paste0(plot_title_prefix, ": ", tcgaType, ", Pathway: ", input$gene_set, ", Data: ", analysed_data_types),
+                           xlab = ballon_plot_x_lab
+                           )
 
     #print(p)
     #cat("A", colnames(df))
@@ -81,8 +88,6 @@ shinyServer(function(input, output, session) {
       df <- df[order(-df$Rank_of_Average_Of_Percentile_Ranks), ]
       colnames(df) <- names(mtc_selected_columns)
     } else {
-      
-      banan <<- df
       
       df <- ballon_plot_data_to_result_table(df)
 
@@ -112,7 +117,7 @@ shinyServer(function(input, output, session) {
     dataset_file <- input$datasetFile
     dataset_path <- dataset_file$datapath
     
-    validate(
+    shiny::validate(
       need(nchar(dataset_path) > 1,"Please upload dataset as ZIP file.")
     )
     
@@ -152,7 +157,7 @@ shinyServer(function(input, output, session) {
     cat("E")
     str(has_exp)
     
-    validate(
+    shiny::validate(
       need(any(c(has_mut, has_cna, has_exp)), 
            paste0("ERROR: Missing files. File names should be lowercase. Please consult documentation."))
     )
@@ -340,4 +345,20 @@ shinyServer(function(input, output, session) {
     stress <- comparison_result$isomdsfit$stress
     paste0("MDS Stress (Goodness of Fit, Less than 9.9 is good): ", round(stress, 2))
   })
+  
+  #### rendering correlation network ####
+  output$corr_network_out <- renderCyjShiny({
+    comparison_result <- userDat()
+    
+    dis_mat_names <- setNames(object = c("mut", "cna", "exp"), nm = c("Copy number", "Mutation", "Expression"))
+    
+    if(input$selected_dist_mat == "Combined") {
+      preComputed_reactiveVal$corr_network <- cyj_graph_maker_from_dist_mat(dist_mat = comparison_result$dist_mat, min_weight = input$corr_threshold)
+    } else {
+      preComputed_reactiveVal$corr_network <- cyj_graph_maker_from_dist_mat(dist_mat = comparison_result$dist_mat_by_data_type[[dis_mat_names[input$selected_dist_mat]]], min_weight = input$corr_threshold)
+    }
+    
+    cyjShiny(preComputed_reactiveVal$corr_network, layoutName="cose", styleFile = "www/default_style.js")
+  })
+  
 })

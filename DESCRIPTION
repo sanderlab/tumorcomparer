@@ -26,7 +26,8 @@ Imports:
     plotly,
     DT,
     shinycustomloader,
-    data.table
+    data.table,
+    cyjShiny
 Depends:
     R (>= 3.5)
 Suggests:

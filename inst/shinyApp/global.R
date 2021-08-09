@@ -122,3 +122,22 @@ ballon_plot_data_to_result_table <- function(plot_data) {
   return(merged_df)
 }
 
+cyj_graph_maker_from_dist_mat <- function(dist_mat, min_weight) {
+  
+  
+  dist_mat_melted <- reshape2::melt(`is.na<-`(dist_mat, upper.tri(dist_mat, diag = T)), na.rm = TRUE)
+  
+  g <- graph::ftM2graphNEL(as.matrix(dist_mat_melted[which(dist_mat_melted$value > min_weight),1:2]), edgemode = "directed")
+  
+  graph::nodeDataDefaults(g, attr = "label") <- "NA"
+  graph::nodeDataDefaults(g, attr = "color") <- "NA"
+  
+  graph::nodeData(g, attr = "label") <- graph::nodes(g)
+  graph::nodeData(g, graph::nodes(g)[grepl("TCGA", graph::nodes(g))], attr = "color") <- "#99ccff"
+  graph::nodeData(g, graph::nodes(g)[!grepl("TCGA", graph::nodes(g))], attr = "color") <- "#49d849"
+  
+  graph::edgeDataDefaults(g, attr = "edgeType") <- "pp"
+  
+  return(cyjShiny::graphNELtoJSON(g))
+  
+}
