@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_comparison.R
 \name{run_comparison}
 \alias{run_comparison}
-\title{Run a comparison between between two cohorts (e.g. cell lines and tumors)}
+\title{Run a comparison between two cohorts (e.g. cell lines and tumors)}
 \usage{
 run_comparison(
   available_data_types = c("mut", "cna", "exp"),
@@ -83,7 +83,7 @@ parameter whether the values for a data type are discrete or continuous
 }
 }
 \description{
-Run a comparison between between two cohorts (e.g. cell lines and tumors)
+Run a comparison between two cohorts (e.g. cell lines and tumors)
 }
 \examples{
 tumor_mut_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_mut.txt", 

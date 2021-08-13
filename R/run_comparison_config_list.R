@@ -1,7 +1,22 @@
-#' FIXME
+#' Run a comparison between two cohorts (e.g. cell lines and tumors) based on specified data types by configuration list
 #' 
-#' @param config_list FIXME
-#' @param remove_errored_dataset_comparisons FIXME (Default: FALSE)
+#' @param config_list list which sepcifies comparison datasets and their parameters for each data type (mutation, CNV, expression, etc.).
+#'    The structure of the config_list is list(mut = list(), cnv = list(), exp = list(), ...). The list of each dataset must contain the following arguments
+#'    list(dataset_name, 
+#'         data_type_weight, 
+#'         default_weight, 
+#'         tumor_file, 
+#'         cell_line_file, 
+#'         known_cancer_gene_weights_file, 
+#'         cancer_specific_gene_weights_file)
+#'    dataset_name: short name of comparison data type
+#'    data_type_weight: a numeric weight for the data type (NOTE: data type weights must sum to 1)
+#'    default_weight: default (background) weight for specified data type (EXP) (DEFAULT: 0.01)
+#'    tumor_file: path to a dataset file which contain 
+#'    cell_line_file:
+#'    known_cancer_gene_weights_file:
+#'    cancer_specific_gene_weights_file:
+#' @param remove_errored_dataset_comparisons will skip the data types which can't be compared for technical reasons when set to TRUE (Default: FALSE)
 #' @param gene_list a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)
 #' 
 #' @return FIXME
@@ -29,7 +44,7 @@ run_comparison_config_list <- function(config_list, gene_list = NULL, remove_err
     if(sum(colSums(tumor)) == 0) {
       
       if(remove_errored_dataset_comparisons) {
-        cat(paste0("Warning: skipping ", x$dataset_name, " data, zero values only", "\n"))
+        cat(paste0("INFO: skipping ", x$dataset_name, " data, zero values only", "\n"))
         
         NULL
         

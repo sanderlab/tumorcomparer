@@ -137,6 +137,11 @@ cyj_graph_maker_from_dist_mat <- function(dist_mat, min_weight) {
   graph::nodeData(g, graph::nodes(g)[!grepl("TCGA", graph::nodes(g))], attr = "color") <- "#49d849"
   
   graph::edgeDataDefaults(g, attr = "edgeType") <- "pp"
+  graph::edgeDataDefaults(g, attr = "dist") <- 0
+  
+  graph::edgeData(g, from = as.character(dist_mat_melted[which(dist_mat_melted$value > min_weight),1]), 
+                  to = as.character(dist_mat_melted[which(dist_mat_melted$value > min_weight),2]), 
+                  attr = "dist") <- round(dist_mat_melted[which(dist_mat_melted$value > min_weight),3], digits = 2)
   
   return(cyjShiny::graphNELtoJSON(g))
   

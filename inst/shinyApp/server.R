@@ -358,7 +358,7 @@ shinyServer(function(input, output, session) {
       preComputed_reactiveVal$corr_network <- cyj_graph_maker_from_dist_mat(dist_mat = comparison_result$dist_mat_by_data_type[[dis_mat_names[input$selected_dist_mat]]], min_weight = input$corr_threshold)
     }
     
-    cyjShiny(preComputed_reactiveVal$corr_network, layoutName="cose", styleFile = "www/default_style.js")
+    cyjShiny(preComputed_reactiveVal$corr_network, layoutName="preset", styleFile = "www/default_style.js")
   })
   
 })

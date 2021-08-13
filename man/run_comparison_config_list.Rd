@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_comparison_config_list.R
 \name{run_comparison_config_list}
 \alias{run_comparison_config_list}
-\title{FIXME}
+\title{Run a comparison between two cohorts (e.g. cell lines and tumors) based on specified data types by configuration list}
 \usage{
 run_comparison_config_list(
   config_list,
@@ -11,15 +11,30 @@ run_comparison_config_list(
 )
 }
 \arguments{
-\item{config_list}{FIXME}
+\item{config_list}{list which sepcifies comparison datasets and their parameters for each data type (mutation, CNV, expression, etc.).
+The structure of the config_list is list(mut = list(), cnv = list(), exp = list(), ...). The list of each dataset must contain the following arguments
+list(dataset_name,
+data_type_weight,
+default_weight,
+tumor_file,
+cell_line_file,
+known_cancer_gene_weights_file,
+cancer_specific_gene_weights_file)
+dataset_name: short name of comparison data type
+data_type_weight: a numeric weight for the data type (NOTE: data type weights must sum to 1)
+default_weight: default (background) weight for specified data type (EXP) (DEFAULT: 0.01)
+tumor_file: path to a dataset file which contain
+cell_line_file:
+known_cancer_gene_weights_file:
+cancer_specific_gene_weights_file:}
 
 \item{gene_list}{a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)}
 
-\item{remove_errored_dataset_comparisons}{FIXME (Default: FALSE)}
+\item{remove_errored_dataset_comparisons}{will skip the data types which can't be compared for technical reasons when set to TRUE (Default: FALSE)}
 }
 \value{
 FIXME
 }
 \description{
-FIXME
+Run a comparison between two cohorts (e.g. cell lines and tumors) based on specified data types by configuration list
 }

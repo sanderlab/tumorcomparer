@@ -28,8 +28,8 @@ test_that("keep_only_high_level_cnas", {
 })
 
 test_that("keep_only_high_level_cnas", {
-  t1 <- c(1,1,1,1,1,1,2,2,2,3,3,3,4,4)
-  t2 <- rev(t1)
+  t1 <- as.matrix(c(1,1,1,1,1,1,2,2,2,3,3,3,4,4))
+  t2 <- as.matrix(rev(t1))
   weight <- c(.5,.5,.5,.5,.5,1,1,1,1,2,2,2,2,2)
   
   results <- calc_weighted_corr(t1, t2, weight)
@@ -151,7 +151,7 @@ test_that("run_comparison", {
   
   #saveRDS(comparison_result, "ov_comparison_result.rds")
   
-  saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+  saved_output <- readRDS(system.file("test_output", "ov_comparison_result_old.rds", package="tumorcomparer"))
   
   expect_identical(comparison_result, saved_output)
 })

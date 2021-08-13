@@ -19,6 +19,12 @@
     {"selector": "edge", "css": {
         "curve-style": "straight"
     }},
+    
+    {"selector": "edge[dist]",
+      "css": {
+        "label": "data(dist)",
+        "width": 3
+    }},
 
     {"selector": "edge[interactionType='pp']", "css": {
         "line-color": "grey",
