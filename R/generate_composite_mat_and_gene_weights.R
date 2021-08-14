@@ -70,7 +70,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     filtered_gene_list <- gene_list[which(gene_list %in% intersect(rownames(tumor), rownames(cell_line)))]
     
     if(length(filtered_gene_list) < length(gene_list)) {
-      cat(paste0("Warning: From provided gene_list only ", length(filtered_gene_list), " genes are available in the dataset, removing ", length(gene_list) - length(filtered_gene_list), " genes from the list", "\n"))
+      cat(paste0("INFO: From provided gene_list only ", length(filtered_gene_list), " genes are available in the dataset, removing ", length(gene_list) - length(filtered_gene_list), " genes from the list", "\n"))
     }
     
     tumor <- tumor[filtered_gene_list,]
