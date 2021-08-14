@@ -33,7 +33,7 @@ mtc_dataset$AVGSIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$AVGSIM_Perc
 mtc_dataset$MUTSIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$MUTSIM_Percentile_Ranks))[mtc_dataset$MUTSIM_Percentile_Ranks]
 mtc_dataset$CNASIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$CNASIM_Percentile_Ranks))[mtc_dataset$CNASIM_Percentile_Ranks]
 mtc_dataset$EXPSIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$EXPSIM_Percentile_Ranks))[mtc_dataset$EXPSIM_Percentile_Ranks]
-#FIXME: mtc_dataset$Categorization <- as.character(mtc_dataset$Categorization)
+mtc_dataset$Categorization <- as.character(mtc_dataset$Categorization)
 mtc_dataset$AVGSIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$AVGSIM_Zscores_wrt_Tumors))[mtc_dataset$AVGSIM_Zscores_wrt_Tumors]
 mtc_dataset$MUTSIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$MUTSIM_Zscores_wrt_Tumors))[mtc_dataset$MUTSIM_Zscores_wrt_Tumors]
 mtc_dataset$CNASIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$CNASIM_Zscores_wrt_Tumors))[mtc_dataset$CNASIM_Zscores_wrt_Tumors]

@@ -15,7 +15,7 @@ test_that("sanity_check", {
 
 test_that("return_first_part", {
   tmp <- return_first_part("22RV1_PROSTRATE")
-  expect_identical(tmp, "22RV1")
+  expect_equal(tmp, "22RV1")
 })
 
 test_that("keep_only_high_level_cnas", {
@@ -74,7 +74,7 @@ test_that("generate_composite_mat_and_gene_weights", {
   
   saved_output <- readRDS(system.file("test_output", "ov_composite_mat.rds", package="tumorcomparer"))
   
-  expect_identical(composite_mat, saved_output)
+  expect_equal(composite_mat, saved_output)
 })
 
 test_that("map_mean_similarity_to_gradient", {
@@ -153,7 +153,7 @@ test_that("run_comparison", {
   
   saved_output <- readRDS(system.file("test_output", "ov_comparison_result_old.rds", package="tumorcomparer"))
   
-  expect_identical(comparison_result, saved_output)
+  expect_equal(comparison_result, saved_output)
 })
 
 ### test function on 3 data types for new generilized function
@@ -200,7 +200,7 @@ test_that("run_comparison_config_list", {
   
   saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
   
-  expect_identical(comparison_result, saved_output)
+  expect_equal(comparison_result, saved_output)
 })
 
 
@@ -238,7 +238,7 @@ test_that("run_comparison_two_datasets", {
   
   #saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
   
-  expect_identical(TRUE, TRUE)
+  expect_equal(TRUE, TRUE)
 })
 
 ### test function on 5 data types for new generilized function
@@ -300,7 +300,7 @@ test_that("run_comparison_5_datasets", {
   
   test_results <- run_comparison_config_list(config_list = config_list)
   
-  expect_identical(TRUE, TRUE)
+  expect_equal(TRUE, TRUE)
   
 })
 
@@ -357,5 +357,5 @@ test_that("run_comparison_config_list", {
   
   saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
   
-  expect_identical(TRUE, TRUE)
+  expect_equal(TRUE, TRUE)
 })
