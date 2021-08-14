@@ -17,24 +17,84 @@ list(dataset_name,
 data_type_weight,
 default_weight,
 tumor_file,
-cell_line_file,
-known_cancer_gene_weights_file,
-cancer_specific_gene_weights_file)
-dataset_name: short name of comparison data type
-data_type_weight: a numeric weight for the data type (NOTE: data type weights must sum to 1)
-default_weight: default (background) weight for specified data type (EXP) (DEFAULT: 0.01)
-tumor_file: path to a dataset file which contain
-cell_line_file:
-known_cancer_gene_weights_file:
-cancer_specific_gene_weights_file:}
+cell_line_file)
+\itemize{
+\item dataset_name: short name of comparison data type
+\item data_type_weight: a numeric weight for the data type (NOTE: data type weights must sum to 1)
+\item default_weight: default (background) weight for specified data type (EXP) (DEFAULT: 0.01)
+\item tumor_file: path to a tab delimited table file with HGNC gene symbol rownames and columns as tumour samples
+\item cell_line_file: path to a tab delimited table file with HGNC gene symbol rownames and columns as cell lines
+\item known_cancer_gene_weights_file: path to a file with weights for genes known
+to be recurrently altered in cancer (e.g. recurrently mutated genes in TCGA pan-cancer analyses).
+A two-column tab-delimited file - the first column has the gene names and the second column specifies the weights (Default: NULL)
+\item cancer_specific_gene_weights_file: path to a file with weights for cancer-specific
+set of recurrently altered genes. A tab-delimited file - the first column has the gene names,
+and the second column specifies the weights (Default: NULL)
+}}
 
 \item{gene_list}{a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)}
 
-\item{remove_errored_dataset_comparisons}{will skip the data types which can't be compared for technical reasons when set to TRUE (Default: FALSE)}
+\item{remove_errored_dataset_comparisons}{will skip the data types which can't be compared for technical reasons(no enaugh genes to compare, or data contain only 0 values) when set to TRUE (Default: FALSE)}
 }
 \value{
-FIXME
+a list with multiple items. Each
+\itemize{
+\item dist_mat: a matrix of combined pairwise distances for all data types
+\item dist_mat_by_data_type: a list of pairwise distances for each data type
+\item isomdsfit: a two-column (2-dimension) fitting of the distances reduced to two dimensions via MDS - multidimensional scaling, using the isoMDS function for all data types
+\item isomdsfit_by_data_type: a two-column (2-dimension) fitting of the distances reduced to two dimensions via MDS - multidimensional scaling, using the isoMDS function for each data type
+\item composite_mat: the composite matrix (see Details)
+\item cell_line_ids: a vector of cell line IDs/names with all data types
+\item tumor_ids: a vector of tumor IDs with all data types
+\item calculated_data_types: chacrachter vector of the dataset names which were analysed by comparison function
+}
 }
 \description{
 Run a comparison between two cohorts (e.g. cell lines and tumors) based on specified data types by configuration list
+}
+\examples{
+tumor_mut_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_mut.txt", 
+  package="tumorcomparer")
+tumor_cna_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_cna.txt", 
+  package="tumorcomparer")
+tumor_exp_file <- system.file("extdata", "READ_data_for_running_TC", "tumor_exp.txt", 
+  package="tumorcomparer")
+
+cell_line_mut_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_mut.txt", 
+  package="tumorcomparer")
+cell_line_cna_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_cna.txt", 
+  package="tumorcomparer")
+cell_line_exp_file <- system.file("extdata", "READ_data_for_running_TC", "cell_line_exp.txt", 
+  package="tumorcomparer")
+
+known_cancer_gene_weights_mut_file <- system.file("extdata", "READ_data_for_running_TC", 
+  "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+known_cancer_gene_weights_cna_file <- system.file("extdata", "READ_data_for_running_TC", 
+  "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
+known_cancer_gene_weights_exp_file <- system.file("extdata", "READ_data_for_running_TC", 
+  "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+
+cancer_specific_gene_weights_mut_file <- system.file("extdata", "READ_data_for_running_TC", 
+  "Genes_and_weights_mut.txt", package="tumorcomparer")
+cancer_specific_gene_weights_cna_file <- system.file("extdata", "READ_data_for_running_TC", 
+  "Genes_and_weights_cna.txt", package="tumorcomparer")
+cancer_specific_gene_weights_exp_file <- system.file("extdata", "READ_data_for_running_TC", 
+  "Genes_and_weights_exp.txt", package="tumorcomparer")
+  
+config_list <- list(mut=list(dataset_name = "mut", data_type_weight=1/3, default_weight = 0.01, 
+                             tumor_file = tumor_mut_file, cell_line_file = cell_line_mut_file,
+                             known_cancer_gene_weights_file = known_cancer_gene_weights_mut_file, 
+                             cancer_specific_gene_weights_file = cancer_specific_gene_weights_mut_file),
+                    cna=list(dataset_name = "cna", data_type_weight=1/3, default_weight = 0.01, 
+                             tumor_file = tumor_cna_file, cell_line_file = cell_line_cna_file,
+                             known_cancer_gene_weights_file = known_cancer_gene_weights_cna_file, 
+                             cancer_specific_gene_weights_file = cancer_specific_gene_weights_cna_file),
+                    exp=list(dataset_name = "exp", data_type_weight=1/3, default_weight = 0.01, 
+                             tumor_file = tumor_exp_file, cell_line_file = cell_line_exp_file,
+                             known_cancer_gene_weights_file = known_cancer_gene_weights_exp_file, 
+                             cancer_specific_gene_weights_file = cancer_specific_gene_weights_exp_file)
+)
+
+comparison_result <- run_comparison_config_list(config_list = config_list)
+
 }

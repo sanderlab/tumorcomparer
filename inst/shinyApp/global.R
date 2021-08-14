@@ -131,10 +131,14 @@ cyj_graph_maker_from_dist_mat <- function(dist_mat, min_weight) {
   
   graph::nodeDataDefaults(g, attr = "label") <- "NA"
   graph::nodeDataDefaults(g, attr = "color") <- "NA"
+  graph::nodeDataDefaults(g, attr = "xPos") <- 0
+  graph::nodeDataDefaults(g, attr = "yPos") <- 0
   
   graph::nodeData(g, attr = "label") <- graph::nodes(g)
   graph::nodeData(g, graph::nodes(g)[grepl("TCGA", graph::nodes(g))], attr = "color") <- "#99ccff"
   graph::nodeData(g, graph::nodes(g)[!grepl("TCGA", graph::nodes(g))], attr = "color") <- "#49d849"
+  graph::nodeData(g, attr = "xPos") <- igraph::layout_nicely(igraph::graph_from_graphnel(g))[,1]*100
+  graph::nodeData(g, attr = "yPos") <- igraph::layout_nicely(igraph::graph_from_graphnel(g))[,2]*100
   
   graph::edgeDataDefaults(g, attr = "edgeType") <- "pp"
   graph::edgeDataDefaults(g, attr = "dist") <- 0

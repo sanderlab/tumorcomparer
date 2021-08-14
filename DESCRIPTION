@@ -26,8 +26,9 @@ Imports:
     plotly,
     DT,
     shinycustomloader,
-    data.table,
-    cyjShiny
+    data.table
+DevPackage:
+    cytoscape/cyjShiny
 Depends:
     R (>= 3.5)
 Suggests:

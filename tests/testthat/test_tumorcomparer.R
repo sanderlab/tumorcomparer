@@ -191,7 +191,6 @@ test_that("run_comparison_config_list", {
                                tumor_file = tumor_exp_file, cell_line_file = cell_line_exp_file,
                                known_cancer_gene_weights_file = known_cancer_gene_weights_exp_file, 
                                cancer_specific_gene_weights_file = cancer_specific_gene_weights_exp_file)
-                      
   )
   
   comparison_result <- run_comparison_config_list(config_list = config_list)
@@ -325,8 +324,6 @@ test_that("run_comparison_config_list", {
   cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
   cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_cna.txt", package="tumorcomparer")
   cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_exp.txt", package="tumorcomparer")
-  
-  # pancan_pathways <- readRDS("data/tcga_pancan_pathway_genes.rds")
   
   sample_gene_list <- c("ARRDC1", "CNTN6", "CREBBP", "EP300", "HES1", "HES2", "HES3", "HES4", "HES5", "HEY1", 
                         "HEY2", "HEYL", "KAT2B", "KDM5A", "NOTCH1", "NOTCH2", "NOTCH3", "NOTCH4", "NOV", "NRARP", 

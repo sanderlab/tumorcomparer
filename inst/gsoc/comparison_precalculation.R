@@ -36,7 +36,7 @@
 #     print(x)
 #     print(y)
 # 
-#     comparison_list <- geneset_comparison(cancer_type = x, gene_list = tcga_pancan_pathway_genes[[y]], remove_errored_dataset_comparisons = TRUE)
+#     comparison_list <- tcga_geneset_comparison(cancer_type = x, gene_list = tcga_pancan_pathway_genes[[y]], remove_errored_dataset_comparisons = TRUE)
 # 
 #     plot_data <- tumorcomparer::make_balloon_plot_data_from_comparison_result(comparison_list)
 # 
@@ -93,12 +93,12 @@
 # #### detected errors and special cases ####
 # 
 # ## mutation data with all zero values
-# GBM_test <- geneset_comparison(cancer_type = "GBM", gene_list = tcga_pancan_pathway_genes[["MYC"]], remove_errored_dataset_comparisons = TRUE)
+# GBM_test <- tcga_geneset_comparison(cancer_type = "GBM", gene_list = tcga_pancan_pathway_genes[["MYC"]], remove_errored_dataset_comparisons = TRUE)
 # 
 # ## does not have matched cell lines
-# geneset_comparison(cancer_type = "TGCT", gene_list = tcga_pancan_pathway_genes[["Cell Cycle"]], remove_errored_dataset_comparisons = TRUE)
+# tcga_geneset_comparison(cancer_type = "TGCT", gene_list = tcga_pancan_pathway_genes[["Cell Cycle"]], remove_errored_dataset_comparisons = TRUE)
 # 
 # 
 # ## throws an error on cnv data while there are 5 genes present
-# geneset_comparison(cancer_type = "LIHC", gene_list = tcga_pancan_pathway_genes[["TGF-Beta"]], remove_errored_dataset_comparisons = TRUE)
+# tcga_geneset_comparison(cancer_type = "LIHC", gene_list = tcga_pancan_pathway_genes[["TGF-Beta"]], remove_errored_dataset_comparisons = TRUE)
 # 

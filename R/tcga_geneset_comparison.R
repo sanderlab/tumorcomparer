@@ -1,69 +1,35 @@
-library(data.table)
-
-# # TCGA ID and tumor types from TCGA PanCancer annotations
-# TCGA_id_and_tumor_type <- fread("../TC_Data_PanCancer_March2021/TCGA_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
-# # CCLP ID and TCGA tumor type from Cell Model Passport annotations
-# CCLP_TCGA_Types_Combined  <- fread("../TC_Data_PanCancer_March2021/CCLP_ID_and_Cancer_Type.txt",check.names=F, nThread = 4)
-# 
-# ## reading mutation data
-# mut_mat_TCGA_after_Annovar <- fread("../TC_Data_PanCancer_March2021/TCGA_mutation_matrix.txt",check.names=F, nThread = 4)
-# mut_mat_CCLP_after_Annovar <- fread("../TC_Data_PanCancer_March2021/CCLP_mutation_matrix.txt",check.names=F, nThread = 4)
-# 
-# ## unifiing cell line and TCGA genes
-# mut_mat_TCGA_after_Annovar <- mut_mat_TCGA_after_Annovar[Gene %in% intersect(mut_mat_TCGA_after_Annovar$Gene, mut_mat_CCLP_after_Annovar$Gene)]
-# mut_mat_CCLP_after_Annovar <- mut_mat_CCLP_after_Annovar[Gene %in% intersect(mut_mat_TCGA_after_Annovar$Gene, mut_mat_CCLP_after_Annovar$Gene)]
-# 
-# ## reading CNV data
-# TCGA_GISTIC_all_data_by_genes <- fread("../TC_Data_PanCancer_March2021/TCGA_GISTIC_all_data_by_genes.txt",check.names=F, nThread = 4)
-# colnames(TCGA_GISTIC_all_data_by_genes)[1] <- "Gene"
-# CCLP_GISTIC_all_data_by_genes <- fread("../TC_Data_PanCancer_March2021/CCLP_GISTIC_all_data_by_genes.txt",check.names=F, nThread = 4)
-# colnames(CCLP_GISTIC_all_data_by_genes)[1] <- "Gene"
-# 
-# ## unifiing cell line and TCGA genes
-# TCGA_GISTIC_all_data_by_genes <- TCGA_GISTIC_all_data_by_genes[Gene %in% intersect(TCGA_GISTIC_all_data_by_genes$Gene, CCLP_GISTIC_all_data_by_genes$Gene)]
-# CCLP_GISTIC_all_data_by_genes <- CCLP_GISTIC_all_data_by_genes[Gene %in% intersect(TCGA_GISTIC_all_data_by_genes$Gene, CCLP_GISTIC_all_data_by_genes$Gene)]
-# 
-# ## reading expression data
-# TCGA_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/TCGA_Expression_Quantile_Normalized.txt",check.names=F, nThread = 4)
-# colnames(TCGA_Expression_Quantile_Normalized)[1] <- "Gene"
-# CCLP_Expression_Quantile_Normalized <- fread("../TC_Data_PanCancer_March2021/CCLP_Expression_Quantile_Normalized.txt",check.names=F, nThread = 4)
-# 
-# ## unification is not needed as the data is alredy unified
-# 
-# 
-# ## filtering TCGA samples for all availability of three dat types
-# 
-# tcga_mutual_samples <- c("Gene", Reduce(intersect, list(colnames(mut_mat_TCGA_after_Annovar)[-1], colnames(TCGA_GISTIC_all_data_by_genes)[-1], colnames(TCGA_Expression_Quantile_Normalized)[-1])))
-# 
-# mut_mat_TCGA_after_Annovar <- mut_mat_TCGA_after_Annovar[, ..tcga_mutual_samples]
-# 
-# TCGA_GISTIC_all_data_by_genes <- TCGA_GISTIC_all_data_by_genes[, ..tcga_mutual_samples]
-# 
-# TCGA_Expression_Quantile_Normalized <- TCGA_Expression_Quantile_Normalized[, ..tcga_mutual_samples]
-# 
-# 
-# ## filtering CCLP samples for all availability of three dat types
-# 
-# cclp_mutual_cell_lines <- c("Gene", Reduce(intersect, list(colnames(mut_mat_CCLP_after_Annovar)[-1], colnames(CCLP_GISTIC_all_data_by_genes)[-1], colnames(CCLP_Expression_Quantile_Normalized)[-1])))
-# 
-# mut_mat_CCLP_after_Annovar <- mut_mat_CCLP_after_Annovar[, ..cclp_mutual_cell_lines]
-# 
-# CCLP_GISTIC_all_data_by_genes <- CCLP_GISTIC_all_data_by_genes[, ..cclp_mutual_cell_lines]
-# 
-# CCLP_Expression_Quantile_Normalized <- CCLP_Expression_Quantile_Normalized[, ..cclp_mutual_cell_lines]
-
-geneset_comparison <- function(cancer_type, gene_list, remove_errored_dataset_comparisons = FALSE) {
+#' geneset comparison function for TCGA dataset
+#' 
+#' @param tcga_dataset path to the tcga dataset (tcga_comparison_data.RData), see details
+#' @param cancer_type TCGA cancer name (GBM, LGG, etc.)
+#' @param gene_list a vector of HGNC gene symbols which will be used to perform the comparison
+#' @param remove_errored_dataset_comparisons will skip the data types which can't be compared for technical reasons(no enaugh genes to compare, or data contain only 0 values) when set to TRUE (Default: FALSE)
+#' 
+#' @return returns comparison list for specified genes. The output list is described in run_comparison_config_list function documentation
+#' 
+#' @details
+#' For running tcga_geneset_comparison you will need to download tcga_comparison_data.RData data file from ... and specify the path of the RData file in tcga_dataset argument
+#' 
+#' @importFrom data.table fwrite
+#' 
+#' @export 
+tcga_geneset_comparison <- function(tcga_dataset, cancer_type, gene_list, remove_errored_dataset_comparisons = FALSE) {
+  
+  load(tcga_dataset)
   
   if(length(cancer_type) > 1) {
-    
     stop("ERROR: The analysis can be run only for one cancer type")  
-    
   }
   
-  if(!(cancer_type %in% unique(TCGA_id_and_tumor_type$Cancer_Type))) {
-    
+  most_variable_genes_precomputed_path <- system.file("extdata", 
+                                                        "mtc_results_20200331", 
+                                                        "mtc_results_20200331_no_factors.rds", 
+                                                        package = "tumorcomparer")
+  most_variable_genes_precomputed_results <- readRDS(most_variable_genes_precomputed_path)
+  avail_cancer_types <- unique(most_variable_genes_precomputed_results$Tumor_Cancer_Type)
+  
+  if(!(cancer_type %in% avail_cancer_types)) {
     stop("ERROR: TCGA projec with specified name is not found")
-    
   }
   
   mut_cclp_ids <- c("Gene", intersect(colnames(mut_mat_CCLP_after_Annovar),CCLP_TCGA_Types_Combined$Model_name[which(CCLP_TCGA_Types_Combined$TCGA_Type == cancer_type)]))
