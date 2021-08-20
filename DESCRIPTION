@@ -3,10 +3,10 @@ Type: Package
 Title: Compare Patient Samples to Cell Line Models Using Molecular Data and Weighted Similarity
 Version: 0.99.17
 Date: 2021-08-20
-Authors@R: c(person("Rileen", "Sinha", email = "rileen@gmail.com", role = "cre"), 
-             person("Augustin", "Luna", email = "aluna@jimmy.harvard.edu", role = "aut"))
+Authors@R: c(person("Rileen", "Sinha", email = "rileen@gmail.com", role = c("aut", "cre")), 
+             person("Augustin", "Luna", email = "aluna@jimmy.harvard.edu", role = c("aut", "cre"))
 Maintainer: Augustin Luna <aluna@jimmy.harvard.edu>
-Description: Compare patient samples to cell line models using molecular data and weighted similarity
+Description: Compare patient samples to cell line models using molecular data and weighted similarity. 
 License: Apache License (>= 2)
 LazyData: true
 Imports: 
