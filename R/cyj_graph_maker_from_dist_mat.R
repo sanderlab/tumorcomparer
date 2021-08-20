@@ -34,6 +34,6 @@ cyj_graph_maker_from_dist_mat <- function(dist_mat, min_weight) {
                   to = as.character(dist_mat_melted[which(dist_mat_melted$value > min_weight),2]), 
                   attr = "dist") <- round(dist_mat_melted[which(dist_mat_melted$value > min_weight),3], digits = 2)
   
-  return(cyjShiny::graphNELtoJSON(g))
+  return(graphNELtoJSON(g))
   
 }
