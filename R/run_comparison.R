@@ -1,4 +1,4 @@
-#' Run a comparison between between two cohorts (e.g. cell lines and tumors)
+#' Run a comparison between two cohorts (e.g. cell lines and tumors)
 #'
 #' @param available_data_types a vector of data types to be analyzed
 #' 

@@ -21,3 +21,4 @@ depends:
     markdown
     DT
     shinycustomloader
+    data.table

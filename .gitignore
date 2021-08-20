@@ -16,3 +16,4 @@ inst/extdata/read_data_for_running_tc_two_datatypes
 doc
 Meta
 ignore_vignette_notes.R
+*.diff

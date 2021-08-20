@@ -9,8 +9,8 @@
 #' @author Rileen Sinha (rileen@gmail.com), Augustin Luna (aluna@jimmy.harvard.edu)
 #'
 #' @examples 
-#' t1 <- c(1,1,1,1,1,1,2,2,2,3,3,3,4,4)
-#' t2 <- rev(t1)
+#' t1 <- as.matrix(c(1,1,1,1,1,1,2,2,2,3,3,3,4,4))
+#' t2 <- as.matrix(rev(t1))
 #' weight <- c(.5,.5,.5,.5,.5,1,1,1,1,2,2,2,2,2)
 #' calc_weighted_corr(t1, t2, weight)
 #'
@@ -20,13 +20,14 @@
 #' @importFrom weights wtd.cors 
 calc_weighted_corr <- function(a, b, w = rep(1, nrow(a))/nrow(a)) {
   # normalize weights
-  #w <- w / sum(w)
+  w <- w / sum(w)
   
   # center matrices
-  #a <- sweep(a, 2, colSums(a * w))
-  #b <- sweep(b, 2, colSums(b * w))
+  a <- sweep(a, 2, colSums(a * w))
+  b <- sweep(b, 2, colSums(b * w))
   
   # compute weighted correlation
-  #t(w*a) %*% b / sqrt( colSums(w * a**2) %*% t(colSums(w * b**2)))
-  wtd.cors(x=a, y=b,  weight=w)
+  t(w*a) %*% b / sqrt( colSums(w * a**2) %*% t(colSums(w * b**2)))
+  
+  #wtd.cors(x=a, y=b, weight=w)
 }

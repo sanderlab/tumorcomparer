@@ -15,6 +15,8 @@ plotlyModeBarButtonsToRemove <- c(
 mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331.rds', package="tumorcomparer")
 #mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds', package="tumorcomparer")
 mtc_dataset <- readRDS(mtc_file)
+precomputed_comparisons <- readRDS(system.file('extdata/precomputed_comparisons.rds', package="tumorcomparer"))
+selected_geneset_comparions <- readRDS(system.file('extdata/selected_geneset_comparions.rds', package="tumorcomparer"))
 
 mtc_dataset$Cell_Line_Name <- as.character(mtc_dataset$Cell_Line_Name)
 #mtc_dataset$Cell_Line_Cancer_Type <- as.character(mtc_dataset$Cell_Line_Cancer_Type)
@@ -31,7 +33,7 @@ mtc_dataset$AVGSIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$AVGSIM_Perc
 mtc_dataset$MUTSIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$MUTSIM_Percentile_Ranks))[mtc_dataset$MUTSIM_Percentile_Ranks]
 mtc_dataset$CNASIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$CNASIM_Percentile_Ranks))[mtc_dataset$CNASIM_Percentile_Ranks]
 mtc_dataset$EXPSIM_Percentile_Ranks <- as.numeric(levels(mtc_dataset$EXPSIM_Percentile_Ranks))[mtc_dataset$EXPSIM_Percentile_Ranks]
-#FIXME: mtc_dataset$Categorization <- as.character(mtc_dataset$Categorization)
+mtc_dataset$Categorization <- as.character(mtc_dataset$Categorization)
 mtc_dataset$AVGSIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$AVGSIM_Zscores_wrt_Tumors))[mtc_dataset$AVGSIM_Zscores_wrt_Tumors]
 mtc_dataset$MUTSIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$MUTSIM_Zscores_wrt_Tumors))[mtc_dataset$MUTSIM_Zscores_wrt_Tumors]
 mtc_dataset$CNASIM_Zscores_wrt_Tumors <- as.numeric(levels(mtc_dataset$CNASIM_Zscores_wrt_Tumors))[mtc_dataset$CNASIM_Zscores_wrt_Tumors]
@@ -93,3 +95,58 @@ tcgaTypes <- c(
 )
 tcgaTypes <- tcgaTypes[tcgaTypes %in% as.character(unique(mtc_dataset$Tumor_Cancer_Type))]
 
+
+genesets <- c("Most Variable Genes", "Cell Cycle", "HIPPO", "MYC", "NOTCH", "PI3K", "RTK RAS", "TGF-Beta", "WNT")
+
+
+ballon_plot_data_to_result_table <- function(plot_data) {
+  
+  comp_table_colnames <- setNames(nm = c("mut_score", "cna_score", "exp_score", "combined_score"), 
+                                  object = c("% Rank by Mutation", "% Rank by Copy Number", "% Rank by Expression", "% Rank by Avg % Ranks"))
+  
+  plot_data <- plot_data$plot_data
+  
+  plot_data$Cell_Line_Name <- as.character(plot_data$Cell_Line_Name)
+  plot_data$variable <- as.character(plot_data$variable)
+  
+  splitted_plot_data <- split(x = plot_data[,-c(1, 2)], f = plot_data$variable)
+  
+  merged_df <- as.data.frame(Reduce(cbind, splitted_plot_data))
+  
+  merged_df <- cbind(split(x = plot_data[,-c(2,3)], f = plot_data$variable)[[1]], merged_df)
+  
+  colnames(merged_df) <- c("Cell Line", comp_table_colnames[names(splitted_plot_data)] )
+  
+  merged_df <- merged_df[,c("Cell Line", comp_table_colnames[which(comp_table_colnames %in% colnames(merged_df)[-1])])]
+  
+  return(merged_df)
+}
+
+cyj_graph_maker_from_dist_mat <- function(dist_mat, min_weight) {
+  
+  
+  dist_mat_melted <- reshape2::melt(`is.na<-`(dist_mat, upper.tri(dist_mat, diag = T)), na.rm = TRUE)
+  
+  g <- graph::ftM2graphNEL(as.matrix(dist_mat_melted[which(dist_mat_melted$value > min_weight),1:2]), edgemode = "directed")
+  
+  graph::nodeDataDefaults(g, attr = "label") <- "NA"
+  graph::nodeDataDefaults(g, attr = "color") <- "NA"
+  graph::nodeDataDefaults(g, attr = "xPos") <- 0
+  graph::nodeDataDefaults(g, attr = "yPos") <- 0
+  
+  graph::nodeData(g, attr = "label") <- graph::nodes(g)
+  graph::nodeData(g, graph::nodes(g)[grepl("TCGA", graph::nodes(g))], attr = "color") <- "#99ccff"
+  graph::nodeData(g, graph::nodes(g)[!grepl("TCGA", graph::nodes(g))], attr = "color") <- "#49d849"
+  graph::nodeData(g, attr = "xPos") <- igraph::layout_nicely(igraph::graph_from_graphnel(g))[,1]*100
+  graph::nodeData(g, attr = "yPos") <- igraph::layout_nicely(igraph::graph_from_graphnel(g))[,2]*100
+  
+  graph::edgeDataDefaults(g, attr = "edgeType") <- "pp"
+  graph::edgeDataDefaults(g, attr = "dist") <- 0
+  
+  graph::edgeData(g, from = as.character(dist_mat_melted[which(dist_mat_melted$value > min_weight),1]), 
+                  to = as.character(dist_mat_melted[which(dist_mat_melted$value > min_weight),2]), 
+                  attr = "dist") <- round(dist_mat_melted[which(dist_mat_melted$value > min_weight),3], digits = 2)
+  
+  return(cyjShiny::graphNELtoJSON(g))
+  
+}
