@@ -67,7 +67,7 @@ shinyServer(function(input, output, session) {
     }
     
     p <- plot_balloon_plot(plot_dat, 
-                           paste0(plot_title_prefix, ": ", tcgaType, ", Pathway: ", input$gene_set, ", Data: ", analysed_data_types),
+                           paste0(plot_title_prefix, ": ", tcgaType, ", Pathway: ", input$gene_set, "\nData: ", analysed_data_types),
                            xlab = ballon_plot_x_lab
                            )
 

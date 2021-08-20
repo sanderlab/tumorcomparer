@@ -300,7 +300,9 @@ test_that("run_comparison_5_datasets", {
   
   test_results <- run_comparison_config_list(config_list = config_list)
   
-  expect_equal(TRUE, TRUE)
+  saved_output <- readRDS(system.file("test_output", "comparison_5_datasets.rds", package="tumorcomparer"))
+  
+  expect_equal(test_results, saved_output)
   
 })
 
@@ -355,7 +357,53 @@ test_that("run_comparison_config_list", {
   
   #saveRDS(comparison_result, "ov_comparison_result.rds")
   
-  saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+  saved_output <- readRDS(system.file("test_output", "comparison_geneset.rds", package="tumorcomparer"))
   
-  expect_equal(TRUE, TRUE)
+  expect_equal(comparison_result, saved_output)
+})
+
+## minimum gene number test
+test_that("testing few genes error", {
+  set.seed(1)
+  
+  tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
+  tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
+  tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", package="tumorcomparer")
+  
+  cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
+  cell_line_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_cna.txt", package="tumorcomparer")
+  cell_line_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_exp.txt", package="tumorcomparer")
+  
+  known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+  known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
+  known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+  
+  cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_cna.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_exp.txt", package="tumorcomparer")
+  
+  sample_gene_list <- c("ARRDC1", "CNTN6", "CREBBP", "EP300")
+  
+  ### creating config list for comparison function 
+  
+  config_list <- list(mut=list(dataset_name = "mut", data_type_weight=1/3, default_weight = 0.01, 
+                               tumor_file = tumor_mut_file, cell_line_file = cell_line_mut_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_mut_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_mut_file),
+                      cna=list(dataset_name = "cna", data_type_weight=1/3, default_weight = 0.01, 
+                               tumor_file = tumor_cna_file, cell_line_file = cell_line_cna_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_cna_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_cna_file),
+                      exp=list(dataset_name = "exp", data_type_weight=1/3, default_weight = 0.01, 
+                               tumor_file = tumor_exp_file, cell_line_file = cell_line_exp_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_exp_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_exp_file)
+  )
+  
+
+  comparison_failed <- try(comparison_result <- run_comparison_config_list(config_list = config_list, gene_list = sample_gene_list), silent = TRUE)
+  
+  comparison_failed <- unlist(strsplit(comparison_failed[1], split = '\n', fixed = T))[2]
+  
+  expect_equal(comparison_failed, "  ERROR: At least 5 genes are required for the comparison")
 })
