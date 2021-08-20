@@ -309,7 +309,7 @@ test_that("run_comparison_5_datasets", {
 
 ### test function on 3 data types for new generilized function with specified gene_list_argument
 test_that("run_comparison_config_list", {
-  set.seed(1)
+  set.seed(123)
   
   tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
   tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
@@ -406,4 +406,100 @@ test_that("testing few genes error", {
   comparison_failed <- unlist(strsplit(comparison_failed[1], split = '\n', fixed = T))[2]
   
   expect_equal(comparison_failed, "  ERROR: At least 5 genes are required for the comparison")
+})
+
+
+## test for cyj_graph_maker_from_dist_mat function
+test_that("cyj_graph_maker_from_dist_mat", {
+  set.seed(1)
+  
+  tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
+  tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
+  tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", package="tumorcomparer")
+  
+  cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
+  cell_line_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_cna.txt", package="tumorcomparer")
+  cell_line_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_exp.txt", package="tumorcomparer")
+  
+  known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+  known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
+  known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+  
+  cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_cna.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_exp.txt", package="tumorcomparer")
+  
+  
+  ### creating config list for comparison function 
+  
+  config_list <- list(mut=list(dataset_name = "mut", data_type_weight=1/3, default_weight = 0.01, 
+                               tumor_file = tumor_mut_file, cell_line_file = cell_line_mut_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_mut_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_mut_file),
+                      cna=list(dataset_name = "cna", data_type_weight=1/3, default_weight = 0.01, 
+                               tumor_file = tumor_cna_file, cell_line_file = cell_line_cna_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_cna_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_cna_file),
+                      exp=list(dataset_name = "exp", data_type_weight=1/3, default_weight = 0.01, 
+                               tumor_file = tumor_exp_file, cell_line_file = cell_line_exp_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_exp_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_exp_file)
+  )
+  
+  comparison_result <- run_comparison_config_list(config_list = config_list)
+  
+  cyj_json_graph <- cyj_graph_maker_from_dist_mat(dist_mat = comparison_result$dist_mat, min_weight = 0.85)
+  
+  saved_output <- readRDS(system.file("test_output", "cyj_json_graph.rds", package="tumorcomparer"))
+  
+  expect_equal(cyj_json_graph, saved_output)
+})
+
+
+## test for ballon_plot_data_to_result_table function
+test_that("ballon_plot_data_to_result_table", {
+  set.seed(1)
+  
+  tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
+  tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
+  tumor_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_exp.txt", package="tumorcomparer")
+  
+  cell_line_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_mut.txt", package="tumorcomparer")
+  cell_line_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_cna.txt", package="tumorcomparer")
+  cell_line_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "cell_line_exp.txt", package="tumorcomparer")
+  
+  known_cancer_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_mut.txt", package="tumorcomparer")
+  known_cancer_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
+  known_cancer_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
+  
+  cancer_specific_gene_weights_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_mut.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_cna.txt", package="tumorcomparer")
+  cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_exp.txt", package="tumorcomparer")
+  
+  
+  ### creating config list for comparison function 
+  
+  config_list <- list(mut=list(dataset_name = "mut", data_type_weight=1/3, default_weight = 0.01, 
+                               tumor_file = tumor_mut_file, cell_line_file = cell_line_mut_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_mut_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_mut_file),
+                      cna=list(dataset_name = "cna", data_type_weight=1/3, default_weight = 0.01, 
+                               tumor_file = tumor_cna_file, cell_line_file = cell_line_cna_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_cna_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_cna_file),
+                      exp=list(dataset_name = "exp", data_type_weight=1/3, default_weight = 0.01, 
+                               tumor_file = tumor_exp_file, cell_line_file = cell_line_exp_file,
+                               known_cancer_gene_weights_file = known_cancer_gene_weights_exp_file, 
+                               cancer_specific_gene_weights_file = cancer_specific_gene_weights_exp_file)
+  )
+  
+  comparison_result <- run_comparison_config_list(config_list = config_list)
+  
+  plot_data <- list(plot_data = make_balloon_plot_data_from_comparison_result(comparison_result = comparison_result))
+  
+  result_table <- ballon_plot_data_to_result_table(plot_data = plot_data)
+  
+  saved_output <- readRDS(system.file("test_output", "baloon_plot_result_table.rds", package="tumorcomparer"))
+  
+  expect_equal(result_table, saved_output)
 })

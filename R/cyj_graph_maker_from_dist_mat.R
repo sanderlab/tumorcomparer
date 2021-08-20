@@ -9,6 +9,7 @@
 #' @author Hakobyan Siras (sirashakobyan@gmail.com)
 #'
 #' @concept tumorcomparer
+#' @importFrom cyjShiny graphNELtoJSON
 cyj_graph_maker_from_dist_mat <- function(dist_mat, min_weight) {
   
   
