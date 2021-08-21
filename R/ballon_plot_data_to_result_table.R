@@ -28,6 +28,8 @@ ballon_plot_data_to_result_table <- function(plot_data) {
   
   colnames(merged_df) <- c("Cell Line", comp_table_colnames[names(splitted_plot_data)] )
   
+  merged_df$`Cell Line` <- as.character(merged_df$`Cell Line`)
+  
   merged_df <- merged_df[,c("Cell Line", comp_table_colnames[which(comp_table_colnames %in% colnames(merged_df)[-1])])]
   
   return(merged_df)
