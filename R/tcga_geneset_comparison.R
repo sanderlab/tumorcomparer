@@ -15,6 +15,16 @@
 #' @export 
 tcga_geneset_comparison <- function(tcga_dataset, cancer_type, gene_list, remove_errored_dataset_comparisons = FALSE) {
   
+  # FROM: https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
+  # to deal with "undefined global functions or variables" errors
+  CCLP_Expression_Quantile_Normalized <- NULL
+  CCLP_GISTIC_all_data_by_genes <- NULL
+  CCLP_TCGA_Types_Combined Gene <- NULL
+  TCGA_Expression_Quantile_Normalized <- NULL
+  TCGA_GISTIC_all_data_by_genes <- NULL
+  TCGA_id_and_tumor_type <- NULL
+  mut_mat_CCLP_after_Annovar <- NULL
+  
   load(tcga_dataset)
   
   if(length(cancer_type) > 1) {
