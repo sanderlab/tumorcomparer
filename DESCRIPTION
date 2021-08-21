@@ -27,7 +27,8 @@ Imports:
     shinycustomloader,
     data.table,
     graph,
-    igraph
+    igraph,
+    cyjShiny
 DevPackage:
     cytoscape/cyjShiny
 Depends:

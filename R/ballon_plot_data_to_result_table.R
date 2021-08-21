@@ -6,8 +6,10 @@
 #'   
 #'
 #' @author Hakobyan Siras (sirashakobyan@gmail.com)
+#' @export
 #'
 #' @concept tumorcomparer
+#' @importFrom stats setNames
 ballon_plot_data_to_result_table <- function(plot_data) {
   
   comp_table_colnames <- setNames(nm = c("mut_score", "cna_score", "exp_score", "combined_score"), 
