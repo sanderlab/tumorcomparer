@@ -25,7 +25,10 @@ Imports:
     plotly,
     DT,
     shinycustomloader,
-    data.table
+    data.table,
+    graph,
+    igraph,
+    jsonlite
 DevPackage:
     cytoscape/cyjShiny
 Depends:

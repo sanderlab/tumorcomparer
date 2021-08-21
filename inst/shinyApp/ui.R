@@ -19,7 +19,7 @@ shinyUI(
                         sidebarPanel(
                           width=3,
                           selectInput("preComputedType", "Cancer Type", choices=tcgaTypes),
-                          selectInput("gene_set", "Select geneset", choices=genesets, selected = "Most Variable Genes")
+                          selectInput("gene_set", "Select Geneset", choices=genesets, selected = "Most Variable Genes")
                         ),
                         mainPanel(
                           h3("Results Plot"),
@@ -61,9 +61,9 @@ shinyUI(
                             ),
                             tabPanel(
                               "Similarity Network",
-                              div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", selectizeInput("selected_dist_mat", label = "Select distance matrix", choices = c("Combined", "Copy number", "Mutation", "Expression"), selected = "Combined")),
-                              div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", numericInput("corr_threshold", "Similarity threshold", value = 0.85, min = 0, max = 1, step = 0.01)),
-                              cyjShiny::cyjShinyOutput('corr_network_out', width = "100%", height = "800px")
+                              div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", selectizeInput("selected_dist_mat", label = "Select Distance Matrix", choices = c("Combined"), selected = "Combined")),
+                              div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", numericInput("corr_threshold", "Similarity Threshold", value = 0.85, min = 0, max = 1, step = 0.01)),
+                              cyjShinyOutput('corr_network_out', width = "100%", height = "800px")
                               # visNetworkOutput("corr_network_out",  height = "800px")
                             )
                           )
