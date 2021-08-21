@@ -1,0 +1,6 @@
+
+theme: jekyll-theme-minimal
+title: TumorComparer, updated version GSoC 2021
+collections:
+  reports:
+    output: true
