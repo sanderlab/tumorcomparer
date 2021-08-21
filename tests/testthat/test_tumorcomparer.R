@@ -309,7 +309,7 @@ test_that("run_comparison_5_datasets", {
 
 ### test function on 3 data types for new generilized function with specified gene_list_argument
 test_that("run_comparison_config_list", {
-  set.seed(123)
+  set.seed(1)
   
   tumor_mut_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_mut.txt", package="tumorcomparer")
   tumor_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "tumor_cna.txt", package="tumorcomparer")
@@ -359,8 +359,11 @@ test_that("run_comparison_config_list", {
   
   saved_output <- readRDS(system.file("test_output", "comparison_geneset.rds", package="tumorcomparer"))
   
-  # expect_equal(comparison_result, saved_output)
-  expect_equal(TRUE, TRUE)
+  print(str(comparison_result))
+  print(str(saved_output))
+  
+  expect_equal(comparison_result, saved_output)
+  # expect_equal(TRUE, TRUE)
 })
 
 ## minimum gene number test
@@ -502,7 +505,10 @@ test_that("ballon_plot_data_to_result_table", {
   
   saved_output <- readRDS(system.file("test_output", "baloon_plot_result_table.rds", package="tumorcomparer"))
   
-  # expect_equal(result_table, saved_output)
+  print(str(result_table))
+  print(str(saved_output))
   
-  expect_equal(TRUE, TRUE)
+  expect_equal(result_table, saved_output)
+  
+  # expect_equal(TRUE, TRUE)
 })
