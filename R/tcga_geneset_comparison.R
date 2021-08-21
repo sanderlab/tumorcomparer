@@ -19,7 +19,8 @@ tcga_geneset_comparison <- function(tcga_dataset, cancer_type, gene_list, remove
   # to deal with "undefined global functions or variables" errors
   CCLP_Expression_Quantile_Normalized <- NULL
   CCLP_GISTIC_all_data_by_genes <- NULL
-  CCLP_TCGA_Types_Combined Gene <- NULL
+  CCLP_TCGA_Types_Combined <- NULL 
+  Gene <- NULL
   TCGA_Expression_Quantile_Normalized <- NULL
   TCGA_GISTIC_all_data_by_genes <- NULL
   TCGA_id_and_tumor_type <- NULL
@@ -39,7 +40,7 @@ tcga_geneset_comparison <- function(tcga_dataset, cancer_type, gene_list, remove
   avail_cancer_types <- unique(most_variable_genes_precomputed_results$Tumor_Cancer_Type)
   
   if(!(cancer_type %in% avail_cancer_types)) {
-    stop("ERROR: TCGA projec with specified name is not found")
+    stop("ERROR: TCGA project with specified name is not found")
   }
   
   mut_cclp_ids <- c("Gene", intersect(colnames(mut_mat_CCLP_after_Annovar),CCLP_TCGA_Types_Combined$Model_name[which(CCLP_TCGA_Types_Combined$TCGA_Type == cancer_type)]))
