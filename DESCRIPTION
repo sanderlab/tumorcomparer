@@ -28,7 +28,7 @@ Imports:
     data.table,
     graph,
     igraph,
-    cyjShiny
+    jsonlite
 DevPackage:
     cytoscape/cyjShiny
 Depends:
