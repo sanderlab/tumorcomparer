@@ -1,4 +1,6 @@
-#' Convert R graphNEL object to cytoscape.js JSON.
+#' Convert R graphNEL object to cytoscape.js JSON. 
+#' 
+#' TODO: REMOVE THIS FILE ONCE ACCESSIBLE VIA cyjShiny (or from RCy3)
 #' 
 #' @param g a graphNEL
 #'
