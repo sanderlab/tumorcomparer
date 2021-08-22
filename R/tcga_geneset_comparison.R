@@ -25,6 +25,7 @@ tcga_geneset_comparison <- function(tcga_dataset, cancer_type, gene_list, remove
   TCGA_GISTIC_all_data_by_genes <- NULL
   TCGA_id_and_tumor_type <- NULL
   mut_mat_CCLP_after_Annovar <- NULL
+  mut_mat_TCGA_after_Annovar <- NULL
   
   load(tcga_dataset)
   
