@@ -15,6 +15,8 @@
 #' @export 
 tcga_geneset_comparison <- function(tcga_dataset, cancer_type, gene_list, remove_errored_dataset_comparisons = FALSE) {
   
+  
+  
   # FROM: https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
   # to deal with "undefined global functions or variables" errors
   CCLP_Expression_Quantile_Normalized <- NULL
@@ -26,6 +28,8 @@ tcga_geneset_comparison <- function(tcga_dataset, cancer_type, gene_list, remove
   TCGA_id_and_tumor_type <- NULL
   mut_mat_CCLP_after_Annovar <- NULL
   mut_mat_TCGA_after_Annovar <- NULL
+  
+  # globalVariables(c("..mut_tcga_ids", "..cna_tcga_ids", "..exp_tcga_ids", "..mut_cclp_ids", "..cna_cclp_ids", "..exp_cclp_ids"))
   
   load(tcga_dataset)
   
@@ -63,14 +67,14 @@ tcga_geneset_comparison <- function(tcga_dataset, cancer_type, gene_list, remove
   }
   
   ## data filtering
-  fwrite(mut_mat_TCGA_after_Annovar[Gene %in% gene_list, ..mut_tcga_ids], file = "tumor_mut_filtered.txt", sep = "\t", quote = F)
-  fwrite(TCGA_GISTIC_all_data_by_genes[Gene %in% gene_list, ..cna_tcga_ids], file = "tumor_cna_filtered.txt", sep = "\t", quote = F)
-  fwrite(TCGA_Expression_Quantile_Normalized[Gene %in% gene_list, ..exp_tcga_ids], file = "tumor_exp_filtered.txt", sep = "\t", quote = F)
+  fwrite(mut_mat_TCGA_after_Annovar[Gene %in% gene_list, mut_tcga_ids, with = FALSE], file = "tumor_mut_filtered.txt", sep = "\t", quote = F)
+  fwrite(TCGA_GISTIC_all_data_by_genes[Gene %in% gene_list, cna_tcga_ids, with = FALSE], file = "tumor_cna_filtered.txt", sep = "\t", quote = F)
+  fwrite(TCGA_Expression_Quantile_Normalized[Gene %in% gene_list, exp_tcga_ids, with = FALSE], file = "tumor_exp_filtered.txt", sep = "\t", quote = F)
   
   
-  fwrite(mut_mat_CCLP_after_Annovar[Gene %in% gene_list, ..mut_cclp_ids], file = "cell_line_mut_filtered.txt", sep = "\t", quote = F)
-  fwrite(CCLP_GISTIC_all_data_by_genes[Gene %in% gene_list, ..cna_cclp_ids], file = "cell_line_cna_filtered.txt", sep = "\t", quote = F)
-  fwrite(CCLP_Expression_Quantile_Normalized[Gene %in% gene_list, ..exp_cclp_ids], file = "cell_line_exp_filtered.txt", sep = "\t", quote = F)
+  fwrite(mut_mat_CCLP_after_Annovar[Gene %in% gene_list, mut_cclp_ids, with = FALSE], file = "cell_line_mut_filtered.txt", sep = "\t", quote = F)
+  fwrite(CCLP_GISTIC_all_data_by_genes[Gene %in% gene_list, cna_cclp_ids, with = FALSE], file = "cell_line_cna_filtered.txt", sep = "\t", quote = F)
+  fwrite(CCLP_Expression_Quantile_Normalized[Gene %in% gene_list, exp_cclp_ids, with = FALSE], file = "cell_line_exp_filtered.txt", sep = "\t", quote = F)
   
   
   config_list <- list(mut=list(dataset_name = "mut", data_type_weight=1/3, default_weight = 0.01, 
