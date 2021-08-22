@@ -81,18 +81,19 @@ cancer_specific_gene_weights_cna_file <- system.file("extdata", "READ_data_for_r
 cancer_specific_gene_weights_exp_file <- system.file("extdata", "READ_data_for_running_TC", 
   "Genes_and_weights_exp.txt", package="tumorcomparer")
   
-config_list <- list(mut=list(dataset_name = "mut", data_type_weight=1/3, default_weight = 0.01, 
-                             tumor_file = tumor_mut_file, cell_line_file = cell_line_mut_file,
-                             known_cancer_gene_weights_file = known_cancer_gene_weights_mut_file, 
-                             cancer_specific_gene_weights_file = cancer_specific_gene_weights_mut_file),
-                    cna=list(dataset_name = "cna", data_type_weight=1/3, default_weight = 0.01, 
-                             tumor_file = tumor_cna_file, cell_line_file = cell_line_cna_file,
-                             known_cancer_gene_weights_file = known_cancer_gene_weights_cna_file, 
-                             cancer_specific_gene_weights_file = cancer_specific_gene_weights_cna_file),
-                    exp=list(dataset_name = "exp", data_type_weight=1/3, default_weight = 0.01, 
-                             tumor_file = tumor_exp_file, cell_line_file = cell_line_exp_file,
-                             known_cancer_gene_weights_file = known_cancer_gene_weights_exp_file, 
-                             cancer_specific_gene_weights_file = cancer_specific_gene_weights_exp_file)
+config_list <- list(
+  mut=list(dataset_name = "mut", data_type_weight=1/3, default_weight = 0.01, 
+    tumor_file = tumor_mut_file, cell_line_file = cell_line_mut_file,
+    known_cancer_gene_weights_file = known_cancer_gene_weights_mut_file, 
+    cancer_specific_gene_weights_file = cancer_specific_gene_weights_mut_file),
+  cna=list(dataset_name = "cna", data_type_weight=1/3, default_weight = 0.01, 
+    tumor_file = tumor_cna_file, cell_line_file = cell_line_cna_file,
+    known_cancer_gene_weights_file = known_cancer_gene_weights_cna_file, 
+    cancer_specific_gene_weights_file = cancer_specific_gene_weights_cna_file),
+  exp=list(dataset_name = "exp", data_type_weight=1/3, default_weight = 0.01, 
+    tumor_file = tumor_exp_file, cell_line_file = cell_line_exp_file,
+    known_cancer_gene_weights_file = known_cancer_gene_weights_exp_file, 
+    cancer_specific_gene_weights_file = cancer_specific_gene_weights_exp_file)
 )
 
 comparison_result <- run_comparison_config_list(config_list = config_list)

@@ -8,7 +8,7 @@
 A list of vectors
 }
 \source{
-\url{https://doi.org/10.1016/j.cell.2018.03.035}
+\doi{10.1016/j.cell.2018.03.035}
 }
 \usage{
 tcga_pancan_pathway_genes
