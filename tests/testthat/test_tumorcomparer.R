@@ -234,11 +234,11 @@ test_that("run_comparison_two_datasets", {
     cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
     cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file)
   
-  #saveRDS(comparison_result, "ov_comparison_result.rds")
+  #saveRDS(comparison_result, "comparison_2_datasets.rds")
   
-  #saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+  saved_output <- readRDS(system.file("test_output", "comparison_2_datasets.rds", package="tumorcomparer"))
   
-  expect_equal(TRUE, TRUE)
+  expect_equal(comparison_result, saved_output)
 })
 
 ### test function on 5 data types for new generilized function

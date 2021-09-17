@@ -17,9 +17,14 @@
 - [Feedback](#feedback)
 
 # About TumorComparer
-Built by Rileen Sinha, Augustin Luna, Nikolaus Schultz, and Chris Sander using R Shiny.
+## Team 
+Built by Rileen Sinha, Augustin Luna, Nikolaus Schultz, and Chris Sander. 
 
-Cell lines derived from human tumors are often used in pre-clinical cancer research, but some cell lines may be too different from tumors to be good models. Genomic and molecular profiles can be used to guide the choice of cell lines suitable for particular investigations, but not all features may be equally relevant. We present TumorComparer, a computational method for comparing cellular profiles  with the flexibility to place a higher weight on functional features of interest. In a first pan-cancer application, we compare 600 cell lines and 8323 tumors of 26 cancer types, using weights to emphasize recurrent genomic alterations or expression dysregulation. We characterize the similarity of cell lines and tumors within and across cancers, identifying outlier and mislabelled cell lines as well as good matches, and identify cancers with an unusually high number of good or poor representative cell lines. The weighted similarity method in the future may be useful to assess genomic-molecular patient profiles for stratification in clinical trials and personalized choice of therapy.
+# Abstract
+Cancer is a genetic disease, typically marked by widespread somatic alterations (e.g., mutations, copy-number alterations, and gene expression changes). However, not all changes are functionally important—few genes can promote oncogenesis (also termed “cancer drivers”), whereas other altered genes have little effect on the phenotype (termed “passengers”). Furthermore, many research questions focus on particular genes and their activity (e.g., specific signaling pathways, drug targets, etc.). This motivates the need for a flexible method of comparing tumors with potential cell line models by using researcher-selected properties. We present TumorComparer, a computational comparison method based on weighted features to allow expert- and knowledge-driven comparison of tumors and experimental models, such as cell lines or organoids. We apply TumorComparer to the comparison of ∼8,000 tumors and ∼600 cell lines across 24 cancer types as an initial application to provide a general, pan-cancer resource based on knowledge of oncogenic alterations gained from The Cancer Genome Atlas program (TCGA). TumorComparer is a generally applicable method suitable for pre-clinical cancer research and personalized medicine applications where sets of samples need to be assessed for similarity.
+
+## Publication
+https://www.cell.com/cell-reports-methods/fulltext/S2667-2375(21)00084-9
 
 # Analysis
 
