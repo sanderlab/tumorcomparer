@@ -5,6 +5,7 @@
 #' @param cell_line_file see run_comparison
 #' @param known_cancer_gene_weights_file see run_comparison
 #' @param cancer_specific_gene_weights_file see run_comparison
+#' @param gene_list a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)
 #' 
 #' @details The composite matrix is a single matrix where the columns are samples 
 #'   (i.e. tumors AND cell line IDs) and the rows are an rbind() of mutations 
@@ -57,12 +58,24 @@
 generate_composite_mat_and_gene_weights <- function(default_weight, 
                                                     tumor_file, 
                                                     cell_line_file, 
-                                                    known_cancer_gene_weights_file, 
-                                                    cancer_specific_gene_weights_file) {
+                                                    known_cancer_gene_weights_file = NULL, 
+                                                    cancer_specific_gene_weights_file = NULL,
+                                                    gene_list = NULL) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
   tumor <- read.table(tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
   cell_line <- read.table(cell_line_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
+  
+  if(!is.null(gene_list)) {
+    filtered_gene_list <- gene_list[which(gene_list %in% intersect(rownames(tumor), rownames(cell_line)))]
+    
+    if(length(filtered_gene_list) < length(gene_list)) {
+      cat(paste0("INFO: From provided gene_list only ", length(filtered_gene_list), " genes are available in the dataset, removing ", length(gene_list) - length(filtered_gene_list), " genes from the list", "\n"))
+    }
+    
+    tumor <- tumor[filtered_gene_list,]
+    cell_line <- cell_line[filtered_gene_list,]
+  }
   
   tumor_ids <- colnames(tumor)
   cell_line_ids <- colnames(cell_line) 
@@ -70,6 +83,10 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
   # Genes in both tumors and cell
   genes_in_both <- intersect(rownames(tumor), rownames(cell_line))
 
+  if (length(genes_in_both) < 5) {
+    stop("ERROR: At least 5 genes are required for the comparison")  
+  }
+  
   composite_mat <- cbind(cell_line[genes_in_both,], tumor[genes_in_both,])
 
   # Check that tumor and cell_line data are either both discrete or continuous 
@@ -111,31 +128,39 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
  
   # GET WEIGHTS ----
   # Read in user-provided weights for known cancer genes
-  known_cancer_genes_and_weights_all <-
-    read.table(
-      known_cancer_gene_weights_file,
-      sep = "\t",
-      header = TRUE,
-      row.names = 1,
-      stringsAsFactors = FALSE
-    )
-  rownames(known_cancer_genes_and_weights_all) <- trimws(rownames(known_cancer_genes_and_weights_all)) # trim whitespace, if any
-
-  gene_weights[intersect(names(gene_weights), rownames(known_cancer_genes_and_weights_all))] <- known_cancer_genes_and_weights_all[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all)),1]
-
+  if(!is.null(known_cancer_gene_weights_file)) {
+    known_cancer_genes_and_weights_all <-
+      read.table(
+        known_cancer_gene_weights_file,
+        sep = "\t",
+        header = TRUE,
+        row.names = 1,
+        stringsAsFactors = FALSE
+      )
+    rownames(known_cancer_genes_and_weights_all) <- trimws(rownames(known_cancer_genes_and_weights_all)) # trim whitespace, if any
+    
+    gene_weights[intersect(names(gene_weights), rownames(known_cancer_genes_and_weights_all))] <- known_cancer_genes_and_weights_all[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all)),1]
+  } else {
+    known_cancer_genes_and_weights_all <- list()
+  }
 
   # Read in user-provided weights for cancer-specific genes
-  genes_and_weights_all <-
-    read.table(
-      cancer_specific_gene_weights_file,
-      sep = "\t",
-      header = TRUE,
-      row.names = 1,
-      stringsAsFactors = FALSE
-    )
-  rownames(genes_and_weights_all) <- trimws(rownames(genes_and_weights_all)) # trim whitespace, if any
+  if(!is.null(cancer_specific_gene_weights_file)) {
+    genes_and_weights_all <-
+      read.table(
+        cancer_specific_gene_weights_file,
+        sep = "\t",
+        header = TRUE,
+        row.names = 1,
+        stringsAsFactors = FALSE
+      )
+    rownames(genes_and_weights_all) <- trimws(rownames(genes_and_weights_all)) # trim whitespace, if any
     
-  gene_weights[intersect(names(gene_weights), rownames(genes_and_weights_all))] <- genes_and_weights_all[intersect(names(gene_weights),rownames(genes_and_weights_all)),1]
+    gene_weights[intersect(names(gene_weights), rownames(genes_and_weights_all))] <- genes_and_weights_all[intersect(names(gene_weights),rownames(genes_and_weights_all)),1]
+  } else {
+    genes_and_weights_all <- list()
+  }
+  
   
   gene_weights <- gene_weights / max(gene_weights + 1e-6) # map to 0-1
   
@@ -148,6 +173,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
                                        as.matrix(composite_mat),
                                        gene_weights)
     cor_weighted[which(is.na(cor_weighted))] <- 0
+    cor_weighted[which(is.nan(cor_weighted))] <- 0
     cor_weighted <- cor_weighted - 1e-6
     # Excluding low-levels CNAs
     #cor_weighted_high_level_only <- calc_weighted_corr(as.matrix(composite_mat_high_level_only),as.matrix(composite_mat_high_level_only),gene_weights)
@@ -167,7 +193,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     dist_mat <- weighted_distance_excluding_zero_zero_matches
     rownames(dist_mat) <- colnames(composite_mat)
     colnames(dist_mat) <- colnames(composite_mat)
-    isomdsfit <-  isoMDS(dist_mat, k=2)  
+    isomdsfit <- isoMDS(dist_mat, k=2)  
   } else {
     stop("ERROR: Unknown distance_similarity_measure: ", distance_similarity_measure)
   }
@@ -185,4 +211,3 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
   
   return(results)
 }
-

@@ -4,6 +4,7 @@ library(ggplot2)
 library(plotly)
 library(shinycustomloader)
 library(markdown)
+library(cyjShiny)
 
 library(DT)
 library(tumorcomparer)
@@ -20,11 +21,12 @@ shinyUI(
                       sidebarLayout(
                         sidebarPanel(
                           width=3,
-                          selectInput("preComputedType", "Cancer Type", choices=tcgaTypes)
+                          selectInput("preComputedType", "Cancer Type", choices=tcgaTypes),
+                          selectInput("gene_set", "Select Geneset", choices=genesets, selected = "Most Variable Genes")
                         ),
                         mainPanel(
                           h3("Results Plot"),
-                          div(align="left", plotlyOutput("preComputedPlot", height=600, width=600)), 
+                          div(align="left", plotlyOutput("preComputedPlot", height=600, width=800)), 
                           h3("Results Table"),
                           downloadLink("preComputedDownload", "Download Table as Tab-Delimited File"),
                           DT::dataTableOutput("preComputedTable")
@@ -59,6 +61,13 @@ shinyUI(
                               p("Tumors: Small blue points; Cell Lines: Labeled points; See documentation for more details"),
                               textOutput("userStress"), 
                               withLoader(plotlyOutput("userMdsPlot", height=600, width=600), type="html", loader="loader3")
+                            ),
+                            tabPanel(
+                              "Similarity Network",
+                              div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", selectizeInput("selected_dist_mat", label = "Select Distance Matrix", choices = c("Combined"), selected = "Combined")),
+                              div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", numericInput("corr_threshold", "Similarity Threshold", value = 0.85, min = 0, max = 1, step = 0.01)),
+                              cyjShinyOutput('corr_network_out', width = "100%", height = "800px")
+                              # visNetworkOutput("corr_network_out",  height = "800px")
                             )
                           )
                         )

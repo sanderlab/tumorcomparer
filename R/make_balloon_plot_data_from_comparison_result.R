@@ -72,7 +72,7 @@ make_balloon_plot_data_from_comparison_result <- function(comparison_result, mel
     df <- transform(df, Cell_Line_Name=reorder(df$Cell_Line_Name, df$value))     
   } else {
     df <- heatmap_mat
-    df <- df[order(-df$combined_score), ] # FIXME combined_score 
+    df <- df[order(-df$combined_score), ]
   }
   
   return(df)
