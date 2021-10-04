@@ -35,14 +35,13 @@ library(data.table)
 data("tcga_pancan_pathway_genes")
 ```
 
-# Cancer Type Specific Example
+# Cancer Type Specific with User Gene List Example
 ```{r}
 gene_list <- tcga_pancan_pathway_genes[['MYC']]
 
 # Data extracted for archive: https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1
-if(Sys.getenv("TC_DATASET_DIR") != "") {
-  tc_dataset_dir <- "~/default/workspaceNotSynced/tumorcomparer_data/TC_Data_PanCancer_March2021/"
-} else {
+tc_dataset_dir <- "~/default/workspaceNotSynced/tumorcomparer_data/TC_Data_PanCancer_March2021/"
+if(!dir.exists(tc_dataset_dir)) {
   # Download and extract dataset
   tmp_file <- tempfile(fileext="tar.gz")
   tmp_dir <- tempdir()
