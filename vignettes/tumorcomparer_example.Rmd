@@ -29,7 +29,9 @@ opts_chunk$set(fig.align="center", fig.width=6, fig.height=6, dpi=96)
 
 # Overview
 
-TODO replace with manuscript abstract
+Patient-derived cell lines are often used in pre-clinical cancer research, but some cell lines are too different from tumors to be good models. Comparison of genomic and expression profiles can guide the choice of pre-clinical models, but typically not all features are equally relevant. We present TumorComparer, a computational method for comparing cellular profiles with higher weights on functional features of interest. In this pan-cancer application, we compare ∼600 cell lines and ∼8,000 tumor samples of 24 cancer types, using weights to emphasize known oncogenic alterations. We characterize the similarity of cell lines and tumors within and across cancers by using multiple datum types and rank cell lines by their inferred quality as representative models. Beyond the assessment of cell lines, the weighted similarity approach is adaptable to patient stratification in clinical trials and personalized medicine.
+
+Additional details: 10.1016/j.crmeth.2021.100039
 
 # Getting started 
 ```{r loadLibraries, message=FALSE, warning=FALSE}

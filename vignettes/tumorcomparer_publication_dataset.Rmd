@@ -1,0 +1,141 @@
+---
+title: "tumorcomparer Parse Publication Dataset"
+author: "Rileen Sinha and Augustin Luna"
+date: '`r Sys.Date()`'
+output:
+  html_notebook: default
+  rmarkdown::html_vignette:
+    self_contained: yes
+    toc: yes
+  BiocStyle::html_document:
+    toc: yes
+    toc_float: no
+  pdf_document:
+    toc: yes
+  html_document:
+    depth: 3
+    number_sections: yes
+    toc: yes
+vignette: >
+  %\VignetteIndexEntry{tumorcomparer  Parse Publication Dataset}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+require("knitr")
+opts_chunk$set(fig.align="center", fig.width=6, fig.height=6, dpi=96)
+```
+
+# Overview
+```{r loadLibraries, message=FALSE, warning=FALSE}
+library(tumorcomparer)
+library(data.table)
+
+data("tcga_pancan_pathway_genes")
+```
+
+# Cancer Type Specific Example
+```{r}
+gene_list <- tcga_pancan_pathway_genes[['MYC']]
+
+# Data extracted for archive: https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1
+if(Sys.getenv("TC_DATASET_DIR") != "") {
+  tc_dataset_dir <- "~/default/workspaceNotSynced/tumorcomparer_data/TC_Data_PanCancer_March2021/"
+} else {
+  # Download and extract dataset
+  tmp_file <- tempfile(fileext="tar.gz")
+  tmp_dir <- tempdir()
+  download.file("https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1", tmp_file)
+  untar(tmp_file, exdir=tmp_dir)
+  tc_dataset_dir <- tmp_dir
+}
+
+cancer_type <- "BLCA"
+remove_tmp_files <- FALSE
+remove_errored_dataset_comparisons <- FALSE
+
+comparison_result <- tc_geneset_comparison(
+  gene_list=gene_list, 
+  cancer_type=cancer_type, 
+  tc_dataset_dir=tc_dataset_dir, 
+  remove_errored_dataset_comparisons=remove_errored_dataset_comparisons, 
+  remove_tmp_files=remove_tmp_files,
+  verbose=TRUE)
+```
+
+## Plot MDS
+```{r}
+p <- plot_mds(comparison_result,
+              trim_cell_line_names=FALSE,
+              tumor_color="blue",
+              cell_line_color="orange",
+              tumor_shape=20,
+              cell_line_shape=17)
+p
+```
+
+## Balloon Plot
+```{r}
+plot_data <- make_balloon_plot_data_from_comparison_result(comparison_result)
+p <- plot_balloon_plot(plot_data, "Mean Similarity to Tumors")
+p
+```
+
+# Selected ID Example
+```{r}
+CCLP_Expression_Quantile_Normalized <- fread(input=file.path(tc_dataset_dir, "CCLP_Expression_Quantile_Normalized.txt"))
+CCLP_GISTIC_all_data_by_genes <- fread(input=file.path(tc_dataset_dir, "CCLP_GISTIC_all_data_by_genes.txt"))
+mut_mat_CCLP_after_Annovar <- fread(input=file.path(tc_dataset_dir, "CCLP_mutation_matrix.txt"))
+tmp_cclp_ids <- read.table(file.path(tc_dataset_dir, "CCLP_ID_and_Cancer_Type.txt"), sep="\t", header=TRUE, stringsAsFactors=FALSE)
+tmp_cclp_ids <- tmp_cclp_ids$Model_name[tmp_cclp_ids$TCGA_Type == "SKCM"]
+all_cclp_ids <- Reduce(intersect, list(tmp_cclp_ids,
+                                       colnames(mut_mat_CCLP_after_Annovar), 
+                                       colnames(CCLP_GISTIC_all_data_by_genes), 
+                                       colnames(CCLP_Expression_Quantile_Normalized)))
+
+TCGA_Expression_Quantile_Normalized <- fread(input=file.path(tc_dataset_dir, "TCGA_Expression_Quantile_Normalized.txt"))
+TCGA_GISTIC_all_data_by_genes <- fread(input=file.path(tc_dataset_dir, "TCGA_GISTIC_all_data_by_genes.txt"))
+mut_mat_TCGA_after_Annovar <- fread(input=file.path(tc_dataset_dir, "TCGA_mutation_matrix.txt"))
+tmp_tcga_ids <- read.table(file.path(tc_dataset_dir, "TCGA_ID_and_Cancer_Type.txt"), sep="\t", header=TRUE, stringsAsFactors=FALSE)
+tmp_tcga_ids <- tmp_tcga_ids$TCGA_ID[tmp_tcga_ids$Cancer_Type == "COAD"]
+all_tcga_ids <- Reduce(intersect, list(tmp_tcga_ids,
+                                       colnames(mut_mat_TCGA_after_Annovar), 
+                                       colnames(TCGA_GISTIC_all_data_by_genes), 
+                                       colnames(TCGA_Expression_Quantile_Normalized)))
+
+cclp_ids <- all_cclp_ids[12:21]
+tcga_ids <- all_tcga_ids[2:101]
+
+comparison_result <- tc_geneset_comparison(
+  gene_list=gene_list, 
+  cclp_ids=cclp_ids, 
+  tcga_ids=tcga_ids, 
+  tc_dataset_dir=tc_dataset_dir,
+  remove_errored_dataset_comparisons=remove_errored_dataset_comparisons, 
+  remove_tmp_files=remove_tmp_files,
+  verbose=TRUE)
+```
+
+## Plot MDS
+```{r}
+p <- plot_mds(comparison_result,
+              trim_cell_line_names=FALSE,
+              tumor_color="blue",
+              cell_line_color="orange",
+              tumor_shape=20,
+              cell_line_shape=17)
+p
+```
+
+## Balloon Plot
+```{r}
+plot_data <- make_balloon_plot_data_from_comparison_result(comparison_result)
+p <- plot_balloon_plot(plot_data, "Mean Similarity to Tumors")
+p
+```
+
+# Session Information
+```{r}
+sessionInfo()
+```

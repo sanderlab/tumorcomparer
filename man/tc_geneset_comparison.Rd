@@ -6,7 +6,9 @@
 \usage{
 tc_geneset_comparison(
   gene_list,
-  cancer_type,
+  cancer_type = NULL,
+  tcga_ids = NULL,
+  cclp_ids = NULL,
   tc_dataset = NULL,
   tc_dataset_dir = NULL,
   remove_errored_dataset_comparisons = FALSE,
@@ -18,6 +20,10 @@ tc_geneset_comparison(
 \item{gene_list}{a vector of HGNC gene symbols which will be used to perform the comparison}
 
 \item{cancer_type}{TCGA cancer name (GBM, LGG, etc.)}
+
+\item{tcga_ids}{a vector of TCGA IDs for analysis; cannot be combined with cancer_type}
+
+\item{cclp_ids}{a vector of CCLP IDs for analysis; cannot be combined with cancer_type}
 
 \item{tc_dataset}{path to RData for TumorComparer dataset from publication; see details}
 
