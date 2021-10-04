@@ -6,6 +6,7 @@
 #' @param known_cancer_gene_weights_file see run_comparison
 #' @param cancer_specific_gene_weights_file see run_comparison
 #' @param gene_list a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)
+#' @param verbose show debugging information
 #' 
 #' @details The composite matrix is a single matrix where the columns are samples 
 #'   (i.e. tumors AND cell line IDs) and the rows are an rbind() of mutations 
@@ -60,7 +61,8 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
                                                     cell_line_file, 
                                                     known_cancer_gene_weights_file = NULL, 
                                                     cancer_specific_gene_weights_file = NULL,
-                                                    gene_list = NULL) {
+                                                    gene_list = NULL,
+                                                    verbose=FALSE) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
   tumor <- read.table(tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
@@ -121,10 +123,9 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     names(freq_weights) <- rownames(composite_mat)
   }
  
-  #Intitalize weights with default weights
+  # Initialize weights with default weights
   gene_weights <- rep(default_weight, nrow(composite_mat))
   names(gene_weights) <- rownames(composite_mat)
-
  
   # GET WEIGHTS ----
   # Read in user-provided weights for known cancer genes
@@ -161,7 +162,6 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     genes_and_weights_all <- list()
   }
   
-  
   gene_weights <- gene_weights / max(gene_weights + 1e-6) # map to 0-1
   
   #cor_unweighted <- cor(composite_mat)  
@@ -181,19 +181,29 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     # Convert to distance, and call multidimensional scaling via isoMDS
     dist_mat <- 1 - as.matrix(cor_weighted)
     isomdsfit <- isoMDS(dist_mat, k=2)
+    if(verbose) { cat("INFO: Distance measure used: ", distance_similarity_measure, "\n") }
   } else if(distance_similarity_measure == "generalized_jaccard") {
     # Calculate weighted distance based on Jaccard's coefficient
-    weighted_distance_excluding_zero_zero_matches <- apply(composite_mat, 2, function(x_i,weights=gene_weights) 
-      sapply(1:ncol(composite_mat), function(j) pair_dist(x_i, composite_mat[,j], gene_weights))) # repeatedly apply function for weighted distance between a pair of coulmns/vectors
+    weighted_distance_excluding_zero_zero_matches <- apply(composite_mat, 2, function(x_i, weights=gene_weights) {
+      sapply(1:ncol(composite_mat), function(j) pair_dist(x_i, composite_mat[,j], gene_weights)) # repeatedly apply function for weighted distance between a pair of coulmns/vectors
+    })
+    
+    # NOTE: This is here because debugging via RStudio could not access this part of the code
+    #saveRDS(weighted_distance_excluding_zero_zero_matches, file="weight_dist.rds")
+    #saveRDS(gene_weights, file="weights.rds")
+    #saveRDS(composite_mat, file="comp_mat.rds")
     
     # Change missing or small values
     weighted_distance_excluding_zero_zero_matches[which(is.na(weighted_distance_excluding_zero_zero_matches))] <- 0
     weighted_distance_excluding_zero_zero_matches <- weighted_distance_excluding_zero_zero_matches + 1e-6
+    
     # Call multidimensional scaling via isoMDS
     dist_mat <- weighted_distance_excluding_zero_zero_matches
     rownames(dist_mat) <- colnames(composite_mat)
     colnames(dist_mat) <- colnames(composite_mat)
     isomdsfit <- isoMDS(dist_mat, k=2)  
+    
+    if(verbose) { cat("INFO: Distance measure used: ", distance_similarity_measure, "\n") }
   } else {
     stop("ERROR: Unknown distance_similarity_measure: ", distance_similarity_measure)
   }

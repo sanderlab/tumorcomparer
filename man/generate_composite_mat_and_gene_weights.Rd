@@ -10,7 +10,8 @@ generate_composite_mat_and_gene_weights(
   cell_line_file,
   known_cancer_gene_weights_file = NULL,
   cancer_specific_gene_weights_file = NULL,
-  gene_list = NULL
+  gene_list = NULL,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ generate_composite_mat_and_gene_weights(
 \item{cancer_specific_gene_weights_file}{see run_comparison}
 
 \item{gene_list}{a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)}
+
+\item{verbose}{show debugging information}
 }
 \value{
 a list with multiple items. NOTE: The values of the dist and isomdsfit will

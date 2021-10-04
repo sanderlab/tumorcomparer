@@ -247,6 +247,7 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
     }
   }
   
+  # This is the set of samples that have all the data types provided
   combined_samples <- Reduce(intersect, combined_samples_list)
   combined_tumor_ids <- Reduce(intersect, combined_tumor_ids_list)
   combined_cell_line_ids <- Reduce(intersect, combined_cell_line_ids_list)

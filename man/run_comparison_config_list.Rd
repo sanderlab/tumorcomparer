@@ -7,7 +7,8 @@
 run_comparison_config_list(
   config_list,
   gene_list = NULL,
-  remove_errored_dataset_comparisons = FALSE
+  remove_errored_dataset_comparisons = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -34,7 +35,11 @@ and the second column specifies the weights (Default: NULL)
 
 \item{gene_list}{a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)}
 
-\item{remove_errored_dataset_comparisons}{will skip the data types which can't be compared for technical reasons(no enaugh genes to compare, or data contain only 0 values) when set to TRUE (Default: FALSE)}
+\item{remove_errored_dataset_comparisons}{will skip the data types which
+cannot be compared for technical reasons(no enaugh genes to compare, or
+data contain only 0 values) when set to TRUE (Default: FALSE)}
+
+\item{verbose}{show debugging information}
 }
 \value{
 a list with multiple items. Each

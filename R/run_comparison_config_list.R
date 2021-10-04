@@ -18,8 +18,11 @@
 #'  *  cancer_specific_gene_weights_file: path to a file with weights for cancer-specific
 #'   set of recurrently altered genes. A tab-delimited file - the first column has the gene names,
 #'   and the second column specifies the weights (Default: NULL)
-#' @param remove_errored_dataset_comparisons will skip the data types which can't be compared for technical reasons(no enaugh genes to compare, or data contain only 0 values) when set to TRUE (Default: FALSE)
 #' @param gene_list a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)
+#' @param remove_errored_dataset_comparisons will skip the data types which 
+#'   cannot be compared for technical reasons(no enaugh genes to compare, or 
+#'   data contain only 0 values) when set to TRUE (Default: FALSE)
+#' @param verbose show debugging information
 #' 
 #' @return a list with multiple items. Each 
 #' * dist_mat: a matrix of combined pairwise distances for all data types
@@ -78,12 +81,14 @@
 #' comparison_result <- run_comparison_config_list(config_list = config_list)
 #' 
 #' @export 
-run_comparison_config_list <- function(config_list, gene_list = NULL, remove_errored_dataset_comparisons=FALSE) {
+run_comparison_config_list <- function(config_list, 
+                                       gene_list=NULL, 
+                                       remove_errored_dataset_comparisons=FALSE, 
+                                       verbose=FALSE) {
   
-  #### checking input data ####
-  
+  ## Check input data
   if(length(config_list) < 1) {
-    stop("ERROR: At least one data type: mut, cna, exp must be provided for available_data_types")  
+    stop("ERROR: At least one data type must be provided")  
   }
   
   
@@ -91,16 +96,18 @@ run_comparison_config_list <- function(config_list, gene_list = NULL, remove_err
     stop("ERROR: Sum of *_data_type_weights must sum up to 1")  
   }
   
-  #### running comparison ####
-  
+  ## Run comparison
   calculated_datasets_comparison <- lapply(config_list, function(x) {
+    if(verbose) {
+      cat("INFO: Data Type: ", x$dataset_name, "\n")      
+    }
+
+    tumor_dat <- read.table(x$tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
+    cell_line_dat <- read.table(x$cell_line_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
     
-    tumor <- read.table(x$tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
-    
-    if(sum(colSums(tumor)) == 0) {
-      
+    if(sum(colSums(tumor_dat)) == 0 && sum(colSums(cell_line_dat)) == 0) {
       if(remove_errored_dataset_comparisons) {
-        cat(paste0("INFO: skipping ", x$dataset_name, " data, zero values only", "\n"))
+        cat(paste0("INFO: Skipping ", x$dataset_name, " data; only zero values found", "\n"))
         
         NULL
         
@@ -109,34 +116,29 @@ run_comparison_config_list <- function(config_list, gene_list = NULL, remove_err
       }
       
     } else {
-      
       generate_composite_mat_and_gene_weights(
         default_weight = x$default_weight,
         tumor_file = x$tumor_file,
         cell_line_file = x$cell_line_file,
         known_cancer_gene_weights_file = x$known_cancer_gene_weights_file,
         cancer_specific_gene_weights_file = x$cancer_specific_gene_weights_file,
-        gene_list
+        gene_list=gene_list,
+        verbose=verbose
         )
-      
     }
-    
   })
   
-  ## filtering skipped datasets
+  ## filter skipped datasets
   calculated_datasets_comparison <- calculated_datasets_comparison[which(!sapply(calculated_datasets_comparison, is.null))]
   
   config_list <- config_list[names(calculated_datasets_comparison)]
   
-  #### harmonization of the datasets ####
-  
+  ## harmonize datasets
   combined_samples <- Reduce(intersect, lapply(calculated_datasets_comparison, function(x) {colnames(x$dist_mat)}))
   combined_tumor_ids <- Reduce(intersect, lapply(calculated_datasets_comparison, function(x) {x$tumor_ids}))
   combined_cell_line_ids <- Reduce(intersect, lapply(calculated_datasets_comparison, function(x) {x$cell_line_ids}))
   
-  
   # CALCULATE COMBINED_DIST AND ISOMDS ----
-  
   combined_dist <- Reduce('+',
          lapply(config_list, function(x) {
            x$data_type_weight * calculated_datasets_comparison[[x$dataset_name]]$dist_mat[combined_samples, combined_samples]
@@ -171,5 +173,4 @@ run_comparison_config_list <- function(config_list, gene_list = NULL, remove_err
   )
   
   return(results)
-  
 }

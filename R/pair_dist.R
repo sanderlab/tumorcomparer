@@ -20,5 +20,7 @@
 #' @concept tumorcomparer
 #' @export
 pair_dist <- function(x, y, weights) {
-  (1e-6 + sum(weights[which(x != y)]))/(1e-6 + sum(weights[which(((x!=0) | (y!=0)))])) # sum of weights of alterations shared by both samples, divided by sum of weights of alterations present in at least one of the samples
+  # sum of weights of alterations shared by both samples, divided by sum of
+  # weights of alterations present in at least one of the samples
+  (1e-6 + sum(weights[which(x != y)]))/(1e-6 + sum(weights[which(((x!=0) | (y!=0)))]))
 }
