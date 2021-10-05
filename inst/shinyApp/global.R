@@ -4,6 +4,15 @@ options(shiny.maxRequestSize = 24*1024^2) # Line exists in server, ui, global
 cat("MAX UPLOAD SIZE: ", getOption("shiny.maxRequestSize"), "\n")
 
 # GENERAL ---- 
+## cBioPortal 
+cbioportal_mapping_file <- system.file(file.path("cbioportal_ccle", "ccle_cclp_cbioportal_mapping.txt"), package="tumorcomparer")
+base_url_cbioportal <- '<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&caseId="'
+cbioportal_mapping <- read.table(cbioportal_mapping_file, sep="\t", header=TRUE, stringsAsFactors=FALSE)
+cbioportal_mapping$CCLE_cBioPortal[!is.na(cbioportal_mapping$CCLE_cBioPortal)] <- 
+  paste0(base_url_cbioportal, cbioportal_mapping$CCLE_cBioPortal[!is.na(cbioportal_mapping$CCLE_cBioPortal)], '">Link</a>')
+colnames(cbioportal_mapping) <- c("Model_name", "TCGA_Type", "Info")
+
+## Plotting
 plot_title_prefix <-  "Mean Similarity to Tumors" 
 
 plotlyModeBarButtonsToRemove <- c(

@@ -88,15 +88,19 @@ shinyServer(function(input, output, session) {
       df <- df[order(-df$Rank_of_Average_Of_Percentile_Ranks), ]
       colnames(df) <- names(mtc_selected_columns)
     } else {
-      
       df <- ballon_plot_data_to_result_table(df)
-
     }
     
-    # assigning output table to reactive variable
+    # Assigning output table to reactive variable
     preComputed_reactiveVal$data <- df
     
-    DT::datatable(df, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
+    #cat("COLS: ", head(colnames(df)), "\n")
+    df_tmp <- merge(df, cbioportal_mapping, by.x='Cell Line', by.y="Model_name", all.x=TRUE)
+    
+    selected_cols <- c("Cell Line", "% Rank by Mutation", "% Rank by Copy Number", "% Rank by Expression", "% Rank by Avg % Ranks", "Info")
+    df_tmp <- df_tmp[order(-df_tmp[, "% Rank by Avg % Ranks"]), selected_cols]
+
+    DT::datatable(df_tmp, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
   })
   
   output$preComputedDownload <- downloadHandler(
