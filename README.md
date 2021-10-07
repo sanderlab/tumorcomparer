@@ -1,10 +1,19 @@
-# Abstract
+# Introduction
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sanderlab/tumorcomparer/workflows/R-CMD-check/badge.svg)](https://github.com/sanderlab/tumorcomparer/actions)
 <!-- badges: end -->
 
 Cell lines derived from human tumors are often used in pre-clinical cancer research, but some cell lines may be too different from tumors to be good models. Genomic and molecular profiles can be used to guide the choice of cell lines suitable for particular investigations, but not all features may be equally relevant. We present TumorComparer, a computational method for comparing cellular profiles with the flexibility to place a higher weight on functional features of interest. In a first pan-cancer application, we compare 594 cell lines and 7975 tumors of 24 cancer types, using weights to emphasize recurrent genomic alterations or expression dysregulation. We characterize the similarity of cell lines and tumors within and across cancers, identifying outlier and mislabelled cell lines as well as good matches, and identify cancers with an unusually high number of good or poor representative cell lines. The weighted similarity method in the future may be useful to assess genomic-molecular patient profiles for stratification in clinical trials and personalized choice of therapy.
+
+# Citation
+If you use this work in your research, please cite: https://doi.org/10.1016/j.crmeth.2021.100039
+
+>Rileen Sinha, Augustin Luna, Nikolaus Schultz, Chris Sander. A pan-cancer survey of cell line tumor similarity by feature-weighted molecular profiles. Cell Reports Methods. 2021. DOI: 10.1016/j.crmeth.2021.100039.
+
+# Report Issues 
+
+Issues can be reported here: https://github.com/sanderlab/tumorcomparer/issues/new
 
 # Installation
 
