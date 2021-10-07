@@ -27,8 +27,11 @@ require("knitr")
 opts_chunk$set(fig.align="center", fig.width=6, fig.height=6, dpi=96)
 ```
 
-# Overview
+# Setup
 ```{r loadLibraries, message=FALSE, warning=FALSE}
+# Set timeout for download to 10 minutes 
+options(timeout=600)
+
 library(tumorcomparer)
 library(data.table)
 
