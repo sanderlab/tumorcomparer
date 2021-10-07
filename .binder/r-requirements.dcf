@@ -20,4 +20,7 @@ depends:
     markdown
     DT
     shinycustomloader
-    bitbucket::cbio_mskcc/tumorcomparer@cclp
+    data.table
+    graph
+    igraph
+    jsonlite
