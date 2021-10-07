@@ -35,22 +35,25 @@ library(data.table)
 data("tcga_pancan_pathway_genes")
 ```
 
-# Cancer Type Specific with User Gene List Example
+# Parameters 
 ```{r}
-gene_list <- tcga_pancan_pathway_genes[['MYC']]
-
 # Data extracted for archive: https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1
 tc_dataset_dir <- "~/default/workspaceNotSynced/tumorcomparer_data/TC_Data_PanCancer_March2021/"
 if(!dir.exists(tc_dataset_dir)) {
   # Download and extract dataset
-  tmp_file <- tempfile(fileext="tar.gz")
+  tmp_file <- tempfile(fileext=".tar.gz")
   tmp_dir <- tempdir()
   download.file("https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1", tmp_file)
   untar(tmp_file, exdir=tmp_dir)
-  tc_dataset_dir <- tmp_dir
+  tc_dataset_dir <- file.path(tmp_dir, "TC_Data_PanCancer_March2021")
 }
+```
 
-cancer_type <- "BLCA"
+# Cancer Type Specific with User Gene List Example
+```{r}
+gene_list <- tcga_pancan_pathway_genes[['TGF-Beta']]
+
+cancer_type <- "LIHC"
 remove_tmp_files <- FALSE
 remove_errored_dataset_comparisons <- FALSE
 

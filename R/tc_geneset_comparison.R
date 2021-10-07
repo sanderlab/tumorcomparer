@@ -94,7 +94,7 @@ tc_geneset_comparison <- function(gene_list,
                                                         "mtc_results_20200331_no_factors.rds", 
                                                         package = "tumorcomparer")
     most_variable_genes_precomputed_results <- readRDS(most_variable_genes_precomputed_path)
-    avail_cancer_types <- unique(most_variable_genes_precomputed_results$Tumor_Cancer_Type)
+    avail_cancer_types <- as.character(unique(most_variable_genes_precomputed_results$Tumor_Cancer_Type))
     
     if(!(cancer_type %in% avail_cancer_types)) {
       stop("ERROR: TCGA cancer type with specified name is not found")
@@ -155,6 +155,13 @@ tc_geneset_comparison <- function(gene_list,
                                                 verbose=verbose) 
   
   if(remove_tmp_files) {
+    rm(TCGA_Expression_Quantile_Normalized,
+       TCGA_GISTIC_all_data_by_genes,
+       CCLP_Expression_Quantile_Normalized, 
+       CCLP_GISTIC_all_data_by_genes, 
+       mut_mat_CCLP_after_Annovar, 
+       mut_mat_TCGA_after_Annovar)
+    
     file.remove(c("tumor_mut_filtered.txt", "tumor_cna_filtered.txt", 
                   "tumor_exp_filtered.txt", "cell_line_mut_filtered.txt", 
                   "cell_line_cna_filtered.txt", "cell_line_exp_filtered.txt"))    

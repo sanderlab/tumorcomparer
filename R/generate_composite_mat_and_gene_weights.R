@@ -6,6 +6,7 @@
 #' @param known_cancer_gene_weights_file see run_comparison
 #' @param cancer_specific_gene_weights_file see run_comparison
 #' @param gene_list a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)
+#' @param run_mds a boolean, whether to run multidimensional scaling (MDS) on dataset (Default: TRUE)
 #' @param verbose show debugging information
 #' 
 #' @details The composite matrix is a single matrix where the columns are samples 
@@ -62,6 +63,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
                                                     known_cancer_gene_weights_file = NULL, 
                                                     cancer_specific_gene_weights_file = NULL,
                                                     gene_list = NULL,
+                                                    run_mds=TRUE,
                                                     verbose=FALSE) {
 
   # GET INTERSECTING GENES BETWEEN TUMORS AND CELL LINES ----
@@ -180,7 +182,14 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     
     # Convert to distance, and call multidimensional scaling via isoMDS
     dist_mat <- 1 - as.matrix(cor_weighted)
-    isomdsfit <- isoMDS(dist_mat, k=2)
+    
+    # Run multi-dimensional scaling
+    if(run_mds) {
+      isomdsfit <-  isoMDS(dist_mat, k=2)      
+    } else {
+      isomdsfit <- NA
+    }    
+
     if(verbose) { cat("INFO: Distance measure used: ", distance_similarity_measure, "\n") }
   } else if(distance_similarity_measure == "generalized_jaccard") {
     # Calculate weighted distance based on Jaccard's coefficient
@@ -201,7 +210,13 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     dist_mat <- weighted_distance_excluding_zero_zero_matches
     rownames(dist_mat) <- colnames(composite_mat)
     colnames(dist_mat) <- colnames(composite_mat)
-    isomdsfit <- isoMDS(dist_mat, k=2)  
+    
+    # Run multi-dimensional scaling
+    if(run_mds) {
+      isomdsfit <-  isoMDS(dist_mat, k=2)      
+    } else {
+      isomdsfit <- NA
+    }    
     
     if(verbose) { cat("INFO: Distance measure used: ", distance_similarity_measure, "\n") }
   } else {

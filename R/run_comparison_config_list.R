@@ -22,6 +22,7 @@
 #' @param remove_errored_dataset_comparisons will skip the data types which 
 #'   cannot be compared for technical reasons(no enaugh genes to compare, or 
 #'   data contain only 0 values) when set to TRUE (Default: FALSE)
+#' @param run_mds a boolean, whether to run multidimensional scaling (MDS) on dataset (Default: TRUE)
 #' @param verbose show debugging information
 #' 
 #' @return a list with multiple items. Each 
@@ -84,6 +85,7 @@
 run_comparison_config_list <- function(config_list, 
                                        gene_list=NULL, 
                                        remove_errored_dataset_comparisons=FALSE, 
+                                       run_mds=TRUE,
                                        verbose=FALSE) {
   
   ## Check input data
@@ -146,7 +148,11 @@ run_comparison_config_list <- function(config_list,
          )
   
   # RUN ISOMDS ----
-  isomdsfit <-  isoMDS(combined_dist, k=2)
+  if(run_mds) {
+    isomdsfit <-  isoMDS(combined_dist, k=2)      
+  } else {
+    isomdsfit <- NA
+  }
   
   # CHECK ----
   if(length(combined_cell_line_ids) == 0) {

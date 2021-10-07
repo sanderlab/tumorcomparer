@@ -10,6 +10,9 @@
 #'   scaling, and then compute the mean similarity to tumor for each cell line. The overall score is
 #'   just a simiple mean of the data type specific scores right now - could use different weights
 #'   
+#' @examples 
+#' TODO add example; run analysis save comparison and use here 
+#'   
 #' @return a ggplot object
 #' 
 #' @importFrom ggplot2 ggplot geom_point geom_text ggtitle xlab ylab element_blank element_line

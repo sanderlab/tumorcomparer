@@ -30,6 +30,7 @@
 #'   and the second column specifies the weights.
 #' @param cancer_specific_gene_weights_cna_file for copy number; see cancer_specific_gene_weights_mut_file 
 #' @param cancer_specific_gene_weights_exp_file for expression; see cancer_specific_gene_weights_mut_file 
+#' @param run_mds a boolean, whether to run multidimensional scaling (MDS) on dataset (Default: TRUE)
 #' 
 #' @return a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on 
 #' parameter whether the values for a data type are discrete or continuous
@@ -115,7 +116,8 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
                            known_cancer_gene_weights_exp_file, 
                            cancer_specific_gene_weights_mut_file, 
                            cancer_specific_gene_weights_cna_file, 
-                           cancer_specific_gene_weights_exp_file
+                           cancer_specific_gene_weights_exp_file,
+                           run_mds=TRUE
                            ) {
   
   # CHECK available_data_types and distance_similarity_measures ----
@@ -143,7 +145,8 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         tumor_file=tumor_mut_file,
         cell_line_file=cell_line_mut_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
-        cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file)
+        cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file,
+        run_mds=run_mds)
       
       isomdsfit_by_data_type[["mut"]] <- mut$isomdsfit
       dist_mat_by_data_type[["mut"]] <- mut$dist_mat
@@ -159,7 +162,8 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         tumor_file=tumor_cna_file,
         cell_line_file=cell_line_cna_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_cna_file,
-        cancer_specific_gene_weights_file=cancer_specific_gene_weights_cna_file)
+        cancer_specific_gene_weights_file=cancer_specific_gene_weights_cna_file,
+        run_mds=run_mds)
       
       isomdsfit_by_data_type[["cna"]] <- cna$isomdsfit
       dist_mat_by_data_type[["cna"]] <- cna$dist_mat
@@ -175,7 +179,8 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
         tumor_file=tumor_exp_file,
         cell_line_file=cell_line_exp_file,
         known_cancer_gene_weights_file=known_cancer_gene_weights_exp_file,
-        cancer_specific_gene_weights_file=cancer_specific_gene_weights_exp_file)
+        cancer_specific_gene_weights_file=cancer_specific_gene_weights_exp_file,
+        run_mds=run_mds)
       
       isomdsfit_by_data_type[["exp"]] <- exp$isomdsfit
       dist_mat_by_data_type[["exp"]] <- exp$dist_mat
@@ -283,8 +288,12 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
   }
 
   # RUN ISOMDS ----
-  isomdsfit <-  isoMDS(combined_dist, k=2)  
-  
+  if(run_mds) {
+    isomdsfit <-  isoMDS(combined_dist, k=2)      
+  } else {
+    isomdsfit <- NA
+  }
+
   # CHECK ----
   if(length(combined_cell_line_ids) == 0) {
     stop("ERROR: Result validation error. Please check that tumor and cell line input files are set correctly.")  
@@ -300,12 +309,12 @@ run_comparison <- function(available_data_types=c("mut", "cna", "exp"),
     dist_mat_by_data_type = dist_mat_by_data_type,
     composite_mat_by_data_type = composite_mat_by_data_type,
     gene_weights_by_data_type = gene_weights_by_data_type,
-    isomdsfit = isomdsfit,
-    isomdsfit_by_data_type = isomdsfit_by_data_type,
     cell_line_ids = combined_cell_line_ids,
     tumor_ids = combined_tumor_ids,
     known_cancer_gene_weights_by_data_type = known_cancer_gene_weights_by_data_type,
-    cancer_specific_gene_weights_by_data_type = cancer_specific_gene_weights_by_data_type
+    cancer_specific_gene_weights_by_data_type = cancer_specific_gene_weights_by_data_type,
+    isomdsfit = isomdsfit,
+    isomdsfit_by_data_type = isomdsfit_by_data_type
   )
   
   return(results)

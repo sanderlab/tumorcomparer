@@ -22,12 +22,12 @@ shinyUI(
                         sidebarPanel(
                           width=3,
                           selectInput("preComputedType", "Cancer Type", choices=tcgaTypes),
-                          selectInput("gene_set", "Select Geneset", choices=genesets, selected = "Most Variable Genes")
+                          selectInput("gene_set", "Select Gene Set", choices=genesets, selected = "Most Variable Genes")
                         ),
                         mainPanel(
-                          h3("Results Plot"),
+                          h3("Similarity Plot"),
                           div(align="left", plotlyOutput("preComputedPlot", height=600, width=800)), 
-                          h3("Results Table"),
+                          h3("Similarity Table"),
                           downloadLink("preComputedDownload", "Download Table as Tab-Delimited File"),
                           DT::dataTableOutput("preComputedTable")
                         )
@@ -48,11 +48,11 @@ shinyUI(
                           tabsetPanel(
                             tabPanel(
                               "Ranked Results",
-                              h3("Results Plot"),
+                              h3("Similarity Plot"),
                               div(align="left", 
                                   withLoader(plotlyOutput("userPlot", height=600, width=600), type="html", loader="loader3")
                               ), 
-                              h3("Results Table"),
+                              h3("Similarity Table"),
                               downloadLink("userDownload", "Download Table as Tab-Delimited File"),
                               withLoader(DT::dataTableOutput("userTable"), type="html", loader="loader3")
                             ),
@@ -61,14 +61,14 @@ shinyUI(
                               p("Tumors: Small blue points; Cell Lines: Labeled points; See documentation for more details"),
                               textOutput("userStress"), 
                               withLoader(plotlyOutput("userMdsPlot", height=600, width=600), type="html", loader="loader3")
-                            ),
-                            tabPanel(
-                              "Similarity Network",
-                              div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", selectizeInput("selected_dist_mat", label = "Select Distance Matrix", choices = c("Combined"), selected = "Combined")),
-                              div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", numericInput("corr_threshold", "Similarity Threshold", value = 0.85, min = 0, max = 1, step = 0.01)),
-                              cyjShinyOutput('corr_network_out', width = "100%", height = "800px")
-                              # visNetworkOutput("corr_network_out",  height = "800px")
                             )
+                            #tabPanel(
+                            #  "Similarity Network",
+                            #  div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", selectizeInput("selected_dist_mat", label = "Select Distance Matrix", choices = c("Combined"), selected = "Combined")),
+                            #  div(style="display: inline-block;vertical-align:top; width: 200px; margin-top: 1px;", numericInput("corr_threshold", "Similarity Threshold", value = 0.85, min = 0, max = 1, step = 0.01)),
+                            #  cyjShinyOutput('corr_network_out', width = "100%", height = "800px")
+                            #  # visNetworkOutput("corr_network_out",  height = "800px")
+                            #)
                           )
                         )
                       )

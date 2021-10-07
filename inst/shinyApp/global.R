@@ -6,11 +6,16 @@ cat("MAX UPLOAD SIZE: ", getOption("shiny.maxRequestSize"), "\n")
 # GENERAL ---- 
 ## cBioPortal 
 cbioportal_mapping_file <- system.file(file.path("cbioportal_ccle", "ccle_cclp_cbioportal_mapping.txt"), package="tumorcomparer")
-base_url_cbioportal <- '<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&caseId="'
+base_url_cbioportal <- 'https://www.cbioportal.org/patient?studyId=ccle_broad_2019&caseId='
 cbioportal_mapping <- read.table(cbioportal_mapping_file, sep="\t", header=TRUE, stringsAsFactors=FALSE)
+
+cbioportal_mapping$CCLE_cBioPortal_Text[!is.na(cbioportal_mapping$CCLE_cBioPortal)] <- 
+  paste0(base_url_cbioportal, cbioportal_mapping$CCLE_cBioPortal[!is.na(cbioportal_mapping$CCLE_cBioPortal)])
+
 cbioportal_mapping$CCLE_cBioPortal[!is.na(cbioportal_mapping$CCLE_cBioPortal)] <- 
-  paste0(base_url_cbioportal, cbioportal_mapping$CCLE_cBioPortal[!is.na(cbioportal_mapping$CCLE_cBioPortal)], '">Link</a>')
-colnames(cbioportal_mapping) <- c("Model_name", "TCGA_Type", "Info")
+  paste0('<a target="_blank" href="', base_url_cbioportal, cbioportal_mapping$CCLE_cBioPortal[!is.na(cbioportal_mapping$CCLE_cBioPortal)], '">Link</a>')
+
+colnames(cbioportal_mapping) <- c("Model_name", "TCGA_Type", "cBioPortal", "cBioPortal_Link")
 
 ## Plotting
 plot_title_prefix <-  "Mean Similarity to Tumors" 
@@ -24,8 +29,8 @@ plotlyModeBarButtonsToRemove <- c(
 mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331.rds', package="tumorcomparer")
 #mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds', package="tumorcomparer")
 mtc_dataset <- readRDS(mtc_file)
-precomputed_comparisons <- readRDS(system.file('extdata/precomputed_comparisons.rds', package="tumorcomparer"))
-selected_geneset_comparions <- readRDS(system.file('extdata/selected_geneset_comparions.rds', package="tumorcomparer"))
+precomputed_comparisons <- readRDS(system.file('extdata/precomputed_geneset_comparisons/precomputed_comparisons.rds', package="tumorcomparer"))
+selected_geneset_comparisons <- readRDS(system.file('extdata/precomputed_geneset_comparisons/selected_geneset_comparisons.rds', package="tumorcomparer"))
 
 mtc_dataset$Cell_Line_Name <- as.character(mtc_dataset$Cell_Line_Name)
 #mtc_dataset$Cell_Line_Cancer_Type <- as.character(mtc_dataset$Cell_Line_Cancer_Type)

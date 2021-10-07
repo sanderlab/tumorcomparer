@@ -22,7 +22,7 @@ shinyServer(function(input, output, session) {
   ### genset selector updater
   observeEvent(input$preComputedType, {
     if(!is.null(input$preComputedType)) {
-      updateSelectInput(session, "gene_set", choices = selected_geneset_comparions[[input$preComputedType]])
+      updateSelectInput(session, "gene_set", choices = selected_geneset_comparisons[[input$preComputedType]])
     }
   })
   
@@ -91,16 +91,18 @@ shinyServer(function(input, output, session) {
       df <- ballon_plot_data_to_result_table(df)
     }
     
-    # Assigning output table to reactive variable
-    preComputed_reactiveVal$data <- df
-    
     #cat("COLS: ", head(colnames(df)), "\n")
-    df_tmp <- merge(df, cbioportal_mapping, by.x='Cell Line', by.y="Model_name", all.x=TRUE)
+    dfTmp <- merge(df, cbioportal_mapping, by.x='Cell Line', by.y="Model_name", all.x=TRUE)
     
-    selected_cols <- c("Cell Line", "% Rank by Mutation", "% Rank by Copy Number", "% Rank by Expression", "% Rank by Avg % Ranks", "Info")
-    df_tmp <- df_tmp[order(-df_tmp[, "% Rank by Avg % Ranks"]), selected_cols]
-
-    DT::datatable(df_tmp, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
+    selectedColsSite <- c("Cell Line", "% Rank by Mutation", "% Rank by Copy Number", "% Rank by Expression", "% Rank by Avg % Ranks", "cBioPortal")
+    dfSite <- dfTmp[order(-dfTmp[, "% Rank by Avg % Ranks"]), selectedColsSite]
+    
+    # Assigning output table to reactive variable
+    selectedColsFile <- c("Cell Line", "% Rank by Mutation", "% Rank by Copy Number", "% Rank by Expression", "% Rank by Avg % Ranks", "cBioPortal_Link")
+    reactiveValData <- dfTmp[order(-dfTmp[, "% Rank by Avg % Ranks"]), selectedColsFile]
+    preComputed_reactiveVal$data <- reactiveValData
+    
+    DT::datatable(dfSite, rownames=FALSE, style="bootstrap", selection="none", escape=FALSE)
   })
   
   output$preComputedDownload <- downloadHandler(

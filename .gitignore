@@ -17,3 +17,4 @@ doc
 Meta
 ignore_vignette_notes.R
 *.diff
+cache_tc
