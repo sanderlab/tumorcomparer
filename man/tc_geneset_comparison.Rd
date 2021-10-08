@@ -13,6 +13,7 @@ tc_geneset_comparison(
   tc_dataset_dir = NULL,
   remove_errored_dataset_comparisons = FALSE,
   remove_tmp_files = TRUE,
+  run_mds = TRUE,
   verbose = FALSE
 )
 }
@@ -32,6 +33,8 @@ tc_geneset_comparison(
 \item{remove_errored_dataset_comparisons}{will skip the data types which can't be compared for technical reasons(no enaugh genes to compare, or data contain only 0 values) when set to TRUE (Default: FALSE)}
 
 \item{remove_tmp_files}{remove temporary files (Default: TRUE)}
+
+\item{run_mds}{a boolean, whether to run multidimensional scaling (MDS) on dataset (Default: TRUE)}
 
 \item{verbose}{show debugging information}
 }

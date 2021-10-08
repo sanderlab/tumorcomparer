@@ -25,3 +25,7 @@ we convert the distance matrices for all tumor-cell line comparisons to 0-1 usin
 scaling, and then compute the mean similarity to tumor for each cell line. The overall score is
 just a simiple mean of the data type specific scores right now - could use different weights
 }
+\examples{
+TODO add example; run analysis save comparison and use here 
+  
+}

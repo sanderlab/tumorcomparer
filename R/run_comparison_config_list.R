@@ -20,7 +20,7 @@
 #'   and the second column specifies the weights (Default: NULL)
 #' @param gene_list a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)
 #' @param remove_errored_dataset_comparisons will skip the data types which 
-#'   cannot be compared for technical reasons(no enaugh genes to compare, or 
+#'   cannot be compared for technical reasons (not enough genes to compare or 
 #'   data contain only 0 values) when set to TRUE (Default: FALSE)
 #' @param run_mds a boolean, whether to run multidimensional scaling (MDS) on dataset (Default: TRUE)
 #' @param verbose show debugging information
@@ -93,7 +93,6 @@ run_comparison_config_list <- function(config_list,
     stop("ERROR: At least one data type must be provided")  
   }
   
-  
   if(sum(sapply(config_list, function(x) {x$data_type_weight})) != 1) {
     stop("ERROR: Sum of *_data_type_weights must sum up to 1")  
   }
@@ -107,14 +106,20 @@ run_comparison_config_list <- function(config_list,
     tumor_dat <- read.table(x$tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
     cell_line_dat <- read.table(x$cell_line_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
     
-    if(sum(colSums(tumor_dat)) == 0 && sum(colSums(cell_line_dat)) == 0) {
+    if(verbose) {
+      cat("INFO: Tumor Row Count: ", nrow(tumor_dat), " Cell Line Row Count: ", nrow(cell_line_dat), "\n")
+    }
+    
+    # TODO: Add test this
+    if((sum(colSums(tumor_dat)) == 0 && sum(colSums(cell_line_dat)) == 0) || 
+       (nrow(tumor_dat) <  5 || nrow(cell_line_dat) < 5)) {
       if(remove_errored_dataset_comparisons) {
-        cat(paste0("INFO: Skipping ", x$dataset_name, " data; only zero values found", "\n"))
-        
-        NULL
+        cat(paste0("INFO: Skipping ", x$dataset_name, " data. Only zero values found OR data for fewer than 5 genes found.", "\n"))
+      
+        return(NULL)
         
       } else {
-        stop(paste0("ERROR: ", x$dataset_name, " data does not have any values higher than zero"))  
+        stop(paste0("ERROR: ", x$dataset_name, " has issue. Only zero values found OR data for fewer than 5 genes found."))  
       }
       
     } else {

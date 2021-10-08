@@ -23,7 +23,8 @@ run_comparison(
   known_cancer_gene_weights_exp_file,
   cancer_specific_gene_weights_mut_file,
   cancer_specific_gene_weights_cna_file,
-  cancer_specific_gene_weights_exp_file
+  cancer_specific_gene_weights_exp_file,
+  run_mds = TRUE
 )
 }
 \arguments{
@@ -69,6 +70,8 @@ and the second column specifies the weights.}
 \item{cancer_specific_gene_weights_cna_file}{for copy number; see cancer_specific_gene_weights_mut_file}
 
 \item{cancer_specific_gene_weights_exp_file}{for expression; see cancer_specific_gene_weights_mut_file}
+
+\item{run_mds}{a boolean, whether to run multidimensional scaling (MDS) on dataset (Default: TRUE)}
 }
 \value{
 a list with multiple items. NOTE: The values of the dist and isomdsfit will depend on

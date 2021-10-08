@@ -11,6 +11,7 @@ generate_composite_mat_and_gene_weights(
   known_cancer_gene_weights_file = NULL,
   cancer_specific_gene_weights_file = NULL,
   gene_list = NULL,
+  run_mds = TRUE,
   verbose = FALSE
 )
 }
@@ -26,6 +27,8 @@ generate_composite_mat_and_gene_weights(
 \item{cancer_specific_gene_weights_file}{see run_comparison}
 
 \item{gene_list}{a vector of HGNC gene symbols to run comparison only for the specified genes (Default: NULL)}
+
+\item{run_mds}{a boolean, whether to run multidimensional scaling (MDS) on dataset (Default: TRUE)}
 
 \item{verbose}{show debugging information}
 }

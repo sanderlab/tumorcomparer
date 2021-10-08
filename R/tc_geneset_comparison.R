@@ -8,6 +8,7 @@
 #' @param tc_dataset_dir path to directory with TumorComparer dataset as text files (recommended instead of tc_dataset); see details
 #' @param remove_errored_dataset_comparisons will skip the data types which can't be compared for technical reasons(no enaugh genes to compare, or data contain only 0 values) when set to TRUE (Default: FALSE)
 #' @param remove_tmp_files remove temporary files (Default: TRUE)
+#' @param run_mds a boolean, whether to run multidimensional scaling (MDS) on dataset (Default: TRUE)
 #' @param verbose show debugging information
 #' 
 #' @return returns comparison list for specified genes. The output list is described in run_comparison_config_list function documentation
@@ -35,6 +36,7 @@ tc_geneset_comparison <- function(gene_list,
                                   tc_dataset_dir=NULL,
                                   remove_errored_dataset_comparisons=FALSE, 
                                   remove_tmp_files=TRUE,
+                                  run_mds=TRUE,
                                   verbose=FALSE) {
   
   # FROM: https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
@@ -152,6 +154,7 @@ tc_geneset_comparison <- function(gene_list,
   
   comparison_list <- run_comparison_config_list(config_list=config_list, 
                                                 remove_errored_dataset_comparisons=remove_errored_dataset_comparisons, 
+                                                run_mds=run_mds,
                                                 verbose=verbose) 
   
   if(remove_tmp_files) {

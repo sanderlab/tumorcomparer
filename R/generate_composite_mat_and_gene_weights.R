@@ -70,6 +70,10 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
   tumor <- read.table(tumor_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
   cell_line <- read.table(cell_line_file, sep = "\t", header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors = FALSE)
   
+  if(verbose) {
+    cat("INFO: Tumor Row Count: ", nrow(tumor), " Cell Line Row Count: ", nrow(cell_line), "\n")
+  }
+  
   if(!is.null(gene_list)) {
     filtered_gene_list <- gene_list[which(gene_list %in% intersect(rownames(tumor), rownames(cell_line)))]
     
@@ -85,13 +89,14 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
   cell_line_ids <- colnames(cell_line) 
   
   # Genes in both tumors and cell
-  genes_in_both <- intersect(rownames(tumor), rownames(cell_line))
+  genes_intersection <- intersect(rownames(tumor), rownames(cell_line))
+  genes_setdiff <- setdiff(c(rownames(tumor), rownames(cell_line)), genes_intersection)
 
-  if (length(genes_in_both) < 5) {
-    stop("ERROR: At least 5 genes are required for the comparison")  
+  if (length(genes_intersection) < 5) {
+    stop("ERROR: At least 5 genes are required. Genes Included: ", paste(genes_intersection, collapse=", "), " Genes Excluded: ", paste(genes_setdiff, collapse=", "))
   }
   
-  composite_mat <- cbind(cell_line[genes_in_both,], tumor[genes_in_both,])
+  composite_mat <- cbind(cell_line[genes_intersection,], tumor[genes_intersection,])
 
   # Check that tumor and cell_line data are either both discrete or continuous 
   # and set the distance_similarity_measure to run
@@ -142,7 +147,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
       )
     rownames(known_cancer_genes_and_weights_all) <- trimws(rownames(known_cancer_genes_and_weights_all)) # trim whitespace, if any
     
-    gene_weights[intersect(names(gene_weights), rownames(known_cancer_genes_and_weights_all))] <- known_cancer_genes_and_weights_all[intersect(names(gene_weights),rownames(known_cancer_genes_and_weights_all)),1]
+    gene_weights[intersect(names(gene_weights), rownames(known_cancer_genes_and_weights_all))] <- known_cancer_genes_and_weights_all[intersect(names(gene_weights), rownames(known_cancer_genes_and_weights_all)),1]
   } else {
     known_cancer_genes_and_weights_all <- list()
   }
@@ -159,7 +164,7 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
       )
     rownames(genes_and_weights_all) <- trimws(rownames(genes_and_weights_all)) # trim whitespace, if any
     
-    gene_weights[intersect(names(gene_weights), rownames(genes_and_weights_all))] <- genes_and_weights_all[intersect(names(gene_weights),rownames(genes_and_weights_all)),1]
+    gene_weights[intersect(names(gene_weights), rownames(genes_and_weights_all))] <- genes_and_weights_all[intersect(names(gene_weights), rownames(genes_and_weights_all)),1]
   } else {
     genes_and_weights_all <- list()
   }
@@ -231,7 +236,9 @@ generate_composite_mat_and_gene_weights <- function(default_weight,
     cancer_specific_gene_weights = genes_and_weights_all,
     known_cancer_gene_weights = known_cancer_genes_and_weights_all,
     cell_line_ids = cell_line_ids,
-    tumor_ids = tumor_ids
+    tumor_ids = tumor_ids,
+    genes_included=genes_intersection,
+    genes_excluded=genes_setdiff
   )
   
   return(results)
