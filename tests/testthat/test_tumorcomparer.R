@@ -539,3 +539,81 @@ test_that("ballon_plot_data_to_result_table", {
   
   # expect_equal(TRUE, TRUE)
 })
+
+test_that("check_zenodo_usage", {
+  ga <- Sys.getenv("GITHUB_ACTIONS")
+  skip_if_not(ga == "", message="Running on GitHub Actions")
+  
+  cat("MSG: check_zenodo_usage\n")
+  
+  ## ----loadLibraries, message=FALSE, warning=FALSE-------------------------------------------------------------------
+  # Set timeout for download to 10 minutes 
+  options(timeout=600)
+  
+  data("tcga_pancan_pathway_genes")
+  
+  ## ------------------------------------------------------------------------------------------------------------------
+  # Data extracted for archive: https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1
+  tc_dataset_dir <- "~/default/workspaceNotSynced/tumorcomparer_data/TC_Data_PanCancer_March2021/"
+  if(!dir.exists(tc_dataset_dir)) {
+    # Download and extract dataset
+    tmp_file <- tempfile(fileext=".tar.gz")
+    tmp_dir <- tempdir()
+    download.file("https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1", tmp_file)
+    untar(tmp_file, exdir=tmp_dir)
+    tc_dataset_dir <- file.path(tmp_dir, "TC_Data_PanCancer_March2021")
+  }
+  
+  
+  ## ------------------------------------------------------------------------------------------------------------------
+  gene_list <- tcga_pancan_pathway_genes[['TGF-Beta']]
+  
+  cancer_type <- "LIHC"
+  remove_tmp_files <- FALSE
+  remove_errored_dataset_comparisons <- FALSE
+  
+  comparison_result <- tc_geneset_comparison(
+    gene_list=gene_list, 
+    cancer_type=cancer_type, 
+    tc_dataset_dir=tc_dataset_dir, 
+    remove_errored_dataset_comparisons=remove_errored_dataset_comparisons, 
+    remove_tmp_files=remove_tmp_files,
+    verbose=TRUE)
+  
+  expect_true(class(comparison_result) == "list")
+  
+  ## ------------------------------------------------------------------------------------------------------------------
+  CCLP_Expression_Quantile_Normalized <- data.table::fread(input=file.path(tc_dataset_dir, "CCLP_Expression_Quantile_Normalized.txt"))
+  CCLP_GISTIC_all_data_by_genes <- data.table::fread(input=file.path(tc_dataset_dir, "CCLP_GISTIC_all_data_by_genes.txt"))
+  mut_mat_CCLP_after_Annovar <- data.table::fread(input=file.path(tc_dataset_dir, "CCLP_mutation_matrix.txt"))
+  tmp_cclp_ids <- read.table(file.path(tc_dataset_dir, "CCLP_ID_and_Cancer_Type.txt"), sep="\t", header=TRUE, stringsAsFactors=FALSE)
+  tmp_cclp_ids <- tmp_cclp_ids$Model_name[tmp_cclp_ids$TCGA_Type == "SKCM"]
+  all_cclp_ids <- Reduce(intersect, list(tmp_cclp_ids,
+                                         colnames(mut_mat_CCLP_after_Annovar), 
+                                         colnames(CCLP_GISTIC_all_data_by_genes), 
+                                         colnames(CCLP_Expression_Quantile_Normalized)))
+  
+  TCGA_Expression_Quantile_Normalized <- data.table::fread(input=file.path(tc_dataset_dir, "TCGA_Expression_Quantile_Normalized.txt"))
+  TCGA_GISTIC_all_data_by_genes <- data.table::fread(input=file.path(tc_dataset_dir, "TCGA_GISTIC_all_data_by_genes.txt"))
+  mut_mat_TCGA_after_Annovar <- data.table::fread(input=file.path(tc_dataset_dir, "TCGA_mutation_matrix.txt"))
+  tmp_tcga_ids <- read.table(file.path(tc_dataset_dir, "TCGA_ID_and_Cancer_Type.txt"), sep="\t", header=TRUE, stringsAsFactors=FALSE)
+  tmp_tcga_ids <- tmp_tcga_ids$TCGA_ID[tmp_tcga_ids$Cancer_Type == "COAD"]
+  all_tcga_ids <- Reduce(intersect, list(tmp_tcga_ids,
+                                         colnames(mut_mat_TCGA_after_Annovar), 
+                                         colnames(TCGA_GISTIC_all_data_by_genes), 
+                                         colnames(TCGA_Expression_Quantile_Normalized)))
+  
+  cclp_ids <- all_cclp_ids[12:21]
+  tcga_ids <- all_tcga_ids[2:101]
+  
+  comparison_result <- tc_geneset_comparison(
+    gene_list=gene_list, 
+    cclp_ids=cclp_ids, 
+    tcga_ids=tcga_ids, 
+    tc_dataset_dir=tc_dataset_dir,
+    remove_errored_dataset_comparisons=remove_errored_dataset_comparisons, 
+    remove_tmp_files=remove_tmp_files,
+    verbose=TRUE)
+  
+  expect_true(class(comparison_result) == "list")
+})
