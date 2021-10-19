@@ -29,8 +29,8 @@ plotlyModeBarButtonsToRemove <- c(
 mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331.rds', package="tumorcomparer")
 #mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds', package="tumorcomparer")
 mtc_dataset <- readRDS(mtc_file)
-precomputed_comparisons <- readRDS(system.file('extdata/precomputed_geneset_comparisons/precomputed_comparisons.rds', package="tumorcomparer"))
-selected_geneset_comparisons <- readRDS(system.file('extdata/precomputed_geneset_comparisons/selected_geneset_comparisons.rds', package="tumorcomparer"))
+precomputed_comparisons <- readRDS(system.file('extdata/precomputed_geneset_comparisons/precomputed_comparisons_20211019.rds', package="tumorcomparer"))
+selected_geneset_comparisons <- readRDS(system.file('extdata/precomputed_geneset_comparisons/selected_geneset_comparisons_20211019.rds', package="tumorcomparer"))
 
 mtc_dataset$Cell_Line_Name <- as.character(mtc_dataset$Cell_Line_Name)
 #mtc_dataset$Cell_Line_Cancer_Type <- as.character(mtc_dataset$Cell_Line_Cancer_Type)

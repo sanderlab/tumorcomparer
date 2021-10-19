@@ -93,9 +93,13 @@ test_that("generate_composite_mat_and_gene_weights", {
     known_cancer_gene_weights_file=known_cancer_gene_weights_mut_file,
     cancer_specific_gene_weights_file=cancer_specific_gene_weights_mut_file)
   
+  #saveRDS(composite_mat, "inst/test_output/ov_composite_mat.rds")
+  #x <- readRDS("inst/test_output/ov_composite_mat.rds")
+  #expect_equal(composite_mat, x, tolerance = 0.001)
+  
   saved_output <- readRDS(system.file("test_output", "ov_composite_mat.rds", package="tumorcomparer"))
   
-  expect_equal(composite_mat, saved_output)
+  expect_equal(composite_mat, saved_output, tolerance = 0.001)
 })
 
 test_that("map_mean_similarity_to_gradient", {
@@ -170,9 +174,11 @@ test_that("run_comparison", {
     cancer_specific_gene_weights_cna_file=cancer_specific_gene_weights_cna_file, 
     cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file)
   
-  #saveRDS(comparison_result, "ov_comparison_result.rds")
+  #saveRDS(comparison_result, "inst/test_output/ov_comparison_result.rds")
+  #x <- readRDS("inst/test_output/ov_comparison_result.rds")
+  #expect_equal(comparison_result, x, tolerance = 0.001)
   
-  saved_output <- readRDS(system.file("test_output", "ov_comparison_result_old.rds", package="tumorcomparer"))
+  saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
   
   expect_equal(comparison_result, saved_output)
 })
@@ -216,10 +222,11 @@ test_that("run_comparison_config_list", {
   
   comparison_result <- run_comparison_config_list(config_list = config_list)
   
+  #saveRDS(comparison_result, "inst/test_output/comparison_config.rds")
+  #x <- readRDS("inst/test_output/comparison_config.rds")
+  #expect_equal(comparison_result, x, tolerance = 0.001)
   
-  #saveRDS(comparison_result, "ov_comparison_result.rds")
-  
-  saved_output <- readRDS(system.file("test_output", "ov_comparison_result.rds", package="tumorcomparer"))
+  saved_output <- readRDS(system.file("test_output", "comparison_config.rds", package="tumorcomparer"))
   
   expect_equal(comparison_result, saved_output)
 })
@@ -255,7 +262,9 @@ test_that("run_comparison_two_datasets", {
     cancer_specific_gene_weights_mut_file=cancer_specific_gene_weights_mut_file, 
     cancer_specific_gene_weights_exp_file=cancer_specific_gene_weights_exp_file)
   
-  #saveRDS(comparison_result, "comparison_2_datasets.rds")
+  #saveRDS(comparison_result, "inst/test_output/comparison_2_datasets.rds")
+  #x <- readRDS("inst/test_output/comparison_2_datasets.rds")
+  #expect_equal(comparison_result, x, tolerance = 0.001)
   
   saved_output <- readRDS(system.file("test_output", "comparison_2_datasets.rds", package="tumorcomparer"))
   
@@ -264,7 +273,6 @@ test_that("run_comparison_two_datasets", {
 
 ### test function on 5 data types for new generilized function
 test_that("run_comparison_5_datasets", {
-  
   set.seed(1)
   
   tumor_exp_file <- system.file("extdata", "mock_5_data_types", "tumor_exp.txt", package="tumorcomparer")
@@ -273,13 +281,11 @@ test_that("run_comparison_5_datasets", {
   tumor_mut_file <- system.file("extdata", "mock_5_data_types", "tumor_mut.txt", package="tumorcomparer")
   tumor_prot_file <- system.file("extdata", "mock_5_data_types", "tumor_prot.txt", package="tumorcomparer")
   
-  
   cell_line_exp_file <- system.file("extdata", "mock_5_data_types", "cell_line_exp.txt", package="tumorcomparer")
   cell_line_cna_file <- system.file("extdata", "mock_5_data_types", "cell_line_cna.txt", package="tumorcomparer")
   cell_line_meth_file <- system.file("extdata", "mock_5_data_types", "cell_line_meth.txt", package="tumorcomparer")
   cell_line_mut_file <- system.file("extdata", "mock_5_data_types", "cell_line_mut.txt", package="tumorcomparer")
   cell_line_prot_file <- system.file("extdata", "mock_5_data_types", "cell_line_prot.txt", package="tumorcomparer")
-  
   
   known_cancer_gene_weights_exp_file <- system.file("extdata", "mock_5_data_types", "default_weights_for_known_cancer_genes_exp.txt", package="tumorcomparer")
   known_cancer_gene_weights_cna_file <- system.file("extdata", "mock_5_data_types", "default_weights_for_known_cancer_genes_cna.txt", package="tumorcomparer")
@@ -294,9 +300,7 @@ test_that("run_comparison_5_datasets", {
   cancer_specific_gene_weights_mut_file <- system.file("extdata", "mock_5_data_types", "Genes_and_weights_mut.txt", package="tumorcomparer")
   cancer_specific_gene_weights_prot_file <- system.file("extdata", "mock_5_data_types", "Genes_and_weights_prot.txt", package="tumorcomparer")
   
-  
   ### creating config list for comparison function 
-  
   config_list <- list(exp=list(dataset_name = "exp", data_type_weight=1/5, default_weight = 0.01, 
                                tumor_file = tumor_exp_file, cell_line_file = cell_line_exp_file,
                                known_cancer_gene_weights_file = known_cancer_gene_weights_exp_file, 
@@ -320,6 +324,10 @@ test_that("run_comparison_5_datasets", {
   )
   
   test_results <- run_comparison_config_list(config_list = config_list)
+  
+  #saveRDS(test_results, "inst/test_output/comparison_5_datasets_20211019.rds")
+  #x <- readRDS("inst/test_output/comparison_5_datasets_20211019.rds")
+  #expect_equal(comparison_result, x, tolerance = 0.001)
   
   saved_output <- readRDS(system.file("test_output", "comparison_5_datasets.rds", package="tumorcomparer"))
   
@@ -358,7 +366,6 @@ test_that("run_comparison_config_list", {
                         "WDYHV1")
   
   ### creating config list for comparison function 
-  
   config_list <- list(mut=list(dataset_name = "mut", data_type_weight=1/3, default_weight = 0.01, 
                                tumor_file = tumor_mut_file, cell_line_file = cell_line_mut_file,
                                known_cancer_gene_weights_file = known_cancer_gene_weights_mut_file, 
@@ -375,8 +382,9 @@ test_that("run_comparison_config_list", {
   
   comparison_result <- run_comparison_config_list(config_list = config_list, gene_list = sample_gene_list)
   
-  
-  #saveRDS(comparison_result, "ov_comparison_result.rds")
+  #saveRDS(comparison_result, "inst/test_output/comparison_geneset_20211019.rds")
+  #x <- readRDS("inst/test_output/comparison_geneset_20211019.rds")
+  #expect_equal(comparison_result, x, tolerance = 0.001)
   
   saved_output <- readRDS(system.file("test_output", "comparison_geneset.rds", package="tumorcomparer"))
   
@@ -407,7 +415,7 @@ test_that("testing few genes error", {
   cancer_specific_gene_weights_cna_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_cna.txt", package="tumorcomparer")
   cancer_specific_gene_weights_exp_file <- system.file("extdata", "ovarian_tcga_cclp", "Genes_and_weights_exp.txt", package="tumorcomparer")
   
-  sample_gene_list <- c("ARRDC1", "CNTN6", "CREBBP", "EP300")
+  sample_gene_list <- c("ARRDC1", "CNTN6", "CREBBP")
   
   ### creating config list for comparison function 
   
@@ -427,10 +435,11 @@ test_that("testing few genes error", {
   
 
   comparison_failed <- try(comparison_result <- run_comparison_config_list(config_list = config_list, gene_list = sample_gene_list), silent = TRUE)
-  
   comparison_failed <- unlist(strsplit(comparison_failed[1], split = '\n', fixed = T))[2]
   
-  expect_equal(comparison_failed, "  ERROR: At least 5 genes are required for the comparison")
+  test_comparison <- grepl("ERROR", comparison_failed)
+  
+  expect_true(test_comparison)
 })
 
 
