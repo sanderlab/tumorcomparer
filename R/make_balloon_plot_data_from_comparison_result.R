@@ -12,7 +12,7 @@
 #'   
 #' @examples 
 #' \dontrun{
-#' # TODO add example; run analysis save comparison and use here 
+#' # TODO Add example; run analysis save comparison and use here 
 #' } 
 #'    
 #' @return a ggplot object
