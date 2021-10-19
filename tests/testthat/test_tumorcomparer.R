@@ -13,6 +13,27 @@ test_that("sanity_check", {
 #   expect_equal(TRUE, TRUE)
 # })
 
+test_that("test_tar_working", {
+  # Constructing the example tar.gz file
+  # tar cvzf inst/extdata/mock_5_data_types.tar.gz ./inst/extdata/mock_5_data_types
+  
+  tmp_dir <- tempdir()
+  
+  # The example file should exist
+  test_file <- system.file('extdata/mock_5_data_types.tar.gz', package="tumorcomparer")
+  expect_true(file.exists(test_file))
+
+  # The compressed file should have files inside
+  files <- untar(test_file, list=TRUE)
+  files 
+  expect_true(length(files) > 2)
+  
+  # The uncompressed file should have multiple lines in it
+  untar(test_file, exdir=tmp_dir)
+  tmp_file <- file.path(tmp_dir, files[2])
+  expect_true(length(readLines(tmp_file)) > 2)
+})
+
 test_that("return_first_part", {
   tmp <- return_first_part("22RV1_PROSTRATE")
   expect_equal(tmp, "22RV1")
