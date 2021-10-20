@@ -53,7 +53,6 @@ parameter is provided or data can be loaded from an RData workspace variable
 using the 'tc_dataset' parameter if it has been pre-generated. tc_dataset_dir'
 is recommended.
 }
-\examples{
-# FIXME ADD EXAMPLE
-
+\note{
+FIXME ADD EXAMPLE
 }
