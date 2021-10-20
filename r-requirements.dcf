@@ -1,4 +1,4 @@
-notes: BUILD docker build -t cannin/tumorcomparer .; RUN: docker rm tc; docker run --name tc -p 3838:3838 cannin/tumorcomparer; DEBUG docker exec -i -t tc bash; cat /var/log/shiny-server/LOG; 
+notes: BUILD docker build -t cannin/tumorcomparer .; RUN: docker rm -f tc; docker run --name tc -p 3838:3838 cannin/tumorcomparer; ACCESS: https://IP:3838/tumorcomparer; DEBUG docker exec -i -t tc bash; cat /var/log/shiny-server/LOG; 
 r-version: 3.6
 mran-date: 2020-04-01
 update-packages: FALSE
