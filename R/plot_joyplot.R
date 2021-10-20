@@ -1,6 +1,8 @@
 #' Make Joy Plots for Distributions for Similarity Distributions
 #' 
 #' @param comparison_result the results of run_comparison() (See: run_comparison())
+#' 
+#' @note TODO Abstract code to many datasets
 #'   
 #' @return a ggplot object
 #' 
@@ -29,9 +31,9 @@ plot_joyplot <- function(comparison_result) {
   tumor_ids <- comparison_result$tumor_ids
   cell_line_ids <- comparison_result$cell_line_ids
   
-  mut_dat <- (1- dist_mat_by_data_type$mut[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids, tumor_ids]))],tumor_ids])
-  cna_dat <- (1- dist_mat_by_data_type$cna[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids,tumor_ids]))],tumor_ids])
-  exp_dat <- (1- dist_mat_by_data_type$exp[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids,tumor_ids]))],tumor_ids])
+  mut_dat <- (1-dist_mat_by_data_type$mut[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids, tumor_ids]))],tumor_ids])
+  cna_dat <- (1-dist_mat_by_data_type$cna[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids,tumor_ids]))],tumor_ids])
+  exp_dat <- (1-dist_mat_by_data_type$exp[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids,tumor_ids]))],tumor_ids])
   
   normalized_dat <- 
     convert_to_0_to_1_using_xminusmin_by_maxminusmin(mut_dat) + 
@@ -48,7 +50,9 @@ plot_joyplot <- function(comparison_result) {
   
   # PLOTS ----
   dat <- melt(cna_dat)
-  joyplot_cna <- ggplot(dat, aes(y=as.factor(Var1), x=value)) + 
+  dat$Var1 <- as.factor(dat$Var1)
+  
+  joyplot_cna <- ggplot(dat, aes_string(y="Var1", x="value")) + 
     geom_density_ridges(alpha=0.5) + 
     labs(title = "By Copy Number Aberrations") + 
     xlab(xlab_title) + 
@@ -57,7 +61,8 @@ plot_joyplot <- function(comparison_result) {
   joyplot_cna
   
   dat <- melt(mut_dat)
-  joyplot_mut <- ggplot(dat, aes(y=as.factor(Var1), x=value)) + 
+  dat$Var1 <- as.factor(dat$Var1)
+  joyplot_mut <- ggplot(dat, aes_string(y="Var1", x="value")) + 
     geom_density_ridges(alpha=0.5) + 
     xlab(xlab_title) + 
     ylab(ylab_title) + 
@@ -66,7 +71,8 @@ plot_joyplot <- function(comparison_result) {
   joyplot_mut
   
   dat <- melt(exp_dat)
-  joyplot_exp <- ggplot(dat, aes(y=as.factor(Var1), x=value)) + 
+  dat$Var1 <- as.factor(dat$Var1)
+  joyplot_exp <- ggplot(dat, aes_string(y="Var1", x="value")) + 
     geom_density_ridges(alpha=0.5) + 
     xlab(xlab_title) + 
     ylab(ylab_title) + 
@@ -75,7 +81,8 @@ plot_joyplot <- function(comparison_result) {
   joyplot_exp
   
   dat <- melt(normalized_and_averaged[rev(order(rowMeans(normalized_and_averaged))),])
-  joyplot_avg_after_normalization <- ggplot(dat, aes(y=as.factor(Var1), x=value)) + 
+  dat$Var1 <- as.factor(dat$Var1)
+  joyplot_avg_after_normalization <- ggplot(dat, aes_string(y="Var1", x="value")) + 
     geom_density_ridges(alpha=0.5) + 
     xlab(xlab_title) + 
     ylab(ylab_title) + 
