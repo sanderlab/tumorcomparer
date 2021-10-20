@@ -1,10 +1,11 @@
 library(shiny)
 library(ggplot2)
 library(plotly)
-library(cyjShiny)
 library(magrittr)
 library(dplyr)
 library(DT)
+
+#library(cyjShiny)
 
 library(tumorcomparer)
 
@@ -352,19 +353,19 @@ shinyServer(function(input, output, session) {
     paste0("MDS Stress (Goodness of Fit, Less than 9.9 is good): ", round(stress, 2))
   })
   
-  #### rendering correlation network ####
-  output$corr_network_out <- renderCyjShiny({
-    comparison_result <- userDat()
-    
-    dis_mat_names <- setNames(object = c("mut", "cna", "exp"), nm = c("Copy number", "Mutation", "Expression"))
-    
-    if(input$selected_dist_mat == "Combined") {
-      preComputed_reactiveVal$corr_network <- cyj_graph_maker_from_dist_mat(dist_mat = comparison_result$dist_mat, min_weight = input$corr_threshold)
-    } else {
-      preComputed_reactiveVal$corr_network <- cyj_graph_maker_from_dist_mat(dist_mat = comparison_result$dist_mat_by_data_type[[dis_mat_names[input$selected_dist_mat]]], min_weight = input$corr_threshold)
-    }
-    
-    cyjShiny(preComputed_reactiveVal$corr_network, layoutName="preset", styleFile = "www/default_style.js")
-  })
+  # Render correlation network
+  # output$corr_network_out <- renderCyjShiny({
+  #   comparison_result <- userDat()
+  #   
+  #   dis_mat_names <- setNames(object = c("mut", "cna", "exp"), nm = c("Copy number", "Mutation", "Expression"))
+  #   
+  #   if(input$selected_dist_mat == "Combined") {
+  #     preComputed_reactiveVal$corr_network <- cyj_graph_maker_from_dist_mat(dist_mat = comparison_result$dist_mat, min_weight = input$corr_threshold)
+  #   } else {
+  #     preComputed_reactiveVal$corr_network <- cyj_graph_maker_from_dist_mat(dist_mat = comparison_result$dist_mat_by_data_type[[dis_mat_names[input$selected_dist_mat]]], min_weight = input$corr_threshold)
+  #   }
+  #   
+  #   cyjShiny(preComputed_reactiveVal$corr_network, layoutName="preset", styleFile = "www/default_style.js")
+  # })
   
 })

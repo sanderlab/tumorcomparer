@@ -4,7 +4,8 @@ library(ggplot2)
 library(plotly)
 library(shinycustomloader)
 library(markdown)
-library(cyjShiny)
+
+#library(cyjShiny)
 
 library(DT)
 library(tumorcomparer)
