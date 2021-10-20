@@ -554,7 +554,8 @@ test_that("check_zenodo_usage", {
     # Download and extract dataset
     tmp_file <- tempfile(fileext=".tar.gz")
     tmp_dir <- tempdir()
-    download.file("https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1", tmp_file)
+    # NOTE: https://stackoverflow.com/questions/60985743/untar-on-windows-tar-exe-error-opening-archive-gzip-decompression-failed
+    download.file("https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1", tmp_file, mode = "wb")
     untar(tmp_file, exdir=tmp_dir)
     tc_dataset_dir <- file.path(tmp_dir, "TC_Data_PanCancer_March2021")
   }
