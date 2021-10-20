@@ -541,6 +541,9 @@ test_that("ballon_plot_data_to_result_table", {
 })
 
 test_that("check_zenodo_usage", {
+  # NOTE: GitHub Actions memory issues on Windows
+  skip_on_os(os = "windows")
+  
   ## ----loadLibraries, message=FALSE, warning=FALSE-------------------------------------------------------------------
   # Set timeout for download to 10 minutes 
   options(timeout=600)
