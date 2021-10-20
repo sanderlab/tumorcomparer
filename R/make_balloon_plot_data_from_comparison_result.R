@@ -8,13 +8,10 @@
 #'   low scores (similarly some will get high ranks even if all scores are relatively low). Instead,
 #'   we convert the distance matrices for all tumor-cell line comparisons to 0-1 using min-max
 #'   scaling, and then compute the mean similarity to tumor for each cell line. The overall score is
-#'   just a simple mean of the data type specific scores right now - could use different weights
+#'   just a simple mean of the data type specific scores right now - could use different weights.
 #'   
-#' @examples 
-#' \dontrun{
-#' # TODO Add example; run analysis save comparison and use here 
-#' } 
-#'    
+#' @note # TODO Add example; run analysis save comparison and use here 
+#' 
 #' @return a ggplot object
 #' 
 #' @importFrom ggplot2 ggplot geom_point geom_text ggtitle xlab ylab element_blank element_line

@@ -13,8 +13,7 @@
 #' 
 #' @return returns comparison list for specified genes. The output list is described in run_comparison_config_list function documentation
 #' 
-#' @examples 
-#' # FIXME ADD EXAMPLE
+#' @note # FIXME ADD EXAMPLE
 #' 
 #' @details
 #' This function requires downloading: https://zenodo.org/record/4627644/files/tc_data_pancancer_march2021.tar.gz?download=1
