@@ -2,7 +2,7 @@
 #' 
 #' @param comparison_result the results of run_comparison() (See: run_comparison())
 #' 
-#' @note TODO Abstract code to many datasets
+#' @note TODO Abstract code to many datasets; use list (https://wilkelab.org/cowplot/reference/plot_grid.html)
 #'   
 #' @return a ggplot object
 #' 

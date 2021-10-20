@@ -145,6 +145,10 @@ The `plot_joyplot` function shows the distribution of feature-weighted similarit
 plot_joyplot(comparison_result)
 ```
 
+# Subsetting Pre-Complied TumorComparer Study Data
+
+We publicly make available the data used in the 2021 TumorComparer publication (DOI: 10.1016/j.crmeth.2021.100039). Users can see different examples (i.e., subsets by TCGA sample IDs or custom gene sets) of subsetting this data to run customized analyses. Example code is in the file: "test_tumorcomparer.R" file for the test case: "check_zenodo_usage".  
+
 # Session Information
 ```{r}
 sessionInfo()
