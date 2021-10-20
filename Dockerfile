@@ -1,6 +1,6 @@
 FROM rocker/shiny-verse:3.6.3
 
-RUN apt-get update && apt-get install -y libjpeg-dev
+RUN apt-get update --allow-releaseinfo-change && apt-get install -y libjpeg-dev
 
 RUN echo "force3"
 COPY r-requirements.dcf /r-requirements.dcf
