@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Choosing Cell Lines for Lung Cancer Research</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TumorComparer</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://projects.sanderlab.org/tumorcomparer">Pre-Computed Analysis</a>
+</li>
+<li>
+  <a href="http://projects.sanderlab.org/tumorcomparer">User Data Analysis</a>
+</li>
+<li>
+  <a href="http://projects.sanderlab.org/tumorcomparer">About</a>
+</li>
+<li>
+  <a href="index.html">Cancer Type Summaries</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Choosing Cell Lines for Lung Cancer Research</h1>
+
+</div>
+
+
+<p>If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<p>NCI-H23, NCI-H1975, NCI-H2009, NCI-H358, and NCI-H522 are some of the most widely used cell lines for lung cancer research. Often researchers have questions on selecting the most appropriate cell line(s) for particular research uses.</p>
+<p>TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a> for details on the methodology.</p>
+<p>This page provides a pre-computed analysis for lung cancer cell lines. This analysis provides insight into the differences between the lung cancer cell lines NCI-H23 and NCI-H1975; NCI-H23 and NCI-H2009; and NCI-H23 and NCI-H358.</p>
+<div id="characteristics-of-lung-cancer-cell-lines" class="section level2">
+<h2>Characteristics of Lung Cancer Cell Lines</h2>
+<p>The figure shows the presence of alterations for genes (ALK, APC, ARAF, etc.) commonly associated with lung cancer in the cell lines: NCIH23, NCIH1975, NCIH2009, etc.. The gene list is retrieved from <a href="https://www.disgenet.org/" target="_blank">DisGeNET</a>, and the alteration information is retrieved from <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> for the Cancer Cell Line Encyclopedia (CCLE) dataset.</p>
+<p>NOTE: Only a subset of lung cancer cell lines are shown to ensure a readable figure. Alterations for additional lung cancer cell lines and genes are available on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> using links on the table below.</p>
+<div class="figure" style="text-align: center">
+<img src="luad_cclp_tcga_tumorcomparer_files/figure-html/comparing_lung_cancer_cell_lines_to_tumor_samples.-1.png" alt="Comparing lung cancer cell lines to tumor samples. Legend Abbreviations: mrna_hi = mRNA High; mrna_lo = mRNA Low; prot_hi = Protein High; prot_lo = Protein Low; mut_mis_put_pass = Missense Mutation (putative passenger); mut_mis_put_driv = Missense Mutation (putative driver); mut_inframe_put_pass = Inframe Mutation (putative passenger); mut_inframe_put_driv = Inframe Mutation (putative driver); mut_trun_put_pass = Truncating mutation (putative passenger); mut_trun_put_driv = Truncating mutation (putative driver); amp = Amplification; deep_del = Deep Deletion; homdel_rec = homdel_rec; amp_rec = amp_rec; sv = sv; sv_rec = sv_rec; splice = splice" width="624" />
+<p class="caption">
+Comparing lung cancer cell lines to tumor samples. Legend Abbreviations: mrna_hi = mRNA High; mrna_lo = mRNA Low; prot_hi = Protein High; prot_lo = Protein Low; mut_mis_put_pass = Missense Mutation (putative passenger); mut_mis_put_driv = Missense Mutation (putative driver); mut_inframe_put_pass = Inframe Mutation (putative passenger); mut_inframe_put_driv = Inframe Mutation (putative driver); mut_trun_put_pass = Truncating mutation (putative passenger); mut_trun_put_driv = Truncating mutation (putative driver); amp = Amplification; deep_del = Deep Deletion; homdel_rec = homdel_rec; amp_rec = amp_rec; sv = sv; sv_rec = sv_rec; splice = splice
+</p>
+</div>
+</div>
+<div id="cell-line-comparison-to-pan-cancer-tcga" class="section level2">
+<h2>Cell Line Comparison to Pan-Cancer TCGA</h2>
+<p>The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+The table shows lung cancer cell lines sorted by similarity to characteristics of TCGA tumors based on expression, mutation, and copy number information. Cell Lines with higher values of ‘% Rank by Avg % Ranks’ are considered better matches.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Cell Line
+</th>
+<th style="text-align:right;">
+% Rank by Mutation
+</th>
+<th style="text-align:right;">
+% Rank by Copy Number
+</th>
+<th style="text-align:right;">
+% Rank by Expression
+</th>
+<th style="text-align:left;">
+% Rank by Avg % Ranks
+</th>
+<th style="text-align:left;">
+cBioPortal
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+LC-2-ad
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 100.00%">1.00</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HCC-78
+</td>
+<td style="text-align:right;">
+0.93
+</td>
+<td style="text-align:right;">
+0.90
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=HCC78_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H3122
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+0.98
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H441
+</td>
+<td style="text-align:right;">
+0.86
+</td>
+<td style="text-align:right;">
+0.86
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH441_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1650
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.83
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 98.00%">0.98</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1650_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H2009
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.78
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 97.00%">0.97</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH2009_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H2291
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+0.98
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 97.00%">0.97</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH2291_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H322M
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.83
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 97.00%">0.97</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1944
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+<td style="text-align:right;">
+0.90
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 95.00%">0.95</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1944_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PC-14
+</td>
+<td style="text-align:right;">
+0.87
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+0.83
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 95.00%">0.95</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=PC14_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1648
+</td>
+<td style="text-align:right;">
+0.84
+</td>
+<td style="text-align:right;">
+0.63
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 94.00%">0.94</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1648_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1781
+</td>
+<td style="text-align:right;">
+0.66
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 94.00%">0.94</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1781_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RERF-LC-KJ
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:right;">
+0.95
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 93.00%">0.93</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=RERFLCKJ_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HOP-62
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+<td style="text-align:right;">
+0.90
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 91.00%">0.91</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1651
+</td>
+<td style="text-align:right;">
+0.78
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.59
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 91.00%">0.91</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1651_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+201T
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+0.88
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 90.00%">0.90</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H3255
+</td>
+<td style="text-align:right;">
+0.66
+</td>
+<td style="text-align:right;">
+0.63
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 90.00%">0.90</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1993
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.91
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 90.00%">0.90</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H2228
+</td>
+<td style="text-align:right;">
+0.93
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+0.91
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 90.00%">0.90</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH2228_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1568
+</td>
+<td style="text-align:right;">
+0.55
+</td>
+<td style="text-align:right;">
+0.83
+</td>
+<td style="text-align:right;">
+0.83
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 88.00%">0.88</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1568_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H2347
+</td>
+<td style="text-align:right;">
+0.58
+</td>
+<td style="text-align:right;">
+0.63
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 88.00%">0.88</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH2347_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H2122
+</td>
+<td style="text-align:right;">
+0.58
+</td>
+<td style="text-align:right;">
+0.63
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 87.00%">0.87</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH2122_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1623
+</td>
+<td style="text-align:right;">
+0.44
+</td>
+<td style="text-align:right;">
+0.90
+</td>
+<td style="text-align:right;">
+0.83
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 86.00%">0.86</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1623_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H2405
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 84.00%">0.84</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH2405_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H2087
+</td>
+<td style="text-align:right;">
+0.63
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 83.00%">0.83</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH2087_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ABC-1
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 82.00%">0.82</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=ABC1_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HCC-827
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+0.98
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 82.00%">0.82</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=HCC827_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H358
+</td>
+<td style="text-align:right;">
+0.63
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 80.00%">0.80</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH358_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Calu-3
+</td>
+<td style="text-align:right;">
+0.57
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+0.90
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 78.00%">0.78</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=CALU3_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VMRC-LCD
+</td>
+<td style="text-align:right;">
+0.66
+</td>
+<td style="text-align:right;">
+0.45
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 78.00%">0.78</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1975
+</td>
+<td style="text-align:right;">
+0.51
+</td>
+<td style="text-align:right;">
+0.45
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 76.00%">0.76</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1975_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HCC-44
+</td>
+<td style="text-align:right;">
+0.53
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+0.81
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 75.00%">0.75</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=HCC44_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H23
+</td>
+<td style="text-align:right;">
+0.46
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.44
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 73.00%">0.73</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH23_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1838
+</td>
+<td style="text-align:right;">
+0.48
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+0.83
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 70.00%">0.70</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1838_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H2342
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 70.00%">0.70</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH2342_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1573
+</td>
+<td style="text-align:right;">
+0.44
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+0.95
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 68.00%">0.68</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1573_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1734
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.98
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 68.00%">0.68</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1734_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1755
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+0.86
+</td>
+<td style="text-align:right;">
+0.55
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 68.00%">0.68</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1755_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COR-L105
+</td>
+<td style="text-align:right;">
+0.21
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+0.59
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 66.00%">0.66</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=CORL105_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H522
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.21
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 66.00%">0.66</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH522_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H838
+</td>
+<td style="text-align:right;">
+0.46
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+0.78
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 66.00%">0.66</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH838_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A549
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 64.00%">0.64</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=A549_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1792
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+<td style="text-align:right;">
+0.67
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 64.00%">0.64</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1792_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1355
+</td>
+<td style="text-align:right;">
+0.53
+</td>
+<td style="text-align:right;">
+0.35
+</td>
+<td style="text-align:right;">
+0.78
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 60.00%">0.60</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1355_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1666
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+0.88
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 57.00%">0.57</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1666_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H2030
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 55.00%">0.55</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH2030_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LXF-289
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 53.00%">0.53</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=LXF289_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H650
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+0.59
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 53.00%">0.53</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH650_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1693
+</td>
+<td style="text-align:right;">
+0.44
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 42.00%">0.42</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1693_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1563
+</td>
+<td style="text-align:right;">
+0.22
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 36.00%">0.36</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1563_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SK-LU-1
+</td>
+<td style="text-align:right;">
+0.51
+</td>
+<td style="text-align:right;">
+0.25
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 36.00%">0.36</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=SKLU1_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H1793
+</td>
+<td style="text-align:right;">
+0.32
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 32.00%">0.32</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=NCIH1793_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RERF-LC-MS
+</td>
+<td style="text-align:right;">
+0.70
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+0.38
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 28.00%">0.28</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=RERFLCMS_LUNG">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A427
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.45
+</td>
+<td style="text-align:right;">
+0.21
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 20.00%">0.20</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NCI-H82
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.22
+</td>
+<td style="text-align:right;">
+0.44
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 8.00%">0.08</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SW1573
+</td>
+<td style="text-align:right;">
+0.27
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 3.00%">0.03</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=SW1573_LUNG">Link</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="customized-comparisons" class="section level2">
+<h2>Customized Comparisons</h2>
+<p>Each project has unique questions. TumorComparer (<a href="http://tumorcomparer.org" target="_blank">tumorcomparer.org</a>) facilities customized comparisons of cell line datasets to tumor samples directly from the browser.</p>
+</div>
+<div id="technical-information" class="section level2">
+<h2>Technical Information</h2>
+<p>This analysis was generated using TumorComparer: 0.99.20. If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

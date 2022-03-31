@@ -15,6 +15,9 @@ a ggplot object
 \description{
 Make Joy Plots for Distributions for Similarity Distributions
 }
+\note{
+TODO Abstract code to many datasets; use list (https://wilkelab.org/cowplot/reference/plot_grid.html)
+}
 \examples{
 # Generated using: tumorcomparer::run_comparison() 
 comparison_result <- readRDS(system.file("test_output", "ov_comparison_result.rds", 

@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Choosing Cell Lines for Ovarian Research</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TumorComparer</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://projects.sanderlab.org/tumorcomparer">Pre-Computed Analysis</a>
+</li>
+<li>
+  <a href="http://projects.sanderlab.org/tumorcomparer">User Data Analysis</a>
+</li>
+<li>
+  <a href="http://projects.sanderlab.org/tumorcomparer">About</a>
+</li>
+<li>
+  <a href="index.html">Cancer Type Summaries</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Choosing Cell Lines for Ovarian Research</h1>
+
+</div>
+
+
+<p>If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<p>SK-OV-3, A2780, OVCAR-3, IGROV-1, and PA-1 are some of the most widely used cell lines for ovarian research. Often researchers have questions on selecting the most appropriate cell line(s) for particular research uses.</p>
+<p>TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a> for details on the methodology.</p>
+<p>This page provides a pre-computed analysis for ovarian cell lines. This analysis provides insight into the differences between the ovarian cell lines SK-OV-3 and A2780; SK-OV-3 and OVCAR-3; and SK-OV-3 and IGROV-1.</p>
+<div id="characteristics-of-ovarian-cell-lines" class="section level2">
+<h2>Characteristics of Ovarian Cell Lines</h2>
+<p>The figure shows the presence of alterations for genes (AKT2, ATR, BRAF, etc.) commonly associated with ovarian in the cell lines: SKOV3, A2780, IGROV1, etc.. The gene list is retrieved from <a href="https://www.disgenet.org/" target="_blank">DisGeNET</a>, and the alteration information is retrieved from <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> for the Cancer Cell Line Encyclopedia (CCLE) dataset.</p>
+<p>NOTE: Only a subset of ovarian cell lines are shown to ensure a readable figure. Alterations for additional ovarian cell lines and genes are available on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> using links on the table below.</p>
+<div class="figure" style="text-align: center">
+<img src="ov_cclp_tcga_tumorcomparer_files/figure-html/comparing_ovarian_cell_lines_to_tumor_samples.-1.png" alt="Comparing ovarian cell lines to tumor samples. Legend Abbreviations: mrna_hi = mRNA High; mrna_lo = mRNA Low; prot_hi = Protein High; prot_lo = Protein Low; mut_mis_put_pass = Missense Mutation (putative passenger); mut_mis_put_driv = Missense Mutation (putative driver); mut_inframe_put_pass = Inframe Mutation (putative passenger); mut_inframe_put_driv = Inframe Mutation (putative driver); mut_trun_put_pass = Truncating mutation (putative passenger); mut_trun_put_driv = Truncating mutation (putative driver); amp = Amplification; deep_del = Deep Deletion; homdel_rec = homdel_rec; amp_rec = amp_rec; sv = sv; sv_rec = sv_rec; splice = splice" width="624" />
+<p class="caption">
+Comparing ovarian cell lines to tumor samples. Legend Abbreviations: mrna_hi = mRNA High; mrna_lo = mRNA Low; prot_hi = Protein High; prot_lo = Protein Low; mut_mis_put_pass = Missense Mutation (putative passenger); mut_mis_put_driv = Missense Mutation (putative driver); mut_inframe_put_pass = Inframe Mutation (putative passenger); mut_inframe_put_driv = Inframe Mutation (putative driver); mut_trun_put_pass = Truncating mutation (putative passenger); mut_trun_put_driv = Truncating mutation (putative driver); amp = Amplification; deep_del = Deep Deletion; homdel_rec = homdel_rec; amp_rec = amp_rec; sv = sv; sv_rec = sv_rec; splice = splice
+</p>
+</div>
+</div>
+<div id="cell-line-comparison-to-pan-cancer-tcga" class="section level2">
+<h2>Cell Line Comparison to Pan-Cancer TCGA</h2>
+<p>The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+The table shows ovarian cell lines sorted by similarity to characteristics of TCGA tumors based on expression, mutation, and copy number information. Cell Lines with higher values of ‘% Rank by Avg % Ranks’ are considered better matches.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Cell Line
+</th>
+<th style="text-align:right;">
+% Rank by Mutation
+</th>
+<th style="text-align:right;">
+% Rank by Copy Number
+</th>
+<th style="text-align:right;">
+% Rank by Expression
+</th>
+<th style="text-align:left;">
+% Rank by Avg % Ranks
+</th>
+<th style="text-align:left;">
+cBioPortal
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+KURAMOCHI
+</td>
+<td style="text-align:right;">
+0.77
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 100.00%">1.00</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=KURAMOCHI_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OAW-28
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.91
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 100.00%">1.00</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OAW28_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVCAR-4
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OVCAR4_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PEO1
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FU-OV-1
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 98.00%">0.98</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=FUOV1_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JHOS-4
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 98.00%">0.98</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=JHOS4_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVKATE
+</td>
+<td style="text-align:right;">
+0.63
+</td>
+<td style="text-align:right;">
+0.62
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 91.00%">0.91</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OVKATE_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVCAR-3
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+0.34
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 88.00%">0.88</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVMIU
+</td>
+<td style="text-align:right;">
+0.34
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 87.00%">0.87</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OV-17R
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+0.34
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 85.00%">0.85</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVISE
+</td>
+<td style="text-align:right;">
+0.29
+</td>
+<td style="text-align:right;">
+0.93
+</td>
+<td style="text-align:right;">
+0.92
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 85.00%">0.85</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OVISE_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JHOS-3
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 81.00%">0.81</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OAW-42
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+0.89
+</td>
+<td style="text-align:right;">
+0.84
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 79.00%">0.79</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OAW42_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ES-2
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+<td style="text-align:right;">
+0.91
+</td>
+<td style="text-align:right;">
+0.40
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 78.00%">0.78</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=ES2_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JHOS-2
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.91
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 76.00%">0.76</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=JHOS2_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hey
+</td>
+<td style="text-align:right;">
+0.35
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 74.00%">0.74</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+EFO-21
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+0.92
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 73.00%">0.73</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=EFO21_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVCAR-8
+</td>
+<td style="text-align:right;">
+0.26
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:right;">
+0.84
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 70.00%">0.70</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OVCAR8_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OV-7
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+0.89
+</td>
+<td style="text-align:right;">
+0.32
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 63.00%">0.63</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OV7_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OV-56
+</td>
+<td style="text-align:right;">
+0.45
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.25
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 61.00%">0.61</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OV56_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TOV-112D
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+<td style="text-align:right;">
+0.23
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 61.00%">0.61</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=TOV112D_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A2780
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+0.53
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 54.00%">0.54</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=A2780_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVCA420
+</td>
+<td style="text-align:right;">
+0.67
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 50.00%">0.50</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DOV13
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+0.09
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 46.00%">0.46</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IGROV-1
+</td>
+<td style="text-align:right;">
+0.39
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 46.00%">0.46</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=IGROV1_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OC-314
+</td>
+<td style="text-align:right;">
+0.39
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+0.92
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 46.00%">0.46</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OC314_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OV-90
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+<td style="text-align:right;">
+0.67
+</td>
+<td style="text-align:right;">
+0.10
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 46.00%">0.46</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OV90_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVCAR-5
+</td>
+<td style="text-align:right;">
+0.35
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 46.00%">0.46</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+EFO-27
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+0.08
+</td>
+<td style="text-align:right;">
+0.90
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 44.00%">0.44</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=EFO27_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PA-1
+</td>
+<td style="text-align:right;">
+0.32
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 44.00%">0.44</span>
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Caov-4
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 42.00%">0.42</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=CAOV4_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SK-OV-3
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+0.12
+</td>
+<td style="text-align:right;">
+0.70
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 41.00%">0.41</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=SKOV3_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RMG-I
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 29.00%">0.29</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=RMGI_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVTOKO
+</td>
+<td style="text-align:right;">
+0.26
+</td>
+<td style="text-align:right;">
+0.10
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 18.00%">0.18</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OVTOKO_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TYK-nu
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+0.19
+</td>
+<td style="text-align:right;">
+0.25
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 15.00%">0.15</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=TYKNU_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TOV-21G
+</td>
+<td style="text-align:right;">
+0.34
+</td>
+<td style="text-align:right;">
+0.10
+</td>
+<td style="text-align:right;">
+0.40
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 13.00%">0.13</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=TOV21G_OVARY">Link</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OVK-18
+</td>
+<td style="text-align:right;">
+0.40
+</td>
+<td style="text-align:right;">
+0.09
+</td>
+<td style="text-align:right;">
+0.32
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 12.00%">0.12</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=OVK18_OVARY">Link</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="customized-comparisons" class="section level2">
+<h2>Customized Comparisons</h2>
+<p>Each project has unique questions. TumorComparer (<a href="http://tumorcomparer.org" target="_blank">tumorcomparer.org</a>) facilities customized comparisons of cell line datasets to tumor samples directly from the browser.</p>
+</div>
+<div id="technical-information" class="section level2">
+<h2>Technical Information</h2>
+<p>This analysis was generated using TumorComparer: 0.99.20. If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

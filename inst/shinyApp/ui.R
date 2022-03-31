@@ -16,6 +16,7 @@ shinyUI(
   navbarPage("TumorComparer",
              header = list(
                tags$head(includeScript("www/js/google-analytics.js"), 
+               tags$head(includeScript("www/js/nav_append_static.js")),
                tags$meta(name="description", content="Compare experimental model systems (e.g., cell lines) to patient samples by various -omic profiles (e.g., expression, mutation, copy number)."))
              ),
              tabPanel("Pre-Computed Analysis",

@@ -27,7 +27,7 @@ plotlyModeBarButtonsToRemove <- c(
 
 # LOAD DATA ----
 mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331.rds', package="tumorcomparer")
-#mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds', package="tumorcomparer")
+#TODO: NOT WORKING HAS FACTORS: mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds', package="tumorcomparer")
 mtc_dataset <- readRDS(mtc_file)
 precomputed_comparisons <- readRDS(system.file('extdata/precomputed_geneset_comparisons/precomputed_comparisons_20211019.rds', package="tumorcomparer"))
 selected_geneset_comparisons <- readRDS(system.file('extdata/precomputed_geneset_comparisons/selected_geneset_comparisons_20211019.rds', package="tumorcomparer"))
@@ -60,6 +60,7 @@ mtc_dataset$Average_Of_Percentile_Ranks <- as.numeric(levels(mtc_dataset$Average
 mtc_dataset$Rank_of_Average_Of_Percentile_Ranks <- as.numeric(levels(mtc_dataset$Rank_of_Average_Of_Percentile_Ranks))[mtc_dataset$Rank_of_Average_Of_Percentile_Ranks]
 
 #saveRDS(mtc_dataset, 'inst/extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds')
+#tmp <- readRDS('inst/extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds')
 
 # Column name mapping
 mtc_selected_columns <- c(
