@@ -287,7 +287,7 @@ $(document).ready(function () {
 
 <p>ACHN, SN12C, OS-RC-2, 769-P, and SK-NEP-1 are some of the most widely used cell lines for kidney cancer research. Often researchers have questions on selecting the most appropriate cell line(s) for particular research uses.</p>
 <p>TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a> for details on the methodology.</p>
-<p>This page provides a pre-computed analysis for kidney cancer cell lines. This analysis provides insight into the differences between the kidney cancer cell lines ACHN vs SN12C; ACHN vs OS-RC-2; ACHN vs 769-P; and etc..</p>
+<p>This page provides a pre-computed analysis for kidney cancer cell lines. This analysis provides insight into the differences between the kidney cancer cell lines ACHN vs SN12C; ACHN vs OS-RC-2; ACHN vs 769-P; and etc.</p>
 <p>If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
 <div id="characteristics-of-kidney-cancer-cell-lines" class="section level2">
 <h2>Characteristics of Kidney Cancer Cell Lines</h2>
@@ -303,6 +303,7 @@ Comparing kidney cancer cell lines to tumor samples. Legend Abbreviations: mrna_
 <div id="cell-line-comparison-to-pan-cancer-tcga" class="section level2">
 <h2>Cell Line Comparison to Pan-Cancer TCGA</h2>
 <p>The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<p>More information for the kidney cancer cell lines is available on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> using links on the table below.</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
 The table shows kidney cancer cell lines sorted by similarity to characteristics of TCGA tumors based on expression, mutation, and copy number information. Cell Lines with higher values of ‘% Rank by Avg % Ranks’ are considered better matches.
@@ -311,6 +312,12 @@ The table shows kidney cancer cell lines sorted by similarity to characteristics
 <tr>
 <th style="text-align:left;">
 Cell Line
+</th>
+<th style="text-align:left;">
+% Rank by Avg % Ranks
+</th>
+<th style="text-align:left;">
+More Line Info
 </th>
 <th style="text-align:right;">
 % Rank by Mutation
@@ -321,18 +328,18 @@ Cell Line
 <th style="text-align:right;">
 % Rank by Expression
 </th>
-<th style="text-align:left;">
-% Rank by Avg % Ranks
-</th>
-<th style="text-align:left;">
-cBioPortal
-</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
 NCC010
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 100.00%">1.00</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.99
@@ -343,16 +350,16 @@ NCC010
 <td style="text-align:right;">
 1.00
 </td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RCC-AB
+</td>
 <td style="text-align:left;">
 <span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 100.00%">1.00</span>
 </td>
 <td style="text-align:left;">
 NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RCC-AB
 </td>
 <td style="text-align:right;">
 0.98
@@ -363,16 +370,16 @@ RCC-AB
 <td style="text-align:right;">
 0.98
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 100.00%">1.00</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 LB996-RCC
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.92
@@ -383,16 +390,16 @@ LB996-RCC
 <td style="text-align:right;">
 0.97
 </td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OS-RC-2
+</td>
 <td style="text-align:left;">
 <span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
 </td>
 <td style="text-align:left;">
 NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-OS-RC-2
 </td>
 <td style="text-align:right;">
 0.99
@@ -403,16 +410,16 @@ OS-RC-2
 <td style="text-align:right;">
 1.00
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 VMRC-RCZ
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=VMRCRCZ_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 0.83
@@ -423,16 +430,16 @@ VMRC-RCZ
 <td style="text-align:right;">
 0.98
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 99.00%">0.99</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=VMRCRCZ_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 KMRC-1
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 98.00%">0.98</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=KMRC1_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 1.00
@@ -443,16 +450,16 @@ KMRC-1
 <td style="text-align:right;">
 0.99
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 98.00%">0.98</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=KMRC1_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 RCC-ER
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 98.00%">0.98</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.78
@@ -463,16 +470,16 @@ RCC-ER
 <td style="text-align:right;">
 1.00
 </td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RCC-FG2
+</td>
 <td style="text-align:left;">
 <span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 98.00%">0.98</span>
 </td>
 <td style="text-align:left;">
 NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RCC-FG2
 </td>
 <td style="text-align:right;">
 0.57
@@ -483,16 +490,16 @@ RCC-FG2
 <td style="text-align:right;">
 1.00
 </td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RCC-MF
+</td>
 <td style="text-align:left;">
 <span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 98.00%">0.98</span>
 </td>
 <td style="text-align:left;">
 NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RCC-MF
 </td>
 <td style="text-align:right;">
 0.99
@@ -503,16 +510,16 @@ RCC-MF
 <td style="text-align:right;">
 0.99
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 98.00%">0.98</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 HA7-RCC
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 96.00%">0.96</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.99
@@ -523,16 +530,16 @@ HA7-RCC
 <td style="text-align:right;">
 0.99
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 96.00%">0.96</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 KMRC-20
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 93.00%">0.93</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=KMRC20_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 0.99
@@ -543,16 +550,16 @@ KMRC-20
 <td style="text-align:right;">
 0.98
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 93.00%">0.93</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=KMRC20_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 RCC-JF
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 93.00%">0.93</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.99
@@ -563,16 +570,16 @@ RCC-JF
 <td style="text-align:right;">
 0.99
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 93.00%">0.93</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 CAL-54
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 90.00%">0.90</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=CAL54_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 0.25
@@ -583,16 +590,16 @@ CAL-54
 <td style="text-align:right;">
 0.98
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 90.00%">0.90</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=CAL54_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 RCC-JW
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 90.00%">0.90</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.51
@@ -603,16 +610,16 @@ RCC-JW
 <td style="text-align:right;">
 1.00
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 90.00%">0.90</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 A704
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 88.00%">0.88</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=A704_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 0.51
@@ -623,16 +630,16 @@ A704
 <td style="text-align:right;">
 1.00
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 88.00%">0.88</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=A704_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 ACHN
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 88.00%">0.88</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=ACHN_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 1.00
@@ -643,16 +650,16 @@ ACHN
 <td style="text-align:right;">
 0.99
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 88.00%">0.88</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=ACHN_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 NCC021
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 88.00%">0.88</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.30
@@ -663,16 +670,16 @@ NCC021
 <td style="text-align:right;">
 0.99
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 88.00%">0.88</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 A498
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 87.00%">0.87</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=A498_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 0.92
@@ -683,16 +690,16 @@ A498
 <td style="text-align:right;">
 0.98
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 87.00%">0.87</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=A498_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 BB65-RCC
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 85.00%">0.85</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.53
@@ -703,16 +710,16 @@ BB65-RCC
 <td style="text-align:right;">
 0.99
 </td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RXF393
+</td>
 <td style="text-align:left;">
 <span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 85.00%">0.85</span>
 </td>
 <td style="text-align:left;">
 NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RXF393
 </td>
 <td style="text-align:right;">
 0.83
@@ -723,16 +730,16 @@ RXF393
 <td style="text-align:right;">
 0.98
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 85.00%">0.85</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 SN12C
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 78.00%">0.78</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.70
@@ -743,16 +750,16 @@ SN12C
 <td style="text-align:right;">
 0.78
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 78.00%">0.78</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 769-P
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 76.00%">0.76</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=769P_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 0.04
@@ -763,16 +770,16 @@ NA
 <td style="text-align:right;">
 0.98
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 76.00%">0.76</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=769P_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 SK-NEP-1
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 76.00%">0.76</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.96
@@ -783,16 +790,16 @@ SK-NEP-1
 <td style="text-align:right;">
 0.46
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 76.00%">0.76</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 BFTC-909
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 66.00%">0.66</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=BFTC909_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 0.46
@@ -803,16 +810,16 @@ BFTC-909
 <td style="text-align:right;">
 0.97
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 66.00%">0.66</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=BFTC909_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 RCC10RGB
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 64.00%">0.64</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=RCC10RGB_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 0.20
@@ -823,16 +830,16 @@ RCC10RGB
 <td style="text-align:right;">
 0.99
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 64.00%">0.64</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=RCC10RGB_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 CAKI-1
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 50.00%">0.50</span>
+</td>
+<td style="text-align:left;">
+<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=CAKI1_KIDNEY">Link</a>
 </td>
 <td style="text-align:right;">
 0.04
@@ -843,16 +850,16 @@ CAKI-1
 <td style="text-align:right;">
 0.98
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 50.00%">0.50</span>
-</td>
-<td style="text-align:left;">
-<a target="_blank" href="https://www.cbioportal.org/patient?studyId=ccle_broad_2019&amp;caseId=CAKI1_KIDNEY">Link</a>
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 TK10
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 45.00%">0.45</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.18
@@ -863,16 +870,16 @@ TK10
 <td style="text-align:right;">
 0.97
 </td>
+</tr>
+<tr>
+<td style="text-align:left;">
+U031
+</td>
 <td style="text-align:left;">
 <span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 45.00%">0.45</span>
 </td>
 <td style="text-align:left;">
 NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-U031
 </td>
 <td style="text-align:right;">
 0.04
@@ -883,16 +890,16 @@ U031
 <td style="text-align:right;">
 0.97
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 45.00%">0.45</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 LB1047-RCC
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 43.00%">0.43</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.04
@@ -903,16 +910,16 @@ LB1047-RCC
 <td style="text-align:right;">
 0.94
 </td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 43.00%">0.43</span>
-</td>
-<td style="text-align:left;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
 LB2241-RCC
+</td>
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 22.00%">0.22</span>
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
 0.04
@@ -922,12 +929,6 @@ LB2241-RCC
 </td>
 <td style="text-align:right;">
 0.98
-</td>
-<td style="text-align:left;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: pink; width: 22.00%">0.22</span>
-</td>
-<td style="text-align:left;">
-NA
 </td>
 </tr>
 </tbody>
