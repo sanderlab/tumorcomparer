@@ -17,4 +17,4 @@ output:
     include:
       in_header: google_analytics_static.js
 include: ["sitemap.txt"]
-exclude: ["*.txt", "*.tsv", "*.brew", "*.csv"]
+exclude: ["*.txt", "*.tsv", "*.brew", "*.csv", "*.md"]
