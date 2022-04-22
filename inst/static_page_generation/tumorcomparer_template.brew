@@ -1,0 +1,410 @@
+---
+title: "Choosing Cell Lines for <%= tcga_title %> Research"
+params: 
+  tcga_abbrev: "<%= tcga_abbrev %>"
+  tcga_title: "<%= tcga_title %>"
+  chunk_oncoprint_name: "<%= chunk_oncoprint_name %>"
+  chunk_oncoprint_caption: "<%= chunk_oncoprint_caption %>"
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
+```
+
+```{r}
+library(tumorcomparer)
+library(knitr)
+library(kableExtra)
+library(formattable)
+
+# PARAMETERS ----
+tcga_abbrev <- toupper(params$tcga_abbrev)
+tcga_title <- toupper(params$tcga_title)
+
+pkg_name <- "tumorcomparer"
+pkg_version <- as.character(packageVersion(pkg_name))
+
+ccle_mapping_name <- tcga_types <- c(
+  "BRCA"="BREAST",
+  "COAD"="INTESTINE",
+  "ESCA"="OESOPHAGUS",
+  "KIRC"="KIDNEY",
+  "LIHC"="LIVER", 
+  "LUAD"="LUNG",   
+  #"MESO"="PLEURA",
+  "OV"="OVARY",
+  "PAAD"="PANCREAS",
+  "PRAD"="PROSTATE",
+  "SKCM"="SKIN",
+  "STAD"="STOMACH",
+  "THCA"="THYROID",
+  "UCEC"="ENDOMETRIUM"
+)
+
+n_retrieve <- 20
+n_display <- 15
+
+# DATA ----
+## TumoComparer
+mtc_file <- system.file('extdata/mtc_results_20200331/mtc_results_20200331_no_factors.rds', package="tumorcomparer")
+mtc_dataset <- readRDS(mtc_file)
+
+## Citation
+citation_data <- read.table("results_citations_binned_20200619.txt", sep="\t", header=TRUE, stringsAsFactors=FALSE)
+
+## cBioPortal 
+cbioportal_mapping_file <- system.file(file.path("cbioportal_ccle", "ccle_cclp_cbioportal_mapping.txt"), package="tumorcomparer")
+base_url_cbioportal <- 'https://www.cbioportal.org/patient?studyId=ccle_broad_2019&caseId='
+cbioportal_mapping <- read.table(cbioportal_mapping_file, sep="\t", header=TRUE, stringsAsFactors=FALSE)
+
+cbioportal_mapping$CCLE_cBioPortal_Text[!is.na(cbioportal_mapping$CCLE_cBioPortal)] <- 
+  paste0(base_url_cbioportal, cbioportal_mapping$CCLE_cBioPortal[!is.na(cbioportal_mapping$CCLE_cBioPortal)])
+
+cbioportal_mapping$CCLE_cBioPortal[!is.na(cbioportal_mapping$CCLE_cBioPortal)] <- 
+  paste0('<a target="_blank" href="', base_url_cbioportal, cbioportal_mapping$CCLE_cBioPortal[!is.na(cbioportal_mapping$CCLE_cBioPortal)], '">Link</a>')
+
+cbioportal_mapping$ccle <- sub("https://www.cbioportal.org/patient?studyId=ccle_broad_2019&caseId=", "", cbioportal_mapping$CCLE_cBioPortal_Text, fixed=TRUE)
+cbioportal_mapping_sm <- cbioportal_mapping[complete.cases(cbioportal_mapping), ]
+
+tmp <- match(citation_data$identifier, cbioportal_mapping_sm$Model_name)
+tmp <- rev(tmp[!is.na(tmp)])
+cbioportal_mapping_sorted_by_citations <- cbioportal_mapping_sm[tmp,]
+
+## TumorComparer (MTC)
+mtc_dataset$Cell_Line_Name <- as.character(mtc_dataset$Cell_Line_Name)
+mtc_dataset$Cell_Line_Cancer_Type <- as.character(mtc_dataset$Cell_Line_Cancer_Type)
+
+t1 <- mtc_dataset[mtc_dataset$Cell_Line_Cancer_Type == toupper(tcga_abbrev),]
+t2 <- merge(t1, citation_data, by.x="Cell_Line_Name", by.y="identifier", all.x=TRUE)
+mtc_dataset <- t2[order(-t2$summed_citations),]
+
+ccl1 <- mtc_dataset$Cell_Line_Name[1]
+ccl2 <- mtc_dataset$Cell_Line_Name[2]
+ccl3 <- mtc_dataset$Cell_Line_Name[3]
+ccl4 <- mtc_dataset$Cell_Line_Name[4]
+ccl5 <- mtc_dataset$Cell_Line_Name[5]
+
+common_lines_text <- paste0(ccl1, ", ", ccl2, ", ", ccl3, ", ", ccl4, ", and ", ccl5)
+
+diff1 <- paste0(ccl1, " vs ", ccl2)
+diff2 <- paste0(ccl1, " vs ", ccl3)
+diff3 <- paste0(ccl1, " vs ", ccl4)
+
+diff_lines_text <- paste0(diff1, "; ", diff2, "; ", diff3, "; and etc")
+```
+
+`r common_lines_text` are some of the most widely used cell lines for `r tolower(tcga_title)` research. Often researchers have questions on selecting the most appropriate cell line(s) for particular research uses. 
+
+TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"} for details on the methodology. 
+
+This page provides a pre-computed analysis for `r tolower(tcga_title)` cell lines. This analysis provides insight into the differences between the `r tolower(tcga_title)` cell lines `r diff_lines_text`. 
+
+If you use content from this page, please cite [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
+
+## Characteristics of <%= tcga_title %> Cell Lines
+
+```{r}
+library(magrittr)
+library(ComplexHeatmap)
+
+# SETUP ----
+col <- c(mrna_hi="#FF9999", mrna_lo="#6699CC",
+         prot_hi = "#FF3DF7", prot_lo = "#00E0FF",
+         mut_mis_put_pass="#A68029", mut_mis_put_driv="#008000",
+         mut_inframe_put_pass="#54D400", mut_inframe_put_driv="#993305",
+         mut_trun_put_pass="#70808F", mut_trun_put_driv="#000000",
+         amp="#FF0000", deep_del="#0000FF",
+         homdel_rec="#0000FF", splice_rec="#E5802B", amp_rec="#FF0000",
+         splice="#f0b87b",
+         sv="#ce92e8", sv_rec="#8b00c9")
+
+alter_fun_list <- list(
+  background = function(x, y, w, h) {
+    grid.rect(x, y, w, h, 
+              gp = gpar(fill = "#DDDDDD", col = "white"))
+  },
+  amp = function(x, y, w, h) {
+    grid.rect(x, y, w, h, 
+              gp = gpar(fill = col["amp"], col = "white"))
+  },
+  deep_del = function(x, y, w, h) {
+    grid.rect(x, y, w, h, 
+              gp = gpar(fill = col["deep_del"], col = "white"))
+  },
+  homdel_rec = function(x, y, w, h) {
+    grid.rect(x, y, w, h, 
+              gp = gpar(fill = col["homdel_rec"], col = "white"))
+  },
+  amp_rec = function(x, y, w, h) {
+    grid.rect(x, y, w, h, 
+              gp = gpar(fill = col["amp_rec"], col = "white"))
+  },
+  mrna_hi = function(x, y, w, h) {
+    grid.rect(x, y, w*0.66, h*0.90, 
+              gp = gpar(fill = "#DDDDDD", col = col["mrna_hi"], lwd=4, linejoin='mitre'))
+  },
+  mrna_lo = function(x, y, w, h, v) {
+    grid.rect(x, y, w*0.66, h*0.90, 
+              gp = gpar(fill = "#DDDDDD", col = col["mrna_lo"], lwd=4, linejoin='mitre'))
+  },
+  prot_hi = function(x, y, w, h) {
+    grid.polygon(
+      unit.c(x + 0.43*w, x - 0.43*w, x - 0.43*w, x + 0.43*w), 
+      unit.c(y + 0.48*h, y + 0.48*h, y + 0.25*h, y + 0.25*h),
+      gp = gpar(fill = col["prot_hi"], col = col["prot_hi"], linejoin='mitre'))
+  },
+  prot_lo = function(x, y, w, h) {
+    grid.polygon(
+      unit.c(x + 0.43*w, x - 0.43*w, x - 0.43*w, x + 0.43*w), 
+      unit.c(y - 0.48*h, y - 0.48*h, y - 0.25*h, y - 0.25*h),
+      gp = gpar(fill = col["prot_lo"], col = col["prot_lo"], linejoin='mitre'))
+  },
+  mut_mis_put_pass = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.4, 
+              gp = gpar(fill = col["mut_mis_put_pass"], col = col["mut_mis_put_pass"], linejoin='mitre'))
+  },
+  mut_mis_put_driv = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.4, 
+              gp = gpar(fill = col["mut_mis_put_driv"], col = col["mut_mis_put_driv"], linejoin='mitre'))
+  },
+  mut_inframe_put_pass = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.4, 
+              gp = gpar(fill = col["mut_inframe_put_pass"], col = col["mut_inframe_put_pass"], linejoin='mitre'))
+  },
+  mut_inframe_put_driv = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.4, 
+              gp = gpar(fill = col["mut_inframe_put_driv"], col = col["mut_inframe_put_driv"], linejoin='mitre'))
+  },  
+  mut_trun_put_pass = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.4, 
+              gp = gpar(fill = col["mut_trun_put_pass"], col = col["mut_trun_put_pass"], linejoin='mitre'))
+  },
+  mut_trun_put_driv = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.4, 
+              gp = gpar(fill = col["mut_trun_put_driv"], col = col["mut_trun_put_driv"], linejoin='mitre'))
+  },
+  splice = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.4, 
+              gp = gpar(fill = col["splice"], col = col["splice"], linejoin='mitre'))
+  },
+  splice_rec = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.4, 
+              gp = gpar(fill = col["splice_rec"], col = col["splice_rec"], linejoin='mitre'))
+  },
+  sv = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.6, 
+              gp = gpar(fill = col["sv"], col = col["splice"], linejoin='mitre'))
+  },
+  sv_rec = function(x, y, w, h) {
+    grid.rect(x, y, w*0.69, h*0.6, 
+              gp = gpar(fill = col["sv_rec"], col = col["sv_rec"], linejoin='mitre'))
+  }
+)
+
+# FUNCTIONS ----
+transform_cbio_to_oncoprint <- function(df, annotation_ncol=2, verbose=FALSE) {
+  # Remove any NAs mixed with ""
+  df[is.na(df)] <- ""
+  
+  df[df == "mRNA High"] <- "mrna_hi"
+  df[df == "mRNA Low"] <- "mrna_lo"
+  df[df == "Protein High"] <- "prot_hi"
+  df[df == "Protein Low"] <- "prot_lo"
+  df[df == "Missense Mutation (putative passenger)"] <- "mut_mis_put_pass"
+  df[df == "Missense Mutation (putative driver)"] <- "mut_mis_put_driv"
+  df[df == "Inframe Mutation (putative passenger)"] <- "mut_inframe_put_pass"
+  df[df == "Inframe Mutation (putative driver)"] <- "mut_inframe_put_driv"
+  df[df == "Truncating mutation (putative passenger)"] <- "mut_trun_put_pass"
+  df[df == "Truncating mutation (putative driver)"] <- "mut_trun_put_driv"
+  df[df == "Amplification"] <- "amp"
+  df[df == "Deep Deletion"] <- "deep_del"
+  df[df == "homdel_rec"] <- "homdel_rec"
+  df[df == "amp_rec"] <- "amp_rec"
+  df[df == "sv"] <- "sv"
+  df[df == "sv_rec"] <- "sv_rec"
+  df[df == "splice"] <- "splice"
+  
+  # entry_types <- as.vector(as.matrix(df[-1, 3:ncol(df),])) %>% unique
+  entry_types <- as.vector(as.matrix(df[, 3:ncol(df),])) %>% unique %>% sort
+  
+  if(verbose) { cat("ENT: ", paste(entry_types, collapse="|")) }
+  
+  genes <- unique(df$track_name)
+  tracks <- unique(df$track_type)
+  
+  if(verbose) { 
+    cat("GENES: ", paste(genes, collapse="|"), "\n")
+    cat("TRACKS: ", paste(tracks, collapse="|"), "\n")
+  } 
+  
+  mat <- matrix("", nrow=length(genes), ncol=(ncol(df)-annotation_ncol))
+  rownames(mat) <- genes 
+  colnames(mat) <- colnames(df)[-c(1:annotation_ncol)]
+  
+  if(verbose) { cat("FINAL DIM: ROWS: ", nrow(mat), " COLS: ", ncol(mat), "\n") }
+  
+  for(k in 1:length(tracks)) {
+    track <- tracks[k]
+    
+    if(verbose) {
+      cat("CUR TRACK: ", track, "\n")
+    }
+    
+    for(i in 1:nrow(mat)) {
+      for(j in 1:ncol(mat)) {
+        gene <- rownames(mat)[i]
+        
+        tmp_df <- df[df$track_type == track,]
+        cur_entry <- tmp_df[i, j+annotation_ncol]
+        
+        if(!is.na(cur_entry) && cur_entry != "") {
+          if(mat[gene, j] != "") {
+            mat[gene, j] <- paste0(mat[gene, j], ";", cur_entry)             
+          } else {
+            mat[gene,j] <- cur_entry 
+          }
+        }
+      }
+    }
+  }
+  
+  return(mat)
+}
+
+# LOAD DATA ----
+## DisGenNet
+disgenet_mapping <- read.table("disgenet_tcga_mapping_20220321.txt", sep="\t", header=TRUE, stringsAsFactors=FALSE)
+disgenet_genes <- disgenet_mapping$geneSymbol[disgenet_mapping$tcga == toupper(tcga_abbrev)]
+
+ccle_mapping_name <- tcga_types <- c(
+  "BRCA"="BREAST",
+  "COAD"="INTESTINE",
+  "ESCA"="OESOPHAGUS",
+  "KIRC"="KIDNEY",
+  "LIHC"="LIVER", 
+  "LUAD"="LUNG",   
+  #"MESO"="PLEURA",
+  "OV"="OVARY",
+  "PAAD"="PANCREAS",
+  "PRAD"="PROSTATE",
+  "SKCM"="SKIN",
+  "STAD"="STOMACH",
+  "THCA"="THYROID",
+  "UCEC"="ENDOMETRIUM"
+)
+oncoprint_type <- ccle_mapping_name[toupper(tcga_abbrev)]
+
+n_retrieve <- 20
+n_display <- 15
+
+idx <- which(cbioportal_mapping_sorted_by_citations$TCGA_Type == names(oncoprint_type))
+n_retrieve <- ifelse(length(idx) >= n_retrieve, n_retrieve, length(idx))
+n_display <- ifelse(length(idx) >= n_display, n_display, length(idx))
+
+t2x <- read.table("ccle_2019_onco500_PATIENT_DATA_oncoprint.tsv.gz", sep="\t", header=TRUE, stringsAsFactors=FALSE)
+#selected_cell_lines_tmp <- colnames(t2x)[grepl(oncoprint_type, colnames(t2x))] %>% sort
+#selected_cell_lines <- selected_cell_lines_tmp[1:n_retrieve]
+selected_cell_lines <- cbioportal_mapping_sorted_by_citations$ccle[idx[1:n_retrieve]]
+
+t2y <- colnames(t2x)[grepl(oncoprint_type, colnames(t2x))]
+selected_cell_lines <- selected_cell_lines[selected_cell_lines %in% t2y]
+selected_cell_lines <- selected_cell_lines[1:n_display]
+selected_cell_lines <- selected_cell_lines[!is.na(selected_cell_lines)]
+
+t2 <- t2x[-c(1:5), c("track_name", "track_type", selected_cell_lines)] # For CCLE -c(1:5)
+#t2x <- t2
+t2x <- t2[t2$track_name %in% disgenet_genes,]
+m2 <- transform_cbio_to_oncoprint(t2x)
+#m2x <- m2[rownames(m1x),]
+m2x <- m2
+d2 <- as.data.frame(m2x, stringsAsFactors=FALSE)
+
+#disgenet_mapping$geneSymbol[disgenet_mapping$tcga == "BRCA"]
+
+h2 <- oncoPrint(m2x,
+                col = col,
+                alter_fun = alter_fun_list, 
+                alter_fun_is_vectorized = FALSE,
+                #top_annotation = columnAnnotation(month = anno_text(selected_cell_lines, just = "center", location = unit(0.5, "npc"), gp = gpar(fontsize = 10), rot = 90, show_name = FALSE)),
+                top_annotation = columnAnnotation(month = anno_text(selected_cell_lines, gp = gpar(fontsize = 10), show_name = FALSE)),
+                #bottom_annotation = columnAnnotation('Drug' = drug_annot), #DRUG HERE
+                right_annotation = NULL,
+                #right_annotation = rowAnnotation(D1 = runif(nrow(m2))),
+                #show_column_names = TRUE,
+                show_row_names = TRUE,
+                row_names_side = "left",
+                show_pct = FALSE,
+                pct_side = "right",
+                #column_title = "Cell Lines",
+                #heatmap_legend_param = heatmap_legend_param
+)
+
+tmp_gene_text <- rownames(m2x)[h2@row_order[1:5]]
+tmp_cell_text <- colnames(m2x)[h2@column_order[1:5]]
+
+oncoprint_gene_text <- paste0(paste(tmp_gene_text, collapse=", "), ", etc.")
+oncoprint_cell_text <- paste0(paste(gsub("_.*$", "", tmp_cell_text), collapse=", "), ", etc2")
+```
+
+The figure shows the presence of alterations for genes (`r oncoprint_gene_text`) commonly associated with `r tolower(tcga_title)` in the cell lines: `r oncoprint_cell_text`. The gene list is retrieved from [DisGeNET](https://www.disgenet.org/){target="_blank"}, and the alteration information is retrieved from [cBioPortal](https://www.cbioportal.org/){target="_blank"} for the Cancer Cell Line Encyclopedia (CCLE) dataset. 
+
+NOTE: Only a subset of `r tolower(tcga_title)` cell lines are shown to ensure a readable figure. Alterations for additional `r tolower(tcga_title)` cell lines and genes are available on [cBioPortal](https://www.cbioportal.org/){target="_blank"} using links on the table below.
+
+```{r <%= chunk_oncoprint_name %>, fig.align='center', fig.width=6.5, fig.cap="<%= chunk_oncoprint_caption %>"}
+draw(h2)
+```
+
+## Cell Line Comparison to Pan-Cancer TCGA
+
+The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
+
+More information for the `r tolower(tcga_title)` cell lines is available on [cBioPortal](https://www.cbioportal.org/){target="_blank"} using links on the table below.
+
+```{r}
+mtc_selected_columns <- c(
+  "Cell Line"="Cell_Line_Name", 
+  "% Rank by Mutation"="MUTSIM_Percentile_Ranks", 
+  "% Rank by Copy Number"="CNASIM_Percentile_Ranks", 
+  "% Rank by Expression"="EXPSIM_Percentile_Ranks",
+  "% Rank by Avg % Ranks"="Rank_of_Average_Of_Percentile_Ranks")
+
+colnames(cbioportal_mapping) <- c("Model_name", "TCGA_Type", "cBioPortal", "cBioPortal_Link")
+
+tcga_type <- toupper(tcga_abbrev)
+df <- mtc_dataset
+
+# Filter
+idx <- which(df$Tumor_Cancer_Type == tcga_type)
+df <- df[idx, ]
+
+# Round numeric columns 
+is.num <- sapply(df, is.numeric)
+df[is.num] <- lapply(df[is.num], round, 2)
+
+# Filter dataset
+df <- df[, mtc_selected_columns]
+df <- df[order(-df$Rank_of_Average_Of_Percentile_Ranks), ]
+colnames(df) <- names(mtc_selected_columns)
+
+df_tmp <- merge(df, cbioportal_mapping, by.x='Cell Line', by.y="Model_name", all.x=TRUE)
+
+selected_cols <- c("Cell Line", "% Rank by Avg % Ranks", "cBioPortal", "% Rank by Mutation", "% Rank by Copy Number", "% Rank by Expression")
+df_site <- df_tmp[order(-df_tmp[, "% Rank by Avg % Ranks"]), selected_cols]
+
+df_site$`% Rank by Avg % Ranks` <- color_bar("pink")(df_site$`% Rank by Avg % Ranks`)
+
+colnames(df_site)[3] <- "More Line Info"
+
+table_caption <- paste0("The table shows ", tolower(tcga_title), " cell lines sorted by similarity to characteristics of TCGA tumors based on expression, mutation, and copy number information. Cell Lines with higher values of '% Rank by Avg % Ranks' are considered better matches.")
+
+knitr::kable(df_site, row.names = FALSE, format = "html", escape = FALSE, caption = table_caption) %>%
+  kableExtra::kable_styling()
+```
+
+## Customized Comparisons 
+
+Each project has unique questions. TumorComparer ([tumorcomparer.org](http://tumorcomparer.org){target="_blank"}) facilities customized comparisons of cell line datasets to tumor samples directly from the browser. 
+
+## Technical Information
+
+This analysis was generated using TumorComparer: `r pkg_version`. If you use content from this page, please cite [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.

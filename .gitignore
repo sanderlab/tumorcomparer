@@ -18,3 +18,4 @@ Meta
 ignore_vignette_notes.R
 *.diff
 cache_tc
+inst/static_page_generation/_static

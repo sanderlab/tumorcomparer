@@ -1,0 +1,20 @@
+name: "tumorcomparer"
+output_dir: "_static"
+navbar:
+  title: "TumorComparer"
+  left:
+    - text: "Pre-Computed Analysis"
+      href: http://projects.sanderlab.org/tumorcomparer
+    - text: "User Data Analysis"
+      href: http://projects.sanderlab.org/tumorcomparer
+    - text: "About"
+      href: http://projects.sanderlab.org/tumorcomparer
+    - text: "Cancer Type Summaries"
+      href: index.html
+output:
+  html_document:
+    css: style.css
+    include:
+      in_header: google_analytics_static.js
+include: ["sitemap.txt"]
+exclude: ["*.txt", "*.tsv", "*.brew", "*.csv"]
