@@ -282,7 +282,7 @@ for(i in 1:length(genes)) {
 idx <- grepl("_MATCH", colnames(ccle_mutation_dat_filtered)) %>% which
 
 if(length(idx) > 0) {
-  cat(paste0("## Cell Lines with ", tcga_title, " Mutations\n"))
+  cat(paste0("## Cell Lines with Mutations Found in TCGA ", tcga_title, "\n"))
   cat(paste0("Alterations present in cell lines also present in at least two TCGA Pan-Cancer Atlas (", tcga_abbrev, ") samples on [cBioPortal](https://www.cbioportal.org/){target='_blank'}.\n\n"))
   cat("### Alterations\n\n")
 
