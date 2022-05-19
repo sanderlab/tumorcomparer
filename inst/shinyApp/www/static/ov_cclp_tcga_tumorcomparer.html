@@ -287,11 +287,11 @@ $(document).ready(function () {
 
 <p>SK-OV-3, A2780, OVCAR-3, IGROV-1, and PA-1 are some of the most widely used cell lines for ovarian cancer research. Often researchers have questions on selecting the most appropriate cell line(s) for particular research uses.</p>
 <p>TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a> for details on the methodology.</p>
-<p>This page provides a pre-computed analysis for ovarian cancer cell lines. This analysis provides insight into the differences between the ovarian cancer cell lines SK-OV-3 vs A2780; SK-OV-3 vs OVCAR-3; SK-OV-3 vs IGROV-1; and etc.</p>
+<p>This is an analysis for ovarian cancer cell lines with differences between the ovarian cancer cell lines SK-OV-3 vs A2780; SK-OV-3 vs OVCAR-3; SK-OV-3 vs IGROV-1; and etc.</p>
 <p>If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
 <div id="characteristics-of-ovarian-cancer-cell-lines" class="section level2">
 <h2>Characteristics of Ovarian Cancer Cell Lines</h2>
-<p>The figure shows the presence of alterations for genes (TP53, PIK3CA, AKT1, BRCA1, PTEN, etc.) commonly associated with ovarian cancer in the cell lines: SKOV3, OVCAR4, IGROV1, EFO27, OV90, etc.. The gene list is retrieved from <a href="https://www.disgenet.org/" target="_blank">DisGeNET</a>, and the alteration information is retrieved from <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> for the Cancer Cell Line Encyclopedia (CCLE) dataset.</p>
+<p>The figure shows the presence of alterations for genes (TP53, PIK3CA, AKT1, BRCA1, PTEN, etc.) commonly associated with ovarian cancer in the cell lines: SKOV3, OVCAR4, IGROV1, EFO27, OV90, etc2. The gene list is retrieved from <a href="https://www.disgenet.org/" target="_blank">DisGeNET</a>, and the alteration information is retrieved from <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> for the Cancer Cell Line Encyclopedia (CCLE) dataset.</p>
 <p>NOTE: Only a subset of ovarian cancer cell lines are shown to ensure a readable figure. Alterations for additional ovarian cancer cell lines and genes are available on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> using links on the table below.</p>
 <div class="figure" style="text-align: center">
 <img src="ov_cclp_tcga_tumorcomparer_files/figure-html/comparing_ovarian_cancer_cell_lines_to_tumor_samples.-1.png" alt="Comparing ovarian cancer cell lines to tumor samples. Legend Abbreviations: mrna_hi = mRNA High; mrna_lo = mRNA Low; prot_hi = Protein High; prot_lo = Protein Low; mut_mis_put_pass = Missense Mutation (putative passenger); mut_mis_put_driv = Missense Mutation (putative driver); mut_inframe_put_pass = Inframe Mutation (putative passenger); mut_inframe_put_driv = Inframe Mutation (putative driver); mut_trun_put_pass = Truncating mutation (putative passenger); mut_trun_put_driv = Truncating mutation (putative driver); amp = Amplification; deep_del = Deep Deletion; homdel_rec = homdel_rec; amp_rec = amp_rec; sv = sv; sv_rec = sv_rec; splice = splice" width="624" />
@@ -1073,6 +1073,43 @@ OVK-18
 </tr>
 </tbody>
 </table>
+</div>
+<div id="cell-lines-with-ovarian-cancer-mutations" class="section level2">
+<h2>Cell Lines with Ovarian Cancer Mutations</h2>
+<p>Alterations present in cell lines also present in at least two TCGA Pan-Cancer Atlas (OV) samples on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a>.</p>
+<div id="alterations" class="section level3">
+<h3>Alterations</h3>
+<div id="tp53-r175h" class="section level4">
+<h4>TP53 R175H</h4>
+<ul>
+<li>HS571T</li>
+<li>TYKNU</li>
+<li>TOV112D</li>
+</ul>
+</div>
+<div id="tp53-r248q" class="section level4">
+<h4>TP53 R248Q</h4>
+<ul>
+<li>NIHOVCAR3</li>
+<li>ONCODG1</li>
+</ul>
+</div>
+<div id="tp53-r273h" class="section level4">
+<h4>TP53 R273H</h4>
+<ul>
+<li>OC316</li>
+<li>OC314</li>
+</ul>
+</div>
+<div id="pik3ca-h1047r" class="section level4">
+<h4>PIK3CA H1047R</h4>
+<ul>
+<li>SKOV3</li>
+<li>SNU840</li>
+<li>MCAS</li>
+</ul>
+</div>
+</div>
 </div>
 <div id="customized-comparisons" class="section level2">
 <h2>Customized Comparisons</h2>

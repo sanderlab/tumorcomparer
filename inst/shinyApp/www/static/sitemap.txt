@@ -7,8 +7,6 @@ http://projects.sanderlab.org/tumorcomparer/static/lihc_cclp_tcga_tumorcomparer.
 http://projects.sanderlab.org/tumorcomparer/static/luad_cclp_tcga_tumorcomparer.html
 http://projects.sanderlab.org/tumorcomparer/static/ov_cclp_tcga_tumorcomparer.html
 http://projects.sanderlab.org/tumorcomparer/static/paad_cclp_tcga_tumorcomparer.html
-http://projects.sanderlab.org/tumorcomparer/static/prad_cclp_tcga_tumorcomparer.html
-http://projects.sanderlab.org/tumorcomparer/static/skcm_cclp_tcga_tumorcomparer.html
 http://projects.sanderlab.org/tumorcomparer/static/stad_cclp_tcga_tumorcomparer.html
 http://projects.sanderlab.org/tumorcomparer/static/thca_cclp_tcga_tumorcomparer.html
 http://projects.sanderlab.org/tumorcomparer/static/ucec_cclp_tcga_tumorcomparer.html

@@ -13,33 +13,21 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 
 ```{r}
 library(tumorcomparer)
+
 library(knitr)
 library(kableExtra)
 library(formattable)
 
 # PARAMETERS ----
 tcga_abbrev <- toupper(params$tcga_abbrev)
-tcga_title <- toupper(params$tcga_title)
+tcga_title <- params$tcga_title
 
 pkg_name <- "tumorcomparer"
 pkg_version <- as.character(packageVersion(pkg_name))
 
-ccle_mapping_name <- tcga_types <- c(
-  "BRCA"="BREAST",
-  "COAD"="INTESTINE",
-  "ESCA"="OESOPHAGUS",
-  "KIRC"="KIDNEY",
-  "LIHC"="LIVER", 
-  "LUAD"="LUNG",   
-  #"MESO"="PLEURA",
-  "OV"="OVARY",
-  "PAAD"="PANCREAS",
-  "PRAD"="PROSTATE",
-  "SKCM"="SKIN",
-  "STAD"="STOMACH",
-  "THCA"="THYROID",
-  "UCEC"="ENDOMETRIUM"
-)
+ccle_tcga_mapping <- read.table("ccle_tcga_mapping.txt", sep="\t", header=TRUE, stringsAsFactors=FALSE)
+ccle_mapping_name <- ccle_tcga_mapping$ccle
+names(ccle_mapping_name) <- ccle_tcga_mapping$tcga
 
 n_retrieve <- 20
 n_display <- 15
@@ -97,7 +85,7 @@ diff_lines_text <- paste0(diff1, "; ", diff2, "; ", diff3, "; and etc")
 
 TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"} for details on the methodology. 
 
-This page provides a pre-computed analysis for `r tolower(tcga_title)` cell lines. This analysis provides insight into the differences between the `r tolower(tcga_title)` cell lines `r diff_lines_text`. 
+This is an analysis for `r tolower(tcga_title)` cell lines with differences between the `r tolower(tcga_title)` cell lines `r diff_lines_text`. 
 
 If you use content from this page, please cite [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
 
@@ -108,190 +96,17 @@ library(magrittr)
 library(ComplexHeatmap)
 
 # SETUP ----
-col <- c(mrna_hi="#FF9999", mrna_lo="#6699CC",
-         prot_hi = "#FF3DF7", prot_lo = "#00E0FF",
-         mut_mis_put_pass="#A68029", mut_mis_put_driv="#008000",
-         mut_inframe_put_pass="#54D400", mut_inframe_put_driv="#993305",
-         mut_trun_put_pass="#70808F", mut_trun_put_driv="#000000",
-         amp="#FF0000", deep_del="#0000FF",
-         homdel_rec="#0000FF", splice_rec="#E5802B", amp_rec="#FF0000",
-         splice="#f0b87b",
-         sv="#ce92e8", sv_rec="#8b00c9")
-
-alter_fun_list <- list(
-  background = function(x, y, w, h) {
-    grid.rect(x, y, w, h, 
-              gp = gpar(fill = "#DDDDDD", col = "white"))
-  },
-  amp = function(x, y, w, h) {
-    grid.rect(x, y, w, h, 
-              gp = gpar(fill = col["amp"], col = "white"))
-  },
-  deep_del = function(x, y, w, h) {
-    grid.rect(x, y, w, h, 
-              gp = gpar(fill = col["deep_del"], col = "white"))
-  },
-  homdel_rec = function(x, y, w, h) {
-    grid.rect(x, y, w, h, 
-              gp = gpar(fill = col["homdel_rec"], col = "white"))
-  },
-  amp_rec = function(x, y, w, h) {
-    grid.rect(x, y, w, h, 
-              gp = gpar(fill = col["amp_rec"], col = "white"))
-  },
-  mrna_hi = function(x, y, w, h) {
-    grid.rect(x, y, w*0.66, h*0.90, 
-              gp = gpar(fill = "#DDDDDD", col = col["mrna_hi"], lwd=4, linejoin='mitre'))
-  },
-  mrna_lo = function(x, y, w, h, v) {
-    grid.rect(x, y, w*0.66, h*0.90, 
-              gp = gpar(fill = "#DDDDDD", col = col["mrna_lo"], lwd=4, linejoin='mitre'))
-  },
-  prot_hi = function(x, y, w, h) {
-    grid.polygon(
-      unit.c(x + 0.43*w, x - 0.43*w, x - 0.43*w, x + 0.43*w), 
-      unit.c(y + 0.48*h, y + 0.48*h, y + 0.25*h, y + 0.25*h),
-      gp = gpar(fill = col["prot_hi"], col = col["prot_hi"], linejoin='mitre'))
-  },
-  prot_lo = function(x, y, w, h) {
-    grid.polygon(
-      unit.c(x + 0.43*w, x - 0.43*w, x - 0.43*w, x + 0.43*w), 
-      unit.c(y - 0.48*h, y - 0.48*h, y - 0.25*h, y - 0.25*h),
-      gp = gpar(fill = col["prot_lo"], col = col["prot_lo"], linejoin='mitre'))
-  },
-  mut_mis_put_pass = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.4, 
-              gp = gpar(fill = col["mut_mis_put_pass"], col = col["mut_mis_put_pass"], linejoin='mitre'))
-  },
-  mut_mis_put_driv = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.4, 
-              gp = gpar(fill = col["mut_mis_put_driv"], col = col["mut_mis_put_driv"], linejoin='mitre'))
-  },
-  mut_inframe_put_pass = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.4, 
-              gp = gpar(fill = col["mut_inframe_put_pass"], col = col["mut_inframe_put_pass"], linejoin='mitre'))
-  },
-  mut_inframe_put_driv = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.4, 
-              gp = gpar(fill = col["mut_inframe_put_driv"], col = col["mut_inframe_put_driv"], linejoin='mitre'))
-  },  
-  mut_trun_put_pass = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.4, 
-              gp = gpar(fill = col["mut_trun_put_pass"], col = col["mut_trun_put_pass"], linejoin='mitre'))
-  },
-  mut_trun_put_driv = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.4, 
-              gp = gpar(fill = col["mut_trun_put_driv"], col = col["mut_trun_put_driv"], linejoin='mitre'))
-  },
-  splice = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.4, 
-              gp = gpar(fill = col["splice"], col = col["splice"], linejoin='mitre'))
-  },
-  splice_rec = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.4, 
-              gp = gpar(fill = col["splice_rec"], col = col["splice_rec"], linejoin='mitre'))
-  },
-  sv = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.6, 
-              gp = gpar(fill = col["sv"], col = col["splice"], linejoin='mitre'))
-  },
-  sv_rec = function(x, y, w, h) {
-    grid.rect(x, y, w*0.69, h*0.6, 
-              gp = gpar(fill = col["sv_rec"], col = col["sv_rec"], linejoin='mitre'))
-  }
-)
-
-# FUNCTIONS ----
-transform_cbio_to_oncoprint <- function(df, annotation_ncol=2, verbose=FALSE) {
-  # Remove any NAs mixed with ""
-  df[is.na(df)] <- ""
-  
-  df[df == "mRNA High"] <- "mrna_hi"
-  df[df == "mRNA Low"] <- "mrna_lo"
-  df[df == "Protein High"] <- "prot_hi"
-  df[df == "Protein Low"] <- "prot_lo"
-  df[df == "Missense Mutation (putative passenger)"] <- "mut_mis_put_pass"
-  df[df == "Missense Mutation (putative driver)"] <- "mut_mis_put_driv"
-  df[df == "Inframe Mutation (putative passenger)"] <- "mut_inframe_put_pass"
-  df[df == "Inframe Mutation (putative driver)"] <- "mut_inframe_put_driv"
-  df[df == "Truncating mutation (putative passenger)"] <- "mut_trun_put_pass"
-  df[df == "Truncating mutation (putative driver)"] <- "mut_trun_put_driv"
-  df[df == "Amplification"] <- "amp"
-  df[df == "Deep Deletion"] <- "deep_del"
-  df[df == "homdel_rec"] <- "homdel_rec"
-  df[df == "amp_rec"] <- "amp_rec"
-  df[df == "sv"] <- "sv"
-  df[df == "sv_rec"] <- "sv_rec"
-  df[df == "splice"] <- "splice"
-  
-  # entry_types <- as.vector(as.matrix(df[-1, 3:ncol(df),])) %>% unique
-  entry_types <- as.vector(as.matrix(df[, 3:ncol(df),])) %>% unique %>% sort
-  
-  if(verbose) { cat("ENT: ", paste(entry_types, collapse="|")) }
-  
-  genes <- unique(df$track_name)
-  tracks <- unique(df$track_type)
-  
-  if(verbose) { 
-    cat("GENES: ", paste(genes, collapse="|"), "\n")
-    cat("TRACKS: ", paste(tracks, collapse="|"), "\n")
-  } 
-  
-  mat <- matrix("", nrow=length(genes), ncol=(ncol(df)-annotation_ncol))
-  rownames(mat) <- genes 
-  colnames(mat) <- colnames(df)[-c(1:annotation_ncol)]
-  
-  if(verbose) { cat("FINAL DIM: ROWS: ", nrow(mat), " COLS: ", ncol(mat), "\n") }
-  
-  for(k in 1:length(tracks)) {
-    track <- tracks[k]
-    
-    if(verbose) {
-      cat("CUR TRACK: ", track, "\n")
-    }
-    
-    for(i in 1:nrow(mat)) {
-      for(j in 1:ncol(mat)) {
-        gene <- rownames(mat)[i]
-        
-        tmp_df <- df[df$track_type == track,]
-        cur_entry <- tmp_df[i, j+annotation_ncol]
-        
-        if(!is.na(cur_entry) && cur_entry != "") {
-          if(mat[gene, j] != "") {
-            mat[gene, j] <- paste0(mat[gene, j], ";", cur_entry)             
-          } else {
-            mat[gene,j] <- cur_entry 
-          }
-        }
-      }
-    }
-  }
-  
-  return(mat)
-}
+source("https://raw.githubusercontent.com/cannin/cbioportal_to_complexheatmap_oncoprint/master/transform_cbioportal_to_complexheatmap_oncoprint.R")
 
 # LOAD DATA ----
 ## DisGenNet
 disgenet_mapping <- read.table("disgenet_tcga_mapping_20220321.txt", sep="\t", header=TRUE, stringsAsFactors=FALSE)
 disgenet_genes <- disgenet_mapping$geneSymbol[disgenet_mapping$tcga == toupper(tcga_abbrev)]
 
-ccle_mapping_name <- tcga_types <- c(
-  "BRCA"="BREAST",
-  "COAD"="INTESTINE",
-  "ESCA"="OESOPHAGUS",
-  "KIRC"="KIDNEY",
-  "LIHC"="LIVER", 
-  "LUAD"="LUNG",   
-  #"MESO"="PLEURA",
-  "OV"="OVARY",
-  "PAAD"="PANCREAS",
-  "PRAD"="PROSTATE",
-  "SKCM"="SKIN",
-  "STAD"="STOMACH",
-  "THCA"="THYROID",
-  "UCEC"="ENDOMETRIUM"
-)
+ccle_tcga_mapping <- read.table("ccle_tcga_mapping.txt", sep="\t", header=TRUE, stringsAsFactors=FALSE)
+ccle_mapping_name <- ccle_tcga_mapping$ccle
+names(ccle_mapping_name) <- ccle_tcga_mapping$tcga
+
 oncoprint_type <- ccle_mapping_name[toupper(tcga_abbrev)]
 
 n_retrieve <- 20
@@ -314,7 +129,10 @@ selected_cell_lines <- selected_cell_lines[!is.na(selected_cell_lines)]
 t2 <- t2x[-c(1:5), c("track_name", "track_type", selected_cell_lines)] # For CCLE -c(1:5)
 #t2x <- t2
 t2x <- t2[t2$track_name %in% disgenet_genes,]
-m2 <- transform_cbio_to_oncoprint(t2x)
+t3x <- transform_cbioportal_to_complexheatmap_oncoprint(t2x)
+m2 <- t3x$mat
+col <- t3x$col 
+alter_fun_list <- t3x$alter_fun_list
 #m2x <- m2[rownames(m1x),]
 m2x <- m2
 d2 <- as.data.frame(m2x, stringsAsFactors=FALSE)
@@ -325,8 +143,8 @@ h2 <- oncoPrint(m2x,
                 col = col,
                 alter_fun = alter_fun_list, 
                 alter_fun_is_vectorized = FALSE,
-                #top_annotation = columnAnnotation(month = anno_text(selected_cell_lines, just = "center", location = unit(0.5, "npc"), gp = gpar(fontsize = 10), rot = 90, show_name = FALSE)),
-                top_annotation = columnAnnotation(month = anno_text(selected_cell_lines, gp = gpar(fontsize = 10), show_name = FALSE)),
+                #top_annotation = columnAnnotation(month = anno_text(selected_cell_lines, just = "center", location = unit(0.5, "npc"), gp = gpar(fontsize = 10), rot = 90)),
+                top_annotation = columnAnnotation(month = anno_text(selected_cell_lines, gp = gpar(fontsize = 10))),
                 #bottom_annotation = columnAnnotation('Drug' = drug_annot), #DRUG HERE
                 right_annotation = NULL,
                 #right_annotation = rowAnnotation(D1 = runif(nrow(m2))),
@@ -399,6 +217,102 @@ table_caption <- paste0("The table shows ", tolower(tcga_title), " cell lines so
 
 knitr::kable(df_site, row.names = FALSE, format = "html", escape = FALSE, caption = table_caption) %>%
   kableExtra::kable_styling()
+```
+
+```{r}
+# TODO: https://www.cbioportal.org/results/mutations?cancer_study_list=brca_tcga_pan_can_atlas_2018&Z_SCORE_THRESHOLD=2.0&RPPA_SCORE_THRESHOLD=2.0&profileFilter=mutations&case_set_id=brca_tcga_pan_can_atlas_2018_cnaseq&gene_list=TP53&geneset_list=%20&tab_index=tab_visualize&Action=Submit THIS -> brca_tcga_pan_can_atlas_2018 brca_tcga_pan_can_atlas_2018_cnaseq
+
+# LOAD DATA ----
+mutations_filename <- file.path(paste0("cbioportal_mutations/mutations_", tolower(tcga_abbrev), ".txt"))
+tcga_mutation_dat <- read.table(mutations_filename, sep="\t", header=TRUE, stringsAsFactors=FALSE)
+ccle_mutation_dat <- read.table("cbioportal_mutations/mutations_ccle_2019.txt", sep="\t", header=TRUE, stringsAsFactors=FALSE)
+
+ccle_suffix <- ccle_tcga_mapping$ccle[ccle_tcga_mapping$tcga == tcga_abbrev]
+
+# EXTRACT TCGA MUTATIONS ----
+idx <- which(!(colnames(tcga_mutation_dat) %in% c("STUDY_ID", "SAMPLE_ID")))
+
+# Make a list of missense mutations in TCGA data 
+tcga_mutation_lst <- sapply(idx, function(y) {
+  y <- sapply(tcga_mutation_dat[, y], function(x) {
+    strsplit(x, " ")[[1]]
+  })
+  
+  # Limit search to 1) missense mutations, 2) must be present in 2 TCGA samples, and 3) ignore WT, wild type entries 
+  z <- unlist(y) %>% table
+  z1 <- z[grepl("^[A-Z0-9]+$", names(z))] %>% .[. >= 2] %>% .[nchar(names(.)) > 2] %>% sort
+  z1
+})
+
+names(tcga_mutation_lst) <- colnames(tcga_mutation_dat)[idx]
+
+# Remove empty entries in list 
+tcga_mutation_lst_filtered <- tcga_mutation_lst[lapply(tcga_mutation_lst, length) > 0]
+
+# FILTER CCLE DATA BY TCGA MUTATIONS ----
+tmp <- ccle_mutation_dat[grepl(ccle_suffix, ccle_mutation_dat$SAMPLE_ID),]
+ccle_mutation_dat_filtered <- tmp[, colnames(tmp) %in% c("STUDY_ID", "SAMPLE_ID", names(tcga_mutation_lst_filtered))]
+
+genes <- names(tcga_mutation_lst_filtered)
+genes <- genes[genes %in% colnames(ccle_mutation_dat)]
+
+for(i in 1:length(genes)) {
+  #i <- 1
+  #cat("I: ", i, "\n")
+  cur_gene <- genes[i]
+  
+  patterns <- tcga_mutation_lst_filtered[[cur_gene]] %>% names %>% sort
+  
+  t1 <- sapply(patterns, function(x) {
+    grepl(x, ccle_mutation_dat_filtered[, cur_gene])
+  })
+
+  colnames(t1) <- paste0(cur_gene, "_", colnames(t1), "_MATCH")
+
+  t2 <- t1[, colSums(t1) > 1, drop=FALSE]
+  
+  if(ncol(t2) > 0) {
+    ccle_mutation_dat_filtered <- cbind(ccle_mutation_dat_filtered, t2)    
+  }
+}
+```
+
+```{r, results='asis'}
+# ITERATE OVER GENE-MUTATION PAIRS IN CCLE ----
+idx <- grepl("_MATCH", colnames(ccle_mutation_dat_filtered)) %>% which
+
+if(length(idx) > 0) {
+  cat(paste0("## Cell Lines with ", tcga_title, " Mutations\n"))
+  cat(paste0("Alterations present in cell lines also present in at least two TCGA Pan-Cancer Atlas (", tcga_abbrev, ") samples on [cBioPortal](https://www.cbioportal.org/){target='_blank'}.\n\n"))
+  cat("### Alterations\n\n")
+
+  ccle_mutation_dat_matches <- ccle_mutation_dat_filtered[, idx, drop=FALSE]
+  
+  for(i in 1:length(idx)) {
+    #i <- 4
+    colnames_matches <- colnames(ccle_mutation_dat_matches)
+    cur_col <- colnames_matches[i]
+    
+    tmp <- strsplit(cur_col, "_")[[1]]
+    gene <- tmp[1]
+    alteration <- tmp[2]
+    
+    selected_cols <- c("SAMPLE_ID", gene, cur_col)
+    t2 <- ccle_mutation_dat_filtered[, selected_cols, drop=FALSE]
+    idx <- t2[, cur_col]
+    matching_lines <- t2[idx,] 
+    
+    cat(paste0("#### ", gene, " ", alteration, "\n"))
+      
+    for(j in 1:nrow(matching_lines)) {
+      #j <- 1
+      cur_line <- matching_lines$SAMPLE_ID[j] %>% gsub(paste0("_", ccle_suffix), "", .)
+      cat(paste0("* ", cur_line, "\n"))
+    }
+    
+    cat("\n")
+  }  
+}
 ```
 
 ## Customized Comparisons 

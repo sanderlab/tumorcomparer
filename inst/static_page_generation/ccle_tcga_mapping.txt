@@ -1,0 +1,12 @@
+name	tcga	ccle
+Breast Cancer	BRCA	BREAST
+Colon Cancer	COAD	LARGE_INTESTINE
+Endometrial Cancer	UCEC	ENDOMETRIUM
+Esophageal Cancer	ESCA	OESOPHAGUS
+Kidney Cancer	KIRC	KIDNEY
+Liver Hepatocellular Cancer	LIHC	LIVER
+Lung adenocarcinoma	LUAD	LUNG
+Ovarian Cancer	OV	OVARY
+Pancreatic Cancer	PAAD	PANCREAS
+Stomach Cancer	STAD	STOMACH
+Thyroid Cancer	THCA	THYROID
