@@ -27,6 +27,7 @@ shinyUI(
                           selectInput("gene_set", "Select Gene Set", choices=genesets, selected = "Most Variable Genes")
                         ),
                         mainPanel(
+                          p("TumorComparer uses tumor and cell line data to guide experimental model choice; 24 cancers are assessed using NCI TCGA and Sanger COSMIC data. Please cite: ", a(href="https://doi.org/10.1016/j.crmeth.2021.100039", "Sinha R, et al., 2021.")),
                           h3("Similarity Plot"),
                           div(align="left", plotlyOutput("preComputedPlot", height=600, width=800)), 
                           h3("Similarity Table"),
