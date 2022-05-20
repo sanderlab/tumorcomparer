@@ -5,7 +5,7 @@ Endometrial Cancer	UCEC	ENDOMETRIUM
 Esophageal Cancer	ESCA	OESOPHAGUS
 Kidney Cancer	KIRC	KIDNEY
 Liver Hepatocellular Cancer	LIHC	LIVER
-Lung adenocarcinoma	LUAD	LUNG
+Lung Adenocarcinoma	LUAD	LUNG
 Ovarian Cancer	OV	OVARY
 Pancreatic Cancer	PAAD	PANCREAS
 Stomach Cancer	STAD	STOMACH

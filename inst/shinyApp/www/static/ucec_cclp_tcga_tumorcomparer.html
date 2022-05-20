@@ -286,12 +286,12 @@ $(document).ready(function () {
 
 
 <p>RL95-2, HEC-1, AN3-CA, MFE-296, and SNG-M are some of the most widely used cell lines for endometrial cancer research. Often researchers have questions on selecting the most appropriate cell line(s) for particular research uses.</p>
-<p>TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a> for details on the methodology.</p>
+<p>TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a> for details on the methodology.</p>
 <p>This is an analysis for endometrial cancer cell lines with differences between the endometrial cancer cell lines RL95-2 vs HEC-1; RL95-2 vs AN3-CA; RL95-2 vs MFE-296; and etc.</p>
-<p>If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<p>If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
 <div id="characteristics-of-endometrial-cancer-cell-lines" class="section level2">
 <h2>Characteristics of Endometrial Cancer Cell Lines</h2>
-<p>The figure shows the presence of alterations for genes (ARID1A, FBXW7, FGFR2, PTEN, IGF1R, etc.) commonly associated with endometrial cancer in the cell lines: EN, MFE319, AN3CA, MFE296, SNGM, etc2. The gene list is retrieved from <a href="https://www.disgenet.org/" target="_blank">DisGeNET</a>, and the alteration information is retrieved from <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> for the Cancer Cell Line Encyclopedia (CCLE) dataset.</p>
+<p>The figure shows the presence of alterations for genes (ARID1A, FBXW7, FGFR2, PTEN, IGF1R, etc.) commonly associated with endometrial cancer in the cell lines: EN, MFE319, AN3CA, MFE296, SNGM, etc. The gene list is retrieved from <a href="https://www.disgenet.org/" target="_blank">DisGeNET</a>, and the alteration information is retrieved from <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> for the Cancer Cell Line Encyclopedia (CCLE) dataset.</p>
 <p>NOTE: Only a subset of endometrial cancer cell lines are shown to ensure a readable figure. Alterations for additional endometrial cancer cell lines and genes are available on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> using links on the table below.</p>
 <div class="figure" style="text-align: center">
 <img src="ucec_cclp_tcga_tumorcomparer_files/figure-html/comparing_endometrial_cancer_cell_lines_to_tumor_samples.-1.png" alt="Comparing endometrial cancer cell lines to tumor samples. Legend Abbreviations: mrna_hi = mRNA High; mrna_lo = mRNA Low; prot_hi = Protein High; prot_lo = Protein Low; mut_mis_put_pass = Missense Mutation (putative passenger); mut_mis_put_driv = Missense Mutation (putative driver); mut_inframe_put_pass = Inframe Mutation (putative passenger); mut_inframe_put_driv = Inframe Mutation (putative driver); mut_trun_put_pass = Truncating mutation (putative passenger); mut_trun_put_driv = Truncating mutation (putative driver); amp = Amplification; deep_del = Deep Deletion; homdel_rec = homdel_rec; amp_rec = amp_rec; sv = sv; sv_rec = sv_rec; splice = splice" width="624" />
@@ -302,7 +302,7 @@ Comparing endometrial cancer cell lines to tumor samples. Legend Abbreviations: 
 </div>
 <div id="cell-line-comparison-to-pan-cancer-tcga" class="section level2">
 <h2>Cell Line Comparison to Pan-Cancer TCGA</h2>
-<p>The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<p>The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
 <p>More information for the endometrial cancer cell lines is available on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> using links on the table below.</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -534,52 +534,118 @@ MFE-296
 </tbody>
 </table>
 </div>
-<div id="cell-lines-with-mutations-found-in-tcga-endometrial-cancer" class="section level2">
-<h2>Cell Lines with Mutations Found in TCGA Endometrial Cancer</h2>
+<div id="cell-lines-with-common-mutations-found-in-tcga-endometrial-cancer" class="section level2">
+<h2>Cell Lines with Common Mutations Found in TCGA Endometrial Cancer</h2>
 <p>Alterations present in cell lines also present in at least two TCGA Pan-Cancer Atlas (UCEC) samples on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a>.</p>
 <div id="alterations" class="section level3">
 <h3>Alterations</h3>
-<div id="pten-r130q" class="section level4">
-<h4>PTEN R130Q</h4>
+<div id="pten-f341v-tcga-altered-1-5-out-of-509-samples" class="section level4">
+<h4>PTEN F341V (TCGA Altered: 1%; 5 out of 509 samples)</h4>
 <ul>
-<li>MFE296</li>
+<li>JHUEM7</li>
+</ul>
+</div>
+<div id="pten-r130q-tcga-altered-6.7-34-out-of-509-samples" class="section level4">
+<h4>PTEN R130Q (TCGA Altered: 6.7%; 34 out of 509 samples)</h4>
+<ul>
+<li>AN3CA</li>
 <li>JHUEM1</li>
-<li>AN3CA</li>
-</ul>
-</div>
-<div id="fgfr2-n549k" class="section level4">
-<h4>FGFR2 N549K</h4>
-<ul>
 <li>MFE296</li>
-<li>AN3CA</li>
 </ul>
 </div>
-<div id="fgfr2-s252w" class="section level4">
-<h4>FGFR2 S252W</h4>
+<div id="pten-r142w-tcga-altered-2-10-out-of-509-samples" class="section level4">
+<h4>PTEN R142W (TCGA Altered: 2%; 10 out of 509 samples)</h4>
+<ul>
+<li>ESS1</li>
+</ul>
+</div>
+<div id="pten-r173h-tcga-altered-0.8-4-out-of-509-samples" class="section level4">
+<h4>PTEN R173H (TCGA Altered: 0.8%; 4 out of 509 samples)</h4>
+<ul>
+<li>RL952</li>
+</ul>
+</div>
+<div id="fgfr2-c382r-tcga-altered-1-5-out-of-509-samples" class="section level4">
+<h4>FGFR2 C382R (TCGA Altered: 1%; 5 out of 509 samples)</h4>
+<ul>
+<li>JHUEM2</li>
+</ul>
+</div>
+<div id="fgfr2-n549k-tcga-altered-1.4-7-out-of-509-samples" class="section level4">
+<h4>FGFR2 N549K (TCGA Altered: 1.4%; 7 out of 509 samples)</h4>
+<ul>
+<li>AN3CA</li>
+<li>MFE296</li>
+</ul>
+</div>
+<div id="fgfr2-s252w-tcga-altered-4.7-24-out-of-509-samples" class="section level4">
+<h4>FGFR2 S252W (TCGA Altered: 4.7%; 24 out of 509 samples)</h4>
 <ul>
 <li>MFE280</li>
 <li>MFE319</li>
 </ul>
 </div>
-<div id="fbxw7-r479q" class="section level4">
-<h4>FBXW7 R479Q</h4>
+<div id="spop-r121q-tcga-altered-0.6-3-out-of-509-samples" class="section level4">
+<h4>SPOP R121Q (TCGA Altered: 0.6%; 3 out of 509 samples)</h4>
 <ul>
-<li>KLE</li>
-<li>HEC251</li>
+<li>EN</li>
 </ul>
 </div>
-<div id="pole-p286r" class="section level4">
-<h4>POLE P286R</h4>
+<div id="spop-s14l-tcga-altered-0.6-3-out-of-509-samples" class="section level4">
+<h4>SPOP S14L (TCGA Altered: 0.6%; 3 out of 509 samples)</h4>
+<ul>
+<li>HEC108</li>
+</ul>
+</div>
+<div id="fbxw7-r465c-tcga-altered-1.6-8-out-of-509-samples" class="section level4">
+<h4>FBXW7 R465C (TCGA Altered: 1.6%; 8 out of 509 samples)</h4>
+<ul>
+<li>ESS1</li>
+</ul>
+</div>
+<div id="fbxw7-r465h-tcga-altered-2-10-out-of-509-samples" class="section level4">
+<h4>FBXW7 R465H (TCGA Altered: 2%; 10 out of 509 samples)</h4>
+<ul>
+<li>JHUEM3</li>
+</ul>
+</div>
+<div id="fbxw7-r479q-tcga-altered-1-5-out-of-509-samples" class="section level4">
+<h4>FBXW7 R479Q (TCGA Altered: 1%; 5 out of 509 samples)</h4>
+<ul>
+<li>HEC251</li>
+<li>KLE</li>
+</ul>
+</div>
+<div id="fbxw7-r505c-tcga-altered-1.6-8-out-of-509-samples" class="section level4">
+<h4>FBXW7 R505C (TCGA Altered: 1.6%; 8 out of 509 samples)</h4>
+<ul>
+<li>JHUEM1</li>
+</ul>
+</div>
+<div id="pole-a456p-tcga-altered-0.4-2-out-of-509-samples" class="section level4">
+<h4>POLE A456P (TCGA Altered: 0.4%; 2 out of 509 samples)</h4>
+<ul>
+<li>ESS1</li>
+</ul>
+</div>
+<div id="pole-p286r-tcga-altered-3.9-20-out-of-509-samples" class="section level4">
+<h4>POLE P286R (TCGA Altered: 3.9%; 20 out of 509 samples)</h4>
 <ul>
 <li>HEC251</li>
 <li>JHUEM7</li>
 </ul>
 </div>
-<div id="ctnnb1-s37p" class="section level4">
-<h4>CTNNB1 S37P</h4>
+<div id="ctnnb1-s37c-tcga-altered-2-10-out-of-509-samples" class="section level4">
+<h4>CTNNB1 S37C (TCGA Altered: 2%; 10 out of 509 samples)</h4>
 <ul>
-<li>SNGM</li>
+<li>JHUEM2</li>
+</ul>
+</div>
+<div id="ctnnb1-s37p-tcga-altered-0.4-2-out-of-509-samples" class="section level4">
+<h4>CTNNB1 S37P (TCGA Altered: 0.4%; 2 out of 509 samples)</h4>
+<ul>
 <li>HEC108</li>
+<li>SNGM</li>
 </ul>
 </div>
 </div>
@@ -590,7 +656,7 @@ MFE-296
 </div>
 <div id="technical-information" class="section level2">
 <h2>Technical Information</h2>
-<p>This analysis was generated using TumorComparer: 0.99.21. If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<p>This analysis was generated using TumorComparer: 0.99.21. If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
 </div>
 
 

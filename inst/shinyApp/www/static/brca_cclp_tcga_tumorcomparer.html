@@ -286,12 +286,12 @@ $(document).ready(function () {
 
 
 <p>MDA-MB-231, MDA-MB-468, BT-474, BT-20, and MDA-MB-453 are some of the most widely used cell lines for breast cancer research. Often researchers have questions on selecting the most appropriate cell line(s) for particular research uses.</p>
-<p>TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a> for details on the methodology.</p>
+<p>TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a> for details on the methodology.</p>
 <p>This is an analysis for breast cancer cell lines with differences between the breast cancer cell lines MDA-MB-231 vs MDA-MB-468; MDA-MB-231 vs BT-474; MDA-MB-231 vs BT-20; and etc.</p>
-<p>If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<p>If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
 <div id="characteristics-of-breast-cancer-cell-lines" class="section level2">
 <h2>Characteristics of Breast Cancer Cell Lines</h2>
-<p>The figure shows the presence of alterations for genes (TP53, PIK3CA, ERBB2, CD274, MYC, etc.) commonly associated with breast cancer in the cell lines: BT474, JIMT1, HCC38, HCC1954, MDAMB361, etc2. The gene list is retrieved from <a href="https://www.disgenet.org/" target="_blank">DisGeNET</a>, and the alteration information is retrieved from <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> for the Cancer Cell Line Encyclopedia (CCLE) dataset.</p>
+<p>The figure shows the presence of alterations for genes (TP53, PIK3CA, ERBB2, CD274, MYC, etc.) commonly associated with breast cancer in the cell lines: BT474, JIMT1, HCC38, HCC1954, MDAMB361, etc. The gene list is retrieved from <a href="https://www.disgenet.org/" target="_blank">DisGeNET</a>, and the alteration information is retrieved from <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> for the Cancer Cell Line Encyclopedia (CCLE) dataset.</p>
 <p>NOTE: Only a subset of breast cancer cell lines are shown to ensure a readable figure. Alterations for additional breast cancer cell lines and genes are available on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> using links on the table below.</p>
 <div class="figure" style="text-align: center">
 <img src="brca_cclp_tcga_tumorcomparer_files/figure-html/comparing_breast_cancer_cell_lines_to_tumor_samples.-1.png" alt="Comparing breast cancer cell lines to tumor samples. Legend Abbreviations: mrna_hi = mRNA High; mrna_lo = mRNA Low; prot_hi = Protein High; prot_lo = Protein Low; mut_mis_put_pass = Missense Mutation (putative passenger); mut_mis_put_driv = Missense Mutation (putative driver); mut_inframe_put_pass = Inframe Mutation (putative passenger); mut_inframe_put_driv = Inframe Mutation (putative driver); mut_trun_put_pass = Truncating mutation (putative passenger); mut_trun_put_driv = Truncating mutation (putative driver); amp = Amplification; deep_del = Deep Deletion; homdel_rec = homdel_rec; amp_rec = amp_rec; sv = sv; sv_rec = sv_rec; splice = splice" width="624" />
@@ -302,7 +302,7 @@ Comparing breast cancer cell lines to tumor samples. Legend Abbreviations: mrna_
 </div>
 <div id="cell-line-comparison-to-pan-cancer-tcga" class="section level2">
 <h2>Cell Line Comparison to Pan-Cancer TCGA</h2>
-<p>The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<p>The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
 <p>More information for the breast cancer cell lines is available on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> using links on the table below.</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -1334,65 +1334,125 @@ CAL-51
 </tbody>
 </table>
 </div>
-<div id="cell-lines-with-mutations-found-in-tcga-breast-cancer" class="section level2">
-<h2>Cell Lines with Mutations Found in TCGA Breast Cancer</h2>
+<div id="cell-lines-with-common-mutations-found-in-tcga-breast-cancer" class="section level2">
+<h2>Cell Lines with Common Mutations Found in TCGA Breast Cancer</h2>
 <p>Alterations present in cell lines also present in at least two TCGA Pan-Cancer Atlas (BRCA) samples on <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a>.</p>
 <div id="alterations" class="section level3">
 <h3>Alterations</h3>
-<div id="pik3ca-c420r" class="section level4">
-<h4>PIK3CA C420R</h4>
+<div id="pik3ca-c420r-tcga-altered-0.5-5-out-of-996-samples" class="section level4">
+<h4>PIK3CA C420R (TCGA Altered: 0.5%; 5 out of 996 samples)</h4>
 <ul>
 <li>EFM192A</li>
 <li>JIMT1</li>
 </ul>
 </div>
-<div id="pik3ca-e542k" class="section level4">
-<h4>PIK3CA E542K</h4>
+<div id="pik3ca-e542k-tcga-altered-4.2-42-out-of-996-samples" class="section level4">
+<h4>PIK3CA E542K (TCGA Altered: 4.2%; 42 out of 996 samples)</h4>
 <ul>
 <li>BT483</li>
 <li>CAL51</li>
 </ul>
 </div>
-<div id="pik3ca-e545k" class="section level4">
-<h4>PIK3CA E545K</h4>
+<div id="pik3ca-e545k-tcga-altered-6.5-65-out-of-996-samples" class="section level4">
+<h4>PIK3CA E545K (TCGA Altered: 6.5%; 65 out of 996 samples)</h4>
 <ul>
-<li>KPL1</li>
-<li>MDAMB361</li>
-<li>MCF7</li>
 <li>HCC202</li>
+<li>KPL1</li>
+<li>MCF7</li>
+<li>MDAMB361</li>
 </ul>
 </div>
-<div id="pik3ca-h1047r" class="section level4">
-<h4>PIK3CA H1047R</h4>
+<div id="pik3ca-h1047l-tcga-altered-1.3-13-out-of-996-samples" class="section level4">
+<h4>PIK3CA H1047L (TCGA Altered: 1.3%; 13 out of 996 samples)</h4>
 <ul>
-<li>T47D</li>
-<li>HCC1954</li>
+<li>EFM19</li>
+</ul>
+</div>
+<div id="pik3ca-h1047r-tcga-altered-13-129-out-of-996-samples" class="section level4">
+<h4>PIK3CA H1047R (TCGA Altered: 13%; 129 out of 996 samples)</h4>
+<ul>
 <li>BT20</li>
-<li>MDAMB453</li>
 <li>CAL148</li>
+<li>HCC1954</li>
+<li>MDAMB453</li>
+<li>T47D</li>
 <li>UACC893</li>
 </ul>
 </div>
-<div id="tp53-r175h" class="section level4">
-<h4>TP53 R175H</h4>
+<div id="tp53-e285k-tcga-altered-0.4-4-out-of-996-samples" class="section level4">
+<h4>TP53 E285K (TCGA Altered: 0.4%; 4 out of 996 samples)</h4>
 <ul>
-<li>AU565</li>
-<li>SKBR3</li>
-<li>HCC1395</li>
+<li>BT474</li>
 </ul>
 </div>
-<div id="tp53-r248q" class="section level4">
-<h4>TP53 R248Q</h4>
+<div id="tp53-h193r-tcga-altered-0.6-6-out-of-996-samples" class="section level4">
+<h4>TP53 H193R (TCGA Altered: 0.6%; 6 out of 996 samples)</h4>
+<ul>
+<li>EFM19</li>
+</ul>
+</div>
+<div id="tp53-k132e-tcga-altered-0.2-2-out-of-996-samples" class="section level4">
+<h4>TP53 K132E (TCGA Altered: 0.2%; 2 out of 996 samples)</h4>
+<ul>
+<li>CAL851</li>
+</ul>
+</div>
+<div id="tp53-r175h-tcga-altered-2.1-21-out-of-996-samples" class="section level4">
+<h4>TP53 R175H (TCGA Altered: 2.1%; 21 out of 996 samples)</h4>
+<ul>
+<li>AU565</li>
+<li>HCC1395</li>
+<li>SKBR3</li>
+</ul>
+</div>
+<div id="tp53-r248q-tcga-altered-0.4-4-out-of-996-samples" class="section level4">
+<h4>TP53 R248Q (TCGA Altered: 0.4%; 4 out of 996 samples)</h4>
 <ul>
 <li>HCC1143</li>
 <li>HCC70</li>
 </ul>
 </div>
-<div id="tp53-r248w" class="section level4">
-<h4>TP53 R248W</h4>
+<div id="tp53-r248w-tcga-altered-0.5-5-out-of-996-samples" class="section level4">
+<h4>TP53 R248W (TCGA Altered: 0.5%; 5 out of 996 samples)</h4>
 <ul>
 <li>HCC2157</li>
 <li>JIMT1</li>
+</ul>
+</div>
+<div id="tp53-r273h-tcga-altered-1.3-13-out-of-996-samples" class="section level4">
+<h4>TP53 R273H (TCGA Altered: 1.3%; 13 out of 996 samples)</h4>
+<ul>
+<li>MDAMB468</li>
+</ul>
+</div>
+<div id="tp53-r273l-tcga-altered-0.3-3-out-of-996-samples" class="section level4">
+<h4>TP53 R273L (TCGA Altered: 0.3%; 3 out of 996 samples)</h4>
+<ul>
+<li>HCC38</li>
+</ul>
+</div>
+<div id="tp53-r280k-tcga-altered-0.2-2-out-of-996-samples" class="section level4">
+<h4>TP53 R280K (TCGA Altered: 0.2%; 2 out of 996 samples)</h4>
+<ul>
+<li>MDAMB231</li>
+</ul>
+</div>
+<div id="tp53-r280t-tcga-altered-0.2-2-out-of-996-samples" class="section level4">
+<h4>TP53 R280T (TCGA Altered: 0.2%; 2 out of 996 samples)</h4>
+<ul>
+<li>CAMA1</li>
+</ul>
+</div>
+<div id="tp53-y163c-tcga-altered-0.3-3-out-of-996-samples" class="section level4">
+<h4>TP53 Y163C (TCGA Altered: 0.3%; 3 out of 996 samples)</h4>
+<ul>
+<li>HCC1954</li>
+</ul>
+</div>
+<div id="tp53-y220c-tcga-altered-0.7-7-out-of-996-samples" class="section level4">
+<h4>TP53 Y220C (TCGA Altered: 0.7%; 7 out of 996 samples)</h4>
+<ul>
+<li>HCC1419</li>
 </ul>
 </div>
 </div>
@@ -1403,7 +1463,7 @@ CAL-51
 </div>
 <div id="technical-information" class="section level2">
 <h2>Technical Information</h2>
-<p>This analysis was generated using TumorComparer: 0.99.21. If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
+<p>This analysis was generated using TumorComparer: 0.99.21. If you use content from this page, please cite <a href="https://www.sciencedirect.com/science/article/pii/S2667237521000849" target="_blank">Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039</a>.</p>
 </div>
 
 

@@ -29,6 +29,8 @@ ccle_tcga_mapping <- read.table("ccle_tcga_mapping.txt", sep="\t", header=TRUE, 
 ccle_mapping_name <- ccle_tcga_mapping$ccle
 names(ccle_mapping_name) <- ccle_tcga_mapping$tcga
 
+ccle_suffix <- ccle_tcga_mapping$ccle[ccle_tcga_mapping$tcga == tcga_abbrev]
+
 n_retrieve <- 20
 n_display <- 15
 
@@ -83,11 +85,11 @@ diff_lines_text <- paste0(diff1, "; ", diff2, "; ", diff3, "; and etc")
 
 `r common_lines_text` are some of the most widely used cell lines for `r tolower(tcga_title)` research. Often researchers have questions on selecting the most appropriate cell line(s) for particular research uses. 
 
-TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"} for details on the methodology. 
+TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to [Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"} for details on the methodology. 
 
 This is an analysis for `r tolower(tcga_title)` cell lines with differences between the `r tolower(tcga_title)` cell lines `r diff_lines_text`. 
 
-If you use content from this page, please cite [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
+If you use content from this page, please cite [Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
 
 ## Characteristics of <%= tcga_title %> Cell Lines
 
@@ -139,12 +141,13 @@ d2 <- as.data.frame(m2x, stringsAsFactors=FALSE)
 
 #disgenet_mapping$geneSymbol[disgenet_mapping$tcga == "BRCA"]
 
+tmp_annot_text <- selected_cell_lines %>% gsub(paste0("_", ccle_suffix), "", .)
+
 h2 <- oncoPrint(m2x,
                 col = col,
                 alter_fun = alter_fun_list, 
                 alter_fun_is_vectorized = FALSE,
-                #top_annotation = columnAnnotation(month = anno_text(selected_cell_lines, just = "center", location = unit(0.5, "npc"), gp = gpar(fontsize = 10), rot = 90)),
-                top_annotation = columnAnnotation(month = anno_text(selected_cell_lines, gp = gpar(fontsize = 10))),
+                top_annotation = columnAnnotation(cell_line = anno_text(tmp_annot_text, gp = gpar(fontsize = 10))),
                 #bottom_annotation = columnAnnotation('Drug' = drug_annot), #DRUG HERE
                 right_annotation = NULL,
                 #right_annotation = rowAnnotation(D1 = runif(nrow(m2))),
@@ -161,7 +164,7 @@ tmp_gene_text <- rownames(m2x)[h2@row_order[1:5]]
 tmp_cell_text <- colnames(m2x)[h2@column_order[1:5]]
 
 oncoprint_gene_text <- paste0(paste(tmp_gene_text, collapse=", "), ", etc.")
-oncoprint_cell_text <- paste0(paste(gsub("_.*$", "", tmp_cell_text), collapse=", "), ", etc2")
+oncoprint_cell_text <- paste0(paste(gsub("_.*$", "", tmp_cell_text), collapse=", "), ", etc")
 ```
 
 The figure shows the presence of alterations for genes (`r oncoprint_gene_text`) commonly associated with `r tolower(tcga_title)` in the cell lines: `r oncoprint_cell_text`. The gene list is retrieved from [DisGeNET](https://www.disgenet.org/){target="_blank"}, and the alteration information is retrieved from [cBioPortal](https://www.cbioportal.org/){target="_blank"} for the Cancer Cell Line Encyclopedia (CCLE) dataset. 
@@ -174,7 +177,7 @@ draw(h2)
 
 ## Cell Line Comparison to Pan-Cancer TCGA
 
-The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
+The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: [Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
 
 More information for the `r tolower(tcga_title)` cell lines is available on [cBioPortal](https://www.cbioportal.org/){target="_blank"} using links on the table below.
 
@@ -269,7 +272,8 @@ for(i in 1:length(genes)) {
 
   colnames(t1) <- paste0(cur_gene, "_", colnames(t1), "_MATCH")
 
-  t2 <- t1[, colSums(t1) > 1, drop=FALSE]
+  # Extract all cell lines with at least 1 selected mutation present
+  t2 <- t1[, colSums(t1) >= 1, drop=FALSE]
   
   if(ncol(t2) > 0) {
     ccle_mutation_dat_filtered <- cbind(ccle_mutation_dat_filtered, t2)    
@@ -282,7 +286,7 @@ for(i in 1:length(genes)) {
 idx <- grepl("_MATCH", colnames(ccle_mutation_dat_filtered)) %>% which
 
 if(length(idx) > 0) {
-  cat(paste0("## Cell Lines with Mutations Found in TCGA ", tcga_title, "\n"))
+  cat(paste0("## Cell Lines with Common Mutations Found in TCGA ", tcga_title, "\n"))
   cat(paste0("Alterations present in cell lines also present in at least two TCGA Pan-Cancer Atlas (", tcga_abbrev, ") samples on [cBioPortal](https://www.cbioportal.org/){target='_blank'}.\n\n"))
   cat("### Alterations\n\n")
 
@@ -290,6 +294,7 @@ if(length(idx) > 0) {
   
   for(i in 1:length(idx)) {
     #i <- 4
+    # Extract gene & alteration from columns
     colnames_matches <- colnames(ccle_mutation_dat_matches)
     cur_col <- colnames_matches[i]
     
@@ -297,12 +302,18 @@ if(length(idx) > 0) {
     gene <- tmp[1]
     alteration <- tmp[2]
     
+    # Filter to matching cell lines
     selected_cols <- c("SAMPLE_ID", gene, cur_col)
     t2 <- ccle_mutation_dat_filtered[, selected_cols, drop=FALSE]
     idx <- t2[, cur_col]
     matching_lines <- t2[idx,] 
+    matching_lines <- matching_lines[order(matching_lines$SAMPLE_ID),]
     
-    cat(paste0("#### ", gene, " ", alteration, "\n"))
+    # Alteration header 
+    m1 <- tcga_mutation_lst_filtered[[gene]][alteration]
+    m2 <- nrow(tcga_mutation_dat)
+    tcga_prnct <- round(100*m1/m2, 1)
+    cat(paste0("#### ", gene, " ", alteration, " (TCGA Altered: ", tcga_prnct, "%; ", m1, " out of ", m2, " samples)\n"))
       
     for(j in 1:nrow(matching_lines)) {
       #j <- 1
@@ -321,4 +332,4 @@ Each project has unique questions. TumorComparer ([tumorcomparer.org](http://tum
 
 ## Technical Information
 
-This analysis was generated using TumorComparer: `r pkg_version`. If you use content from this page, please cite [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
+This analysis was generated using TumorComparer: `r pkg_version`. If you use content from this page, please cite [Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.

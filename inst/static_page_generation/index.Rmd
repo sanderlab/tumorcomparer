@@ -14,7 +14,7 @@ pkg_version <- as.character(packageVersion(pkg_name))
 
 TumorComparer uses tumor and cell line profiles to guide experimental model (e.g., cell lines) choice. TumorComparer uses a weighted feature approach to compare tumors from the The Cancer Genome Atlas (TCGA) project to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types.
 
-If you use content from this page, please cite [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
+If you use content from this page, please cite [Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
 
 ## TumorComparer Comparison Summaries by Cancer Type
 
@@ -24,7 +24,7 @@ If you use content from this page, please cite [Sinha et al., 2021. DOI: 10.1016
 * [Esophageal Cancer (ESCA)](esca_cclp_tcga_tumorcomparer.html)
 * [Kidney Cancer (KIRC)](kirc_cclp_tcga_tumorcomparer.html)
 * [Liver Hepatocellular Cancer (LIHC)](lihc_cclp_tcga_tumorcomparer.html)
-* [Lung adenocarcinoma (LUAD)](luad_cclp_tcga_tumorcomparer.html)
+* [Lung Adenocarcinoma (LUAD)](luad_cclp_tcga_tumorcomparer.html)
 * [Ovarian Cancer (OV)](ov_cclp_tcga_tumorcomparer.html)
 * [Pancreatic Cancer (PAAD)](paad_cclp_tcga_tumorcomparer.html)
 * [Stomach Cancer (STAD)](stad_cclp_tcga_tumorcomparer.html)
@@ -40,4 +40,4 @@ Each project has unique questions. TumorComparer ([tumorcomparer.org](http://tum
 
 ## Technical Information
 
-This analysis was generated using TumorComparer: `r pkg_version`. If you use content from this page, please cite [Sinha et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
+This analysis was generated using TumorComparer: `r pkg_version`. If you use content from this page, please cite [Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.

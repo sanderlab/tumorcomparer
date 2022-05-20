@@ -2,8 +2,8 @@ library(brew)
 library(rmarkdown)
 library(stringr)
 
-# work_dir <- "inst/static_page_generation/"
-# setwd(work_dir)
+work_dir <- "inst/static_page_generation/"
+setwd(work_dir)
 
 source("https://raw.githubusercontent.com/cannin/cbioportal_to_complexheatmap_oncoprint/master/transform_cbioportal_to_complexheatmap_oncoprint.R")
 
