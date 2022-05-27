@@ -16,5 +16,5 @@ output:
     css: style.css
     include:
       in_header: google_analytics_static.js
-include: ["sitemap.txt"]
+include: ["sitemap.txt", "sitemap.xml"]
 exclude: ["*.txt", "*.tsv", "*.brew", "*.csv", "*.md", "cbioportal_mutations", "*.tsv.gz"]

@@ -1,6 +1,8 @@
 library(brew)
 library(rmarkdown)
 library(stringr)
+library(xml2)
+library(magrittr)
 
 work_dir <- "inst/static_page_generation/"
 setwd(work_dir)
@@ -68,7 +70,33 @@ rmarkdown::render_site()
 output_dir <- "_static"
 base_url <- "http://projects.sanderlab.org/tumorcomparer/static/"
 file_list <- list.files(output_dir, "html")
-writeLines(paste0(base_url, file_list), file.path(output_dir, "sitemap.txt"))
+#writeLines(paste0(base_url, file_list), file.path(output_dir, "sitemap.txt"))
+
+# Sitemap XML Format Description: https://www.sitemaps.org/protocol.html
+doc <- xml_new_root("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9") 
+
+for(page in file_list) {
+  url <- xml_new_document() %>% xml_add_child("url")
+  
+  loc <- xml_new_document() %>% xml_add_child("loc")
+  xml_text(loc) <- paste0(base_url, page)
+  
+  lastmod <- xml_new_document() %>% xml_add_child("lastmod")
+  xml_text(lastmod) <- Sys.Date() %>% as.character
+  
+  changefreq <- xml_new_document() %>% xml_add_child("changefreq")
+  xml_text(changefreq) <- "monthly"
+  
+  xml_add_child(url, loc)
+  xml_add_child(url, lastmod)
+  xml_add_child(url, changefreq)
+  
+  xml_add_child(doc, url)  
+}
+
+invisible(write_xml(doc, file.path(output_dir, "sitemap.xml")))
+
+
 
 #source("generate_tumorcomparer_static_rmds.R")
 
