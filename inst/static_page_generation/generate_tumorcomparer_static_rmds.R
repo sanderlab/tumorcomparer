@@ -69,13 +69,18 @@ rmarkdown::render_site()
 # CREATE SITEMAP ----
 output_dir <- "_static"
 base_url <- "http://projects.sanderlab.org/tumorcomparer/static/"
-file_list <- list.files(output_dir, "html")
-#writeLines(paste0(base_url, file_list), file.path(output_dir, "sitemap.txt"))
+file_list_html <- list.files(output_dir, "html")
+file_list_img <- list.files(output_dir, "png", recursive=TRUE)
+#writeLines(paste0(base_url, file_list_html), file.path(output_dir, "sitemap.txt"))
 
 # Sitemap XML Format Description: https://www.sitemaps.org/protocol.html
-doc <- xml_new_root("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9") 
+FIXME ## Add necessary namespaces xmlns (default), and image
+doc <- xml_new_root("urlset", "xmlns"="http://www.sitemaps.org/schemas/sitemap/0.9", "xmlns:image"="http://www.google.com/schemas/sitemap-image/1.1") 
 
-for(page in file_list) {
+for(page in file_list_html) {
+  # Get a string to match against the images
+  page_prefix <- tools::file_path_sans_ext(page)
+
   url <- xml_new_document() %>% xml_add_child("url")
   
   loc <- xml_new_document() %>% xml_add_child("loc")
@@ -87,9 +92,18 @@ for(page in file_list) {
   changefreq <- xml_new_document() %>% xml_add_child("changefreq")
   xml_text(changefreq) <- "monthly"
   
+  image <- xml_new_document() %>% xml_add_child("image") %>% xml_set_namespace("image")
+  #image <- xml_set_namespace(image, prefix="image", uri="https://x.org")
+  tmp_image <- xml_add_child(image, "loc") %>% xml_set_namespace("image")
+  #tmp_image <- xml_set_namespace(tmp_image, prefix="image", uri="https://x.org")
+  idx <- grep(prefix, file_list_img)
+
+  xml_text(tmp_image) <- paste0(base_url, image_files[idx])
+  
   xml_add_child(url, loc)
   xml_add_child(url, lastmod)
   xml_add_child(url, changefreq)
+  xml_add_child(url, image)
   
   xml_add_child(doc, url)  
 }
