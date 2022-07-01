@@ -1,8 +1,8 @@
 Package: tumorcomparer
 Type: Package
 Title: Compare Patient Samples to Cell Line Models Using Molecular Data and Weighted Similarity
-Version: 0.99.23
-Date: 2022-05-19
+Version: 0.99.24
+Date: 2022-07-01
 Authors@R: c(person("Rileen", "Sinha", email = "rileen@gmail.com", role = c("aut")), 
              person("Augustin", "Luna", email = "aluna@jimmy.harvard.edu", role = c("aut", "cre")))
 Description: Compare patient samples to cell line models using molecular data and weighted similarity. 

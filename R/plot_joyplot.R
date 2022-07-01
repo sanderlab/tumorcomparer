@@ -31,54 +31,79 @@ plot_joyplot <- function(comparison_result) {
   tumor_ids <- comparison_result$tumor_ids
   cell_line_ids <- comparison_result$cell_line_ids
   
-  mut_dat <- (1-dist_mat_by_data_type$mut[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids, tumor_ids]))],tumor_ids])
-  cna_dat <- (1-dist_mat_by_data_type$cna[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids,tumor_ids]))],tumor_ids])
-  exp_dat <- (1-dist_mat_by_data_type$exp[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids,tumor_ids]))],tumor_ids])
+  dat_lst <- list()
   
-  normalized_dat <- 
-    convert_to_0_to_1_using_xminusmin_by_maxminusmin(mut_dat) + 
-    convert_to_0_to_1_using_xminusmin_by_maxminusmin(cna_dat) + 
-    convert_to_0_to_1_using_xminusmin_by_maxminusmin(exp_dat)
+  if("mut" %in% names(dist_mat_by_data_type)) {
+    dat_lst[["mut"]] <- (1-dist_mat_by_data_type$mut[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids, tumor_ids]))], tumor_ids])
+  }
   
-  data_type_count <- length(comparison_result$dist_mat_by_data_type)
+  if("cna" %in% names(dist_mat_by_data_type)) {
+    dat_lst[["cna"]] <- (1-dist_mat_by_data_type$cna[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids,tumor_ids]))], tumor_ids])
+  }
+
+  if("exp" %in% names(dist_mat_by_data_type)) {
+    dat_lst[["exp"]] <- (1-dist_mat_by_data_type$exp[cell_line_ids[order(rowMeans(dist_mat[cell_line_ids,tumor_ids]))], tumor_ids])
+  }
+  
+  tmp <- lapply(dat_lst, convert_to_0_to_1_using_xminusmin_by_maxminusmin)
+  normalized_dat <-   Reduce('+', tmp)
+
+  data_type_count <- length(dat_lst)
   normalized_and_averaged <- normalized_dat/data_type_count
   
   # PARAMETERS ----
   xlab_title <- "Weighted Similarity to Tumors"
   ylab_title <- "Cell Lines"
-  overall_title <- "Weighted Similarity (Averaged and By Specific Profiling)"
-  
+  overall_title <- ifelse(length(dat_lst) > 1, 
+                          "Weighted Similarity (Averaged and By Specific Profiling)", 
+                          "Weighted Similarity (By Specific Profiling)")
+  plot_ncol <- ifelse(length(dat_lst) > 1, 2, 1)
+
   # PLOTS ----
-  dat <- melt(cna_dat)
-  dat$Var1 <- as.factor(dat$Var1)
+  plot_lst <- list()
   
-  joyplot_cna <- ggplot(dat, aes_string(y="Var1", x="value")) + 
-    geom_density_ridges(alpha=0.5) + 
-    labs(title = "By Copy Number Aberrations") + 
-    xlab(xlab_title) + 
-    ylab(ylab_title) +
-    theme_bw()
-  joyplot_cna
+  if("cna" %in% names(dist_mat_by_data_type)) {
+    dat <- melt(dat_lst[["cna"]])
+    dat$Var1 <- as.factor(dat$Var1)
+    
+    joyplot_cna <- ggplot(dat, aes_string(y="Var1", x="value")) + 
+      geom_density_ridges(alpha=0.5) + 
+      labs(title = "By Copy Number Aberrations") + 
+      xlab(xlab_title) + 
+      ylab(ylab_title) +
+      theme_bw()
+    joyplot_cna
+    
+    plot_lst[["cna"]] <- joyplot_cna
+  }
   
-  dat <- melt(mut_dat)
-  dat$Var1 <- as.factor(dat$Var1)
-  joyplot_mut <- ggplot(dat, aes_string(y="Var1", x="value")) + 
-    geom_density_ridges(alpha=0.5) + 
-    xlab(xlab_title) + 
-    ylab(ylab_title) + 
-    labs(title = "By Mutations") +
-    theme_bw()
-  joyplot_mut
+  if("mut" %in% names(dist_mat_by_data_type)) {
+    dat <- melt(dat_lst[["mut"]])
+    dat$Var1 <- as.factor(dat$Var1)
+    joyplot_mut <- ggplot(dat, aes_string(y="Var1", x="value")) + 
+      geom_density_ridges(alpha=0.5) + 
+      xlab(xlab_title) + 
+      ylab(ylab_title) + 
+      labs(title = "By Mutations") +
+      theme_bw()
+    joyplot_mut
+    
+    plot_lst[["mut"]] <- joyplot_mut
+  }
   
-  dat <- melt(exp_dat)
-  dat$Var1 <- as.factor(dat$Var1)
-  joyplot_exp <- ggplot(dat, aes_string(y="Var1", x="value")) + 
-    geom_density_ridges(alpha=0.5) + 
-    xlab(xlab_title) + 
-    ylab(ylab_title) + 
-    labs(title = "By Gene Expression") +
-    theme_bw()
-  joyplot_exp
+  if("exp" %in% names(dist_mat_by_data_type)) {
+    dat <- melt(dat_lst[["exp"]])
+    dat$Var1 <- as.factor(dat$Var1)
+    joyplot_exp <- ggplot(dat, aes_string(y="Var1", x="value")) + 
+      geom_density_ridges(alpha=0.5) + 
+      xlab(xlab_title) + 
+      ylab(ylab_title) + 
+      labs(title = "By Gene Expression") +
+      theme_bw()
+    joyplot_exp
+    
+    plot_lst[["exp"]] <- joyplot_exp
+  }
   
   dat <- melt(normalized_and_averaged[rev(order(rowMeans(normalized_and_averaged))),])
   dat$Var1 <- as.factor(dat$Var1)
@@ -90,8 +115,12 @@ plot_joyplot <- function(comparison_result) {
     theme_bw()
   joyplot_avg_after_normalization
   
+  if(length(dat_lst) > 1) {
+    plot_lst[["avg_after_normalization"]] <- joyplot_avg_after_normalization
+  }
+  
   #plot_grid(joyplot_avg_after_normalization, joyplot_exp, joyplot_mut, joyplot_cna, ncol=2, labels=c('A', 'B', 'C', 'D'))
-  joyplot_composite <- plot_grid(joyplot_avg_after_normalization, joyplot_exp, joyplot_mut, joyplot_cna, ncol=2, labels=c('A', 'B', 'C', 'D'))
+  joyplot_composite <- plot_grid(plotlist=plot_lst, ncol=plot_ncol, labels=LETTERS[1:length(plot_lst)])
   joyplot_composite
   
   ## Overall title 
