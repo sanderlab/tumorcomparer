@@ -87,7 +87,7 @@ diff_lines_text <- paste0(diff1, "; ", diff2, "; ", diff3, "; and etc")
 
 TumorComparer utilizes several data types (e.g., mutation, copy number, and expression) to perform a comparison of The Cancer Genome Atlas (TCGA) tumor data to experimental cell line models from the Cancer COSMIC Cell Line Project (CCLP) for several cancer types. Please refer to [Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"} for details on the methodology. 
 
-This is an analysis for `r tolower(tcga_title)` cell lines with differences between the `r tolower(tcga_title)` cell lines `r diff_lines_text`. 
+An analysis for `r tolower(tcga_title)` cell lines with differences between the `r tolower(tcga_title)` cell lines `r diff_lines_text`. 
 
 If you use content from this page, please cite [Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
 
@@ -215,6 +215,8 @@ df_site <- df_tmp[order(-df_tmp[, "% Rank by Avg % Ranks"]), selected_cols]
 df_site$`% Rank by Avg % Ranks` <- color_bar("pink")(df_site$`% Rank by Avg % Ranks`)
 
 colnames(df_site)[3] <- "More Line Info"
+
+df_site$`Cell Line` <- gsub("-", "", df_site$`Cell Line`) %>% toupper()
 
 table_caption <- paste0("The table shows ", tolower(tcga_title), " cell lines sorted by similarity to characteristics of TCGA tumors based on expression, mutation, and copy number information. Cell Lines with higher values of '% Rank by Avg % Ranks' are considered better matches.")
 

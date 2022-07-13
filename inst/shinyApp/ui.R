@@ -44,7 +44,9 @@ shinyUI(
                                     accept=c('application/zip', '.zip')),
                           numericInput("default_weight", "Default (Background) Weight:", 0.01, min = 0, max = 100, step = 0.01),
                           helpText(br(), a(href="read_data_for_running_tc.zip", 
-                                           target="_blank", download="read_data_for_running_tc.zip", "Sample Rectum Adenocarcinoma (READ) Dataset (.zip)"))
+                                           target="_blank", download="read_data_for_running_tc.zip", "Sample Rectum Adenocarcinoma (READ) Dataset (.zip)")),
+                          helpText(br(), a(href="https://zenodo.org/record/4627644", 
+                                           target="_blank", "Datasets for multiple cancers from TumorComparer publication (PMID: 35475239)"))
                         ),
                         mainPanel(
                           # Results showing in Tabs (can use navlistPanel to show on left)

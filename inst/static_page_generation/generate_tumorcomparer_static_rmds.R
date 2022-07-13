@@ -3,6 +3,7 @@ library(rmarkdown)
 library(stringr)
 library(xml2)
 library(magrittr)
+library(tools)
 
 work_dir <- "inst/static_page_generation/"
 setwd(work_dir)
@@ -74,43 +75,40 @@ file_list_img <- list.files(output_dir, "png", recursive=TRUE)
 #writeLines(paste0(base_url, file_list_html), file.path(output_dir, "sitemap.txt"))
 
 # Sitemap XML Format Description: https://www.sitemaps.org/protocol.html
-FIXME ## Add necessary namespaces xmlns (default), and image
-doc <- xml_new_root("urlset", "xmlns"="http://www.sitemaps.org/schemas/sitemap/0.9", "xmlns:image"="http://www.google.com/schemas/sitemap-image/1.1") 
+doc <- xml_new_root("urlset", 
+                    "xmlns"="http://www.sitemaps.org/schemas/sitemap/0.9", 
+                    "xmlns:image"="http://www.google.com/schemas/sitemap-image/1.1") 
 
 for(page in file_list_html) {
   # Get a string to match against the images
-  page_prefix <- tools::file_path_sans_ext(page)
+  page_prefix <- file_path_sans_ext(page)
 
-  url <- xml_new_document() %>% xml_add_child("url")
+  url <- doc %>% xml_add_child("url")
   
-  loc <- xml_new_document() %>% xml_add_child("loc")
+  loc <- url %>% xml_add_child("loc")
   xml_text(loc) <- paste0(base_url, page)
   
-  lastmod <- xml_new_document() %>% xml_add_child("lastmod")
+  lastmod <- url %>% xml_add_child("lastmod")
   xml_text(lastmod) <- Sys.Date() %>% as.character
   
-  changefreq <- xml_new_document() %>% xml_add_child("changefreq")
+  changefreq <- url %>% xml_add_child("changefreq")
   xml_text(changefreq) <- "monthly"
   
-  image <- xml_new_document() %>% xml_add_child("image") %>% xml_set_namespace("image")
-  #image <- xml_set_namespace(image, prefix="image", uri="https://x.org")
-  tmp_image <- xml_add_child(image, "loc") %>% xml_set_namespace("image")
-  #tmp_image <- xml_set_namespace(tmp_image, prefix="image", uri="https://x.org")
-  idx <- grep(prefix, file_list_img)
-
-  xml_text(tmp_image) <- paste0(base_url, image_files[idx])
-  
-  xml_add_child(url, loc)
-  xml_add_child(url, lastmod)
-  xml_add_child(url, changefreq)
-  xml_add_child(url, image)
-  
-  xml_add_child(doc, url)  
+  if(page_prefix != "index") {
+    image <- url %>% xml_add_child("image") %>% xml_set_namespace("image")
+    
+    # Add correct image
+    tmp_image <- image %>% xml_add_child("loc") %>% xml_set_namespace("image")
+    idx <- grep(page_prefix, file_list_img)
+    image_prefix <- file_list_img[idx]
+    xml_text(tmp_image) <- paste0(base_url, image_prefix)
+    
+    tmp_image <- image %>% xml_add_child("title") %>% xml_set_namespace("image")
+    xml_text(tmp_image) <- image_prefix %>% basename %>% file_path_sans_ext %>% gsub("_", " ", .) %>% gsub('.{0,1}$', '', .)    
+  }
 }
 
 invisible(write_xml(doc, file.path(output_dir, "sitemap.xml")))
-
-
 
 #source("generate_tumorcomparer_static_rmds.R")
 
