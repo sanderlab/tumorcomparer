@@ -2,106 +2,124 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/brca_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/brca_cclp_tcga_tumorcomparer_files/figure-html/comparing_breast_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing breast cancer cell lines to tumor samples</image:title>
+      <image:title>comparing breast cancer cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/coad_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/coad_cclp_tcga_tumorcomparer_files/figure-html/comparing_colon_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing colon cancer cell lines to tumor samples</image:title>
+      <image:title>comparing colon cancer cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/esca_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/esca_cclp_tcga_tumorcomparer_files/figure-html/comparing_esophageal_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing esophageal cancer cell lines to tumor samples</image:title>
+      <image:title>comparing esophageal cancer cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/index.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/kirc_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/kirc_cclp_tcga_tumorcomparer_files/figure-html/comparing_kidney_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing kidney cancer cell lines to tumor samples</image:title>
+      <image:title>comparing kidney cancer cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/lihc_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/lihc_cclp_tcga_tumorcomparer_files/figure-html/comparing_liver_hepatocellular_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing liver hepatocellular cancer cell lines to tumor samples</image:title>
+      <image:title>comparing liver hepatocellular cancer cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/luad_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/luad_cclp_tcga_tumorcomparer_files/figure-html/comparing_lung_adenocarcinoma_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing lung adenocarcinoma cell lines to tumor samples</image:title>
+      <image:title>comparing lung adenocarcinoma cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/ov_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/ov_cclp_tcga_tumorcomparer_files/figure-html/comparing_ovarian_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing ovarian cancer cell lines to tumor samples</image:title>
+      <image:title>comparing ovarian cancer cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/paad_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/paad_cclp_tcga_tumorcomparer_files/figure-html/comparing_pancreatic_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing pancreatic cancer cell lines to tumor samples</image:title>
+      <image:title>comparing pancreatic cancer cell lines to tumor samples.-</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://projects.sanderlab.org/tumorcomparer/static/prad_cclp_tcga_tumorcomparer.html</loc>
+    <lastmod>2023-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <image:image>
+      <image:loc>http://projects.sanderlab.org/tumorcomparer/static/prad_cclp_tcga_tumorcomparer_files/figure-html/comparing_prostate_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
+      <image:title>comparing prostate cancer cell lines to tumor samples.-</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://projects.sanderlab.org/tumorcomparer/static/skcm_cclp_tcga_tumorcomparer.html</loc>
+    <lastmod>2023-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <image:image>
+      <image:loc>http://projects.sanderlab.org/tumorcomparer/static/skcm_cclp_tcga_tumorcomparer_files/figure-html/comparing_cutaneous_melanoma_cell_lines_to_tumor_samples.-1.png</image:loc>
+      <image:title>comparing cutaneous melanoma cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/stad_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/stad_cclp_tcga_tumorcomparer_files/figure-html/comparing_stomach_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing stomach cancer cell lines to tumor samples</image:title>
+      <image:title>comparing stomach cancer cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/thca_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/thca_cclp_tcga_tumorcomparer_files/figure-html/comparing_thyroid_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing thyroid cancer cell lines to tumor samples</image:title>
+      <image:title>comparing thyroid cancer cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
   <url>
     <loc>http://projects.sanderlab.org/tumorcomparer/static/ucec_cclp_tcga_tumorcomparer.html</loc>
-    <lastmod>2022-06-16</lastmod>
+    <lastmod>2023-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <image:image>
       <image:loc>http://projects.sanderlab.org/tumorcomparer/static/ucec_cclp_tcga_tumorcomparer_files/figure-html/comparing_endometrial_cancer_cell_lines_to_tumor_samples.-1.png</image:loc>
-      <image:title>comparing endometrial cancer cell lines to tumor samples</image:title>
+      <image:title>comparing endometrial cancer cell lines to tumor samples.-</image:title>
     </image:image>
   </url>
 </urlset>

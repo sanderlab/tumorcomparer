@@ -20,3 +20,4 @@ ignore_vignette_notes.R
 cache_tc
 inst/static_page_generation/_static
 README_*_ignore.txt
+TODO

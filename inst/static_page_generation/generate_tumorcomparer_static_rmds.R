@@ -113,6 +113,6 @@ invisible(write_xml(doc, file.path(output_dir, "sitemap.xml")))
 #source("generate_tumorcomparer_static_rmds.R")
 
 # CLEANUP ----
-file.remove(list.files(pattern="*_tcga_tumorcomparer.[Rmd|html]", full.names=TRUE))
+file.remove(list.files(pattern="*_tcga_tumorcomparer.Rmd", full.names=TRUE))
 #file.remove(list.files(pattern="*_tcga_tumorcomparer", full.names=TRUE))
 

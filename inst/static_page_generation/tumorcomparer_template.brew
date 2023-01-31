@@ -1,5 +1,5 @@
 ---
-title: "Choosing Cell Lines for <%= tcga_title %> Research"
+title: "Choose Cell Lines for <%= tcga_title %> Research: Harvard Sander Lab"
 params: 
   tcga_abbrev: "<%= tcga_abbrev %>"
   tcga_title: "<%= tcga_title %>"
@@ -175,7 +175,7 @@ NOTE: Only a subset of `r tolower(tcga_title)` cell lines are shown to ensure a 
 draw(h2)
 ```
 
-## Cell Line Comparison to Pan-Cancer TCGA
+##  List of <%= tcga_title %> Cell Lines Compared to Pan-Cancer TCGA
 
 The TumorComparer analysis examines the most variably expressed genes, as well as alteration information for cell lines and TCGA patient data using a weighted similarity approach; for details, read: [Sinha R et al., 2021. DOI: 10.1016/j.crmeth.2021.100039](https://www.sciencedirect.com/science/article/pii/S2667237521000849){target="_blank"}.
 

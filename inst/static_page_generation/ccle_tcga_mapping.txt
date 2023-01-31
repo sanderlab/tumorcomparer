@@ -1,6 +1,7 @@
 name	tcga	ccle
 Breast Cancer	BRCA	BREAST
 Colon Cancer	COAD	LARGE_INTESTINE
+Cutaneous Melanoma	SKCM	SKIN
 Endometrial Cancer	UCEC	ENDOMETRIUM
 Esophageal Cancer	ESCA	OESOPHAGUS
 Kidney Cancer	KIRC	KIDNEY
@@ -8,5 +9,6 @@ Liver Hepatocellular Cancer	LIHC	LIVER
 Lung Adenocarcinoma	LUAD	LUNG
 Ovarian Cancer	OV	OVARY
 Pancreatic Cancer	PAAD	PANCREAS
+Prostate Cancer	PRAD	PROSTATE
 Stomach Cancer	STAD	STOMACH
 Thyroid Cancer	THCA	THYROID
